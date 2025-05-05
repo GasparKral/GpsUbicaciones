@@ -8,35 +8,6 @@
 Module SQLquerys
 
     ''' <summary>
-    ''' Ejecuta una consulta SQL en la base de datos y devuelve los resultados como un DataSet.
-    ''' </summary>
-    ''' <param name="Conexion">Objeto de conexión a la base de datos (implementa IDbConnection).</param>
-    ''' <param name="SQL">Consulta SQL a ejecutar.</param>
-    ''' <param name="Parametros">Parámetros opcionales para la consulta SQL (evita SQL injection).</param>
-    ''' <returns>DataSet con los resultados de la consulta. Retorna Nothing si hay un error.</returns>
-    ''' <exception cref="Exception">Error al ejecutar la consulta en la base de datos.</exception>
-    Public Function RealizarQuery(Conexion As IDbConnection, SQL As String, ByVal ParamArray Parametros() As Object) As DataSet
-        If AbrirBaseDatos(Conexion) Then
-            Try
-                Return CargarDataSet(SQL, Conexion, Parametros)
-            Catch ex As Exception
-                MsgBox("Error al realizar la petición a la base de datos")
-            End Try
-        End If
-        Return Nothing
-    End Function
-
-    Public Sub RealizarNonQuery(Conexcion As IDbConnection, SQL As String, ByVal ParamArray Parametros() As Object)
-        If AbrirBaseDatos(Conexcion) Then
-            Try
-                ExecuteNonQuery(SQL, Conexcion, Parametros)
-            Catch ex As Exception
-                MsgBox("Error al realizar la petición a la base de datos")
-            End Try
-        End If
-    End Sub
-
-    ''' <summary>
     ''' Obtiene una fila específica de una tabla dentro de un DataSet.
     ''' </summary>
     ''' <param name="DataSet">El DataSet del cual se obtendrá la fila. No puede ser nulo.</param>

@@ -28,11 +28,6 @@
         Application.DoEvents()
 
 
-        Dim Unidad As String = "C:"
-
-        Terminal = "001"
-        EmpresaSeleccionada = "038"
-        nDecUds = 2         ' Coger de la tabla empresas
 
         ' Leer el primer parametro de la linea de comandos:
         '    C:  038 001
@@ -49,29 +44,21 @@
         End If
 
 
-        ' Definir empresa actual y ruta de la base de datos
-        ContraseñaBBDDComun = "GpS924"
-        RutaDatos = Unidad & "\GpsWin"
-        Try
-            If AbrirBaseDatos(ConexionLocal) Then
-                ' Leer la tabla pda y ver cual es el almacen asociado a este terminal
-                Dim dt As DataTable = CargarDataTable("SELECT * FROM Pda WHERE Codigo='" & Terminal & "'", ConexionLocal)
-                ConexionLocal.Close()
-                If dt.Rows.Count = 0 Then
-                    MsgBox("Terminal no definido en la tabla PDA")
-                    Me.Close()
-                End If
-                gAlmacen = dt.Rows(0)("almacen")
-                lblTerminal.Text = dt.Rows(0)("Nombre").ToString
-                dt.Dispose()
-            End If
 
-        Catch ex As Exception
-            MsgBox("Error al abrir la base de datos: " & ex.Message)
-        End Try
+        Dim dt = Operacion.ExecuteTable("SELECT * FROM Empresas WHERE Codigo = ?", EmpresaSeleccionada)
+
+        If dt.Rows.Count = 0 Then
+            MsgBox("Terminal no definido en la tabla PDA")
+            Me.Close()
+        End If
+
+        Almacen = dt.Rows(0)("almacen")
+        lblTerminal.Text = dt.Rows(0)("Nombre").ToString
+        dt.Dispose()
+
 
         lblEmpresa.Text = "Empresa: " & EmpresaSeleccionada
-        lblAlmacen.Text = "Almacen: " & gAlmacen
+        lblAlmacen.Text = "Almacen: " & Almacen
 
 
         SplashScreen.Close()

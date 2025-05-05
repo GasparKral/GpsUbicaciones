@@ -38,7 +38,6 @@ Partial Class SplashScreen
         peImage.Dock = DockStyle.Top
         peImage.EditValue = resources.GetObject("peImage.EditValue")
         peImage.Location = New Point(1, 1)
-        peImage.Margin = New Padding(4, 4, 4, 4)
         peImage.Name = "peImage"
         peImage.Properties.AllowFocused = False
         peImage.Properties.Appearance.BackColor = Color.Transparent
@@ -47,14 +46,13 @@ Partial Class SplashScreen
         peImage.Properties.ShowMenu = False
         peImage.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch
         peImage.Properties.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.None
-        peImage.Size = New Size(523, 246)
+        peImage.Size = New Size(448, 200)
         peImage.TabIndex = 14
         ' 
         ' peLogo
         ' 
         peLogo.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        peLogo.Location = New Point(326, 329)
-        peLogo.Margin = New Padding(4, 4, 4, 4)
+        peLogo.Location = New Point(279, 267)
         peLogo.Name = "peLogo"
         peLogo.Properties.AllowFocused = False
         peLogo.Properties.Appearance.BackColor = Color.Transparent
@@ -62,25 +60,24 @@ Partial Class SplashScreen
         peLogo.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         peLogo.Properties.ShowMenu = False
         peLogo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Squeeze
-        peLogo.Size = New Size(184, 59)
+        peLogo.Size = New Size(158, 48)
         peLogo.TabIndex = 13
         ' 
         ' labelStatus
         ' 
-        labelStatus.Location = New Point(28, 265)
-        labelStatus.Margin = New Padding(4, 4, 4, 1)
+        labelStatus.Location = New Point(24, 215)
+        labelStatus.Margin = New Padding(3, 3, 3, 1)
         labelStatus.Name = "labelStatus"
-        labelStatus.Size = New Size(63, 16)
+        labelStatus.Size = New Size(43, 13)
         labelStatus.TabIndex = 12
         labelStatus.Text = "Iniciando..."
         ' 
         ' labelCopyright
         ' 
         labelCopyright.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
-        labelCopyright.Location = New Point(28, 353)
-        labelCopyright.Margin = New Padding(4, 4, 4, 4)
+        labelCopyright.Location = New Point(24, 287)
         labelCopyright.Name = "labelCopyright"
-        labelCopyright.Size = New Size(201, 16)
+        labelCopyright.Size = New Size(150, 13)
         labelCopyright.TabIndex = 11
         labelCopyright.Text = "Gabinete de Proyectos Software SL"
         ' 
@@ -88,23 +85,21 @@ Partial Class SplashScreen
         ' 
         progressBarControl.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         progressBarControl.EditValue = 0
-        progressBarControl.Location = New Point(28, 286)
-        progressBarControl.Margin = New Padding(4, 4, 4, 4)
+        progressBarControl.Location = New Point(24, 232)
         progressBarControl.Name = "progressBarControl"
-        progressBarControl.Size = New Size(469, 15)
+        progressBarControl.Size = New Size(402, 12)
         progressBarControl.TabIndex = 10
         ' 
         ' SplashScreen
         ' 
-        AutoScaleDimensions = New SizeF(7F, 16F)
+        AutoScaleDimensions = New SizeF(6F, 13F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(525, 394)
+        ClientSize = New Size(450, 320)
         Controls.Add(peImage)
         Controls.Add(peLogo)
         Controls.Add(labelStatus)
         Controls.Add(labelCopyright)
         Controls.Add(progressBarControl)
-        Margin = New Padding(4, 4, 4, 4)
         Name = "SplashScreen"
         Padding = New Padding(1)
         Text = "SplashScreen"

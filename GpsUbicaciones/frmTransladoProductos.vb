@@ -5,17 +5,12 @@ Imports DevExpress.XtraGrid.Views.Grid
 Public Class frmTransladoProductos
 
     Private Almacen As String = "00"
-    Private ConexionLocal As IDbConnection
-    'Cambiar
     Private ListaProductos As New BindingList(Of ProductoOrigenTranslado)
     Private Sub actualizarCampoStockOrigen()
-        Dim dsData = RealizarQuery(ConexionLocal, ObtenerStockProductoLote, teCodigoArticulo.Text.ToString, teCodigoUbicacion.Text.ToString, Almacen)
+        Dim dsFila = ObtenerFila(Configuracion.Operacion.ExecuteQuery(ObtenerStockProductoLote, teCodigoArticulo.Text, teCodigoUbicacion.Text, Almacen), 0, 0)
 
-        If dsData.Tables.Count > 0 AndAlso dsData.Tables(0).Rows.Count > 0 Then
-            Dim dsFila = dsData.Tables(0).Rows(0)
-            lblStock.Text = dsFila("Stock")
-            nupUnidades.Properties.MaxValue = Integer.Parse(dsFila("Stock"))
-        End If
+        lblStock.Text = dsFila("Stock")
+        nupUnidades.Properties.MaxValue = Integer.Parse(dsFila("Stock"))
 
     End Sub
 
@@ -129,30 +124,20 @@ Public Class frmTransladoProductos
     End Sub
 
     Private Sub teCodigoArticulo_EditValueChanged(sender As Object, e As EventArgs) Handles teCodigoArticulo.EditValueChanged
-        Dim dsTabla = RealizarQuery(ConexionLocal, ObtenerInformacionDeArticulo, TryCast(sender, DevExpress.XtraEditors.TextEdit).EditValue?.ToString).Tables(0)
-        If dsTabla.Rows.Count > 1 Then
-            MsgBox("Error: Demasiadas coincidencias con la petición")
-        ElseIf dsTabla.Rows.Count = 0 Then
-            MsgBox("Error: No se encontró ninguna coincidencia")
-        Else
-            lblNombreArticulo.Text = dsTabla.Rows(0)("NombreComercial")
-            If teCodigoUbicacion.Text <> "" Then
-                actualizarCampoStockOrigen()
-            End If
+        Dim dsFila = ObtenerFila(Configuracion.Operacion.ExecuteQuery(ObtenerInformacionDeArticulo, TryCast(sender, DevExpress.XtraEditors.TextEdit).EditValue?.ToString), 0, 0)
+
+        lblNombreArticulo.Text = dsFila("NombreComercial")
+        If teCodigoUbicacion.Text <> "" Then
+            actualizarCampoStockOrigen()
         End If
+
     End Sub
 
     Private Sub teCodigoUbicacion_EditValueChanged(sender As Object, e As EventArgs) Handles teCodigoUbicacion.EditValueChanged
-        Dim dsTabla = RealizarQuery(ConexionLocal, ObtenerInformacionUbicacionLote, TryCast(sender, DevExpress.XtraEditors.TextEdit).EditValue?.ToString).Tables(0)
-        If dsTabla.Rows.Count > 1 Then
-            MsgBox("Error: Demasiadas coincidencias con la petición")
-        ElseIf dsTabla.Rows.Count = 0 Then
-            MsgBox("Error: No se encontró ninguna coincidencia")
-        Else
-            lblNombreUbicacion.Text = dsTabla.Rows(0)("Nombre")
-            If teCodigoArticulo.Text <> "" Then
-                actualizarCampoStockOrigen()
-            End If
+        Dim dsFila = ObtenerFila(Configuracion.Operacion.ExecuteQuery(ObtenerInformacionUbicacionLote, TryCast(sender, DevExpress.XtraEditors.TextEdit).EditValue?.ToString), 0, 0)
+        lblNombreUbicacion.Text = dsFila("Nombre")
+        If teCodigoArticulo.Text <> "" Then
+            actualizarCampoStockOrigen()
         End If
     End Sub
 End Class
