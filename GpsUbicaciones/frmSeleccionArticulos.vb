@@ -170,27 +170,15 @@ Public Class frmSeleccionArticulos
 
     End Sub
 
-    'Private Sub DateEdit1_Validated(sender As Object, e As EventArgs) Handles DateEdit1.Validated
-    '    ' cargar en gridpedidos la selección de pedidos
-    '    Try
-    '        Dim sql As String
-    '        Dim dt As New DataTable
-    '        If AbrirBaseDatos(ConexionLocal) Then
-    '            sql = "SELECT Articulo,Descripcion,Round(Sum(Cantidad)," & nDecUds & ") AS SumaUds " &
-    '                  "FROM PedCli INNER JOIN MovPCl ON PedCli.Serie=MovPcl.Serie AND PedCli.Numero=MovPCl.Numero " &
-    '                  "WHERE Fecha=#" & DateEdit1.DateTime.ToString("MM-dd-yyyy") & "# AND Articulo<>'' GROUP BY Articulo,Descripcion"
-    '            dt = CargarDataTable(sql, ConexionLocal)
-    '            GridPedidos.DataSource = dt
-    '        End If
-
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message)
-    '    Finally
-    '        If ConexionLocal.State = ConnectionState.Open Then
-    '            ConexionLocal.Close()
-    '        End If
-    '    End Try
-    'End Sub
+    Private Sub DateEdit1_Validated(sender As Object, e As EventArgs) Handles datePicker.Validated
+        ' cargar en gridpedidos la selección de pedidos
+        Try
+            Dim dsDatos = Operacion.ExecuteQuery("SELECT Articulo,Descripcion,Round(Sum(Cantidad)," & nDecUds & ") AS SumaUds FROM PedCli INNER JOIN MovPCl ON PedCli.Serie=MovPcl.Serie AND PedCli.Numero=MovPCl.Numero WHERE Fecha=#" & datePicker.DateTime.ToString("MM-dd-yyyy") & "# AND Articulo<>'' GROUP BY Articulo,Descripcion")
+            GridPedidos.DataSource = dsDatos
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
 
     Private Sub frmSeleccionArticulos_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         ' Al pulsar enter salte al siguiente control
@@ -207,6 +195,6 @@ Public Class frmSeleccionArticulos
     End Sub
 
     Private Sub datePicker_EditValueChanged(sender As Object, e As EventArgs) Handles datePicker.EditValueChanged
-        Dim dsDatos = Operacion.ExecuteQuery(ObtenerArticulosPorFecha, datePicker.Text)
+        Dim dsDatos = Operacion.ExecuteQuery(ObtenerArticulosPorFecha, datePicker.DateTime.ToString("MM-dd-yyyy"))
     End Sub
 End Class
