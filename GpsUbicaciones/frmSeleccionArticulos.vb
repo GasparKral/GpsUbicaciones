@@ -2,40 +2,75 @@
 
 Public Class frmSeleccionArticulos
 
-    Private ConexionLocal As IDbConnection
-    Private Almacen As String
+    Private Articulos As BindingList(Of ProductoSeleccion)
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         Me.Close()
     End Sub
 
-    'Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
-    '    If txtUbicacion.Text = "" Then
-    '        MsgBox("Debe ingresar una ubicación", MsgBoxStyle.Information, "Aviso")
-    '        txtUbicacion.Focus
-    '        Exit Sub
-    '    End If
-    '    Dim Continuar = False
-    '    If AbrirBaseDatos(ConexionLocal) Then
-    '        Dim dsDatos As New DataSet
-    '        dsDatos = CargarDataSet("SELECT Ubicaciones.Almacen,Ubicaciones.Nombre AS UbicacionNombre,Almacenes.Nombre AS AlmacenNombre FROM Ubicaciones LEFT JOIN Almacenes ON Left(Ubicaciones.Codigo,2) = Almacenes.Codigo WHERE Ubicaciones.Codigo='" & txtUbicacion.Text & "'", ConexionLocal)
-    '        If dsDatos.Tables(0).Rows.Count = 0 Then
-    '            MsgBox("NO EXISTE UBICACION CON ESTE CODIGO: " & txtUbicacion.Text)
-    '        Else
-    '            Almacen = dsDatos.Tables(0).Rows(0).Item("Almacen")
-    '            lblUbicacionNombre.Text = dsDatos.Tables(0).Rows(0).Item("UbicacionNombre")
-    '            lblAlmacen.Text = dsDatos.Tables(0).Rows(0).Item("AlmacenNombre")
-    '            Continuar = True
-    '        End If
-    '        dsDatos.Dispose
-    '        ConexionLocal.Close
-    '    End If
-    '    If Not Continuar Then
-    '        txtUbicacion.Focus
-    '        Exit Sub
-    '    End If
-    '    MostrarFrames(False)
-    'End Sub
+    Private Sub frmSeleccionArticulos_Load() Handles MyBase.Load
+        ' Inicializar el DataTable
+        GridPedidos.DataSource = Articulos
+
+        If GridView1 IsNot Nothing Then
+            GridView1.Columns.Clear()
+            ' Columna Articulo
+            Dim colArticulo As New DevExpress.XtraGrid.Columns.GridColumn()
+            colArticulo.FieldName = "CodigoUbicacion"
+            colArticulo.Caption = "UBICACIÓN"
+            colArticulo.Visible = True
+            colArticulo.VisibleIndex = 0
+            GridView1.Columns.Add(colArticulo)
+            ' Columna Nombre
+            Dim colNombre As New DevExpress.XtraGrid.Columns.GridColumn()
+            colNombre.FieldName = "NombreComercial"
+            colNombre.Caption = "ARTÍCULO"
+            colNombre.Visible = True
+            colNombre.VisibleIndex = 1
+            GridView1.Columns.Add(colNombre)
+            ' Columna Ubicacion
+            Dim colUbicacion As New DevExpress.XtraGrid.Columns.GridColumn()
+            colUbicacion.FieldName = "Destino"
+            colUbicacion.Caption = "DESTINO"
+            colUbicacion.Visible = True
+            colUbicacion.VisibleIndex = 2
+            GridView1.Columns.Add(colUbicacion)
+            ' Columna Uds
+            Dim colUds As New DevExpress.XtraGrid.Columns.GridColumn()
+            colUds.FieldName = "Uds"
+            colUds.Caption = "UDS"
+            colUds.Visible = True
+            colUds.VisibleIndex = 3
+            GridView1.Columns.Add(colUds)
+        End If
+
+    End Sub
+
+    Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
+        If txtUbicacion.Text = "" Then
+            MsgBox("Debe ingresar una ubicación", MsgBoxStyle.Information, "Aviso")
+            txtUbicacion.Focus()
+            Exit Sub
+        End If
+
+        Dim Continuar As Boolean
+        Try
+            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery("SELECT Ubicaciones.Almacen,Ubicaciones.Nombre AS UbicacionNombre,Almacenes.Nombre AS AlmacenNombre FROM Ubicaciones LEFT JOIN Almacenes ON Left(Ubicaciones.Codigo,2) = Almacenes.Codigo WHERE Ubicaciones.Codigo= ?", txtUbicacion.Text), 0, 0)
+            Dim ThisAlmacen = dsDatos("Almacen")
+            lblUbicacionNombre.Text = dsDatos("UbicacionNombre")
+            lblAlmacen.Text = dsDatos("AlmacenNombre")
+            Continuar = True
+        Catch ex As InvalidOperationException
+            MsgBox("NO EXISTE UBICACION CON ESTE CODIGO: " & txtUbicacion.Text)
+            Continuar = False
+        End Try
+        If Not Continuar Then
+            txtUbicacion.Focus()
+            Exit Sub
+        End If
+        MostrarFrames(False)
+
+    End Sub
 
     Private Sub MostrarFrames(EsUbicacion As Boolean)
         GroupControlUbicacion.Enabled = EsUbicacion
@@ -65,100 +100,73 @@ Public Class frmSeleccionArticulos
         End If
     End Sub
 
-    'Private Sub btnArticulo_Click(sender As Object, e As EventArgs)
-    '    If txtArticulo.Text = "" Then
-    '        MsgBox("Debe ingresar un artículo", MsgBoxStyle.Information, "Aviso")
-    '        txtArticulo.Focus
-    '        Exit Sub
-    '    End If
-    '    If Not IsNumeric(txtNuevoStock.Text) Then
-    '        MsgBox("Debe ingresar un valor numérico", MsgBoxStyle.Information, "Aviso")
-    '        txtNuevoStock.Focus
-    '        Exit Sub
-    '    End If
+    Private Sub btnArticulo_Click(sender As Object, e As EventArgs)
+        If txtArticulo.Text = "" Then
+            MsgBox("Debe ingresar un artículo", MsgBoxStyle.Information, "Aviso")
+            txtArticulo.Focus()
+            Exit Sub
+        End If
+        If Not IsNumeric(txtNuevoStock.Text) Then
+            MsgBox("Debe ingresar un valor numérico", MsgBoxStyle.Information, "Aviso")
+            txtNuevoStock.Focus()
+            Exit Sub
+        End If
 
-    '    ' Grabar la asignación
-    '    Dim sql As String
-    '    If AbrirBaseDatos(ConexionLocal) Then
-    '        Dim dsDatos As New DataSet
-    '        sql = "INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) " &
-    '              "VALUES ('" & Terminal & "','VE','" & txtArticulo.Text & "','" & txtUbicacion.Text & "', '" & txtNuevoStock.Text & "')"
+        ' Grabar la asignación
+        Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES (?,'VE',?,?,?)", Terminal, txtArticulo.Text, txtUbicacion.Text, txtNuevoStock.Text)
 
-    '        Dim cmd As New OleDb.OleDbCommand(sql, ConexionLocal)
-    '        cmd.ExecuteNonQuery
-    '        ConexionLocal.Close
+        Dim dt = CType(Grid.DataSource, DataTable)
+        Dim row = dt.NewRow
+        row("Articulo") = txtArticulo.Text
+        row("Nombre") = lblArticuloNombre.Text
+        row("Ubicacion") = txtUbicacion.Text
+        row("Uds") = CInt(txtNuevoStock.Text)
+        dt.Rows.Add(row)
 
-    '        ' Añade una fila al grid
-    '        Dim dt = CType(Grid.DataSource, DataTable)
-    '        Dim row = dt.NewRow
-    '        row("Articulo") = txtArticulo.Text
-    '        row("Nombre") = lblArticuloNombre.Text
-    '        row("Ubicacion") = txtUbicacion.Text
-    '        row("Uds") = CInt(txtNuevoStock.Text)
-    '        dt.Rows.Add(row)
+        LimpiarUbicacion()
+    End Sub
 
-    '        LimpiarUbicacion()
-    '    End If
-    'End Sub
+    Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-    Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
+        ' Inicializar el DataTable
+        Dim dt As New DataTable()
+        dt.Columns.Add("Articulo", GetType(String))
+        dt.Columns.Add("Nombre", GetType(String))
+        dt.Columns.Add("Ubicacion", GetType(String))
+        dt.Columns.Add("Uds", GetType(Single))
 
-        '' Inicializar el DataTable
-        'Dim dt As New DataTable()
-        'dt.Columns.Add("Articulo", GetType(String))
-        'dt.Columns.Add("Nombre", GetType(String))
-        'dt.Columns.Add("Ubicacion", GetType(String))
-        'dt.Columns.Add("Uds", GetType(Single))
-
-        '' Asignar el DataTable al Grid
-        'Grid.DataSource = dt
+        ' Asignar el DataTable al Grid
+        Grid.DataSource = dt
 
 
         Call LimpiarUbicacion(False)
         Call LimpiarArticulo(False)
 
-        DateEdit1.DateTime = Now
-        DateEdit1.Focus()
+        datePicker.DateTime = Now
+        datePicker.Focus()
     End Sub
 
-    'Private Sub txtArticulo_Validating(sender As Object, e As CancelEventArgs) Handles txtArticulo.Validating
-    '    Try
-    '        If txtArticulo.Text = "" Then
-    '            '  e.Cancel = True
-    '            Exit Sub
-    '        End If
-    '        Dim Continuar As Boolean = False
-    '        If AbrirBaseDatos(ConexionLocal) Then
-    '            Dim dsDatos As New DataSet
-    '            dsDatos = CargarDataSet("SELECT NombreComercial FROM Articulos WHERE Codigo='" & txtArticulo.Text & "'", ConexionLocal)
-    '            If dsDatos.Tables(0).Rows.Count = 0 Then
-    '                Call MsgBox("NO EXISTE ARTICULO CON EL CODIGO: " & txtArticulo.Text)
-    '                e.Cancel = True
-    '            Else
-    '                lblArticuloNombre.Text = dsDatos.Tables(0).Rows(0).Item("NombreComercial")
-    '            End If
+    Private Sub txtArticulo_Validating(sender As Object, e As CancelEventArgs) Handles txtArticulo.Validating
 
+        If txtArticulo.Text = "" Then
+            e.Cancel = True
+            Exit Sub
+        End If
 
-    '            dsDatos = CargarDataSet("SELECT Uds_Ini " &
-    '                                    "FROM StockLotes WHERE Articulo='" & txtArticulo.Text & "' AND Lote='" & txtUbicacion.Text & "'", ConexionLocal)
-    '            If dsDatos.Tables(0).Rows.Count = 0 Then
-    '                lblStock.Text = "0"
-    '            Else
-    '                lblStock.Text = dsDatos.Tables(0).Rows(0).Item("Uds_Ini")
-    '            End If
-    '            dsDatos.Dispose()
-    '            ConexionLocal.Close()
-    '        Else
-    '            ' cancelar la validación
-    '            e.Cancel = True
-    '        End If
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message)
-    '    End Try
+        Try
+            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery(ObtenerInformacionDeArticulo, txtArticulo.Text), 0, 0)
+            lblArticuloNombre.Text = dsDatos("NombreComercial")
 
-    'End Sub
-
-    Private Sub GridPedidos_Click(sender As Object, e As EventArgs) Handles GridPedidos.Click
+            Dim dsDatos2 = Operacion.ExecuteQuery("SELECT Uds_Ini FROM StockLotes WHERE Articulo=? AND Lote=?", txtArticulo.Text, txtUbicacion.Text)
+            If dsDatos2.Tables(0).Rows.Count = 0 Then
+                lblStock.Text = "0"
+            Else
+                lblStock.Text = dsDatos2.Tables(0).Rows(0).Item("Uds_Ini")
+            End If
+            dsDatos2.Dispose()
+        Catch ex As Exception
+            e.Cancel = True
+        End Try
 
     End Sub
 
@@ -191,18 +199,14 @@ Public Class frmSeleccionArticulos
         End If
     End Sub
 
-    Private Sub DateEdit1_EditValueChanged(sender As Object, e As EventArgs) Handles DateEdit1.EditValueChanged
-
-    End Sub
-
-    Private Sub DateEdit1_Validating(sender As Object, e As CancelEventArgs) Handles DateEdit1.Validating
+    Private Sub datePicker_Validating(sender As Object, e As CancelEventArgs) Handles datePicker.Validating
         ' Si no tiene valor no abandonar el control
-        If DateEdit1.DateTime = Nothing Then
+        If datePicker.DateTime = Nothing Then
             e.Cancel = True
         End If
     End Sub
 
-    Private Sub PanelTitulo_Paint(sender As Object, e As PaintEventArgs) Handles PanelTitulo.Paint
-
+    Private Sub datePicker_EditValueChanged(sender As Object, e As EventArgs) Handles datePicker.EditValueChanged
+        Dim dsDatos = Operacion.ExecuteQuery(ObtenerArticulosPorFecha, datePicker.Text)
     End Sub
 End Class

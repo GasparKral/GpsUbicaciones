@@ -44,7 +44,7 @@ Partial Class frmSeleccionArticulos
         SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
         RadioButton2 = New RadioButton()
         RadioButton1 = New RadioButton()
-        DateEdit1 = New DevExpress.XtraEditors.DateEdit()
+        datePicker = New DevExpress.XtraEditors.DateEdit()
         LabelControl3 = New DevExpress.XtraEditors.LabelControl()
         GridPedidos = New DevExpress.XtraGrid.GridControl()
         GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
@@ -55,8 +55,8 @@ Partial Class frmSeleccionArticulos
         PanelTitulo.SuspendLayout()
         CType(GroupControl1, ComponentModel.ISupportInitialize).BeginInit()
         GroupControl1.SuspendLayout()
-        CType(DateEdit1.Properties, ComponentModel.ISupportInitialize).BeginInit()
-        CType(DateEdit1.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(datePicker.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(datePicker.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridPedidos, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridView2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -339,21 +339,21 @@ Partial Class frmSeleccionArticulos
         RadioButton1.Text = "Albarán"
         RadioButton1.UseVisualStyleBackColor = True
         ' 
-        ' DateEdit1
+        ' datePicker
         ' 
-        DateEdit1.EditValue = Nothing
-        DateEdit1.Location = New Point(86, 54)
-        DateEdit1.Name = "DateEdit1"
-        DateEdit1.Properties.Appearance.Font = New Font("Tahoma", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DateEdit1.Properties.Appearance.Options.UseFont = True
-        DateEdit1.Properties.AppearanceCalendar.DayCell.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        DateEdit1.Properties.AppearanceCalendar.DayCell.Options.UseFont = True
-        DateEdit1.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        DateEdit1.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        DateEdit1.Properties.CalendarView = DevExpress.XtraEditors.Repository.CalendarView.Fluent
-        DateEdit1.Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.False
-        DateEdit1.Size = New Size(188, 40)
-        DateEdit1.TabIndex = 0
+        datePicker.EditValue = Nothing
+        datePicker.Location = New Point(86, 54)
+        datePicker.Name = "datePicker"
+        datePicker.Properties.Appearance.Font = New Font("Tahoma", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        datePicker.Properties.Appearance.Options.UseFont = True
+        datePicker.Properties.AppearanceCalendar.DayCell.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        datePicker.Properties.AppearanceCalendar.DayCell.Options.UseFont = True
+        datePicker.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        datePicker.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        datePicker.Properties.CalendarView = DevExpress.XtraEditors.Repository.CalendarView.Fluent
+        datePicker.Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.False
+        datePicker.Size = New Size(188, 40)
+        datePicker.TabIndex = 0
         ' 
         ' LabelControl3
         ' 
@@ -399,7 +399,7 @@ Partial Class frmSeleccionArticulos
         ControlBox = False
         Controls.Add(GridPedidos)
         Controls.Add(LabelControl3)
-        Controls.Add(DateEdit1)
+        Controls.Add(datePicker)
         Controls.Add(GroupControl1)
         Controls.Add(PanelTitulo)
         Controls.Add(Grid)
@@ -422,8 +422,8 @@ Partial Class frmSeleccionArticulos
         CType(GroupControl1, ComponentModel.ISupportInitialize).EndInit()
         GroupControl1.ResumeLayout(False)
         GroupControl1.PerformLayout()
-        CType(DateEdit1.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).EndInit()
-        CType(DateEdit1.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(datePicker.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).EndInit()
+        CType(datePicker.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridPedidos, ComponentModel.ISupportInitialize).EndInit()
         CType(GridView2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
@@ -447,7 +447,7 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents Label1 As Label
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents GroupControl1 As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents DateEdit1 As DevExpress.XtraEditors.DateEdit
+    Friend WithEvents datePicker As DevExpress.XtraEditors.DateEdit
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents RadioButton2 As RadioButton

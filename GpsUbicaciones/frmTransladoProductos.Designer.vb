@@ -69,12 +69,12 @@ Partial Class frmTransladoProductos
         GroupControl1.AutoSizeMode = AutoSizeMode.GrowAndShrink
         GroupControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         GroupControl1.CaptionLocation = DevExpress.Utils.Locations.Top
-        GroupControl1.Location = New Point(15, 666)
+        GroupControl1.Location = New Point(10, 666)
         GroupControl1.Margin = New Padding(2, 3, 2, 3)
         GroupControl1.MaximumSize = New Size(575, 0)
         GroupControl1.MinimumSize = New Size(500, 150)
         GroupControl1.Name = "GroupControl1"
-        GroupControl1.Size = New Size(573, 150)
+        GroupControl1.Size = New Size(575, 150)
         GroupControl1.TabIndex = 12
         GroupControl1.Text = "ORIGEN"
         ' 
@@ -87,11 +87,11 @@ Partial Class frmTransladoProductos
         ' 
         grdProductos.BackgroundImageLayout = ImageLayout.None
         grdProductos.EmbeddedNavigator.Margin = New Padding(4, 3, 4, 3)
-        grdProductos.Location = New Point(13, 310)
+        grdProductos.Location = New Point(10, 310)
         grdProductos.MainView = gvDatos
         grdProductos.MinimumSize = New Size(0, 350)
         grdProductos.Name = "grdProductos"
-        grdProductos.Size = New Size(574, 350)
+        grdProductos.Size = New Size(580, 350)
         grdProductos.TabIndex = 13
         grdProductos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {gvDatos})
         ' 
@@ -142,11 +142,11 @@ Partial Class frmTransladoProductos
         GroupControlUbicacion.Controls.Add(teCodigoArticulo)
         GroupControlUbicacion.Controls.Add(btnConsultaArtUbiacion)
         GroupControlUbicacion.Controls.Add(btnUbicacion)
-        GroupControlUbicacion.Location = New Point(15, 62)
+        GroupControlUbicacion.Location = New Point(10, 62)
         GroupControlUbicacion.Margin = New Padding(4, 3, 4, 10)
         GroupControlUbicacion.Name = "GroupControlUbicacion"
         GroupControlUbicacion.Padding = New Padding(20, 10, 20, 10)
-        GroupControlUbicacion.Size = New Size(574, 235)
+        GroupControlUbicacion.Size = New Size(580, 235)
         GroupControlUbicacion.TabIndex = 16
         GroupControlUbicacion.Text = "ORIGEN"
         ' 
@@ -154,7 +154,7 @@ Partial Class frmTransladoProductos
         ' 
         btnAgregarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAgregarArticulo.ImageOptions.Image = CType(resources.GetObject("btnAgregarArticulo.ImageOptions.Image"), Image)
-        btnAgregarArticulo.Location = New Point(493, 177)
+        btnAgregarArticulo.Location = New Point(499, 177)
         btnAgregarArticulo.Margin = New Padding(4, 3, 4, 3)
         btnAgregarArticulo.Name = "btnAgregarArticulo"
         btnAgregarArticulo.Size = New Size(55, 47)
@@ -201,7 +201,7 @@ Partial Class frmTransladoProductos
         lblStock.Location = New Point(396, 108)
         lblStock.Margin = New Padding(4, 3, 4, 3)
         lblStock.Name = "lblStock"
-        lblStock.Size = New Size(152, 28)
+        lblStock.Size = New Size(158, 28)
         lblStock.TabIndex = 23
         lblStock.Text = "Stock"
         ' 
@@ -229,7 +229,7 @@ Partial Class frmTransladoProductos
         lblNombreUbicacion.Location = New Point(26, 143)
         lblNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
         lblNombreUbicacion.Name = "lblNombreUbicacion"
-        lblNombreUbicacion.Size = New Size(523, 28)
+        lblNombreUbicacion.Size = New Size(529, 28)
         lblNombreUbicacion.TabIndex = 21
         lblNombreUbicacion.Text = "Nombre Ubicación"
         ' 
@@ -280,7 +280,7 @@ Partial Class frmTransladoProductos
         lblNombreArticulo.Location = New Point(25, 67)
         lblNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         lblNombreArticulo.Name = "lblNombreArticulo"
-        lblNombreArticulo.Size = New Size(523, 28)
+        lblNombreArticulo.Size = New Size(529, 28)
         lblNombreArticulo.TabIndex = 17
         lblNombreArticulo.Text = "Nombre Artículo"
         ' 
@@ -302,7 +302,7 @@ Partial Class frmTransladoProductos
         btnConsultaArtUbiacion.BackColor = Color.White
         btnConsultaArtUbiacion.BackgroundImage = CType(resources.GetObject("btnConsultaArtUbiacion.BackgroundImage"), Image)
         btnConsultaArtUbiacion.BackgroundImageLayout = ImageLayout.Stretch
-        btnConsultaArtUbiacion.Location = New Point(816, 68)
+        btnConsultaArtUbiacion.Location = New Point(822, 68)
         btnConsultaArtUbiacion.Name = "btnConsultaArtUbiacion"
         btnConsultaArtUbiacion.Size = New Size(34, 33)
         btnConsultaArtUbiacion.TabIndex = 8
@@ -312,7 +312,7 @@ Partial Class frmTransladoProductos
         ' 
         btnUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnUbicacion.ImageOptions.Image = CType(resources.GetObject("btnUbicacion.ImageOptions.Image"), Image)
-        btnUbicacion.Location = New Point(875, 33)
+        btnUbicacion.Location = New Point(881, 33)
         btnUbicacion.Margin = New Padding(4, 3, 4, 3)
         btnUbicacion.Name = "btnUbicacion"
         btnUbicacion.Size = New Size(55, 47)

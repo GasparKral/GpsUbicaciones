@@ -1,8 +1,5 @@
 ﻿Public Class frmVenta
 
-    Private ConexionLocal As IDbConnection
-    Private Almacen As String
-
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         Me.Close()
     End Sub
@@ -168,5 +165,7 @@
         End If
     End Sub
 
+    Private Sub txtUbicacion_TextChanged(sender As Object, e As EventArgs) Handles txtUbicacion.TextChanged
 
+    End Sub
 End Class

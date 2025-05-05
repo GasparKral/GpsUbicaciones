@@ -1,8 +1,6 @@
 ﻿Public Class frmConsulta
 
     Public Consulta As String
-
-    Private ConexionLocal As IDbConnection
     Private Almacen As String
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click

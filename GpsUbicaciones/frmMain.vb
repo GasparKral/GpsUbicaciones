@@ -1,7 +1,5 @@
 ﻿Public Class frmMain
 
-    Private ConexionLocal As IDbConnection
-
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         Me.Close()
     End Sub
@@ -45,7 +43,7 @@
 
 
 
-        Dim dt = Operacion.ExecuteTable("SELECT * FROM Empresas WHERE Codigo = ?", EmpresaSeleccionada)
+        Dim dt = Operacion.ExecuteTable("SELECT * FROM Pda WHERE Codigo = ?", Terminal)
 
         If dt.Rows.Count = 0 Then
             MsgBox("Terminal no definido en la tabla PDA")
