@@ -108,6 +108,7 @@ Module SQLquerys
     Public ObtenerInformacionUbicacion As String = "SELECT
         U.Codigo,
         U.Nombre,
+        A.Codigo AS CodigoAlmacen,
         A.Nombre AS Almacen
     FROM
         UBICACIONES AS U 
@@ -190,4 +191,6 @@ Module SQLquerys
     ''' 1. Cantidad a añadir, 2. Articulo, 3. Lote.
     ''' </remarks>
     Public ActualizarStockDeArticulo As String = "UPDATE StockLotes SET Uds_Ini = Uds_Ini + ? WHERE Articulo = ? AND Lote = ?"
+
+    Public ObtenerArticulosPorFecha As String = "SELECT P.Fecha FROM PEDCLI AS P"
 End Module

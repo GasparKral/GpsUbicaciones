@@ -7,8 +7,8 @@
 End Enum
 
 Public Class DatabaseSettings
-    Public Property DatabaseType As DatabaseType = DatabaseType.Access2000
-    Public Property Provider As String = "Microsoft.ACE.OLEDB.12.0"
+    Public Property DatabaseType As DatabaseType
+    Public Property Provider As String
     Public Property Server As String
     Public Property Username As String
     Public Property Password As String

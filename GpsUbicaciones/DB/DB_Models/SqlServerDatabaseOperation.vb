@@ -16,7 +16,15 @@ Public Class SqlServerDatabaseOperation
         Throw New NotImplementedException()
     End Function
 
+    Public Overrides Function ExecuteQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataSet
+        Throw New NotImplementedException()
+    End Function
+
     Public Overrides Function ExecuteNonQuery(commandText As String, ParamArray parameters() As Object) As Integer
+        Throw New NotImplementedException()
+    End Function
+
+    Public Overrides Function ExecuteNonQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As Integer
         Throw New NotImplementedException()
     End Function
 
@@ -24,10 +32,16 @@ Public Class SqlServerDatabaseOperation
         Throw New NotImplementedException()
     End Function
 
-    Protected Overloads Function BuildConnectionString(company As String, dataPath As String) As String
-        Return $"Server={Settings.Server};Database={If(company = "COMUN", "COMUNSQL", $"{company}DATSQL")};User Id={Settings.Username};Password={Settings.Password};"
+    Public Overrides Function ExecuteTable(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataTable
+        Throw New NotImplementedException()
     End Function
 
-    ' Implementaciones similares a AccessDatabaseOperation pero para SQL Server
-    ' ...
+    Public Overrides Function ExecuteScalar(commandText As String, ParamArray parameters() As Object) As Boolean
+        Throw New NotImplementedException()
+    End Function
+
+    Public Overrides Function ExecuteScalar(connection As IDbConnection, transaction As IDbTransaction, commandText As String, ParamArray parameters() As Object) As Boolean
+        Throw New NotImplementedException()
+    End Function
+
 End Class

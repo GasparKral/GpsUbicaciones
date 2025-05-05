@@ -18,7 +18,7 @@ Public Class AccessDatabaseOperation
         End Using
     End Function
 
-    Public Overloads Function ExecuteQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataSet
+    Public Overrides Function ExecuteQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataSet
         Dim ds = New DataSet()
 
         Try
@@ -50,7 +50,7 @@ Public Class AccessDatabaseOperation
         End Using
     End Function
 
-    Public Overloads Function ExecuteNonQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As Integer
+    Public Overrides Function ExecuteNonQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As Integer
         Try
             If connection.State <> ConnectionState.Open Then
                 connection.Open()
@@ -75,7 +75,7 @@ Public Class AccessDatabaseOperation
         End Using
     End Function
 
-    Public Overloads Function ExecuteTable(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataTable
+    Public Overrides Function ExecuteTable(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataTable
         Dim dt = New DataTable()
 
         Try
@@ -111,4 +111,51 @@ Public Class AccessDatabaseOperation
             Next
         End If
     End Sub
+
+
+    Public Overrides Function ExecuteScalar(commandText As String, ParamArray parameters() As Object) As Boolean
+        Using connection = CreateConnection()
+            Return ExecuteScalar(connection, connection.BeginTransaction, commandText, parameters)
+        End Using
+    End Function
+
+
+    Public Overrides Function ExecuteScalar(connection As IDbConnection, transaction As IDbTransaction, commandText As String, ParamArray parameters() As Object) As Boolean
+        Try
+            If connection.State <> ConnectionState.Open Then
+                connection.Open()
+            End If
+
+            Using cmd As New OleDbCommand(commandText, CType(connection, OleDbConnection))
+                If transaction IsNot Nothing Then
+                    cmd.Transaction = CType(transaction, OleDbTransaction)
+                End If
+                AddParameters(cmd, parameters)
+
+                Dim result = cmd.ExecuteScalar()
+
+                If result Is Nothing OrElse result Is DBNull.Value Then
+                    Return False
+                End If
+
+                If TypeOf result Is Boolean Then
+                    Return CBool(result)
+                End If
+
+                If TypeOf result Is Integer Then
+                    Return CInt(result) <> 0 ' Access suele devolver -1/0
+                End If
+
+                ' Por si acaso, intenta convertir a Boolean
+                Return Convert.ToBoolean(result)
+            End Using
+        Catch ex As Exception
+            Throw New DatabaseOperationException("Error al ejecutar ExecuteScalar", ex, commandText)
+        Finally
+            If connection.State = ConnectionState.Open Then
+                connection.Close()
+            End If
+        End Try
+    End Function
+
 End Class
