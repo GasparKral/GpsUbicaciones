@@ -17,10 +17,9 @@ Public Class frmTransladoProductos
                 Exit Sub
             End If
 
-            Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarArticuloConStockPorCodigoYAlmacen,
+            Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarStockDeLote,
                               TextEditCodigoArticulo.Text,
-                              TextEditCodigoUbicacion.Text,
-                              Almacen), 0, 0)
+                              TextEditCodigoUbicacion.Text), 0, 0)
 
             If dsFila Is Nothing OrElse dsFila("Stock") Is DBNull.Value Then
                 LabelStockArticulo.Text = "0"
@@ -48,19 +47,18 @@ Public Class frmTransladoProductos
 
     Private Function ValidarCamposRequeridos() As Boolean
         Return Not (String.IsNullOrEmpty(TextEditCodigoArticulo.Text)) AndAlso
-               Not (String.IsNullOrEmpty(TextEditCodigoUbicacion.Text)) AndAlso
-               SpinEditCantidadSeleccionada.Value > 0
+               Not (String.IsNullOrEmpty(TextEditCodigoUbicacion.Text))
     End Function
 
     Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregarArticulo.Click
         ' Validaciones previas
         If Not ValidarCamposRequeridos() Then
-            MessageFactory.ShowMessage(MessageType.Warning, "Debe seleccionar un artículo y una ubicación válidos")
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, "Debe seleccionar un artículo y una ubicación válidos")
             Exit Sub
         End If
 
-        If SpinEditCantidadSeleccionada.Value <= 0 Then
-            MessageFactory.ShowMessage(MessageType.Warning, NumericValueRequiredMessage)
+        If SpinEditCantidadSeleccionada.Value = 0 Then
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeCantidadInvalida)
             Exit Sub
         End If
 
@@ -77,7 +75,7 @@ Public Class frmTransladoProductos
                 Dim nuevoTotal = cantidadYaAsignada - productoExistente.CantidadAMover + SpinEditCantidadSeleccionada.Value
 
                 If nuevoTotal > stockDisponible Then
-                    MessageFactory.ShowMessage(MessageType.Warning, String.Format(InsufficientStockMessage, stockDisponible - cantidadYaAsignada))
+                    FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, String.Format(MensajeStockInsuficiente, stockDisponible - cantidadYaAsignada))
                     Exit Sub
                 End If
 
@@ -91,7 +89,7 @@ Public Class frmTransladoProductos
                     Sum(Function(p) p.CantidadAMover)
 
                 If SpinEditCantidadSeleccionada.Value > (stockDisponible - cantidadYaAsignada) Then
-                    MessageFactory.ShowMessage(MessageType.Warning, String.Format(InsufficientStockMessage, stockDisponible - cantidadYaAsignada))
+                    FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, String.Format(MensajeStockInsuficiente, stockDisponible - cantidadYaAsignada))
                     Exit Sub
                 End If
 
@@ -109,7 +107,7 @@ Public Class frmTransladoProductos
             ' Resetear controles después de agregar
             SpinEditCantidadSeleccionada.Value = 0
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, ex.Message))
         End Try
     End Sub
 
@@ -199,13 +197,12 @@ Public Class frmTransladoProductos
             Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo(),
                               TryCast(sender, DevExpress.XtraEditors.TextEdit).EditValue?.ToString), 0, 0)
             LabelNombreArticulo.Text = dsFila("NombreComercial")
-
             If Not String.IsNullOrEmpty(TextEditCodigoUbicacion.Text) Then
                 actualizarCampoStockOrigen()
             End If
         Catch ex As InvalidOperationException
             TextEditCodigoArticulo.SelectAll()
-            MessageFactory.ShowMessage(MessageType.Error, InvalidArticleCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCodigoArticuloInvalido)
         End Try
     End Sub
 
@@ -220,7 +217,7 @@ Public Class frmTransladoProductos
             End If
         Catch ex As InvalidOperationException
             TextEditCodigoUbicacion.SelectAll()
-            MessageFactory.ShowMessage(MessageType.Error, InvalidLocationCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCodigoUbicacionInvalido)
         End Try
     End Sub
 
@@ -238,69 +235,69 @@ Public Class frmTransladoProductos
         End If
     End Sub
 
-    Private Sub TextEditCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextEditCodigoArticulo.Validating
-        If String.IsNullOrEmpty(TextEditCodigoArticulo.Text) Then
-            Return
-        End If
+    'Private Sub TextEditCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextEditCodigoArticulo.Validating
+    '    If String.IsNullOrEmpty(TextEditCodigoArticulo.Text) Then
+    '        Return
+    '    End If
 
-        Try
-            Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo(),
-                              TextEditCodigoArticulo.Text), 0, 0)
-            LabelNombreArticulo.Text = dsFila("NombreComercial")
+    '    Try
+    '        Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo(),
+    '                          TextEditCodigoArticulo.Text), 0, 0)
+    '        LabelNombreArticulo.Text = dsFila("NombreComercial")
 
-            If Not String.IsNullOrEmpty(TextEditCodigoUbicacion.Text) Then
-                actualizarCampoStockOrigen()
-            End If
-        Catch ex As InvalidOperationException
-            TextEditCodigoArticulo.SelectAll()
-            MessageFactory.ShowMessage(MessageType.Error, InvalidArticleCodeMessage)
-            e.Cancel = True ' Previene que el foco salga del control si la validación falla
-        End Try
-    End Sub
+    '        If Not String.IsNullOrEmpty(TextEditCodigoUbicacion.Text) Then
+    '            actualizarCampoStockOrigen()
+    '        End If
+    '    Catch ex As InvalidOperationException
+    '        TextEditCodigoArticulo.SelectAll()
+    '        FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCodigoArticuloInvalido)
+    '        e.Cancel = True ' Previene que el foco salga del control si la validación falla
+    '    End Try
+    'End Sub
 
-    Private Sub TextEditCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextEditCodigoUbicacion.Validating
-        If String.IsNullOrEmpty(TextEditCodigoUbicacion.Text) Then
-            e.Cancel = True
-        End If
+    'Private Sub TextEditCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextEditCodigoUbicacion.Validating
+    '    If String.IsNullOrEmpty(TextEditCodigoUbicacion.Text) Then
+    '        e.Cancel = True
+    '    End If
 
-        Try
-            Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarUbicacionDeLotePorCodigo(),
-                              TextEditCodigoUbicacion.Text), 0, 0)
-            LabelNombreUbicacion.Text = dsFila("Nombre")
+    '    Try
+    '        Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarUbicacionDeLotePorCodigo(),
+    '                          TextEditCodigoUbicacion.Text), 0, 0)
+    '        LabelNombreUbicacion.Text = dsFila("Nombre")
 
-            If Not String.IsNullOrEmpty(TextEditCodigoArticulo.Text) Then
-                actualizarCampoStockOrigen()
-            End If
-        Catch ex As InvalidOperationException
-            TextEditCodigoUbicacion.SelectAll()
-            MessageFactory.ShowMessage(MessageType.Error, InvalidLocationCodeMessage)
-            e.Cancel = True ' Previene que el foco salga del control si la validación falla
-        End Try
-    End Sub
+    '        If Not String.IsNullOrEmpty(TextEditCodigoArticulo.Text) Then
+    '            actualizarCampoStockOrigen()
+    '        End If
+    '    Catch ex As InvalidOperationException
+    '        TextEditCodigoUbicacion.SelectAll()
+    '        FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCodigoUbicacionInvalido)
+    '        e.Cancel = True ' Previene que el foco salga del control si la validación falla
+    '    End Try
+    'End Sub
 
-    Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
-        If SpinEditCantidadSeleccionada.Value <= 0 Then
-            MessageFactory.ShowMessage(MessageType.Error, InvalidQuantityMessage)
-            e.Cancel = True
-            Exit Sub
-        End If
+    'Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
+    '    If SpinEditCantidadSeleccionada.Value <= 0 Then
+    '        FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCantidadInvalida)
+    '        e.Cancel = True
+    '        Exit Sub
+    '    End If
 
-        ' Validar que no exceda el stock disponible
-        Dim stockDisponible As Integer
-        If Integer.TryParse(LabelStockArticulo.Text, stockDisponible) Then
-            Dim cantidadYaAsignada As Integer = ListaProductos.
-                Where(Function(p) p.NombreComercial = LabelNombreArticulo.Text).
-                Sum(Function(p) p.CantidadAMover)
+    '    ' Validar que no exceda el stock disponible
+    '    Dim stockDisponible As Integer
+    '    If Integer.TryParse(LabelStockArticulo.Text, stockDisponible) Then
+    '        Dim cantidadYaAsignada As Integer = ListaProductos.
+    '            Where(Function(p) p.NombreComercial = LabelNombreArticulo.Text).
+    '            Sum(Function(p) p.CantidadAMover)
 
-            If SpinEditCantidadSeleccionada.Value > (stockDisponible - cantidadYaAsignada) Then
-                MessageFactory.ShowMessage(MessageType.Warning,
-                    String.Format(InsufficientStockMessage, stockDisponible - cantidadYaAsignada))
-                e.Cancel = True
-            End If
-        Else
-            MessageFactory.ShowMessage(MessageType.Error, "No se pudo determinar el stock disponible")
-            e.Cancel = True
-        End If
-    End Sub
+    '        If SpinEditCantidadSeleccionada.Value > (stockDisponible - cantidadYaAsignada) Then
+    '            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia,
+    '                String.Format(MensajeStockInsuficiente, stockDisponible - cantidadYaAsignada))
+    '            e.Cancel = True
+    '        End If
+    '    Else
+    '        FabricaMensajes.ShowMessage(TipoMensaje.Error, "No se pudo determinar el stock disponible")
+    '        e.Cancel = True
+    '    End If
+    'End Sub
 
 End Class

@@ -42,28 +42,28 @@ Public Class frmAsignar
                 End If
             End Using
         Catch ex As DatabaseOperationException
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(DatabaseOperationErrorMessage, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeErrorOperacionBD, ex.Message))
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, ex.Message))
         End Try
     End Sub
 
     Private Function ValidarDatosArticulo() As Boolean
         If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
-            MessageFactory.ShowMessage(MessageType.Warning, MissingArticleCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeCodigoArticuloFaltante)
             TextBoxCodigoArticulo.Focus()
             Return False
         End If
 
         Dim stock As Single
         If Not Single.TryParse(TextBoxStockArticulo.Text, NumberStyles.Any, CultureInfo.InvariantCulture, stock) Then
-            MessageFactory.ShowMessage(MessageType.Warning, NumericValueRequiredMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeValorNumericoRequerido)
             TextBoxStockArticulo.Focus()
             Return False
         End If
 
         If stock = 0 Then
-            MessageFactory.ShowMessage(MessageType.Warning, InvalidQuantityMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeCantidadInvalida)
             TextBoxStockArticulo.Focus()
             Return False
         End If
@@ -89,7 +89,7 @@ Public Class frmAsignar
                 frm.ShowDialog()
             End Using
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(ArticleQueryErrorMessage, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeErrorConsultaArticulos, ex.Message))
         End Try
     End Sub
 
@@ -115,14 +115,14 @@ Public Class frmAsignar
 
             MostrarFrames(False)
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(LocationValidationErrorMessage, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeErrorValidacionUbicacion, ex.Message))
             TextBoxCodigoUbicacion.Focus()
         End Try
     End Sub
 
     Private Function ValidarUbicacion() As Boolean
         If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text) Then
-            MessageFactory.ShowMessage(MessageType.Warning, MissingLocationCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeCodigoUbicacionFaltante)
             TextBoxCodigoUbicacion.Focus()
             Return False
         End If
@@ -196,11 +196,11 @@ Public Class frmAsignar
             Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo, TextBoxCodigoArticulo.Text), 0, 0)
             LabelNombreArticulo.Text = dsFila("NombreComercial")
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoArticulo.SelectAll()
             TextBoxCodigoArticulo.Focus()
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, TextBoxCodigoArticulo.Text))
             TextBoxCodigoArticulo.SelectAll()
             TextBoxCodigoArticulo.Focus()
         End Try
@@ -218,10 +218,10 @@ Public Class frmAsignar
             lblPorPeso.Visible = dsDatos("PorPeso") = 1
             nDecUds = If(dsDatos("PorPeso") = 1, nDecUds, 0)
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
             e.Cancel = True
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, TextBoxCodigoArticulo.Text))
             TextBoxCodigoArticulo.Text = String.Empty
             e.Cancel = True
         End Try
@@ -247,11 +247,11 @@ Public Class frmAsignar
             LabelNombreUbicacion.Text = dsFila("Nombre")
             LabelNombreAlmacen.Text = dsFila("Almacen")
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoUbicacion.SelectAll()
             TextBoxCodigoUbicacion.Focus()
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, TextBoxCodigoArticulo.Text))
             TextBoxCodigoUbicacion.SelectAll()
             TextBoxCodigoUbicacion.Focus()
         End Try
@@ -266,7 +266,7 @@ Public Class frmAsignar
             Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosUbicacionPorCodigo, TextBoxCodigoUbicacion.Text), 0, 0)
 
             If dsDatos("CodigoAlmacen") <> Configuracion.Almacen Then
-                MessageFactory.ShowMessage(MessageType.Information, String.Format(WarehouseMismatchMessage, Configuracion.Almacen, dsDatos("CodigoAlmacen")))
+                FabricaMensajes.ShowMessage(TipoMensaje.Informacion, String.Format(MensajeAlmacenNoCoincide, Configuracion.Almacen, dsDatos("CodigoAlmacen")))
                 e.Cancel = True
                 Return
             End If
@@ -275,11 +275,11 @@ Public Class frmAsignar
             LabelNombreUbicacion.Text = dsDatos("Nombre")
             LabelNombreAlmacen.Text = dsDatos("Almacen")
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoUbicacion.Text = String.Empty
             e.Cancel = True
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, ex.Message)
             e.Cancel = True
         End Try
     End Sub

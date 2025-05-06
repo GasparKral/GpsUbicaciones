@@ -30,9 +30,9 @@
             Dim conditionResult As Boolean = _operacion.ExecuteScalar(_connection, _transaction, conditionQuery, parameters)
 
             If conditionResult Then
-                ifFalseAction.Invoke(_connection)
-            Else
                 ifTrueAction.Invoke(_connection)
+            Else
+                ifFalseAction.Invoke(_connection)
             End If
 
             _completed = True

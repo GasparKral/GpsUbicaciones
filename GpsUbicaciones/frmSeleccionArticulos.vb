@@ -66,7 +66,7 @@ Public Class frmSeleccionArticulos
 
     Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
         If TextBoxCodigoUbicacion.Text = "" Then
-            MessageFactory.ShowMessage(MessageType.Information, MissingLocationCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeCodigoUbicacionFaltante)
             TextBoxCodigoUbicacion.Focus()
             Exit Sub
         End If
@@ -79,7 +79,7 @@ Public Class frmSeleccionArticulos
             LabelNombreAlmacen.Text = dsDatos("Almacen")
             Continuar = True
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
             Continuar = False
         End Try
         If Not Continuar Then
@@ -120,12 +120,12 @@ Public Class frmSeleccionArticulos
 
     Private Sub btnArticulo_Click(sender As Object, e As EventArgs)
         If TextBoxCodigoArticulo.Text = "" Then
-            MessageFactory.ShowMessage(MessageType.Information, MissingArticleCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeCodigoArticuloFaltante)
             TextBoxCodigoArticulo.Focus()
             Exit Sub
         End If
         If Not IsNumeric(TextBoxCantidadSeleccionada.Text) Then
-            MessageFactory.ShowMessage(MessageType.Warning, NumericValueRequiredMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeValorNumericoRequerido)
             TextBoxCantidadSeleccionada.Focus()
             Exit Sub
         End If
@@ -164,7 +164,7 @@ Public Class frmSeleccionArticulos
             End If
             dsDatos2.Dispose()
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, TextBoxCodigoArticulo.Text))
             e.Cancel = True
         End Try
 
@@ -176,7 +176,7 @@ Public Class frmSeleccionArticulos
             Dim dsDatos = Operacion.ExecuteQuery("SELECT Articulo,Descripcion,Round(Sum(Cantidad)," & nDecUds & ") AS SumaUds FROM PedCli INNER JOIN MovPCl ON PedCli.Serie=MovPcl.Serie AND PedCli.Numero=MovPCl.Numero WHERE Fecha=#" & DatePicker.DateTime.ToString("MM-dd-yyyy") & "# AND Articulo<>'' GROUP BY Articulo,Descripcion")
             GridPedidos.DataSource = dsDatos
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, TextBoxCodigoArticulo.Text)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, TextBoxCodigoArticulo.Text))
         End Try
     End Sub
 

@@ -9,7 +9,7 @@
 
     Private Sub frmConsulta_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Consulta = "" Then
-            MessageFactory.ShowMessage(MessageType.Error, UndefinedQueryMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeConsultaNoDefinida)
             Me.Close()
         End If
 
@@ -20,7 +20,7 @@
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             GridControlConsultaArticulos.DataSource = dt
         Else
-            MessageFactory.ShowMessage(MessageType.Information, NoDataFoundMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeSinDatos)
             Me.Close()
         End If
 

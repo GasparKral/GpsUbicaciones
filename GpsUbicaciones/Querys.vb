@@ -49,6 +49,15 @@
                         A.Codigo = ?"
         End Function
 
+        Public Shared Function ConsultarStockDeLote() As String
+            Return "SELECT
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven) AS Stock
+                    FROM StockLotes AS S
+                    WHERE 
+                        S.Articulo = ? AND
+                        S.Lote = ?"
+        End Function
+
         Public Shared Function ConsultarArticuloConStockPorCodigoYAlmacen() As String
             Return "SELECT 
                         A.NombreComercial,

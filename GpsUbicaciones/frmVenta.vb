@@ -6,7 +6,7 @@
 
     Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
         If TextBoxCodigoUbicacion.Text = "" Then
-            MessageFactory.ShowMessage(MessageType.Information, MissingLocationCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeCodigoUbicacionFaltante)
             TextBoxCodigoUbicacion.Focus()
             Exit Sub
         End If
@@ -19,7 +19,7 @@
             LabelNombreAlmacen.Text = dsDatos("AlmacenNombre")
             Continuar = True
         Catch ex As InvalidOperationException
-            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoUbicacion.SelectAll()
             TextBoxCodigoUbicacion.Focus()
         End Try
@@ -62,12 +62,12 @@
 
     Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
         If TextBoxCodigoArticulo.Text = "" Then
-            MessageFactory.ShowMessage(MessageType.Information, MissingArticleCodeMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeCodigoArticuloFaltante)
             TextBoxCodigoArticulo.Focus()
             Exit Sub
         End If
         If Not IsNumeric(TextBoxCantidadSeleccionada.Text) Then
-            MessageFactory.ShowMessage(MessageType.Warning, NumericValueRequiredMessage)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeValorNumericoRequerido)
             TextBoxCantidadSeleccionada.Focus()
             Exit Sub
         End If
@@ -133,7 +133,7 @@
                 End If
             End If
         Catch ex As Exception
-            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, ex.Message))
             e.Cancel = True
         End Try
 
