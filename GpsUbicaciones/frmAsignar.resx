@@ -244,7 +244,7 @@
         gOP6Sy2xCgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="btnConsultaArtUbiacion.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ButtonConsultarUbicacion.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         R0lGODlhdgB4AIcAAAAAAP////n+/0hx3muX6V+N13im7ViX5IW17qXO86O+1gVjrwVepgljrVSc2Ga2
         +5Cyz7HJ3tnl7wZiqwlnsQlmrwllrgllrQxrtQxpsgxqsgxqsQxosAxorwxnrw1utQ9ssg9rsg9qsRFt
@@ -350,7 +350,7 @@
         X/d73/eN8fdxP/iKL/eAb/jrgfiJv/hz3/iOX+wMwAATsPeav/mAzwCV//mg/w8BAQA7
 </value>
   </data>
-  <data name="btnUbicacion.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="BotonConfirmacionDeUbicacion.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAFHpJREFUaEPF
         WmdUlNfW5v/9kz/3W1/WjTIIKipGowKCUUmiRo0m6I2JxhISS2LvvYCCKKIgIk2qKE2kN4EZpjCz6J2B

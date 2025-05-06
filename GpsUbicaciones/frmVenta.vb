@@ -6,7 +6,7 @@
 
     Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
         If TextBoxCodigoUbicacion.Text = "" Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeCodigoUbicacionFaltante)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
             TextBoxCodigoUbicacion.Focus()
             Exit Sub
         End If
@@ -62,12 +62,12 @@
 
     Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
         If TextBoxCodigoArticulo.Text = "" Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajeCodigoArticuloFaltante)
+            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajesArticulos.CodigoFaltante)
             TextBoxCodigoArticulo.Focus()
             Exit Sub
         End If
         If Not IsNumeric(TextBoxCantidadSeleccionada.Text) Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeValorNumericoRequerido)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
             TextBoxCantidadSeleccionada.Focus()
             Exit Sub
         End If
@@ -133,7 +133,7 @@
                 End If
             End If
         Catch ex As Exception
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
             e.Cancel = True
         End Try
 
@@ -146,4 +146,7 @@
         End If
     End Sub
 
+    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoUbicacion.TextChanged
+
+    End Sub
 End Class

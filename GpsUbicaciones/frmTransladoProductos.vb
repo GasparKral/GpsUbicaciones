@@ -8,6 +8,7 @@ Public Class frmTransladoProductos
 
     ' Variables miembro
     Private ListaProductos As New BindingList(Of ProductoOrigenTranslado)
+
     Private repoButton As RepositoryItemButtonEdit
 
     ' Métodos principales
@@ -41,24 +42,35 @@ Public Class frmTransladoProductos
         End Try
     End Sub
 
-    Private Function GenerarIdentificador(nombre As String, ubicacion As String) As String
-        Return String.Format("{0}_{1}", nombre, ubicacion)
-    End Function
-
-    Private Function ValidarCamposRequeridos() As Boolean
-        Return Not (String.IsNullOrEmpty(TextEditCodigoArticulo.Text)) AndAlso
-               Not (String.IsNullOrEmpty(TextEditCodigoUbicacion.Text))
+    Private Function ValidarStockDisponible(nombreArticulo As String, cantidadSolicitada As Decimal, Optional productoExistente As ProductoOrigenTranslado = Nothing) As Boolean
+        Dim stockDisponible As Integer = Integer.Parse(LabelStockArticulo.Text)
+        Dim cantidadYaAsignada As Integer = ListaProductos.
+            Where(Function(p) p.NombreComercial = nombreArticulo).
+            Sum(Function(p) p.CantidadAMover)
+        
+        ' Si estamos actualizando un producto existente, restamos su cantidad actual
+        If productoExistente IsNot Nothing Then
+            cantidadYaAsignada -= productoExistente.CantidadAMover
+        End If
+        
+        If cantidadSolicitada > (stockDisponible - cantidadYaAsignada) Then
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, 
+                String.Format(MensajesStock.Insuficiente, stockDisponible - cantidadYaAsignada))
+            Return False
+        End If
+        
+        Return True
     End Function
 
     Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregarArticulo.Click
         ' Validaciones previas
         If Not ValidarCamposRequeridos() Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, "Debe seleccionar un artículo y una ubicación válidos")
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajesGenerales.FaltanCampos)
             Exit Sub
         End If
 
         If SpinEditCantidadSeleccionada.Value = 0 Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajeCantidadInvalida)
+            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajesStock.CantidadInvalida)
             Exit Sub
         End If
 
@@ -68,14 +80,7 @@ Public Class frmTransladoProductos
 
             If productoExistente IsNot Nothing Then
                 ' Validar que no exceda el stock disponible
-                Dim stockDisponible = Integer.Parse(LabelStockArticulo.Text)
-                Dim cantidadYaAsignada = ListaProductos.
-                    Where(Function(p) p.NombreComercial = LabelNombreArticulo.Text).
-                    Sum(Function(p) p.CantidadAMover)
-                Dim nuevoTotal = cantidadYaAsignada - productoExistente.CantidadAMover + SpinEditCantidadSeleccionada.Value
-
-                If nuevoTotal > stockDisponible Then
-                    FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, String.Format(MensajeStockInsuficiente, stockDisponible - cantidadYaAsignada))
+                If Not ValidarStockDisponible(LabelNombreArticulo.Text, SpinEditCantidadSeleccionada.Value, productoExistente) Then
                     Exit Sub
                 End If
 
@@ -83,13 +88,7 @@ Public Class frmTransladoProductos
                 ListaProductos.ResetItem(ListaProductos.IndexOf(productoExistente))
             Else
                 ' Validar stock para nuevo producto
-                Dim stockDisponible = Integer.Parse(LabelStockArticulo.Text)
-                Dim cantidadYaAsignada = ListaProductos.
-                    Where(Function(p) p.NombreComercial = LabelNombreArticulo.Text).
-                    Sum(Function(p) p.CantidadAMover)
-
-                If SpinEditCantidadSeleccionada.Value > (stockDisponible - cantidadYaAsignada) Then
-                    FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, String.Format(MensajeStockInsuficiente, stockDisponible - cantidadYaAsignada))
+                If Not ValidarStockDisponible(LabelNombreArticulo.Text, SpinEditCantidadSeleccionada.Value) Then
                     Exit Sub
                 End If
 
@@ -107,7 +106,7 @@ Public Class frmTransladoProductos
             ' Resetear controles después de agregar
             SpinEditCantidadSeleccionada.Value = 0
         Catch ex As Exception
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajeSinDatos, ex.Message))
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
         End Try
     End Sub
 
@@ -180,9 +179,13 @@ Public Class frmTransladoProductos
         End If
     End Sub
 
-    Private Sub frmTransladoProductos_Load() Handles MyBase.Load
+    Private Sub frmTransladoProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ConfigurarGrid()
     End Sub
+
+    Private Function GenerarIdentificador(nombre As String, ubicacion As String) As String
+        Return String.Format("{0}_{1}", nombre, ubicacion)
+    End Function
 
     Private Sub lblArticulo_Click(sender As Object, e As EventArgs) Handles lblArticulo.Click
         TextEditCodigoArticulo.Focus()
@@ -202,8 +205,15 @@ Public Class frmTransladoProductos
             End If
         Catch ex As InvalidOperationException
             TextEditCodigoArticulo.SelectAll()
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCodigoArticuloInvalido)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajesArticulos.CodigoInvalido)
         End Try
+    End Sub
+
+    Private Sub teCodigoArticulo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoArticulo.KeyPress
+        ' Solo permitir caracteres alfanuméricos
+        If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub teCodigoUbicacion_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacion.EditValueChanged
@@ -217,15 +227,8 @@ Public Class frmTransladoProductos
             End If
         Catch ex As InvalidOperationException
             TextEditCodigoUbicacion.SelectAll()
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajeCodigoUbicacionInvalido)
+            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajesUbicaciones.CodigoInvalido)
         End Try
-    End Sub
-
-    Private Sub teCodigoArticulo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoArticulo.KeyPress
-        ' Solo permitir caracteres alfanuméricos
-        If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
     End Sub
 
     Private Sub teCodigoUbicacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoUbicacion.KeyPress
@@ -234,6 +237,11 @@ Public Class frmTransladoProductos
             e.Handled = True
         End If
     End Sub
+
+    Private Function ValidarCamposRequeridos() As Boolean
+        Return Not (String.IsNullOrEmpty(TextEditCodigoArticulo.Text)) AndAlso
+               Not (String.IsNullOrEmpty(TextEditCodigoUbicacion.Text))
+    End Function
 
     'Private Sub TextEditCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextEditCodigoArticulo.Validating
     '    If String.IsNullOrEmpty(TextEditCodigoArticulo.Text) Then

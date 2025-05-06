@@ -25,7 +25,7 @@ Partial Class frmAsignar
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAsignar))
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
-        btnConsultaArtUbiacion = New Button()
+        ButtonConsultarUbicacion = New Button()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
         BotonConfirmacionDeUbicacion = New DevExpress.XtraEditors.SimpleButton()
         TextBoxCodigoUbicacion = New TextBox()
@@ -36,7 +36,7 @@ Partial Class frmAsignar
         btnNuevaUbicacion = New DevExpress.XtraEditors.SimpleButton()
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         TextBoxStockArticulo = New TextBox()
-        btnArticulo = New DevExpress.XtraEditors.SimpleButton()
+        ButtonConfirmacionArticulo = New DevExpress.XtraEditors.SimpleButton()
         TextBoxCodigoArticulo = New TextBox()
         LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
         GridControlAsignacionArticulos = New DevExpress.XtraGrid.GridControl()
@@ -78,7 +78,7 @@ Partial Class frmAsignar
         GroupControlUbicacion.AppearanceCaption.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseBorderColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
-        GroupControlUbicacion.Controls.Add(btnConsultaArtUbiacion)
+        GroupControlUbicacion.Controls.Add(ButtonConsultarUbicacion)
         GroupControlUbicacion.Controls.Add(LabelNombreAlmacen)
         GroupControlUbicacion.Controls.Add(BotonConfirmacionDeUbicacion)
         GroupControlUbicacion.Controls.Add(TextBoxCodigoUbicacion)
@@ -90,16 +90,16 @@ Partial Class frmAsignar
         GroupControlUbicacion.TabIndex = 0
         GroupControlUbicacion.Text = "Leer Ubicación"
         ' 
-        ' btnConsultaArtUbiacion
+        ' ButtonConsultarUbicacion
         ' 
-        btnConsultaArtUbiacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnConsultaArtUbiacion.BackgroundImage = CType(resources.GetObject("btnConsultaArtUbiacion.BackgroundImage"), Image)
-        btnConsultaArtUbiacion.BackgroundImageLayout = ImageLayout.Stretch
-        btnConsultaArtUbiacion.Location = New Point(470, 59)
-        btnConsultaArtUbiacion.Name = "btnConsultaArtUbiacion"
-        btnConsultaArtUbiacion.Size = New Size(34, 36)
-        btnConsultaArtUbiacion.TabIndex = 8
-        btnConsultaArtUbiacion.UseVisualStyleBackColor = True
+        ButtonConsultarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonConsultarUbicacion.BackgroundImage = CType(resources.GetObject("ButtonConsultarUbicacion.BackgroundImage"), Image)
+        ButtonConsultarUbicacion.BackgroundImageLayout = ImageLayout.Stretch
+        ButtonConsultarUbicacion.Location = New Point(470, 59)
+        ButtonConsultarUbicacion.Name = "ButtonConsultarUbicacion"
+        ButtonConsultarUbicacion.Size = New Size(34, 36)
+        ButtonConsultarUbicacion.TabIndex = 8
+        ButtonConsultarUbicacion.UseVisualStyleBackColor = True
         ' 
         ' LabelNombreAlmacen
         ' 
@@ -121,7 +121,7 @@ Partial Class frmAsignar
         ' BotonConfirmacionDeUbicacion
         ' 
         BotonConfirmacionDeUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        BotonConfirmacionDeUbicacion.ImageOptions.Image = CType(resources.GetObject("btnUbicacion.ImageOptions.Image"), Image)
+        BotonConfirmacionDeUbicacion.ImageOptions.Image = CType(resources.GetObject("BotonConfirmacionDeUbicacion.ImageOptions.Image"), Image)
         BotonConfirmacionDeUbicacion.Location = New Point(517, 30)
         BotonConfirmacionDeUbicacion.Margin = New Padding(4, 3, 4, 3)
         BotonConfirmacionDeUbicacion.Name = "BotonConfirmacionDeUbicacion"
@@ -167,7 +167,7 @@ Partial Class frmAsignar
         GroupControlArticulos.Controls.Add(btnNuevaUbicacion)
         GroupControlArticulos.Controls.Add(LabelControl1)
         GroupControlArticulos.Controls.Add(TextBoxStockArticulo)
-        GroupControlArticulos.Controls.Add(btnArticulo)
+        GroupControlArticulos.Controls.Add(ButtonConfirmacionArticulo)
         GroupControlArticulos.Controls.Add(TextBoxCodigoArticulo)
         GroupControlArticulos.Controls.Add(LabelNombreArticulo)
         GroupControlArticulos.Location = New Point(9, 162)
@@ -176,6 +176,7 @@ Partial Class frmAsignar
         GroupControlArticulos.Size = New Size(578, 136)
         GroupControlArticulos.TabIndex = 1
         GroupControlArticulos.Text = "Leer Artículos"
+        GroupControlArticulos.Visible = False
         ' 
         ' lblPorPeso
         ' 
@@ -235,15 +236,15 @@ Partial Class frmAsignar
         TextBoxStockArticulo.TabIndex = 2
         TextBoxStockArticulo.TextAlign = HorizontalAlignment.Right
         ' 
-        ' btnArticulo
+        ' ButtonConfirmacionArticulo
         ' 
-        btnArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnArticulo.ImageOptions.Image = CType(resources.GetObject("btnArticulo.ImageOptions.Image"), Image)
-        btnArticulo.Location = New Point(517, 66)
-        btnArticulo.Margin = New Padding(4, 3, 4, 3)
-        btnArticulo.Name = "btnArticulo"
-        btnArticulo.Size = New Size(55, 50)
-        btnArticulo.TabIndex = 3
+        ButtonConfirmacionArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonConfirmacionArticulo.ImageOptions.Image = CType(resources.GetObject("btnArticulo.ImageOptions.Image"), Image)
+        ButtonConfirmacionArticulo.Location = New Point(517, 66)
+        ButtonConfirmacionArticulo.Margin = New Padding(4, 3, 4, 3)
+        ButtonConfirmacionArticulo.Name = "ButtonConfirmacionArticulo"
+        ButtonConfirmacionArticulo.Size = New Size(55, 50)
+        ButtonConfirmacionArticulo.TabIndex = 3
         ' 
         ' TextBoxCodigoArticulo
         ' 
@@ -364,7 +365,7 @@ Partial Class frmAsignar
     Friend WithEvents TextBoxCodigoUbicacion As TextBox
     Friend WithEvents LabelNombreUbicacion As DevExpress.XtraEditors.LabelControl
     Friend WithEvents GroupControlArticulos As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents btnArticulo As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents ButtonConfirmacionArticulo As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents TextBoxCodigoArticulo As TextBox
     Friend WithEvents LabelNombreArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelControl1 As DevExpress.XtraEditors.LabelControl
@@ -376,7 +377,7 @@ Partial Class frmAsignar
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents btnConsultaArtUbiacion As Button
+    Friend WithEvents ButtonConsultarUbicacion As Button
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents lblPorPeso As Label
 End Class

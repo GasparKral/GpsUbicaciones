@@ -119,7 +119,7 @@
 
     Class Insert
         Public Shared Function InsertarNuevoLoteDeArticuloEnStock() As String
-            Return "INSERT INTO StockLotes (Almacen, Lote, Articulo, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, 0, 0, 0, 0)"
+            Return "INSERT INTO StockLotes (Almacen, Lote, Articulo, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, ?, 0, 0, 0)"
         End Function
 
         Public Shared Function InsertarMovimientoVentaEnPDA() As String

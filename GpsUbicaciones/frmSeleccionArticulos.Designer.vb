@@ -29,7 +29,7 @@ Partial Class frmSeleccionArticulos
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
         LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
-        btnUbicacion = New DevExpress.XtraEditors.SimpleButton()
+        ButtonConfirmacionLectura = New DevExpress.XtraEditors.SimpleButton()
         TextBoxCantidadSeleccionada = New TextBox()
         TextBoxCodigoUbicacion = New TextBox()
         TextBoxCodigoArticulo = New TextBox()
@@ -88,7 +88,7 @@ Partial Class frmSeleccionArticulos
         GroupControlUbicacion.Controls.Add(LabelControl1)
         GroupControlUbicacion.Controls.Add(LabelNombreAlmacen)
         GroupControlUbicacion.Controls.Add(LabelStockArticulo)
-        GroupControlUbicacion.Controls.Add(btnUbicacion)
+        GroupControlUbicacion.Controls.Add(ButtonConfirmacionLectura)
         GroupControlUbicacion.Controls.Add(TextBoxCantidadSeleccionada)
         GroupControlUbicacion.Controls.Add(TextBoxCodigoUbicacion)
         GroupControlUbicacion.Controls.Add(TextBoxCodigoArticulo)
@@ -162,15 +162,15 @@ Partial Class frmSeleccionArticulos
         LabelStockArticulo.TabIndex = 8
         LabelStockArticulo.Text = "Stock"
         ' 
-        ' btnUbicacion
+        ' ButtonConfirmacionLectura
         ' 
-        btnUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnUbicacion.ImageOptions.Image = CType(resources.GetObject("btnUbicacion.ImageOptions.Image"), Image)
-        btnUbicacion.Location = New Point(511, 95)
-        btnUbicacion.Margin = New Padding(4, 3, 4, 3)
-        btnUbicacion.Name = "btnUbicacion"
-        btnUbicacion.Size = New Size(55, 50)
-        btnUbicacion.TabIndex = 6
+        ButtonConfirmacionLectura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonConfirmacionLectura.ImageOptions.Image = CType(resources.GetObject("btnUbicacion.ImageOptions.Image"), Image)
+        ButtonConfirmacionLectura.Location = New Point(511, 95)
+        ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
+        ButtonConfirmacionLectura.Name = "ButtonConfirmacionLectura"
+        ButtonConfirmacionLectura.Size = New Size(55, 50)
+        ButtonConfirmacionLectura.TabIndex = 6
         ' 
         ' TextBoxCantidadSeleccionada
         ' 
@@ -432,7 +432,7 @@ Partial Class frmSeleccionArticulos
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GroupControlUbicacion As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents btnUbicacion As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents ButtonConfirmacionLectura As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents TextBoxCodigoUbicacion As TextBox
     Friend WithEvents LabelNombreUbicacion As DevExpress.XtraEditors.LabelControl
     Friend WithEvents TextBoxCodigoArticulo As TextBox
