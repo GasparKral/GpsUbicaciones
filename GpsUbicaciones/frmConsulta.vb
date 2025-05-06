@@ -9,7 +9,7 @@
 
     Private Sub frmConsulta_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Consulta = "" Then
-            MsgBox("No se ha definido la consulta a ejecutar", MsgBoxStyle.Critical, "Error")
+            MessageFactory.ShowMessage(MessageType.Error, UndefinedQueryMessage)
             Me.Close()
         End If
 
@@ -18,9 +18,9 @@
         Dim dt = Operacion.ExecuteTable(Consulta)
         ' comprobar si hay datos
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Grid.DataSource = dt
+            GridControlConsultaArticulos.DataSource = dt
         Else
-            MsgBox("No se han encontrado datos para la consulta proporcionada.", MsgBoxStyle.Information, "Sin datos")
+            MessageFactory.ShowMessage(MessageType.Information, NoDataFoundMessage)
             Me.Close()
         End If
 

@@ -24,13 +24,13 @@ Partial Class frmConsulta
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsulta))
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
-        Grid = New DevExpress.XtraGrid.GridControl()
-        GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        GridControlConsultaArticulos = New DevExpress.XtraGrid.GridControl()
+        GridViewConsultaArticulos = New DevExpress.XtraGrid.Views.Grid.GridView()
         PanelTitulo = New Panel()
         LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         lblTitulo = New Label()
-        CType(Grid, ComponentModel.ISupportInitialize).BeginInit()
-        CType(GridView1, ComponentModel.ISupportInitialize).BeginInit()
+        CType(GridControlConsultaArticulos, ComponentModel.ISupportInitialize).BeginInit()
+        CType(GridViewConsultaArticulos, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
         SuspendLayout()
         ' 
@@ -49,28 +49,28 @@ Partial Class frmConsulta
         btnSalir.TabIndex = 3
         btnSalir.Text = "Salir"
         ' 
-        ' Grid
+        ' GridControlConsultaArticulos
         ' 
-        Grid.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        Grid.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        Grid.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Grid.Location = New Point(10, 53)
-        Grid.MainView = GridView1
-        Grid.Margin = New Padding(3, 2, 3, 2)
-        Grid.Name = "Grid"
-        Grid.Size = New Size(579, 818)
-        Grid.TabIndex = 7
-        Grid.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridView1})
+        GridControlConsultaArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        GridControlConsultaArticulos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
+        GridControlConsultaArticulos.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridControlConsultaArticulos.Location = New Point(10, 53)
+        GridControlConsultaArticulos.MainView = GridViewConsultaArticulos
+        GridControlConsultaArticulos.Margin = New Padding(3, 2, 3, 2)
+        GridControlConsultaArticulos.Name = "GridControlConsultaArticulos"
+        GridControlConsultaArticulos.Size = New Size(579, 818)
+        GridControlConsultaArticulos.TabIndex = 7
+        GridControlConsultaArticulos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewConsultaArticulos})
         ' 
-        ' GridView1
+        ' GridViewConsultaArticulos
         ' 
-        GridView1.DetailHeight = 262
-        GridView1.GridControl = Grid
-        GridView1.Name = "GridView1"
-        GridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
-        GridView1.OptionsBehavior.Editable = False
-        GridView1.OptionsEditForm.PopupEditFormWidth = 700
-        GridView1.OptionsView.ShowFooter = True
+        GridViewConsultaArticulos.DetailHeight = 262
+        GridViewConsultaArticulos.GridControl = GridControlConsultaArticulos
+        GridViewConsultaArticulos.Name = "GridViewConsultaArticulos"
+        GridViewConsultaArticulos.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
+        GridViewConsultaArticulos.OptionsBehavior.Editable = False
+        GridViewConsultaArticulos.OptionsEditForm.PopupEditFormWidth = 700
+        GridViewConsultaArticulos.OptionsView.ShowFooter = True
         ' 
         ' PanelTitulo
         ' 
@@ -112,7 +112,7 @@ Partial Class frmConsulta
         ClientSize = New Size(600, 950)
         ControlBox = False
         Controls.Add(PanelTitulo)
-        Controls.Add(Grid)
+        Controls.Add(GridControlConsultaArticulos)
         Controls.Add(btnSalir)
         FormBorderStyle = FormBorderStyle.None
         KeyPreview = True
@@ -121,15 +121,15 @@ Partial Class frmConsulta
         MinimumSize = New Size(600, 900)
         Name = "frmConsulta"
         StartPosition = FormStartPosition.Manual
-        CType(Grid, ComponentModel.ISupportInitialize).EndInit()
-        CType(GridView1, ComponentModel.ISupportInitialize).EndInit()
+        CType(GridControlConsultaArticulos, ComponentModel.ISupportInitialize).EndInit()
+        CType(GridViewConsultaArticulos, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents Grid As DevExpress.XtraGrid.GridControl
-    Friend WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridControlConsultaArticulos As DevExpress.XtraGrid.GridControl
+    Friend WithEvents GridViewConsultaArticulos As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents lblTitulo As Label
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl

@@ -5,26 +5,26 @@
     End Sub
 
     Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
-        If txtUbicacion.Text = "" Then
-            MsgBox("Debe ingresar una ubicación", MsgBoxStyle.Information, "Aviso")
-            txtUbicacion.Focus()
+        If TextBoxCodigoUbicacion.Text = "" Then
+            MessageFactory.ShowMessage(MessageType.Information, MissingLocationCodeMessage)
+            TextBoxCodigoUbicacion.Focus()
             Exit Sub
         End If
 
         Dim Continuar As Boolean = False
         Try
-            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery("SELECT Ubicaciones.Almacen,Ubicaciones.Nombre AS UbicacionNombre,Almacenes.Nombre AS AlmacenNombre FROM Ubicaciones LEFT JOIN Almacenes ON Left(Ubicaciones.Codigo,2) = Almacenes.Codigo WHERE Ubicaciones.Codigo= ?", txtUbicacion.Text), 0, 0)
+            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery("SELECT Ubicaciones.Almacen,Ubicaciones.Nombre AS UbicacionNombre,Almacenes.Nombre AS AlmacenNombre FROM Ubicaciones LEFT JOIN Almacenes ON Left(Ubicaciones.Codigo,2) = Almacenes.Codigo WHERE Ubicaciones.Codigo= ?", TextBoxCodigoUbicacion.Text), 0, 0)
 
-            lblUbicacionNombre.Text = dsDatos("UbicacionNombre")
-            lblAlmacen.Text = dsDatos("AlmacenNombre")
+            LabelNombreUbicacion.Text = dsDatos("UbicacionNombre")
+            LabelNombreAlmacen.Text = dsDatos("AlmacenNombre")
             Continuar = True
         Catch ex As InvalidOperationException
-            txtUbicacion.SelectAll()
-            txtUbicacion.Focus()
-            MsgBox("NO EXISTE UBICACION CON ESTE CODIGO: " & txtUbicacion.Text)
+            MessageFactory.ShowMessage(MessageType.Information, ex.Message)
+            TextBoxCodigoUbicacion.SelectAll()
+            TextBoxCodigoUbicacion.Focus()
         End Try
         If Not Continuar Then
-            txtUbicacion.Focus()
+            TextBoxCodigoUbicacion.Focus()
             Exit Sub
             Call MostrarFrames(False)
         End If
@@ -34,55 +34,54 @@
         GroupControlUbicacion.Enabled = EsUbicacion
         If EsUbicacion Then
             GroupControlArticulos.Visible = False
-
-            Call LimpiarUbicacion()
+            LimpiarUbicacion()
         Else
             GroupControlArticulos.Visible = True
-            Call LimpiarArticulo()
+            LimpiarArticulo()
         End If
     End Sub
 
     Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
-        lblUbicacionNombre.Text = ""
-        lblAlmacen.Text = ""
-        txtUbicacion.Text = ""
+        LabelNombreUbicacion.Text = ""
+        LabelNombreAlmacen.Text = ""
+        TextBoxCodigoUbicacion.Text = ""
         If ActivarFoco Then
-            txtUbicacion.Focus()
+            TextBoxCodigoUbicacion.Focus()
         End If
     End Sub
 
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
-        lblArticuloNombre.Text = ""
-        lblStock.Text = ""
-        txtArticulo.Text = ""
-        txtNuevoStock.Text = ""
+        LabelNombreArticulo.Text = ""
+        LabelStockArticulo.Text = ""
+        TextBoxCodigoArticulo.Text = ""
+        TextBoxCantidadSeleccionada.Text = ""
         If ActivarFoco Then
-            txtArticulo.Focus()
+            TextBoxCodigoArticulo.Focus()
         End If
     End Sub
 
     Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
-        If txtArticulo.Text = "" Then
-            MsgBox("Debe ingresar un artículo", MsgBoxStyle.Information, "Aviso")
-            txtArticulo.Focus()
+        If TextBoxCodigoArticulo.Text = "" Then
+            MessageFactory.ShowMessage(MessageType.Information, MissingArticleCodeMessage)
+            TextBoxCodigoArticulo.Focus()
             Exit Sub
         End If
-        If Not IsNumeric(txtNuevoStock.Text) Then
-            MsgBox("Debe ingresar un valor numérico", MsgBoxStyle.Information, "Aviso")
-            txtNuevoStock.Focus()
+        If Not IsNumeric(TextBoxCantidadSeleccionada.Text) Then
+            MessageFactory.ShowMessage(MessageType.Warning, NumericValueRequiredMessage)
+            TextBoxCantidadSeleccionada.Focus()
             Exit Sub
         End If
 
         ' Grabar la asignación
-        Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, txtArticulo.Text, txtUbicacion.Text, txtNuevoStock.Text)
+        Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text, TextBoxCantidadSeleccionada.Text)
 
         ' Añade una fila al grid
-        Dim dt As DataTable = CType(Grid.DataSource, DataTable)
+        Dim dt As DataTable = CType(GridControlArticulosSeleccionados.DataSource, DataTable)
         Dim row As DataRow = dt.NewRow()
-        row("Articulo") = txtArticulo.Text
-        row("Nombre") = lblArticuloNombre.Text
-        row("Ubicacion") = txtUbicacion.Text
-        row("Uds") = CInt(txtNuevoStock.Text)
+        row("Articulo") = TextBoxCodigoArticulo.Text
+        row("Nombre") = LabelNombreArticulo.Text
+        row("Ubicacion") = TextBoxCodigoUbicacion.Text
+        row("Uds") = CInt(TextBoxCantidadSeleccionada.Text)
         dt.Rows.Add(row)
 
         LimpiarUbicacion()
@@ -98,26 +97,26 @@
         dt.Columns.Add("Uds", GetType(Single))
 
         ' Asignar el DataTable al Grid
-        Grid.DataSource = dt
+        GridControlArticulosSeleccionados.DataSource = dt
 
         Call LimpiarUbicacion()
     End Sub
 
-    Private Sub txtArticulo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtArticulo.Validating
-        If txtArticulo.Text = "" Then
+    Private Sub txtArticulo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
+        If TextBoxCodigoArticulo.Text = "" Then
             e.Cancel = True
             Exit Sub
         End If
         Dim Continuar As Boolean = False
 
         Try
-            Dim dsDatos = Operacion.ExecuteQuery("SELECT NombreComercial,PorPeso FROM Articulos WHERE Codigo= ?", txtArticulo.Text)
+            Dim dsDatos = Operacion.ExecuteQuery("SELECT NombreComercial,PorPeso FROM Articulos WHERE Codigo= ?", TextBoxCodigoArticulo.Text)
 
             If dsDatos.Tables(0).Rows.Count = 0 Then
-                Call MsgBox("NO EXISTE ARTICULO CON EL CODIGO: " & txtArticulo.Text)
+                Call MsgBox("NO EXISTE ARTICULO CON EL CODIGO: " & TextBoxCodigoArticulo.Text)
                 e.Cancel = True
             Else
-                lblArticuloNombre.Text = dsDatos.Tables(0).Rows(0).Item("NombreComercial")
+                LabelNombreArticulo.Text = dsDatos.Tables(0).Rows(0).Item("NombreComercial")
                 If dsDatos.Tables(0).Rows(0).Item("PorPeso") = 1 Then
                     lblPorPeso.Visible = True
                     'cambiar formato txtnuevostock para que no acepte decimales
@@ -125,17 +124,17 @@
                     lblPorPeso.Visible = False
                 End If
 
-                dsDatos = Operacion.ExecuteQuery("SELECT Uds_Ini FROM StockLotes WHERE Articulo = ? AND Lote = ?", txtArticulo.Text, txtUbicacion.Text)
+                dsDatos = Operacion.ExecuteQuery("SELECT Uds_Ini FROM StockLotes WHERE Articulo = ? AND Lote = ?", TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
 
                 If dsDatos.Tables(0).Rows.Count = 0 Then
-                    lblStock.Text = "0"
+                    LabelStockArticulo.Text = "0"
                 Else
-                    lblStock.Text = dsDatos.Tables(0).Rows(0).Item("Uds_Ini")
+                    LabelStockArticulo.Text = dsDatos.Tables(0).Rows(0).Item("Uds_Ini")
                 End If
             End If
         Catch ex As Exception
+            MessageFactory.ShowMessage(MessageType.Error, String.Format(UnexpectedErrorMessage, ex.Message))
             e.Cancel = True
-            MsgBox(ex.Message)
         End Try
 
     End Sub
@@ -147,7 +146,4 @@
         End If
     End Sub
 
-    Private Sub txtUbicacion_TextChanged(sender As Object, e As EventArgs) Handles txtUbicacion.TextChanged
-
-    End Sub
 End Class

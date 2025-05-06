@@ -24,35 +24,35 @@ Partial Class frmTransladoProductos
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTransladoProductos))
         GroupControl1 = New DevExpress.XtraEditors.GroupControl()
-        gvDatos = New DevExpress.XtraGrid.Views.Grid.GridView()
-        grdProductos = New DevExpress.XtraGrid.GridControl()
+        GridViewArticulosParaTraslado = New DevExpress.XtraGrid.Views.Grid.GridView()
+        GridControlArticulosParaTraslado = New DevExpress.XtraGrid.GridControl()
         Label1 = New Label()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
         btnAgregarArticulo = New DevExpress.XtraEditors.SimpleButton()
-        nupUnidades = New DevExpress.XtraEditors.SpinEdit()
+        SpinEditCantidadSeleccionada = New DevExpress.XtraEditors.SpinEdit()
         Label2 = New Label()
-        lblStock = New DevExpress.XtraEditors.LabelControl()
+        LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
         Label3 = New Label()
-        lblNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
+        LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         lblUbicacion = New Label()
-        teCodigoUbicacion = New DevExpress.XtraEditors.TextEdit()
+        TextEditCodigoUbicacion = New DevExpress.XtraEditors.TextEdit()
         lblArticulo = New Label()
-        lblNombreArticulo = New DevExpress.XtraEditors.LabelControl()
-        teCodigoArticulo = New DevExpress.XtraEditors.TextEdit()
+        LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
+        TextEditCodigoArticulo = New DevExpress.XtraEditors.TextEdit()
         btnConsultaArtUbiacion = New Button()
         btnUbicacion = New DevExpress.XtraEditors.SimpleButton()
         PanelTitulo = New Panel()
         LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         Label4 = New Label()
         CType(GroupControl1, ComponentModel.ISupportInitialize).BeginInit()
-        CType(gvDatos, ComponentModel.ISupportInitialize).BeginInit()
-        CType(grdProductos, ComponentModel.ISupportInitialize).BeginInit()
+        CType(GridViewArticulosParaTraslado, ComponentModel.ISupportInitialize).BeginInit()
+        CType(GridControlArticulosParaTraslado, ComponentModel.ISupportInitialize).BeginInit()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
-        CType(nupUnidades.Properties, ComponentModel.ISupportInitialize).BeginInit()
-        CType(teCodigoUbicacion.Properties, ComponentModel.ISupportInitialize).BeginInit()
-        CType(teCodigoArticulo.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(TextEditCodigoUbicacion.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(TextEditCodigoArticulo.Properties, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
         SuspendLayout()
         ' 
@@ -78,22 +78,22 @@ Partial Class frmTransladoProductos
         GroupControl1.TabIndex = 12
         GroupControl1.Text = "ORIGEN"
         ' 
-        ' gvDatos
+        ' GridViewArticulosParaTraslado
         ' 
-        gvDatos.GridControl = grdProductos
-        gvDatos.Name = "gvDatos"
+        GridViewArticulosParaTraslado.GridControl = GridControlArticulosParaTraslado
+        GridViewArticulosParaTraslado.Name = "GridViewArticulosParaTraslado"
         ' 
-        ' grdProductos
+        ' GridControlArticulosParaTraslado
         ' 
-        grdProductos.BackgroundImageLayout = ImageLayout.None
-        grdProductos.EmbeddedNavigator.Margin = New Padding(4, 3, 4, 3)
-        grdProductos.Location = New Point(10, 310)
-        grdProductos.MainView = gvDatos
-        grdProductos.MinimumSize = New Size(0, 350)
-        grdProductos.Name = "grdProductos"
-        grdProductos.Size = New Size(580, 350)
-        grdProductos.TabIndex = 13
-        grdProductos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {gvDatos})
+        GridControlArticulosParaTraslado.BackgroundImageLayout = ImageLayout.None
+        GridControlArticulosParaTraslado.EmbeddedNavigator.Margin = New Padding(4, 3, 4, 3)
+        GridControlArticulosParaTraslado.Location = New Point(10, 310)
+        GridControlArticulosParaTraslado.MainView = GridViewArticulosParaTraslado
+        GridControlArticulosParaTraslado.MinimumSize = New Size(0, 350)
+        GridControlArticulosParaTraslado.Name = "GridControlArticulosParaTraslado"
+        GridControlArticulosParaTraslado.Size = New Size(580, 350)
+        GridControlArticulosParaTraslado.TabIndex = 13
+        GridControlArticulosParaTraslado.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosParaTraslado})
         ' 
         ' Label1
         ' 
@@ -130,16 +130,16 @@ Partial Class frmTransladoProductos
         GroupControlUbicacion.AppearanceCaption.Options.UseBorderColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
         GroupControlUbicacion.Controls.Add(btnAgregarArticulo)
-        GroupControlUbicacion.Controls.Add(nupUnidades)
+        GroupControlUbicacion.Controls.Add(SpinEditCantidadSeleccionada)
         GroupControlUbicacion.Controls.Add(Label2)
-        GroupControlUbicacion.Controls.Add(lblStock)
+        GroupControlUbicacion.Controls.Add(LabelStockArticulo)
         GroupControlUbicacion.Controls.Add(Label3)
-        GroupControlUbicacion.Controls.Add(lblNombreUbicacion)
+        GroupControlUbicacion.Controls.Add(LabelNombreUbicacion)
         GroupControlUbicacion.Controls.Add(lblUbicacion)
-        GroupControlUbicacion.Controls.Add(teCodigoUbicacion)
+        GroupControlUbicacion.Controls.Add(TextEditCodigoUbicacion)
         GroupControlUbicacion.Controls.Add(lblArticulo)
-        GroupControlUbicacion.Controls.Add(lblNombreArticulo)
-        GroupControlUbicacion.Controls.Add(teCodigoArticulo)
+        GroupControlUbicacion.Controls.Add(LabelNombreArticulo)
+        GroupControlUbicacion.Controls.Add(TextEditCodigoArticulo)
         GroupControlUbicacion.Controls.Add(btnConsultaArtUbiacion)
         GroupControlUbicacion.Controls.Add(btnUbicacion)
         GroupControlUbicacion.Location = New Point(10, 62)
@@ -162,18 +162,18 @@ Partial Class frmTransladoProductos
         btnAgregarArticulo.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
         btnAgregarArticulo.ToolTipTitle = "Confirma Ubicación"
         ' 
-        ' nupUnidades
+        ' SpinEditCantidadSeleccionada
         ' 
-        nupUnidades.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        nupUnidades.Location = New Point(152, 186)
-        nupUnidades.Name = "nupUnidades"
-        nupUnidades.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        nupUnidades.Properties.Appearance.Options.UseFont = True
-        nupUnidades.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        nupUnidades.Properties.IsFloatValue = False
-        nupUnidades.Properties.MaskSettings.Set("mask", "N00")
-        nupUnidades.Size = New Size(108, 24)
-        nupUnidades.TabIndex = 25
+        SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        SpinEditCantidadSeleccionada.Location = New Point(152, 186)
+        SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
+        SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
+        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
+        SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
+        SpinEditCantidadSeleccionada.Size = New Size(108, 24)
+        SpinEditCantidadSeleccionada.TabIndex = 25
         ' 
         ' Label2
         ' 
@@ -186,24 +186,24 @@ Partial Class frmTransladoProductos
         Label2.TabIndex = 24
         Label2.Text = "CANTIDAD"
         ' 
-        ' lblStock
+        ' LabelStockArticulo
         ' 
-        lblStock.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        lblStock.Appearance.BackColor = Color.RoyalBlue
-        lblStock.Appearance.Font = New Font("Tahoma", 15.75F)
-        lblStock.Appearance.ForeColor = Color.White
-        lblStock.Appearance.Options.UseBackColor = True
-        lblStock.Appearance.Options.UseFont = True
-        lblStock.Appearance.Options.UseForeColor = True
-        lblStock.Appearance.Options.UseTextOptions = True
-        lblStock.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-        lblStock.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        lblStock.Location = New Point(396, 108)
-        lblStock.Margin = New Padding(4, 3, 4, 3)
-        lblStock.Name = "lblStock"
-        lblStock.Size = New Size(158, 28)
-        lblStock.TabIndex = 23
-        lblStock.Text = "Stock"
+        LabelStockArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        LabelStockArticulo.Appearance.BackColor = Color.RoyalBlue
+        LabelStockArticulo.Appearance.Font = New Font("Tahoma", 15.75F)
+        LabelStockArticulo.Appearance.ForeColor = Color.White
+        LabelStockArticulo.Appearance.Options.UseBackColor = True
+        LabelStockArticulo.Appearance.Options.UseFont = True
+        LabelStockArticulo.Appearance.Options.UseForeColor = True
+        LabelStockArticulo.Appearance.Options.UseTextOptions = True
+        LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelStockArticulo.Location = New Point(396, 108)
+        LabelStockArticulo.Margin = New Padding(4, 3, 4, 3)
+        LabelStockArticulo.Name = "LabelStockArticulo"
+        LabelStockArticulo.Size = New Size(158, 28)
+        LabelStockArticulo.TabIndex = 23
+        LabelStockArticulo.Text = "Stock"
         ' 
         ' Label3
         ' 
@@ -216,22 +216,22 @@ Partial Class frmTransladoProductos
         Label3.TabIndex = 22
         Label3.Text = "STOCK"
         ' 
-        ' lblNombreUbicacion
+        ' LabelNombreUbicacion
         ' 
-        lblNombreUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        lblNombreUbicacion.Appearance.BackColor = Color.RoyalBlue
-        lblNombreUbicacion.Appearance.Font = New Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblNombreUbicacion.Appearance.ForeColor = Color.White
-        lblNombreUbicacion.Appearance.Options.UseBackColor = True
-        lblNombreUbicacion.Appearance.Options.UseFont = True
-        lblNombreUbicacion.Appearance.Options.UseForeColor = True
-        lblNombreUbicacion.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        lblNombreUbicacion.Location = New Point(26, 143)
-        lblNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
-        lblNombreUbicacion.Name = "lblNombreUbicacion"
-        lblNombreUbicacion.Size = New Size(529, 28)
-        lblNombreUbicacion.TabIndex = 21
-        lblNombreUbicacion.Text = "Nombre Ubicación"
+        LabelNombreUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        LabelNombreUbicacion.Appearance.BackColor = Color.RoyalBlue
+        LabelNombreUbicacion.Appearance.Font = New Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelNombreUbicacion.Appearance.ForeColor = Color.White
+        LabelNombreUbicacion.Appearance.Options.UseBackColor = True
+        LabelNombreUbicacion.Appearance.Options.UseFont = True
+        LabelNombreUbicacion.Appearance.Options.UseForeColor = True
+        LabelNombreUbicacion.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelNombreUbicacion.Location = New Point(26, 143)
+        LabelNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
+        LabelNombreUbicacion.Name = "LabelNombreUbicacion"
+        LabelNombreUbicacion.Size = New Size(529, 28)
+        LabelNombreUbicacion.TabIndex = 21
+        LabelNombreUbicacion.Text = "Nombre Ubicación"
         ' 
         ' lblUbicacion
         ' 
@@ -244,17 +244,17 @@ Partial Class frmTransladoProductos
         lblUbicacion.TabIndex = 20
         lblUbicacion.Text = "UBICACIÓN"
         ' 
-        ' teCodigoUbicacion
+        ' TextEditCodigoUbicacion
         ' 
-        teCodigoUbicacion.Location = New Point(154, 109)
-        teCodigoUbicacion.Margin = New Padding(6, 3, 3, 6)
-        teCodigoUbicacion.MinimumSize = New Size(0, 25)
-        teCodigoUbicacion.Name = "teCodigoUbicacion"
-        teCodigoUbicacion.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        teCodigoUbicacion.Properties.Appearance.Options.UseFont = True
-        teCodigoUbicacion.Properties.MaxLength = 13
-        teCodigoUbicacion.Size = New Size(156, 25)
-        teCodigoUbicacion.TabIndex = 19
+        TextEditCodigoUbicacion.Location = New Point(154, 109)
+        TextEditCodigoUbicacion.Margin = New Padding(6, 3, 3, 6)
+        TextEditCodigoUbicacion.MinimumSize = New Size(0, 25)
+        TextEditCodigoUbicacion.Name = "TextEditCodigoUbicacion"
+        TextEditCodigoUbicacion.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        TextEditCodigoUbicacion.Properties.Appearance.Options.UseFont = True
+        TextEditCodigoUbicacion.Properties.MaxLength = 13
+        TextEditCodigoUbicacion.Size = New Size(156, 25)
+        TextEditCodigoUbicacion.TabIndex = 19
         ' 
         ' lblArticulo
         ' 
@@ -267,34 +267,34 @@ Partial Class frmTransladoProductos
         lblArticulo.TabIndex = 18
         lblArticulo.Text = "ARTÍCULO"
         ' 
-        ' lblNombreArticulo
+        ' LabelNombreArticulo
         ' 
-        lblNombreArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        lblNombreArticulo.Appearance.BackColor = Color.RoyalBlue
-        lblNombreArticulo.Appearance.Font = New Font("Tahoma", 15.75F)
-        lblNombreArticulo.Appearance.ForeColor = Color.White
-        lblNombreArticulo.Appearance.Options.UseBackColor = True
-        lblNombreArticulo.Appearance.Options.UseFont = True
-        lblNombreArticulo.Appearance.Options.UseForeColor = True
-        lblNombreArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        lblNombreArticulo.Location = New Point(25, 67)
-        lblNombreArticulo.Margin = New Padding(4, 3, 4, 3)
-        lblNombreArticulo.Name = "lblNombreArticulo"
-        lblNombreArticulo.Size = New Size(529, 28)
-        lblNombreArticulo.TabIndex = 17
-        lblNombreArticulo.Text = "Nombre Artículo"
+        LabelNombreArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        LabelNombreArticulo.Appearance.BackColor = Color.RoyalBlue
+        LabelNombreArticulo.Appearance.Font = New Font("Tahoma", 15.75F)
+        LabelNombreArticulo.Appearance.ForeColor = Color.White
+        LabelNombreArticulo.Appearance.Options.UseBackColor = True
+        LabelNombreArticulo.Appearance.Options.UseFont = True
+        LabelNombreArticulo.Appearance.Options.UseForeColor = True
+        LabelNombreArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelNombreArticulo.Location = New Point(25, 67)
+        LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
+        LabelNombreArticulo.Name = "LabelNombreArticulo"
+        LabelNombreArticulo.Size = New Size(529, 28)
+        LabelNombreArticulo.TabIndex = 17
+        LabelNombreArticulo.Text = "Nombre Artículo"
         ' 
-        ' teCodigoArticulo
+        ' TextEditCodigoArticulo
         ' 
-        teCodigoArticulo.Location = New Point(141, 33)
-        teCodigoArticulo.Margin = New Padding(6, 3, 3, 6)
-        teCodigoArticulo.MinimumSize = New Size(0, 25)
-        teCodigoArticulo.Name = "teCodigoArticulo"
-        teCodigoArticulo.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        teCodigoArticulo.Properties.Appearance.Options.UseFont = True
-        teCodigoArticulo.Properties.MaxLength = 13
-        teCodigoArticulo.Size = New Size(156, 25)
-        teCodigoArticulo.TabIndex = 12
+        TextEditCodigoArticulo.Location = New Point(141, 33)
+        TextEditCodigoArticulo.Margin = New Padding(6, 3, 3, 6)
+        TextEditCodigoArticulo.MinimumSize = New Size(0, 25)
+        TextEditCodigoArticulo.Name = "TextEditCodigoArticulo"
+        TextEditCodigoArticulo.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        TextEditCodigoArticulo.Properties.Appearance.Options.UseFont = True
+        TextEditCodigoArticulo.Properties.MaxLength = 13
+        TextEditCodigoArticulo.Size = New Size(156, 25)
+        TextEditCodigoArticulo.TabIndex = 12
         ' 
         ' btnConsultaArtUbiacion
         ' 
@@ -369,7 +369,7 @@ Partial Class frmTransladoProductos
         Controls.Add(GroupControlUbicacion)
         Controls.Add(btnSalir)
         Controls.Add(Label1)
-        Controls.Add(grdProductos)
+        Controls.Add(GridControlArticulosParaTraslado)
         Controls.Add(GroupControl1)
         FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.None
         FormBorderStyle = FormBorderStyle.None
@@ -380,14 +380,14 @@ Partial Class frmTransladoProductos
         StartPosition = FormStartPosition.Manual
         Text = "Translado Mercancía"
         CType(GroupControl1, ComponentModel.ISupportInitialize).EndInit()
-        CType(gvDatos, ComponentModel.ISupportInitialize).EndInit()
-        CType(grdProductos, ComponentModel.ISupportInitialize).EndInit()
+        CType(GridViewArticulosParaTraslado, ComponentModel.ISupportInitialize).EndInit()
+        CType(GridControlArticulosParaTraslado, ComponentModel.ISupportInitialize).EndInit()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).EndInit()
         GroupControlUbicacion.ResumeLayout(False)
         GroupControlUbicacion.PerformLayout()
-        CType(nupUnidades.Properties, ComponentModel.ISupportInitialize).EndInit()
-        CType(teCodigoUbicacion.Properties, ComponentModel.ISupportInitialize).EndInit()
-        CType(teCodigoArticulo.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(TextEditCodigoUbicacion.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(TextEditCodigoArticulo.Properties, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
         PanelTitulo.PerformLayout()
         ResumeLayout(False)
@@ -395,22 +395,22 @@ Partial Class frmTransladoProductos
     End Sub
     Friend WithEvents ddbArticulo As DevExpress.XtraEditors.DropDownButton
     Friend WithEvents GroupControl1 As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents gvDatos As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents grdProductos As DevExpress.XtraGrid.GridControl
+    Friend WithEvents GridViewArticulosParaTraslado As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridControlArticulosParaTraslado As DevExpress.XtraGrid.GridControl
     Friend WithEvents Label1 As Label
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GroupControlUbicacion As DevExpress.XtraEditors.GroupControl
     Friend WithEvents lblArticulo As Label
-    Friend WithEvents lblNombreArticulo As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents teCodigoArticulo As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents LabelNombreArticulo As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents TextEditCodigoArticulo As DevExpress.XtraEditors.TextEdit
     Friend WithEvents btnConsultaArtUbiacion As Button
     Friend WithEvents btnUbicacion As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents lblStock As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents LabelStockArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents Label3 As Label
-    Friend WithEvents lblNombreUbicacion As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents LabelNombreUbicacion As DevExpress.XtraEditors.LabelControl
     Friend WithEvents lblUbicacion As Label
-    Friend WithEvents teCodigoUbicacion As DevExpress.XtraEditors.TextEdit
-    Friend WithEvents nupUnidades As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents TextEditCodigoUbicacion As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
     Friend WithEvents Label2 As Label
     Friend WithEvents btnAgregarArticulo As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PanelTitulo As Panel
