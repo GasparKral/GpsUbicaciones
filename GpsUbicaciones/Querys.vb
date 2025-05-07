@@ -1,5 +1,20 @@
-﻿Module Querys
+﻿''' <summary>
+''' Módulo que contiene funciones y clases para gestionar consultas SQL y operaciones con datos.
+''' </summary>
+Module Querys
 
+    ''' <summary>
+    ''' Obtiene una fila específica de un DataSet.
+    ''' </summary>
+    ''' <param name="DataSet">El DataSet del que se obtendrá la fila.</param>
+    ''' <param name="indiceTabla">Índice de la tabla dentro del DataSet.</param>
+    ''' <param name="indiceFila">Índice de la fila dentro de la tabla.</param>
+    ''' <param name="mensajeErrorTabla">Mensaje personalizado para el error cuando el DataSet no contiene tablas.</param>
+    ''' <param name="mensajeErrorFila">Mensaje personalizado para el error cuando la tabla no contiene filas.</param>
+    ''' <returns>La fila solicitada como un objeto DataRow.</returns>
+    ''' <exception cref="ArgumentNullException">Se lanza cuando el DataSet es nulo.</exception>
+    ''' <exception cref="InvalidOperationException">Se lanza cuando el DataSet no contiene tablas o la tabla no contiene filas.</exception>
+    ''' <exception cref="ArgumentOutOfRangeException">Se lanza cuando el índice de tabla o fila está fuera de rango.</exception>
     Public Function ObtenerFila(
         DataSet As DataSet,
         indiceTabla As Integer,
@@ -33,11 +48,29 @@
         Return tabla.Rows(indiceFila)
     End Function
 
+    ''' <summary>
+    ''' Clase que contiene consultas SQL de selección.
+    ''' </summary>
     Class [Select]
+        ''' <summary>
+        ''' Obtiene una consulta SQL para verificar si existe un lote específico de un artículo.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Articulo - Código del artículo
+        ''' 2. Lote - Código del lote
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve un valor booleano (TRUE/FALSE) indicando si existe el lote del artículo.</returns>
         Public Shared Function VerificarExistenciaLoteDeArticulo() As String
             Return "SELECT COUNT(*) > 0 FROM StockLotes WHERE Articulo = ? AND Lote = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar los datos básicos de un artículo por su código.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Codigo - Código del artículo a consultar
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: NombreComercial, Codigo, PorPeso del artículo.</returns>
         Public Shared Function ConsultarDatosBasicosArticuloPorCodigo() As String
             Return "SELECT 
                         A.NombreComercial,
@@ -49,6 +82,14 @@
                         A.Codigo = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar el stock disponible de un lote específico.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Articulo - Código del artículo
+        ''' 2. Lote - Código del lote
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: Stock (cantidad disponible calculada como Uds_Ini+Uds_Com+Uds_Tra-Uds_Ven).</returns>
         Public Shared Function ConsultarStockDeLote() As String
             Return "SELECT
                         Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven) AS Stock
@@ -58,6 +99,14 @@
                         S.Lote = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar un artículo con su stock por código y almacén.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Codigo - Código del artículo
+        ''' 2. Almacen - Código del almacén
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: NombreComercial, Codigo, Stock (cantidad disponible calculada).</returns>
         Public Shared Function ConsultarArticuloConStockPorCodigoYAlmacen() As String
             Return "SELECT 
                         A.NombreComercial,
@@ -71,6 +120,13 @@
                         S.Almacen = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar stock total de un artículo por su código.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Articulo - Código del artículo
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: Stock (cantidad total disponible calculada como Uds_Ini+Uds_Com+Uds_Tra-Uds_Ven).</returns>
         Public Shared Function ConsultarStockTotalArticuloPorCodigo() As String
             Return "SELECT
                         Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven) AS Stock
@@ -80,6 +136,14 @@
                         S.Articulo = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar un lote específico de un artículo por código y lote.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Articulo - Código del artículo
+        ''' 2. Lote - Código del lote
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: Articulo[Codigo de artículo], Lote[Ubicación del lote].</returns>
         Public Shared Function ConsultarLoteDeArticuloPorCodigoYLote() As String
             Return "SELECT 
                         Articulo, 
@@ -91,6 +155,13 @@
                         Lote = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar los datos de una ubicación por su código.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Codigo - Código de la ubicación
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: Codigo[de la ubicación], Nombre[de la ubicación], CodigoAlmacen, Almacen[Nombre del almacén].</returns>
         Public Shared Function ConsultarDatosUbicacionPorCodigo() As String
             Return "SELECT
                         U.Codigo,
@@ -104,6 +175,13 @@
                         U.Codigo = ?"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para consultar la ubicación de un lote por su código.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Codigo - Código de la ubicación
+        ''' </param>
+        ''' <returns>Consulta SQL que devuelve: Codigo[de la ubicación], Nombre[de la ubicación].</returns>
         Public Shared Function ConsultarUbicacionDeLotePorCodigo() As String
             Return "SELECT
                         U.Codigo,
@@ -117,22 +195,60 @@
 
     End Class
 
+    ''' <summary>
+    ''' Clase que contiene consultas SQL de inserción.
+    ''' </summary>
     Class Insert
+        ''' <summary>
+        ''' Obtiene una consulta SQL para insertar un nuevo lote de artículo en el stock.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Almacen - Código del almacén
+        ''' 2. Lote - Código del lote
+        ''' 3. Articulo - Código del artículo
+        ''' 4. Uds_Ini - Unidades iniciales
+        ''' </param>
+        ''' <returns>Consulta SQL de inserción que no devuelve resultados. Inserta un registro en la tabla StockLotes.</returns>
         Public Shared Function InsertarNuevoLoteDeArticuloEnStock() As String
             Return "INSERT INTO StockLotes (Almacen, Lote, Articulo, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, ?, 0, 0, 0)"
         End Function
 
+        ''' <summary>
+        ''' Obtiene una consulta SQL para insertar un movimiento de venta en PDA.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Terminal - Código del terminal
+        ''' 2. Articulo - Código del artículo
+        ''' 3. Lote - Código del lote
+        ''' 4. Cantidad - Cantidad vendida
+        ''' </param>
+        ''' <returns>Consulta SQL de inserción que no devuelve resultados. Inserta un registro en la tabla MovPda con operación 'VE'.</returns>
         Public Shared Function InsertarMovimientoVentaEnPDA() As String
             Return "INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES (?,'VE',?,?,?)"
         End Function
     End Class
 
+    ''' <summary>
+    ''' Clase que contiene consultas SQL de actualización.
+    ''' </summary>
     Class Update
+        ''' <summary>
+        ''' Obtiene una consulta SQL para actualizar la cantidad de stock de un lote.
+        ''' </summary>
+        ''' <param name="Parámetros SQL">
+        ''' 1. Cantidad - Cantidad a añadir a Uds_Ini (puede ser negativa para restar)
+        ''' 2. Articulo - Código del artículo
+        ''' 3. Lote - Código del lote
+        ''' </param>
+        ''' <returns>Consulta SQL de actualización que no devuelve resultados. Actualiza el campo Uds_Ini en la tabla StockLotes.</returns>
         Public Shared Function ActualizarCantidadStockDeLote() As String
             Return "UPDATE StockLotes SET Uds_Ini = Uds_Ini + ? WHERE Articulo = ? AND Lote = ?"
         End Function
     End Class
 
+    ''' <summary>
+    ''' Clase que contiene consultas SQL de eliminación.
+    ''' </summary>
     Class Delete
 
     End Class
