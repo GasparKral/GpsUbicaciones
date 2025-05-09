@@ -40,6 +40,7 @@
         Catch ex As Exception
             Try
                 _transaction.Rollback()
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.ErrorOperacionBD, ex.Message))
             Catch
                 ' Ignorar errores de rollback
             End Try
