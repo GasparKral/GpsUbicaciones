@@ -6,7 +6,7 @@
 
     Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
         If TextBoxCodigoUbicacion.Text = "" Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
             TextBoxCodigoUbicacion.Focus()
             Exit Sub
         End If
@@ -19,7 +19,7 @@
             LabelNombreAlmacen.Text = dsDatos("AlmacenNombre")
             Continuar = True
         Catch ex As InvalidOperationException
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoUbicacion.SelectAll()
             TextBoxCodigoUbicacion.Focus()
         End Try
@@ -62,12 +62,12 @@
 
     Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
         If TextBoxCodigoArticulo.Text = "" Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajesArticulos.CodigoFaltante)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesArticulos.CodigoFaltante)
             TextBoxCodigoArticulo.Focus()
             Exit Sub
         End If
         If Not IsNumeric(TextBoxCantidadSeleccionada.Text) Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
             TextBoxCantidadSeleccionada.Focus()
             Exit Sub
         End If
@@ -133,7 +133,7 @@
                 End If
             End If
         Catch ex As Exception
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
             e.Cancel = True
         End Try
 

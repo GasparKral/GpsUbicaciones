@@ -52,6 +52,7 @@ Module Querys
     ''' Clase que contiene consultas SQL de selección.
     ''' </summary>
     Class [Select]
+
         ''' <summary>
         ''' Obtiene una consulta SQL para verificar si existe un lote específico de un artículo.
         ''' </summary>
@@ -62,6 +63,52 @@ Module Querys
         ''' <returns>Consulta SQL que devuelve un valor booleano (TRUE/FALSE) indicando si existe el lote del artículo.</returns>
         Public Shared Function VerificarExistenciaLoteDeArticulo() As String
             Return "SELECT COUNT(*) > 0 FROM StockLotes WHERE Articulo = ? AND Lote = ?"
+        End Function
+
+        Public Shared Function ConsultarArticulosEnUbicacion() As String
+            Return "SELECT
+                        A.Codigo AS CodigoArticulo,
+                        A.NombreComercial AS NombreArticulo,
+                        A.PorPeso,
+                        S.Uds_Ini AS UnidadesIniciales,
+                        S.Uds_Com AS UnidadesCompradas,
+                        S.Uds_Ven AS UnidadesVendidas,
+                        S.Uds_Tra AS UnidadesTransferidas,
+                        U.Codigo AS CodigoUbicacion,
+                        U.Nombre AS NombreUbicacion,
+                        Al.Codigo AS CodigoAlmacen,
+                        Al.Nombre AS NombreAlmacen
+                    FROM
+                      ((ARTICULOS AS A
+                        INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
+                        INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
+                        INNER JOIN ALMACENES AS AL ON Left(U.Codigo,2) = AL.Codigo
+                    WHERE 
+                        S.Lote = ? AND
+                        S.Almacen = ? "
+        End Function
+
+        Public Shared Function ConsultarArticuloEnUbicacion() As String
+            Return "SELECT
+                        A.Codigo AS CodigoArticulo,
+                        A.NombreComercial AS NombreArticulo,
+                        A.PorPeso,
+                        S.Uds_Ini AS UnidadesIniciales,
+                        S.Uds_Com AS UnidadesCompradas,
+                        S.Uds_Ven AS UnidadesVendidas,
+                        S.Uds_Tra AS UnidadesTransferidas,
+                        U.Codigo AS CodigoUbicacion,
+                        U.Nombre AS NombreUbicacion,
+                        Al.Codigo AS CodigoAlmacen,
+                        Al.Nombre AS NombreAlmacen
+                    FROM
+                      ((ARTICULOS AS A
+                        INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
+                        INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
+                        INNER JOIN ALMACENES AS AL ON Left(U.Codigo,2) = AL.Codigo
+                    WHERE 
+                        A.Codigo = ? AND
+                        S.Lote = ?"
         End Function
 
         ''' <summary>
@@ -91,8 +138,8 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve: Stock (cantidad disponible calculada como Uds_Ini+Uds_Com+Uds_Tra-Uds_Ven).</returns>
         Public Shared Function ConsultarStockDeLote() As String
-            Return "SELECT
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven) AS Stock
+            Return $"SELECT
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven, {nDecUds} ) AS Stock
                     FROM StockLotes AS S
                     WHERE 
                         S.Articulo = ? AND
@@ -108,10 +155,10 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve: NombreComercial, Codigo, Stock (cantidad disponible calculada).</returns>
         Public Shared Function ConsultarArticuloConStockPorCodigoYAlmacen() As String
-            Return "SELECT 
+            Return $"SELECT 
                         A.NombreComercial,
                         A.Codigo,
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven) AS Stock
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS Stock
                     FROM 
                        ARTICULOS AS A
                        INNER JOIN STOCK AS S ON S.Articulo = A.Codigo
@@ -128,8 +175,8 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve: Stock (cantidad total disponible calculada como Uds_Ini+Uds_Com+Uds_Tra-Uds_Ven).</returns>
         Public Shared Function ConsultarStockTotalArticuloPorCodigo() As String
-            Return "SELECT
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven) AS Stock
+            Return $"SELECT
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS Stock
                     FROM
                         STOCK AS S
                     WHERE
@@ -149,7 +196,7 @@ Module Querys
                         Articulo, 
                         Lote 
                     FROM 
-                        StockLotes 
+                        StockLotes
                     WHERE 
                         Articulo = ? AND 
                         Lote = ?"
@@ -185,7 +232,7 @@ Module Querys
         Public Shared Function ConsultarUbicacionDeLotePorCodigo() As String
             Return "SELECT
                         U.Codigo,
-                        U.Nombre
+                        U.Nombre,
                     FROM
                         UBICACIONES AS U 
                         INNER JOIN STOCKLOTES AS S ON S.Lote = U.Codigo
@@ -241,8 +288,12 @@ Module Querys
         ''' 3. Lote - Código del lote
         ''' </param>
         ''' <returns>Consulta SQL de actualización que no devuelve resultados. Actualiza el campo Uds_Ini en la tabla StockLotes.</returns>
-        Public Shared Function ActualizarCantidadStockDeLote() As String
+        Public Shared Function AgregarStock() As String
             Return "UPDATE StockLotes SET Uds_Ini = Uds_Ini + ? WHERE Articulo = ? AND Lote = ?"
+        End Function
+
+        Public Shared Function MoverStockDeLote() As String
+            Return "UPDATE StockLotes SET Uds_Tra = Uds_Tra + ? WHERE Articulo = ? AND Lote = ?"
         End Function
     End Class
 

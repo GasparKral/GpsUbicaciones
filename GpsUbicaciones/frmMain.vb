@@ -80,7 +80,7 @@
     End Sub
 
     Private Sub btnTrasladarArticulos_Click(sender As Object, e As EventArgs) Handles btnTrasladarArticulos.Click
-        frmTransladoProductos.ShowDialog()
-        frmTransladoProductos.Dispose()
+        frmTrasladoProductos.ShowDialog()
+        frmTrasladoProductos.Dispose()
     End Sub
 End Class

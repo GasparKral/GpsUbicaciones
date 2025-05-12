@@ -29,6 +29,7 @@ Partial Class frmConsulta
         PanelTitulo = New Panel()
         LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         lblTitulo = New Label()
+        LabelUbicaciónConsultada = New DevExpress.XtraEditors.LabelControl()
         CType(GridControlConsultaArticulos, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewConsultaArticulos, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
@@ -54,11 +55,11 @@ Partial Class frmConsulta
         GridControlConsultaArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlConsultaArticulos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlConsultaArticulos.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GridControlConsultaArticulos.Location = New Point(10, 53)
+        GridControlConsultaArticulos.Location = New Point(10, 93)
         GridControlConsultaArticulos.MainView = GridViewConsultaArticulos
         GridControlConsultaArticulos.Margin = New Padding(3, 2, 3, 2)
         GridControlConsultaArticulos.Name = "GridControlConsultaArticulos"
-        GridControlConsultaArticulos.Size = New Size(579, 818)
+        GridControlConsultaArticulos.Size = New Size(579, 778)
         GridControlConsultaArticulos.TabIndex = 7
         GridControlConsultaArticulos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewConsultaArticulos})
         ' 
@@ -104,6 +105,16 @@ Partial Class frmConsulta
         lblTitulo.Text = "Consulta Datos"
         lblTitulo.TextAlign = ContentAlignment.MiddleRight
         ' 
+        ' LabelUbicaciónConsultada
+        ' 
+        LabelUbicaciónConsultada.Appearance.Font = New Font("Tahoma", 15.75F)
+        LabelUbicaciónConsultada.Appearance.Options.UseFont = True
+        LabelUbicaciónConsultada.Location = New Point(12, 63)
+        LabelUbicaciónConsultada.Name = "LabelUbicaciónConsultada"
+        LabelUbicaciónConsultada.Size = New Size(200, 25)
+        LabelUbicaciónConsultada.TabIndex = 9
+        LabelUbicaciónConsultada.Text = "Ubicación Consultada"
+        ' 
         ' frmConsulta
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -111,6 +122,7 @@ Partial Class frmConsulta
         BackColor = Color.LightBlue
         ClientSize = New Size(600, 950)
         ControlBox = False
+        Controls.Add(LabelUbicaciónConsultada)
         Controls.Add(PanelTitulo)
         Controls.Add(GridControlConsultaArticulos)
         Controls.Add(btnSalir)
@@ -125,6 +137,7 @@ Partial Class frmConsulta
         CType(GridViewConsultaArticulos, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
@@ -133,4 +146,5 @@ Partial Class frmConsulta
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents lblTitulo As Label
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents LabelUbicaciónConsultada As DevExpress.XtraEditors.LabelControl
 End Class

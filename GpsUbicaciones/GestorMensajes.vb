@@ -18,12 +18,17 @@ Module GestorMensajes
         ''' Mensaje de tipo Información
         ''' </summary>
         Informacion
+        ''' <sumary>
+        ''' Mensaje de tipo Debug
+        ''' </sumary>
+        Debug
     End Enum
 
     ' Constantes para títulos por defecto
     Private Const TITULO_ERROR_POR_DEFECTO As String = "Error"
     Private Const TITULO_ADVERTENCIA_POR_DEFECTO As String = "Advertencia"
     Private Const TITULO_INFORMACION_POR_DEFECTO As String = "Información"
+    Private Const TITULO_DEBUG_POR_DEFECTO As String = "Debug"
 
     ''' <summary>
     ''' Clase factory para mostrar mensajes al usuario
@@ -35,7 +40,7 @@ Module GestorMensajes
         ''' <param name="messageType">Tipo de mensaje a mostrar</param>
         ''' <param name="content">Contenido del mensaje</param>
         ''' <param name="customTitle">Título personalizado (opcional)</param>
-        Public Shared Sub ShowMessage(messageType As TipoMensaje, content As String, Optional customTitle As String = Nothing)
+        Public Shared Sub MostrarMensaje(messageType As TipoMensaje, content As String, Optional customTitle As String = Nothing)
             Dim title As String = If(customTitle, GetDefaultTitle(messageType))
 
             Select Case messageType
@@ -45,6 +50,8 @@ Module GestorMensajes
                     MsgBox(content, MsgBoxStyle.Exclamation, title)
                 Case TipoMensaje.Informacion
                     MsgBox(content, MsgBoxStyle.Information, title)
+                Case TipoMensaje.Debug
+                    MsgBox(content, MsgBoxStyle.OkOnly, title)
                 Case Else
                     Throw New ArgumentException("Tipo de mensaje no válido")
             End Select
@@ -63,6 +70,8 @@ Module GestorMensajes
                     Return TITULO_ADVERTENCIA_POR_DEFECTO
                 Case TipoMensaje.Informacion
                     Return TITULO_INFORMACION_POR_DEFECTO
+                Case TipoMensaje.Debug
+                    Return TITULO_DEBUG_POR_DEFECTO
                 Case Else
                     Throw New ArgumentException("Tipo de mensaje no válido")
             End Select

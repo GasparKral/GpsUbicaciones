@@ -31,7 +31,7 @@ Partial Class frmAsignar
         TextBoxCodigoUbicacion = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         GroupControlArticulos = New DevExpress.XtraEditors.GroupControl()
-        lblPorPeso = New Label()
+        LabelIndicadorPorPeso = New Label()
         LabelControl3 = New DevExpress.XtraEditors.LabelControl()
         btnNuevaUbicacion = New DevExpress.XtraEditors.SimpleButton()
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
@@ -162,7 +162,7 @@ Partial Class frmAsignar
         GroupControlArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControlArticulos.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlArticulos.AppearanceCaption.Options.UseFont = True
-        GroupControlArticulos.Controls.Add(lblPorPeso)
+        GroupControlArticulos.Controls.Add(LabelIndicadorPorPeso)
         GroupControlArticulos.Controls.Add(LabelControl3)
         GroupControlArticulos.Controls.Add(btnNuevaUbicacion)
         GroupControlArticulos.Controls.Add(LabelControl1)
@@ -178,18 +178,18 @@ Partial Class frmAsignar
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
         ' 
-        ' lblPorPeso
+        ' LabelIndicadorPorPeso
         ' 
-        lblPorPeso.BackColor = Color.White
-        lblPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblPorPeso.ForeColor = Color.Red
-        lblPorPeso.Location = New Point(233, 105)
-        lblPorPeso.Name = "lblPorPeso"
-        lblPorPeso.Size = New Size(230, 25)
-        lblPorPeso.TabIndex = 12
-        lblPorPeso.Text = "** Por Peso/Fracción **"
-        lblPorPeso.TextAlign = ContentAlignment.MiddleCenter
-        lblPorPeso.Visible = False
+        LabelIndicadorPorPeso.BackColor = Color.White
+        LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LabelIndicadorPorPeso.ForeColor = Color.Red
+        LabelIndicadorPorPeso.Location = New Point(233, 105)
+        LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
+        LabelIndicadorPorPeso.Size = New Size(230, 25)
+        LabelIndicadorPorPeso.TabIndex = 12
+        LabelIndicadorPorPeso.Text = "** Por Peso/Fracción **"
+        LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
+        LabelIndicadorPorPeso.Visible = False
         ' 
         ' LabelControl3
         ' 
@@ -239,7 +239,7 @@ Partial Class frmAsignar
         ' ButtonConfirmacionArticulo
         ' 
         ButtonConfirmacionArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConfirmacionArticulo.ImageOptions.Image = CType(resources.GetObject("btnArticulo.ImageOptions.Image"), Image)
+        ButtonConfirmacionArticulo.ImageOptions.Image = CType(resources.GetObject("ButtonConfirmacionArticulo.ImageOptions.Image"), Image)
         ButtonConfirmacionArticulo.Location = New Point(517, 66)
         ButtonConfirmacionArticulo.Margin = New Padding(4, 3, 4, 3)
         ButtonConfirmacionArticulo.Name = "ButtonConfirmacionArticulo"
@@ -379,5 +379,5 @@ Partial Class frmAsignar
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents ButtonConsultarUbicacion As Button
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents lblPorPeso As Label
+    Friend WithEvents LabelIndicadorPorPeso As Label
 End Class

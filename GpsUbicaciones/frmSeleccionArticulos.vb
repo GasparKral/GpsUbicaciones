@@ -6,7 +6,7 @@ Public Class frmSeleccionArticulos
 
     Private Function ValidarCampoVacio(textBox As TextBox, mensaje As String) As Boolean
         If String.IsNullOrEmpty(textBox.Text) Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, mensaje)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, mensaje)
             textBox.Focus()
             Return False
         End If
@@ -43,7 +43,7 @@ Public Class frmSeleccionArticulos
     End Sub
     Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionLectura.Click
         If TextBoxCodigoUbicacion.Text = "" Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
             TextBoxCodigoUbicacion.Focus()
             Exit Sub
         End If
@@ -56,7 +56,7 @@ Public Class frmSeleccionArticulos
             LabelNombreAlmacen.Text = dsDatos("Almacen")
             Continuar = True
         Catch ex As InvalidOperationException
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, ex.Message)
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
             Continuar = False
         End Try
         If Not Continuar Then
@@ -77,7 +77,7 @@ Public Class frmSeleccionArticulos
             Dim dsDatos = Operacion.ExecuteQuery("SELECT Articulo,Descripcion,Round(Sum(Cantidad)," & nDecUds & ") AS SumaUds FROM PedCli INNER JOIN MovPCl ON PedCli.Serie=MovPcl.Serie AND PedCli.Numero=MovPCl.Numero WHERE Fecha=#" & DatePicker.DateTime.ToString("MM-dd-yyyy") & "# AND Articulo<>'' GROUP BY Articulo,Descripcion")
             GridPedidos.DataSource = dsDatos
         Catch ex As Exception
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, TextBoxCodigoArticulo.Text))
         End Try
     End Sub
 
@@ -195,7 +195,7 @@ Public Class frmSeleccionArticulos
                 End If
             End Using
         Catch ex As Exception
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, TextBoxCodigoArticulo.Text))
             e.Cancel = True
         End Try
 

@@ -1,30 +1,47 @@
-﻿Public Class frmConsulta
+﻿Imports System.ComponentModel
 
-    Public Consulta As String
-    Private Almacen As String
+Public Class frmConsulta
+    Property Source As BindingList(Of StockLote)
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         Me.Close()
     End Sub
 
-    Private Sub frmConsulta_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Consulta = "" Then
-            FabricaMensajes.ShowMessage(TipoMensaje.Error, MensajesGenerales.ConsultaNoDefinida)
-            Me.Close()
-        End If
+    Public Sub frmConsulta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Configurar el grid
+        GridViewConsultaArticulos.OptionsBehavior.Editable = False
+        GridViewConsultaArticulos.OptionsBehavior.ReadOnly = True
+        GridViewConsultaArticulos.OptionsView.ShowGroupPanel = False
+        GridViewConsultaArticulos.OptionsView.ShowIndicator = False
+        GridViewConsultaArticulos.OptionsView.ShowAutoFilterRow = True
+        GridViewConsultaArticulos.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never
+        GridViewConsultaArticulos.OptionsCustomization.AllowColumnMoving = False
+        GridViewConsultaArticulos.OptionsCustomization.AllowColumnResizing = False
+        GridViewConsultaArticulos.OptionsCustomization.AllowFilter = True
+        GridViewConsultaArticulos.OptionsCustomization.AllowSort = True
+        GridViewConsultaArticulos.OptionsCustomization.AllowGroup = False
+        GridViewConsultaArticulos.OptionsCustomization.AllowQuickHideColumns = False
+        GridViewConsultaArticulos.OptionsCustomization.AllowRowSizing = True
 
-        ' Cargar en el grid la consulta del parámetro Consulta
+        GridViewConsultaArticulos.OptionsBehavior.AutoPopulateColumns = False
+        GridControlConsultaArticulos.DataSource = Source
 
-        Dim dt = Operacion.ExecuteTable(Consulta)
-        ' comprobar si hay datos
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            GridControlConsultaArticulos.DataSource = dt
-        Else
-            FabricaMensajes.ShowMessage(TipoMensaje.Informacion, MensajesGenerales.SinDatos)
-            Me.Close()
-        End If
+        GridViewConsultaArticulos.Columns.Clear() ' Limpia columnas existentes (por si acaso)
 
+        'Columna Artículo
+        Dim colArticulo = GridViewConsultaArticulos.Columns.AddField("NombreArticulo")
+        colArticulo.Caption = "Artículo"
+        colArticulo.Visible = True
+        colArticulo.VisibleIndex = 0
+        colArticulo.Width = 200
 
+        'Columna Cantidad (calculada)
+        Dim colCantidad = GridViewConsultaArticulos.Columns.AddField("Cantidad")
+        colCantidad.Caption = "Cantidad"
+        colCantidad.Visible = True
+        colCantidad.VisibleIndex = 1
+        colCantidad.Width = 50
+        colCantidad.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric
+        colCantidad.DisplayFormat.FormatString = "N2" ' 2 decimales
     End Sub
-
 End Class
