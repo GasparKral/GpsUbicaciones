@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.Globalization
+Imports DevExpress.XtraEditors
 
 Public Class frmAsignar
     Implements IDisposable
@@ -55,15 +56,15 @@ Public Class frmAsignar
         End If
 
         Dim stock As Single
-        If Not Single.TryParse(TextBoxStockArticulo.Text, NumberStyles.Any, CultureInfo.InvariantCulture, stock) Then
+        If Not Single.TryParse(SpinEditStock.Text, NumberStyles.Any, CultureInfo.InvariantCulture, stock) Then
             FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
-            TextBoxStockArticulo.Focus()
+            SpinEditStock.Focus()
             Return False
         End If
 
         If stock = 0 Then
             FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesStock.CantidadInvalida)
-            TextBoxStockArticulo.Focus()
+            SpinEditStock.Focus()
             Return False
         End If
 
@@ -96,19 +97,22 @@ Public Class frmAsignar
 
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
         LabelNombreArticulo.Text = String.Empty
-        TextBoxCodigoArticulo.Text = String.Empty
-        TextBoxStockArticulo.Text = String.Empty
+        TextBoxCodigoArticulo.Clear()
+        SpinEditStock.Clear()
+        LabelIndicadorPorPeso.Visible = False
         If ActivarFoco Then
-            TextBoxCodigoArticulo.Focus()
+            PermitirEdicion(TextBoxCodigoArticulo, True)
+            TextBoxCodigoArticulo.Select()
         End If
     End Sub
 
     Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
         LabelNombreUbicacion.Text = String.Empty
         LabelNombreAlmacen.Text = String.Empty
-        TextBoxCodigoUbicacion.Text = String.Empty
+        TextBoxCodigoUbicacion.Clear()
         If ActivarFoco Then
-            TextBoxCodigoUbicacion.Focus()
+            PermitirEdicion(TextBoxCodigoUbicacion, True)
+            TextBoxCodigoUbicacion.Select()
         End If
     End Sub
 
@@ -116,16 +120,18 @@ Public Class frmAsignar
         campo.Enabled = estado
     End Sub
 
-    Private Sub AceptarDecimales(Control As Control, Valor As Boolean)
-        If TypeOf Control Is TextBox Then
-            Dim textBox As TextBox = DirectCast(Control, TextBox)
-            If Valor Then
-                ' Configurar para aceptar decimales
-                textBox.Text = "0.0"
-            Else
-                ' Configurar para enteros
-                textBox.Text = "0"
-            End If
+    Private Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean)
+        Control.Properties.Mask.UseMaskAsDisplayFormat = True
+        If Valor Then
+            Control.Properties.IsFloatValue = True
+            Control.Properties.EditMask = $"N{nDecUds}"
+            Control.Properties.Increment = 0.1
+            LabelIndicadorPorPeso.Visible = True
+        Else
+            Control.Properties.IsFloatValue = False
+            Control.Properties.EditMask = "d"
+            Control.Properties.Increment = 1
+            LabelIndicadorPorPeso.Visible = False
         End If
     End Sub
 #End Region
@@ -133,12 +139,12 @@ Public Class frmAsignar
 #Region "Carga de Datos"
     Private Sub CargarDatosArticulo(esValidacion As Boolean, Optional e As CancelEventArgs = Nothing)
         Try
-            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo, TextBoxCodigoArticulo.Text), 0, 0)
-            LabelNombreArticulo.Text = dsDatos("NombreComercial")
+            Dim Articulo = RepositorioArticulo.ObtenerInFormacion(TextBoxCodigoArticulo.Text)
+            LabelNombreArticulo.Text = Articulo.NombreComercial
 
             If esValidacion Then
-                LabelIndicadorPorPeso.Visible = dsDatos("PorPeso") = 1
-                nDecUds = If(dsDatos("PorPeso") = 1, nDecUds, 0)
+                LabelIndicadorPorPeso.Visible = Articulo.PorPeso
+                AceptarDecimales(SpinEditStock, Articulo.PorPeso)
             End If
         Catch ex As InvalidOperationException
             FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
@@ -148,7 +154,7 @@ Public Class frmAsignar
                 e.Cancel = True
             End If
         Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, TextBoxCodigoArticulo.Text))
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesArticulos.CodigoInvalido, TextBoxCodigoArticulo.Text))
             TextBoxCodigoArticulo.SelectAll()
             TextBoxCodigoArticulo.Focus()
             If esValidacion Then
@@ -209,18 +215,18 @@ Public Class frmAsignar
                               TextBoxCodigoUbicacion.Text), 0, 0)
 
             If dsFila Is Nothing OrElse dsFila("Stock") Is DBNull.Value Then
-                TextBoxStockArticulo.Text = "0"
+                SpinEditStock.Text = "0"
                 Return
             End If
 
             Dim stock As Integer
             If Integer.TryParse(dsFila("Stock").ToString(), stock) Then
-                TextBoxStockArticulo.Text = stock.ToString()
+                SpinEditStock.Text = stock.ToString()
             Else
-                TextBoxStockArticulo.Text = "0"
+                SpinEditStock.Text = "0"
             End If
         Catch ex As Exception
-            TextBoxStockArticulo.Text = "0"
+            SpinEditStock.Text = "0"
         End Try
     End Sub
 #End Region
@@ -244,7 +250,7 @@ Public Class frmAsignar
         End Try
     End Sub
 
-    Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionArticulo.Click
+    Private Sub ButtonConfirmacionArticulo_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionArticulo.Click
         ' Validaciones iniciales
         If Not ValidarDatosArticulo() Then
             Exit Sub
@@ -253,17 +259,16 @@ Public Class frmAsignar
         ' Usar la transacción condicional
         Try
             Using nestedTx As New NestedConditionalTransaction(Operacion)
-                Dim stock As Single = Single.Parse(TextBoxStockArticulo.Text, CultureInfo.InvariantCulture)
 
                 ' Definir acciones para cada caso
                 Dim ifTrueAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.ActualizarArticulo(con, stock, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+                        RepositorioStockLote.ActualizarArticulo(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                     End Sub
 
                 Dim ifFalseAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.InsertarArticulo(con, stock, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text, Almacen)
+                        RepositorioStockLote.InsertarArticulo(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text, Almacen)
                     End Sub
 
                 ' Ejecutar la transacción condicional
@@ -276,7 +281,7 @@ Public Class frmAsignar
 
                 ' Si todo fue bien, actualizar la interfaz
                 If success Then
-                    ActualizarGridDespuesDeOperacion(stock)
+                    ActualizarGridDespuesDeOperacion(SpinEditStock.Value)
                     LimpiarArticulo()
                 End If
             End Using
@@ -300,11 +305,18 @@ Public Class frmAsignar
     End Sub
 
     Private Sub btnNuevaUbicacion_Click(sender As Object, e As EventArgs) Handles btnNuevaUbicacion.Click
+        ' Deshabilitar validación temporalmente
+        Me.AutoValidate = AutoValidate.Disable
+
         LimpiarArticulo(False)
         MostrarFrames(True)
+
+        ' Volver a habilitar la validación
+        Me.AutoValidate = AutoValidate.EnableAllowFocusChange
     End Sub
 
-    Private Sub txtArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
+
+    Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
         If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
             e.Cancel = True
             Return
@@ -314,7 +326,7 @@ Public Class frmAsignar
         actualizarCampoStock()
     End Sub
 
-    Private Sub txtUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoUbicacion.Validating
+    Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoUbicacion.Validating
         If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text) Then
             Return
         End If

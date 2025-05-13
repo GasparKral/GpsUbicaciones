@@ -31,11 +31,11 @@ Partial Class frmAsignar
         TextBoxCodigoUbicacion = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         GroupControlArticulos = New DevExpress.XtraEditors.GroupControl()
+        SpinEditStock = New DevExpress.XtraEditors.SpinEdit()
         LabelIndicadorPorPeso = New Label()
         LabelControl3 = New DevExpress.XtraEditors.LabelControl()
         btnNuevaUbicacion = New DevExpress.XtraEditors.SimpleButton()
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
-        TextBoxStockArticulo = New TextBox()
         ButtonConfirmacionArticulo = New DevExpress.XtraEditors.SimpleButton()
         TextBoxCodigoArticulo = New TextBox()
         LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
@@ -48,6 +48,7 @@ Partial Class frmAsignar
         GroupControlUbicacion.SuspendLayout()
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlArticulos.SuspendLayout()
+        CType(SpinEditStock.Properties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridControlAsignacionArticulos, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewAsignacionArticulos, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
@@ -162,11 +163,11 @@ Partial Class frmAsignar
         GroupControlArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControlArticulos.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlArticulos.AppearanceCaption.Options.UseFont = True
+        GroupControlArticulos.Controls.Add(SpinEditStock)
         GroupControlArticulos.Controls.Add(LabelIndicadorPorPeso)
         GroupControlArticulos.Controls.Add(LabelControl3)
         GroupControlArticulos.Controls.Add(btnNuevaUbicacion)
         GroupControlArticulos.Controls.Add(LabelControl1)
-        GroupControlArticulos.Controls.Add(TextBoxStockArticulo)
         GroupControlArticulos.Controls.Add(ButtonConfirmacionArticulo)
         GroupControlArticulos.Controls.Add(TextBoxCodigoArticulo)
         GroupControlArticulos.Controls.Add(LabelNombreArticulo)
@@ -177,6 +178,19 @@ Partial Class frmAsignar
         GroupControlArticulos.TabIndex = 1
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
+        ' 
+        ' SpinEditStock
+        ' 
+        SpinEditStock.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        SpinEditStock.Location = New Point(63, 106)
+        SpinEditStock.Name = "SpinEditStock"
+        SpinEditStock.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SpinEditStock.Properties.Appearance.Options.UseFont = True
+        SpinEditStock.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        SpinEditStock.Properties.IsFloatValue = False
+        SpinEditStock.Properties.MaskSettings.Set("mask", "N00")
+        SpinEditStock.Size = New Size(138, 24)
+        SpinEditStock.TabIndex = 26
         ' 
         ' LabelIndicadorPorPeso
         ' 
@@ -225,16 +239,6 @@ Partial Class frmAsignar
         LabelControl1.Size = New Size(39, 19)
         LabelControl1.TabIndex = 9
         LabelControl1.Text = "Stock"
-        ' 
-        ' TextBoxStockArticulo
-        ' 
-        TextBoxStockArticulo.Font = New Font("Tahoma", 15.75F)
-        TextBoxStockArticulo.Location = New Point(80, 100)
-        TextBoxStockArticulo.Margin = New Padding(4, 3, 4, 3)
-        TextBoxStockArticulo.Name = "TextBoxStockArticulo"
-        TextBoxStockArticulo.Size = New Size(121, 33)
-        TextBoxStockArticulo.TabIndex = 2
-        TextBoxStockArticulo.TextAlign = HorizontalAlignment.Right
         ' 
         ' ButtonConfirmacionArticulo
         ' 
@@ -352,6 +356,7 @@ Partial Class frmAsignar
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).EndInit()
         GroupControlArticulos.ResumeLayout(False)
         GroupControlArticulos.PerformLayout()
+        CType(SpinEditStock.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridControlAsignacionArticulos, ComponentModel.ISupportInitialize).EndInit()
         CType(GridViewAsignacionArticulos, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
@@ -369,7 +374,6 @@ Partial Class frmAsignar
     Friend WithEvents TextBoxCodigoArticulo As TextBox
     Friend WithEvents LabelNombreArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelControl1 As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents TextBoxStockArticulo As TextBox
     Friend WithEvents btnNuevaUbicacion As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GridControlAsignacionArticulos As DevExpress.XtraGrid.GridControl
     Friend WithEvents GridViewAsignacionArticulos As DevExpress.XtraGrid.Views.Grid.GridView
@@ -380,4 +384,5 @@ Partial Class frmAsignar
     Friend WithEvents ButtonConsultarUbicacion As Button
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelIndicadorPorPeso As Label
+    Friend WithEvents SpinEditStock As DevExpress.XtraEditors.SpinEdit
 End Class

@@ -130,10 +130,12 @@ Public Class frmTrasladoProductos
             Control.Properties.IsFloatValue = True
             Control.Properties.EditMask = $"N{nDecUds}"
             Control.Properties.Increment = 0.1
+            LabelIndicadorPorPesoOrigen.Visible = True
         Else
             Control.Properties.IsFloatValue = False
             Control.Properties.EditMask = "d"
             Control.Properties.Increment = 1
+            LabelIndicadorPorPesoOrigen.Visible = False
         End If
     End Sub
 

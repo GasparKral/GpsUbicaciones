@@ -269,7 +269,7 @@ Partial Class frmTrasladoProductos
         TextEditCodigoUbicacionOrigen.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoUbicacionOrigen.Properties.Appearance.Options.UseFont = True
         TextEditCodigoUbicacionOrigen.Properties.MaxLength = 13
-        TextEditCodigoUbicacionOrigen.Size = New Size(156, 25)
+        TextEditCodigoUbicacionOrigen.Size = New Size(156, 22)
         TextEditCodigoUbicacionOrigen.TabIndex = 19
         ' 
         ' lblArticulo
@@ -309,7 +309,7 @@ Partial Class frmTrasladoProductos
         TextEditCodigoArticuloOrigen.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoArticuloOrigen.Properties.Appearance.Options.UseFont = True
         TextEditCodigoArticuloOrigen.Properties.MaxLength = 13
-        TextEditCodigoArticuloOrigen.Size = New Size(156, 25)
+        TextEditCodigoArticuloOrigen.Size = New Size(156, 22)
         TextEditCodigoArticuloOrigen.TabIndex = 12
         ' 
         ' btnConsultaArtUbiacion
@@ -530,7 +530,7 @@ Partial Class frmTrasladoProductos
         TextEditCodigoUbicacionDestino.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoUbicacionDestino.Properties.Appearance.Options.UseFont = True
         TextEditCodigoUbicacionDestino.Properties.MaxLength = 13
-        TextEditCodigoUbicacionDestino.Size = New Size(156, 25)
+        TextEditCodigoUbicacionDestino.Size = New Size(156, 22)
         TextEditCodigoUbicacionDestino.TabIndex = 19
         ' 
         ' Label8
@@ -571,7 +571,7 @@ Partial Class frmTrasladoProductos
         TextEditCodigoArticuloDestino.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoArticuloDestino.Properties.Appearance.Options.UseFont = True
         TextEditCodigoArticuloDestino.Properties.MaxLength = 13
-        TextEditCodigoArticuloDestino.Size = New Size(156, 25)
+        TextEditCodigoArticuloDestino.Size = New Size(156, 22)
         TextEditCodigoArticuloDestino.TabIndex = 12
         ' 
         ' Button1
@@ -598,7 +598,7 @@ Partial Class frmTrasladoProductos
         SimpleButton2.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
         SimpleButton2.ToolTipTitle = "Confirma Ubicación"
         ' 
-        ' frmTransladoProductos
+        ' frmTrasladoProductos
         ' 
         Appearance.BackColor = Color.Gainsboro
         Appearance.BorderColor = SystemColors.Highlight
@@ -623,8 +623,8 @@ Partial Class frmTrasladoProductos
         FormBorderStyle = FormBorderStyle.None
         Margin = New Padding(2, 3, 2, 3)
         MinimumSize = New Size(600, 900)
-        Name = "frmTransladoProductos"
-        Padding = New Padding(10)
+        Name = "frmTrasladoProductos"
+        Padding = New Padding(10, 10, 10, 10)
         StartPosition = FormStartPosition.Manual
         Text = "Translado Mercancía"
         CType(GridViewArticulosParaTraslado, ComponentModel.ISupportInitialize).EndInit()

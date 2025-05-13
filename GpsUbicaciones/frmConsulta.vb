@@ -43,5 +43,11 @@ Public Class frmConsulta
         colCantidad.Width = 50
         colCantidad.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric
         colCantidad.DisplayFormat.FormatString = "N2" ' 2 decimales
+
+        If Source.Count = 0 Then
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesGenerales.SinDatos)
+            Me.Close()
+        End If
     End Sub
+
 End Class
