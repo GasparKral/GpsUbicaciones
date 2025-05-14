@@ -19,9 +19,7 @@
         .SelectedCompany = EmpresaSeleccionada
     }
 
-
     Public Operacion As DatabaseOperation = DatabaseOperationFactory.Create(settings)
-
 
 End Module
 

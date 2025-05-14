@@ -59,11 +59,23 @@ Public Class RepositorioStockLote
 
     End Function
 
-    Public Shared Function InsertarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String, Almacen As String) As Integer
+    Public Shared Function InsertarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer
         Return Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock, Almacen, CodigoUbicacion, CodigoArticulo, Stock)
     End Function
 
-    Public Shared Function MoverStock(Connection As IDbConnection, Cantidad As Single, CodigoArticulo As String, CodigoUbicacionOrigen As String) As Integer
-        Return Operacion.ExecuteNonQuery(Connection, Querys.Update.MoverStockDeLote, Cantidad, CodigoArticulo, CodigoUbicacionOrigen)
+    Public Shared Function InsertarArticuloDesdeStock(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacionOrigen As String, CodigoUbicacionDestino As String) As Integer
+        Dim result = Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock, Almacen, CodigoUbicacionDestino, CodigoArticulo, Stock)
+        result += Operacion.ExecuteNonQuery(Connection, Querys.Update.ReducirStockEnLote, Stock, CodigoArticulo, CodigoUbicacionOrigen)
+        Return result
+    End Function
+
+    Public Shared Function AgregarStock(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer
+        Return Operacion.ExecuteNonQuery(Connection, Querys.Update.IncrementarStockEnLote, Stock, CodigoArticulo, CodigoUbicacion)
+    End Function
+
+    Public Shared Function TransferirStock(Connection As IDbConnection, Cantidad As Single, CodigoArticulo As String, CodigoUbicacionOrigen As String, CodigoUbicacionDestino As String) As Integer
+        Dim result = Operacion.ExecuteNonQuery(Connection, Querys.Update.ReducirStockEnLote, Cantidad, CodigoArticulo, CodigoUbicacionOrigen)
+        result += Operacion.ExecuteNonQuery(Connection, Querys.Update.IncrementarStockEnLote, Cantidad, CodigoArticulo, CodigoUbicacionDestino)
+        Return result
     End Function
 End Class

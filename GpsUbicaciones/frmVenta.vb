@@ -1,91 +1,6 @@
 ﻿Public Class frmVenta
 
-    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        Me.Close()
-    End Sub
-
-    Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
-        If TextBoxCodigoUbicacion.Text = "" Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
-            TextBoxCodigoUbicacion.Focus()
-            Exit Sub
-        End If
-
-        Dim Continuar As Boolean = False
-        Try
-            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery("SELECT Ubicaciones.Almacen,Ubicaciones.Nombre AS UbicacionNombre,Almacenes.Nombre AS AlmacenNombre FROM Ubicaciones LEFT JOIN Almacenes ON Left(Ubicaciones.Codigo,2) = Almacenes.Codigo WHERE Ubicaciones.Codigo= ?", TextBoxCodigoUbicacion.Text), 0, 0)
-
-            LabelNombreUbicacion.Text = dsDatos("UbicacionNombre")
-            LabelNombreAlmacen.Text = dsDatos("AlmacenNombre")
-            Continuar = True
-        Catch ex As InvalidOperationException
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
-            TextBoxCodigoUbicacion.SelectAll()
-            TextBoxCodigoUbicacion.Focus()
-        End Try
-        If Not Continuar Then
-            TextBoxCodigoUbicacion.Focus()
-            Exit Sub
-            Call MostrarFrames(False)
-        End If
-    End Sub
-
-    Private Sub MostrarFrames(EsUbicacion As Boolean)
-        GroupControlUbicacion.Enabled = EsUbicacion
-        If EsUbicacion Then
-            GroupControlArticulos.Visible = False
-            LimpiarUbicacion()
-        Else
-            GroupControlArticulos.Visible = True
-            LimpiarArticulo()
-        End If
-    End Sub
-
-    Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
-        LabelNombreUbicacion.Text = ""
-        LabelNombreAlmacen.Text = ""
-        TextBoxCodigoUbicacion.Text = ""
-        If ActivarFoco Then
-            TextBoxCodigoUbicacion.Focus()
-        End If
-    End Sub
-
-    Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
-        LabelNombreArticulo.Text = ""
-        LabelStockArticulo.Text = ""
-        TextBoxCodigoArticulo.Text = ""
-        TextBoxCantidadSeleccionada.Text = ""
-        If ActivarFoco Then
-            TextBoxCodigoArticulo.Focus()
-        End If
-    End Sub
-
-    Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
-        If TextBoxCodigoArticulo.Text = "" Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesArticulos.CodigoFaltante)
-            TextBoxCodigoArticulo.Focus()
-            Exit Sub
-        End If
-        If Not IsNumeric(TextBoxCantidadSeleccionada.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
-            TextBoxCantidadSeleccionada.Focus()
-            Exit Sub
-        End If
-
-        ' Grabar la asignación
-        Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text, TextBoxCantidadSeleccionada.Text)
-
-        ' Añade una fila al grid
-        Dim dt As DataTable = CType(GridControlArticulosSeleccionados.DataSource, DataTable)
-        Dim row As DataRow = dt.NewRow()
-        row("Articulo") = TextBoxCodigoArticulo.Text
-        row("Nombre") = LabelNombreArticulo.Text
-        row("Ubicacion") = TextBoxCodigoUbicacion.Text
-        row("Uds") = CInt(TextBoxCantidadSeleccionada.Text)
-        dt.Rows.Add(row)
-
-        LimpiarUbicacion()
-    End Sub
+#Region "Configuraciones Iniciales"
 
     Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
 
@@ -102,51 +17,106 @@
         Call LimpiarUbicacion()
     End Sub
 
-    Private Sub txtArticulo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
-        If TextBoxCodigoArticulo.Text = "" Then
-            e.Cancel = True
-            Exit Sub
-        End If
-        Dim Continuar As Boolean = False
+#End Region
 
-        Try
-            Dim dsDatos = Operacion.ExecuteQuery("SELECT NombreComercial,PorPeso FROM Articulos WHERE Codigo= ?", TextBoxCodigoArticulo.Text)
-
-            If dsDatos.Tables(0).Rows.Count = 0 Then
-                Call MsgBox("NO EXISTE ARTICULO CON EL CODIGO: " & TextBoxCodigoArticulo.Text)
-                e.Cancel = True
-            Else
-                LabelNombreArticulo.Text = dsDatos.Tables(0).Rows(0).Item("NombreComercial")
-                If dsDatos.Tables(0).Rows(0).Item("PorPeso") = 1 Then
-                    lblPorPeso.Visible = True
-                    'cambiar formato txtnuevostock para que no acepte decimales
-                Else
-                    lblPorPeso.Visible = False
-                End If
-
-                dsDatos = Operacion.ExecuteQuery("SELECT Uds_Ini FROM StockLotes WHERE Articulo = ? AND Lote = ?", TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
-
-                If dsDatos.Tables(0).Rows.Count = 0 Then
-                    LabelStockArticulo.Text = "0"
-                Else
-                    LabelStockArticulo.Text = dsDatos.Tables(0).Rows(0).Item("Uds_Ini")
-                End If
-            End If
-        Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
-            e.Cancel = True
-        End Try
-
-    End Sub
-
+#Region "Validaciones de Campos"
     Private Sub frmVenta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         ' Al pulsar enter salte al siguiente control
         If e.KeyChar = ChrW(Keys.Enter) Then
             Me.SelectNextControl(Me.ActiveControl, True, True, True, True)
         End If
     End Sub
+#End Region
 
-    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoUbicacion.TextChanged
+#Region "Control UI"
 
+    Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
+        LabelNombreArticulo.Text = String.Empty
+        LabelStockArticulo.Text = String.Empty
+        TextEditCodigoArticulo.Text = String.Empty
+        SpinEditCantidadSeleccionada.Value = String.Empty
+        If ActivarFoco Then
+            TextEditCodigoArticulo.Focus()
+        End If
     End Sub
+
+    Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
+        LabelNombreUbicacion.Text = String.Empty
+        LabelNombreAlmacen.Text = String.Empty
+        TextEditCodigoUbicacion.Text = String.Empty
+        If ActivarFoco Then
+            TextEditCodigoUbicacion.Focus()
+        End If
+    End Sub
+
+    Private Sub MostrarFrames(EsUbicacion As Boolean)
+        GroupControlUbicacion.Enabled = EsUbicacion
+        If EsUbicacion Then
+            GroupControlArticulos.Visible = False
+            LimpiarUbicacion()
+        Else
+            GroupControlArticulos.Visible = True
+            LimpiarArticulo()
+        End If
+    End Sub
+
+#End Region
+
+#Region "Eventos de Formulario"
+
+    Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
+
+        ' Grabar la asignación
+        Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, TextEditCodigoArticulo.Text, TextEditCodigoUbicacion.Text, SpinEditCantidadSeleccionada.Value)
+
+        ' Añade una fila al grid
+        Dim dt As DataTable = CType(GridControlArticulosSeleccionados.DataSource, DataTable)
+        Dim row As DataRow = dt.NewRow()
+        row("Articulo") = TextEditCodigoArticulo.Text
+        row("Nombre") = LabelNombreArticulo.Text
+        row("Ubicacion") = TextEditCodigoUbicacion.Text
+        row("Uds") = CInt(SpinEditCantidadSeleccionada.Value)
+        dt.Rows.Add(row)
+
+        LimpiarUbicacion()
+    End Sub
+
+    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        Me.Close()
+    End Sub
+
+    Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
+        PermitirEdicion(TextEditCodigoUbicacion, False)
+        PermitirEdicion(TextEditCodigoArticulo, True)
+    End Sub
+
+    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacion.TextChanged
+        Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacion.Text)
+            If Ubicacion Is Nothing Then
+                TextEditCodigoUbicacion.Focus()
+                TextEditCodigoUbicacion.SelectAll()
+            End If
+
+            LabelNombreUbicacion.Text = Ubicacion.Nombre
+            LabelNombreAlmacen.Text = Ubicacion.NombreAlmacen
+        End Using
+    End Sub
+
+    Private Sub TextEditCodigoArticulo_TextChanged(sender As Object, e As EventArgs) Handles TextEditCodigoArticulo.TextChanged
+        Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticulo.Text, TextEditCodigoUbicacion.Text)
+            If StockLote Is Nothing Then
+                TextEditCodigoArticulo.Focus()
+                TextEditCodigoArticulo.SelectAll()
+                Exit Sub
+            End If
+
+            LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
+            LabelStockArticulo.Text = StockLote.Cantidad
+            AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
+
+        End Using
+    End Sub
+
+#End Region
+
 End Class

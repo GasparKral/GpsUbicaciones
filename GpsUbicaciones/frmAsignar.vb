@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports System.Globalization
-Imports DevExpress.XtraEditors
 
 Public Class frmAsignar
     Implements IDisposable
@@ -116,24 +115,6 @@ Public Class frmAsignar
         End If
     End Sub
 
-    Private Sub PermitirEdicion(campo As Control, estado As Boolean)
-        campo.Enabled = estado
-    End Sub
-
-    Private Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean)
-        Control.Properties.Mask.UseMaskAsDisplayFormat = True
-        If Valor Then
-            Control.Properties.IsFloatValue = True
-            Control.Properties.EditMask = $"N{nDecUds}"
-            Control.Properties.Increment = 0.1
-            LabelIndicadorPorPeso.Visible = True
-        Else
-            Control.Properties.IsFloatValue = False
-            Control.Properties.EditMask = "d"
-            Control.Properties.Increment = 1
-            LabelIndicadorPorPeso.Visible = False
-        End If
-    End Sub
 #End Region
 
 #Region "Carga de Datos"
@@ -144,7 +125,7 @@ Public Class frmAsignar
 
             If esValidacion Then
                 LabelIndicadorPorPeso.Visible = Articulo.PorPeso
-                AceptarDecimales(SpinEditStock, Articulo.PorPeso)
+                AceptarDecimales(SpinEditStock, Articulo.PorPeso, LabelIndicadorPorPeso)
             End If
         Catch ex As InvalidOperationException
             FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
@@ -263,12 +244,12 @@ Public Class frmAsignar
                 ' Definir acciones para cada caso
                 Dim ifTrueAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.MoverStock(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+                        RepositorioStockLote.AgregarStock(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                     End Sub
 
                 Dim ifFalseAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.InsertarArticulo(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text, Almacen)
+                        RepositorioStockLote.InsertarArticulo(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                     End Sub
 
                 ' Ejecutar la transacción condicional

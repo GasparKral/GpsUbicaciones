@@ -27,21 +27,21 @@ Partial Class frmVenta
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
         btnUbicacion = New DevExpress.XtraEditors.SimpleButton()
-        TextBoxCodigoUbicacion = New TextBox()
+        TextEditCodigoUbicacion = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         GroupControlArticulos = New DevExpress.XtraEditors.GroupControl()
-        lblPorPeso = New Label()
+        LabelIndicadorPorPeso = New Label()
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
-        TextBoxCantidadSeleccionada = New TextBox()
         btnArticulo = New DevExpress.XtraEditors.SimpleButton()
-        TextBoxCodigoArticulo = New TextBox()
+        TextEditCodigoArticulo = New TextBox()
         LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
         GridControlArticulosSeleccionados = New DevExpress.XtraGrid.GridControl()
         GridViewArticulosSeleccionados = New DevExpress.XtraGrid.Views.Grid.GridView()
         PanelTitulo = New Panel()
         LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         Label1 = New Label()
+        SpinEditCantidadSeleccionada = New DevExpress.XtraEditors.SpinEdit()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).BeginInit()
@@ -49,6 +49,7 @@ Partial Class frmVenta
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
+        CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' btnSalir
@@ -76,7 +77,7 @@ Partial Class frmVenta
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
         GroupControlUbicacion.Controls.Add(LabelNombreAlmacen)
         GroupControlUbicacion.Controls.Add(btnUbicacion)
-        GroupControlUbicacion.Controls.Add(TextBoxCodigoUbicacion)
+        GroupControlUbicacion.Controls.Add(TextEditCodigoUbicacion)
         GroupControlUbicacion.Controls.Add(LabelNombreUbicacion)
         GroupControlUbicacion.Location = New Point(10, 54)
         GroupControlUbicacion.Margin = New Padding(4, 3, 4, 3)
@@ -112,15 +113,15 @@ Partial Class frmVenta
         btnUbicacion.Size = New Size(55, 50)
         btnUbicacion.TabIndex = 6
         ' 
-        ' TextBoxCodigoUbicacion
+        ' TextEditCodigoUbicacion
         ' 
-        TextBoxCodigoUbicacion.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoUbicacion.Location = New Point(16, 27)
-        TextBoxCodigoUbicacion.Margin = New Padding(4, 3, 4, 3)
-        TextBoxCodigoUbicacion.MaxLength = 13
-        TextBoxCodigoUbicacion.Name = "TextBoxCodigoUbicacion"
-        TextBoxCodigoUbicacion.Size = New Size(185, 33)
-        TextBoxCodigoUbicacion.TabIndex = 5
+        TextEditCodigoUbicacion.Font = New Font("Tahoma", 15.75F)
+        TextEditCodigoUbicacion.Location = New Point(16, 27)
+        TextEditCodigoUbicacion.Margin = New Padding(4, 3, 4, 3)
+        TextEditCodigoUbicacion.MaxLength = 13
+        TextEditCodigoUbicacion.Name = "TextEditCodigoUbicacion"
+        TextEditCodigoUbicacion.Size = New Size(185, 33)
+        TextEditCodigoUbicacion.TabIndex = 5
         ' 
         ' LabelNombreUbicacion
         ' 
@@ -144,12 +145,12 @@ Partial Class frmVenta
         GroupControlArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControlArticulos.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlArticulos.AppearanceCaption.Options.UseFont = True
-        GroupControlArticulos.Controls.Add(lblPorPeso)
+        GroupControlArticulos.Controls.Add(SpinEditCantidadSeleccionada)
+        GroupControlArticulos.Controls.Add(LabelIndicadorPorPeso)
         GroupControlArticulos.Controls.Add(LabelControl1)
         GroupControlArticulos.Controls.Add(LabelStockArticulo)
-        GroupControlArticulos.Controls.Add(TextBoxCantidadSeleccionada)
         GroupControlArticulos.Controls.Add(btnArticulo)
-        GroupControlArticulos.Controls.Add(TextBoxCodigoArticulo)
+        GroupControlArticulos.Controls.Add(TextEditCodigoArticulo)
         GroupControlArticulos.Controls.Add(LabelNombreArticulo)
         GroupControlArticulos.Location = New Point(11, 158)
         GroupControlArticulos.Margin = New Padding(4, 3, 4, 3)
@@ -159,25 +160,25 @@ Partial Class frmVenta
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
         ' 
-        ' lblPorPeso
+        ' LabelIndicadorPorPeso
         ' 
-        lblPorPeso.BackColor = Color.White
-        lblPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblPorPeso.ForeColor = Color.Red
-        lblPorPeso.Location = New Point(124, 73)
-        lblPorPeso.Name = "lblPorPeso"
-        lblPorPeso.Size = New Size(207, 25)
-        lblPorPeso.TabIndex = 13
-        lblPorPeso.Text = "** Por Peso/Fracción **"
-        lblPorPeso.TextAlign = ContentAlignment.MiddleCenter
-        lblPorPeso.Visible = False
+        LabelIndicadorPorPeso.BackColor = Color.White
+        LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LabelIndicadorPorPeso.ForeColor = Color.Red
+        LabelIndicadorPorPeso.Location = New Point(112, 73)
+        LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
+        LabelIndicadorPorPeso.Size = New Size(207, 25)
+        LabelIndicadorPorPeso.TabIndex = 13
+        LabelIndicadorPorPeso.Text = "** Por Peso/Fracción **"
+        LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
+        LabelIndicadorPorPeso.Visible = False
         ' 
         ' LabelControl1
         ' 
         LabelControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F)
         LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(337, 73)
+        LabelControl1.Location = New Point(325, 73)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
         LabelControl1.Size = New Size(83, 25)
@@ -203,17 +204,6 @@ Partial Class frmVenta
         LabelStockArticulo.TabIndex = 8
         LabelStockArticulo.Text = "Stock"
         ' 
-        ' TextBoxCantidadSeleccionada
-        ' 
-        TextBoxCantidadSeleccionada.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        TextBoxCantidadSeleccionada.Font = New Font("Tahoma", 15.75F)
-        TextBoxCantidadSeleccionada.Location = New Point(427, 69)
-        TextBoxCantidadSeleccionada.Margin = New Padding(4, 3, 4, 3)
-        TextBoxCantidadSeleccionada.Name = "TextBoxCantidadSeleccionada"
-        TextBoxCantidadSeleccionada.Size = New Size(78, 33)
-        TextBoxCantidadSeleccionada.TabIndex = 2
-        TextBoxCantidadSeleccionada.TextAlign = HorizontalAlignment.Right
-        ' 
         ' btnArticulo
         ' 
         btnArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
@@ -224,15 +214,16 @@ Partial Class frmVenta
         btnArticulo.Size = New Size(55, 50)
         btnArticulo.TabIndex = 3
         ' 
-        ' TextBoxCodigoArticulo
+        ' TextEditCodigoArticulo
         ' 
-        TextBoxCodigoArticulo.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoArticulo.Location = New Point(16, 27)
-        TextBoxCodigoArticulo.Margin = New Padding(4, 3, 4, 3)
-        TextBoxCodigoArticulo.MaxLength = 15
-        TextBoxCodigoArticulo.Name = "TextBoxCodigoArticulo"
-        TextBoxCodigoArticulo.Size = New Size(182, 33)
-        TextBoxCodigoArticulo.TabIndex = 1
+        TextEditCodigoArticulo.Enabled = False
+        TextEditCodigoArticulo.Font = New Font("Tahoma", 15.75F)
+        TextEditCodigoArticulo.Location = New Point(16, 27)
+        TextEditCodigoArticulo.Margin = New Padding(4, 3, 4, 3)
+        TextEditCodigoArticulo.MaxLength = 15
+        TextEditCodigoArticulo.Name = "TextEditCodigoArticulo"
+        TextEditCodigoArticulo.Size = New Size(182, 33)
+        TextEditCodigoArticulo.TabIndex = 1
         ' 
         ' LabelNombreArticulo
         ' 
@@ -307,6 +298,19 @@ Partial Class frmVenta
         Label1.TabIndex = 1
         Label1.Text = "Venta Artículos"
         ' 
+        ' SpinEditCantidadSeleccionada
+        ' 
+        SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        SpinEditCantidadSeleccionada.Location = New Point(414, 75)
+        SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
+        SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
+        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
+        SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
+        SpinEditCantidadSeleccionada.Size = New Size(90, 24)
+        SpinEditCantidadSeleccionada.TabIndex = 26
+        ' 
         ' frmVenta
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -336,26 +340,27 @@ Partial Class frmVenta
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
         PanelTitulo.PerformLayout()
+        CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GroupControlUbicacion As DevExpress.XtraEditors.GroupControl
     Friend WithEvents btnUbicacion As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents TextBoxCodigoUbicacion As TextBox
+    Friend WithEvents TextEditCodigoUbicacion As TextBox
     Friend WithEvents LabelNombreUbicacion As DevExpress.XtraEditors.LabelControl
     Friend WithEvents GroupControlArticulos As DevExpress.XtraEditors.GroupControl
     Friend WithEvents btnArticulo As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents TextBoxCodigoArticulo As TextBox
+    Friend WithEvents TextEditCodigoArticulo As TextBox
     Friend WithEvents LabelNombreArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelControl1 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelStockArticulo As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents TextBoxCantidadSeleccionada As TextBox
     Friend WithEvents GridControlArticulosSeleccionados As DevExpress.XtraGrid.GridControl
     Friend WithEvents GridViewArticulosSeleccionados As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents LabelNombreAlmacen As DevExpress.XtraEditors.LabelControl
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents lblPorPeso As Label
+    Friend WithEvents LabelIndicadorPorPeso As Label
+    Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
 End Class

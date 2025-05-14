@@ -298,7 +298,11 @@ Module Querys
     ''' Clase que contiene consultas SQL de actualización.
     ''' </summary>
     Class Update
-        Public Shared Function MoverStockDeLote() As String
+        Public Shared Function ReducirStockEnLote() As String
+            Return "UPDATE StockLotes SET Uds_Tra = Uds_Tra - ? WHERE Articulo = ? AND Lote = ?"
+        End Function
+
+        Public Shared Function IncrementarStockEnLote() As String
             Return "UPDATE StockLotes SET Uds_Tra = Uds_Tra + ? WHERE Articulo = ? AND Lote = ?"
         End Function
     End Class

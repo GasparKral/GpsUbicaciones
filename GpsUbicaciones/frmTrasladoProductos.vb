@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports DevExpress.Mvvm.Native
-Imports DevExpress.XtraEditors
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Columns
 Imports DevExpress.XtraGrid.Views.Grid
@@ -117,21 +116,6 @@ Public Class frmTrasladoProductos
 
 #Region "Control de UI"
 
-    Private Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean)
-        Control.Properties.Mask.UseMaskAsDisplayFormat = True
-        If Valor Then
-            Control.Properties.IsFloatValue = True
-            Control.Properties.EditMask = $"N{nDecUds}"
-            Control.Properties.Increment = 0.1
-            LabelIndicadorPorPesoOrigen.Visible = True
-        Else
-            Control.Properties.IsFloatValue = False
-            Control.Properties.EditMask = "d"
-            Control.Properties.Increment = 1
-            LabelIndicadorPorPesoOrigen.Visible = False
-        End If
-    End Sub
-
     Private Sub actualizarCampoStockOrigen()
         Try
             If String.IsNullOrEmpty(TextEditCodigoArticuloOrigen.Text) OrElse String.IsNullOrEmpty(TextEditCodigoUbicacionOrigen.Text) Then
@@ -183,9 +167,6 @@ Public Class frmTrasladoProductos
         PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
     End Sub
 
-    Private Sub PermitirEdicion(campo As Control, estado As Boolean)
-        campo.Enabled = estado
-    End Sub
     Private Sub teCodigoArticulo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoArticuloOrigen.KeyPress
         ' Solo permitir caracteres alfanuméricos
         If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
@@ -250,10 +231,10 @@ Public Class frmTrasladoProductos
         Dim Trx = New NestedConditionalTransaction(Operacion)
 
         Dim SiExiste As Action(Of IDbConnection) = Sub(Conn)
-                                                       RepositorioStockLote.MoverStock(Conn, SpinEditCantidadSeleccionadaDestino.Value, TextEditCodigoArticuloDestino.Text, TextEditCodigoUbicacionDestino.Text)
+                                                       RepositorioStockLote.TransferirStock(Conn, SpinEditCantidadSeleccionadaDestino.Value, TextEditCodigoArticuloDestino.Text, ArticuloTransferido.CodigoUbicacionOrigen, TextEditCodigoUbicacionDestino.Text)
                                                    End Sub
         Dim NoExiste As Action(Of IDbConnection) = Sub(Conn)
-                                                       RepositorioStockLote.InsertarArticulo(Conn, SpinEditCantidadSeleccionadaDestino.Value, TextEditCodigoArticuloDestino.Text, TextEditCodigoUbicacionDestino.Text, Almacen)
+                                                       RepositorioStockLote.InsertarArticuloDesdeStock(Conn, SpinEditCantidadSeleccionadaDestino.Value, TextEditCodigoArticuloDestino.Text, ArticuloTransferido.CodigoUbicacionOrigen, TextEditCodigoUbicacionDestino.Text)
                                                    End Sub
 
         Dim success = Trx.ExecuteConditionalTransaction(
@@ -272,14 +253,18 @@ Public Class frmTrasladoProductos
             If articuloEnLista IsNot Nothing Then
                 If articuloEnLista.CantidadAMover = SpinEditCantidadSeleccionadaDestino.Value Then
                     ListaArticulos.Remove(articuloEnLista)
+                    If EsUltimoArticulo() Then
+                        PermitirEdicion(TextEditCodigoArticuloDestino, False)
+                    End If
                 Else
                     articuloEnLista.CantidadAMover -= SpinEditCantidadSeleccionadaDestino.Value
                     ListaArticulos = New BindingList(Of ProductoTraslado)(ListaArticulos.Where(Function(p) p IsNot articuloEnLista).Concat({articuloEnLista}).ToList())
+                    GridViewArticulosParaTraslado.RefreshData()
                 End If
             End If
 
             LimpiarCamposDestino()
-            PermitirEdicion(TextEditCodigoUbicacionDestino, False)
+            PermitirEdicion(TextEditCodigoArticuloDestino, False)
             PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
             ArticuloTransferido = Nothing
         End If
@@ -327,7 +312,7 @@ Public Class frmTrasladoProductos
 
         LabelNombreArticuloDestino.Text = ArticuloTransferido.Articulo.NombreComercial
 
-        AceptarDecimales(SpinEditCantidadSeleccionadaDestino, ArticuloTransferido.Articulo.PorPeso)
+        AceptarDecimales(SpinEditCantidadSeleccionadaDestino, ArticuloTransferido.Articulo.PorPeso, LabelIndicadorPorPesoDestino)
         PermitirEdicion(SpinEditCantidadSeleccionadaDestino, True)
         SpinEditCantidadSeleccionadaDestino.Properties.MaxValue = ArticuloTransferido.CantidadAMover
 
@@ -348,7 +333,7 @@ Public Class frmTrasladoProductos
 
         LabelNombreArticuloOrigen.Text = stockLote.Articulo.NombreComercial
 
-        AceptarDecimales(SpinEditCantidadSeleccionadaOrigen, stockLote.Articulo.PorPeso)
+        AceptarDecimales(SpinEditCantidadSeleccionadaOrigen, stockLote.Articulo.PorPeso, LabelIndicadorPorPesoOrigen)
 
         LabelNombreUbicacionOrigen.Text = stockLote.Lote.Nombre
         LabelStockArticuloOrigen.Text = stockLote.Cantidad.ToString()
