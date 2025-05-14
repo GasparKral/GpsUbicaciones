@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports DevExpress.Data.Extensions
 Imports DevExpress.Mvvm.Native
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Columns
@@ -153,8 +154,6 @@ Public Class frmTrasladoProductos
         LabelNombreUbicacionOrigen.Text = String.Empty
         LabelNombreArticuloOrigen.Text = String.Empty
         SpinEditCantidadSeleccionadaOrigen.Value = 0
-        PermitirEdicion(TextEditCodigoUbicacionOrigen, False)
-        PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, False)
     End Sub
     Private Sub LimpiarCamposDestino()
         TextEditCodigoArticuloDestino.Clear()
@@ -163,8 +162,6 @@ Public Class frmTrasladoProductos
         LabelNombreUbicacionDestino.Text = String.Empty
         LabelNombreArticuloDestino.Text = String.Empty
         SpinEditCantidadSeleccionadaDestino.Value = 0
-        PermitirEdicion(TextEditCodigoUbicacionDestino, False)
-        PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
     End Sub
 
     Private Sub teCodigoArticulo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoArticuloOrigen.KeyPress
@@ -219,6 +216,7 @@ Public Class frmTrasladoProductos
 
                 ListaArticulos.Add(nuevoProducto)
                 PermitirEdicion(TextEditCodigoUbicacionDestino, True)
+                PermitirEdicion(TextEditCodigoArticuloOrigen, False)
                 LimpiarCamposOrigen()
                 SpinEditCantidadSeleccionadaOrigen.Value = 0
             End If
@@ -248,20 +246,17 @@ Public Class frmTrasladoProductos
         If success Then
             GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesGenerales.GuardadoCorrectamente)
 
-            Dim articuloEnLista = ListaArticulos.Where(Function(p) p.Articulo.Codigo = ArticuloTransferido.Articulo.Codigo).FirstOrDefault()
+            Dim index = ListaArticulos.FindIndex(Function(p) p.Articulo.Codigo = ArticuloTransferido.Articulo.Codigo)
 
-            If articuloEnLista IsNot Nothing Then
+            If index >= 0 Then
+                Dim articuloEnLista = ListaArticulos(index)
                 If articuloEnLista.CantidadAMover = SpinEditCantidadSeleccionadaDestino.Value Then
-                    ListaArticulos.Remove(articuloEnLista)
-                    If EsUltimoArticulo() Then
-                        PermitirEdicion(TextEditCodigoArticuloDestino, False)
-                    End If
+                    ListaArticulos.RemoveAt(index)
                 Else
                     articuloEnLista.CantidadAMover -= SpinEditCantidadSeleccionadaDestino.Value
-                    ListaArticulos = New BindingList(Of ProductoTraslado)(ListaArticulos.Where(Function(p) p IsNot articuloEnLista).Concat({articuloEnLista}).ToList())
-                    GridViewArticulosParaTraslado.RefreshData()
                 End If
             End If
+            GridViewArticulosParaTraslado.RefreshData()
 
             LimpiarCamposDestino()
             PermitirEdicion(TextEditCodigoArticuloDestino, False)
@@ -375,7 +370,7 @@ Public Class frmTrasladoProductos
         End If
 
         LabelNombreUbicacionOrigen.Text = Ubicacion.Nombre
-        PermitirEdicion(TextEditCodigoUbicacionOrigen, True)
+        PermitirEdicion(TextEditCodigoArticuloOrigen, True)
     End Sub
 #End Region
 
