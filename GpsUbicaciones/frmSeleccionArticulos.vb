@@ -2,19 +2,10 @@
 
 Public Class frmSeleccionArticulos
 
-    Private Articulos As New BindingList(Of ProductoSeleccion)
+    Private Articulos As New BindingList(Of Pedido)
     Private ArticulosSeleccionados As New BindingList(Of ProductoSeleccion)
 
 #Region "Validación de Campos"
-
-    Private Function ValidarCampoVacio(textBox As TextBox, mensaje As String) As Boolean
-        If String.IsNullOrEmpty(textBox.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, mensaje)
-            textBox.Focus()
-            Return False
-        End If
-        Return True
-    End Function
 
 #End Region
 
@@ -37,11 +28,11 @@ Public Class frmSeleccionArticulos
             GridView2.Columns.Clear()
             ' Columna Articulo
             Dim colArticulo As New DevExpress.XtraGrid.Columns.GridColumn()
-            colArticulo.FieldName = "Articulo"
-            colArticulo.Caption = "UBICACIÓN"
+            colArticulo.FieldName = "Codigo"
+            colArticulo.Caption = "ARTICULO"
             colArticulo.Visible = True
             colArticulo.VisibleIndex = 0
-            colArticulo.Width = 50
+            colArticulo.Width = 35
             GridView2.Columns.Add(colArticulo)
             ' Columna Nombre
             Dim colNombre As New DevExpress.XtraGrid.Columns.GridColumn()
@@ -52,19 +43,19 @@ Public Class frmSeleccionArticulos
             GridView2.Columns.Add(colNombre)
             ' Columna Ubicacion
             Dim colUbicacion As New DevExpress.XtraGrid.Columns.GridColumn()
-            colUbicacion.FieldName = "Ubicacion"
+            colUbicacion.FieldName = "Destino"
             colUbicacion.Caption = "DESTINO"
             colUbicacion.Visible = True
             colUbicacion.VisibleIndex = 2
-            colUbicacion.Width = 40
+            colUbicacion.Width = 60
             GridView2.Columns.Add(colUbicacion)
             ' Columna Uds
             Dim colUds As New DevExpress.XtraGrid.Columns.GridColumn()
-            colUds.FieldName = "Uds"
+            colUds.FieldName = "Unidades"
             colUds.Caption = "UDS"
             colUds.Visible = True
             colUds.VisibleIndex = 3
-            colUds.Width = 25
+            colUds.Width = 15
             GridView2.Columns.Add(colUds)
         End If
 
@@ -115,19 +106,19 @@ Public Class frmSeleccionArticulos
     End Sub
 
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
-        LabelNombreArticulo.Text = ""
-        LabelStockArticulo.Text = ""
-        TextBoxCodigoArticulo.Text = ""
-        TextBoxCantidadSeleccionada.Text = ""
+        LabelNombreArticulo.Text = String.Empty
+        LabelStockArticulo.Text = String.Empty
+        TextBoxCodigoArticulo.Text = String.Empty
+        SpinEditCantidadSeleccionada.Value = 0
         If ActivarFoco Then
             TextBoxCodigoArticulo.Focus()
         End If
     End Sub
 
     Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
-        LabelNombreUbicacion.Text = ""
-        LabelNombreAlmacen.Text = ""
-        TextBoxCodigoUbicacion.Text = ""
+        LabelNombreUbicacion.Text = String.Empty
+        LabelNombreAlmacen.Text = String.Empty
+        TextBoxCodigoUbicacion.Text = String.Empty
         If ActivarFoco Then
             TextBoxCodigoUbicacion.Focus()
         End If
@@ -214,23 +205,6 @@ Public Class frmSeleccionArticulos
         GridPedidos.DataSource = RepositorioPedidos.ObtenerPedidosPorFecha(DatePicker.DateTime)
     End Sub
 
-    'Private Sub DatePicker_Validated(sender As Object, e As EventArgs) Handles DatePicker.Validated
-    '    ' cargar en gridpedidos la selección de pedidos
-    '    Try
-    '        Dim dsDatos = Operacion.ExecuteQuery("SELECT Articulo,Descripcion,Round(Sum(Cantidad)," & nDecUds & ") AS SumaUds FROM PedCli INNER JOIN MovPCl ON PedCli.Serie=MovPcl.Serie AND PedCli.Numero=MovPCl.Numero WHERE Fecha=#" & DatePicker.DateTime.ToString("MM-dd-yyyy") & "# AND Articulo<>'' GROUP BY Articulo,Descripcion")
-    '        GridPedidos.DataSource = dsDatos
-    '    Catch ex As Exception
-    '        FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, TextBoxCodigoArticulo.Text))
-    '    End Try
-    'End Sub
-
-    Private Sub datePicker_Validating(sender As Object, e As CancelEventArgs) Handles DatePicker.Validating
-        ' Si no tiene valor no abandonar el control
-        If DatePicker.DateTime = Nothing Then
-            e.Cancel = True
-        End If
-    End Sub
-
     Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
 
         If TextBoxCodigoArticulo.Text = "" Then
@@ -256,6 +230,38 @@ Public Class frmSeleccionArticulos
 
     End Sub
 
+    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoUbicacion.TextChanged
+        Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextBoxCodigoUbicacion.Text)
+
+        If Ubicacion Is Nothing Then
+            TextBoxCodigoUbicacion.SelectAll()
+            TextBoxCodigoUbicacion.Focus()
+            Exit Sub
+        End If
+
+        LabelNombreUbicacion.Text = Ubicacion.Nombre
+        LabelNombreAlmacen.Text = Ubicacion.NombreAlmacen
+        PermitirEdicion(TextBoxCodigoArticulo, True)
+    End Sub
+
+    Private Sub TextBoxCodigoArticulo_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoArticulo.TextChanged
+
+        Dim StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+
+        If StockLote Is Nothing Then
+            TextBoxCodigoArticulo.SelectAll()
+            TextBoxCodigoArticulo.Focus()
+            Exit Sub
+        End If
+
+        LabelStockArticulo.Text = StockLote.Cantidad
+        LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
+        AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
+        PermitirEdicion(SpinEditCantidadSeleccionada, True)
+    End Sub
+
 #End Region
 
 End Class
+
+

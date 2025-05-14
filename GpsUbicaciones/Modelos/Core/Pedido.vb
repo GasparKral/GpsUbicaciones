@@ -1,5 +1,5 @@
 ﻿Public Class Pedido
-    Property Identificador As Integer
+    Property Identificador As String
     Property Fecha As DateTime
     Property Destino As String
     Property Unidades As Single
@@ -20,5 +20,17 @@
             Throw New FormatException("La fecha no está en el formato dd/mm/yyyy")
         End If
     End Function
+
+    Public ReadOnly Property Nombre As String
+        Get
+            Return Articulo.NombreComercial
+        End Get
+    End Property
+
+    Public ReadOnly Property Codigo As String
+        Get
+            Return Articulo.Codigo
+        End Get
+    End Property
 
 End Class

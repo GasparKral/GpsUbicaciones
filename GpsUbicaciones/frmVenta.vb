@@ -64,7 +64,7 @@
 
 #Region "Eventos de Formulario"
 
-    Private Sub btnArticulo_Click(sender As Object, e As EventArgs) Handles btnArticulo.Click
+    Private Sub BotonConfirmarArticulo_Click(sender As Object, e As EventArgs) Handles BotonConfirmarArticulo.Click
 
         ' Grabar la asignación
         Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, TextEditCodigoArticulo.Text, TextEditCodigoUbicacion.Text, SpinEditCantidadSeleccionada.Value)
@@ -78,6 +78,7 @@
         row("Uds") = CInt(SpinEditCantidadSeleccionada.Value)
         dt.Rows.Add(row)
 
+        LimpiarArticulo()
         LimpiarUbicacion()
     End Sub
 
@@ -85,7 +86,7 @@
         Me.Close()
     End Sub
 
-    Private Sub btnUbicacion_Click(sender As Object, e As EventArgs) Handles btnUbicacion.Click
+    Private Sub BotonConfirmarUbicacion_Click(sender As Object, e As EventArgs) Handles BotonConfirmarUbicacion.Click
         PermitirEdicion(TextEditCodigoUbicacion, False)
         PermitirEdicion(TextEditCodigoArticulo, True)
     End Sub
@@ -113,7 +114,7 @@
             LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
             LabelStockArticulo.Text = StockLote.Cantidad
             AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
-
+            PermitirEdicion(SpinEditCantidadSeleccionada, True)
         End Using
     End Sub
 

@@ -4,13 +4,12 @@ Public Class RepositorioPedidos
     Public Shared Function ObtenerPedidosPorFecha(fecha As Date) As BindingList(Of Pedido)
         Dim pedidos As New BindingList(Of Pedido)
 
-        Dim dsDatos = Cursor(Of DataRow).From(Operacion.ExecuteQuery(Querys.Select.ConsultarPedidosPorFecha, fecha).Tables(0).Rows)
+        Dim dsDatos = Operacion.ExecuteQuery(Querys.Select.ConsultarPedidosPorFecha, fecha.ToUniversalTime.Date.ToString("dd/MM/yyyy")).Tables(0).Rows
 
-        While dsDatos.HasNext
-            Dim TempRow = dsDatos.NextValue
+        For Each TempRow As DataRow In dsDatos
 
             Dim pedido As New Pedido With {
-                .Identificador = TempRow("Identificador"),
+                .Identificador = IIf(IsDBNull(TempRow("Identificador")), Nothing, TempRow("Identificador")),
                 .Articulo = New Articulo With {
                     .Codigo = TempRow("CodigoArticulo"),
                     .NombreComercial = TempRow("NombreArticulo"),
@@ -22,7 +21,8 @@ Public Class RepositorioPedidos
             }
 
             pedidos.Add(pedido)
-        End While
+        Next
+
 
         Return pedidos
     End Function
