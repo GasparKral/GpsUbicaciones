@@ -87,7 +87,7 @@ Partial Class frmTrasladoProductos
         ' GridControlArticulosParaTraslado
         ' 
         GridControlArticulosParaTraslado.BackgroundImageLayout = ImageLayout.None
-        GridControlArticulosParaTraslado.EmbeddedNavigator.Margin = New Padding(6, 3, 6, 3)
+        GridControlArticulosParaTraslado.EmbeddedNavigator.Margin = New Padding(7, 3, 7, 3)
         GridControlArticulosParaTraslado.Location = New Point(10, 310)
         GridControlArticulosParaTraslado.MainView = GridViewArticulosParaTraslado
         GridControlArticulosParaTraslado.MinimumSize = New Size(0, 300)
@@ -157,7 +157,7 @@ Partial Class frmTrasladoProductos
         LabelIndicadorPorPesoOrigen.BackColor = Color.White
         LabelIndicadorPorPesoOrigen.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LabelIndicadorPorPesoOrigen.ForeColor = Color.Red
-        LabelIndicadorPorPesoOrigen.Location = New Point(262, 186)
+        LabelIndicadorPorPesoOrigen.Location = New Point(262, 182)
         LabelIndicadorPorPesoOrigen.Name = "LabelIndicadorPorPesoOrigen"
         LabelIndicadorPorPesoOrigen.Size = New Size(230, 25)
         LabelIndicadorPorPesoOrigen.TabIndex = 28
@@ -180,7 +180,7 @@ Partial Class frmTrasladoProductos
         ' SpinEditCantidadSeleccionadaOrigen
         ' 
         SpinEditCantidadSeleccionadaOrigen.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditCantidadSeleccionadaOrigen.Location = New Point(152, 186)
+        SpinEditCantidadSeleccionadaOrigen.Location = New Point(148, 183)
         SpinEditCantidadSeleccionadaOrigen.Name = "SpinEditCantidadSeleccionadaOrigen"
         SpinEditCantidadSeleccionadaOrigen.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SpinEditCantidadSeleccionadaOrigen.Properties.Appearance.Options.UseFont = True
@@ -194,7 +194,7 @@ Partial Class frmTrasladoProductos
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Tahoma", 15.75F)
-        Label2.Location = New Point(26, 183)
+        Label2.Location = New Point(26, 182)
         Label2.Margin = New Padding(3, 0, 0, 6)
         Label2.Name = "Label2"
         Label2.Size = New Size(113, 25)
@@ -213,7 +213,7 @@ Partial Class frmTrasladoProductos
         LabelStockArticuloOrigen.Appearance.Options.UseTextOptions = True
         LabelStockArticuloOrigen.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticuloOrigen.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticuloOrigen.Location = New Point(396, 108)
+        LabelStockArticuloOrigen.Location = New Point(396, 107)
         LabelStockArticuloOrigen.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticuloOrigen.Name = "LabelStockArticuloOrigen"
         LabelStockArticuloOrigen.Size = New Size(158, 28)
@@ -224,7 +224,7 @@ Partial Class frmTrasladoProductos
         ' 
         Label3.AutoSize = True
         Label3.Font = New Font("Tahoma", 15.75F)
-        Label3.Location = New Point(316, 109)
+        Label3.Location = New Point(316, 107)
         Label3.Margin = New Padding(3, 0, 0, 6)
         Label3.Name = "Label3"
         Label3.Size = New Size(76, 25)
@@ -241,7 +241,7 @@ Partial Class frmTrasladoProductos
         LabelNombreUbicacionOrigen.Appearance.Options.UseFont = True
         LabelNombreUbicacionOrigen.Appearance.Options.UseForeColor = True
         LabelNombreUbicacionOrigen.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreUbicacionOrigen.Location = New Point(26, 143)
+        LabelNombreUbicacionOrigen.Location = New Point(26, 66)
         LabelNombreUbicacionOrigen.Margin = New Padding(4, 3, 4, 3)
         LabelNombreUbicacionOrigen.Name = "LabelNombreUbicacionOrigen"
         LabelNombreUbicacionOrigen.Size = New Size(529, 28)
@@ -252,7 +252,7 @@ Partial Class frmTrasladoProductos
         ' 
         lblUbicacion.AutoSize = True
         lblUbicacion.Font = New Font("Tahoma", 15.75F)
-        lblUbicacion.Location = New Point(25, 109)
+        lblUbicacion.Location = New Point(25, 32)
         lblUbicacion.Margin = New Padding(3, 0, 0, 6)
         lblUbicacion.Name = "lblUbicacion"
         lblUbicacion.Size = New Size(123, 25)
@@ -262,21 +262,21 @@ Partial Class frmTrasladoProductos
         ' TextEditCodigoUbicacionOrigen
         ' 
         TextEditCodigoUbicacionOrigen.Enabled = False
-        TextEditCodigoUbicacionOrigen.Location = New Point(154, 109)
+        TextEditCodigoUbicacionOrigen.Location = New Point(154, 32)
         TextEditCodigoUbicacionOrigen.Margin = New Padding(6, 3, 3, 6)
         TextEditCodigoUbicacionOrigen.MinimumSize = New Size(0, 25)
         TextEditCodigoUbicacionOrigen.Name = "TextEditCodigoUbicacionOrigen"
         TextEditCodigoUbicacionOrigen.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoUbicacionOrigen.Properties.Appearance.Options.UseFont = True
         TextEditCodigoUbicacionOrigen.Properties.MaxLength = 13
-        TextEditCodigoUbicacionOrigen.Size = New Size(156, 22)
+        TextEditCodigoUbicacionOrigen.Size = New Size(156, 25)
         TextEditCodigoUbicacionOrigen.TabIndex = 19
         ' 
         ' lblArticulo
         ' 
         lblArticulo.AutoSize = True
         lblArticulo.Font = New Font("Tahoma", 15.75F)
-        lblArticulo.Location = New Point(25, 33)
+        lblArticulo.Location = New Point(26, 108)
         lblArticulo.Margin = New Padding(3, 0, 0, 6)
         lblArticulo.Name = "lblArticulo"
         lblArticulo.Size = New Size(110, 25)
@@ -293,7 +293,7 @@ Partial Class frmTrasladoProductos
         LabelNombreArticuloOrigen.Appearance.Options.UseFont = True
         LabelNombreArticuloOrigen.Appearance.Options.UseForeColor = True
         LabelNombreArticuloOrigen.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreArticuloOrigen.Location = New Point(25, 67)
+        LabelNombreArticuloOrigen.Location = New Point(26, 142)
         LabelNombreArticuloOrigen.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticuloOrigen.Name = "LabelNombreArticuloOrigen"
         LabelNombreArticuloOrigen.Size = New Size(529, 28)
@@ -302,14 +302,14 @@ Partial Class frmTrasladoProductos
         ' 
         ' TextEditCodigoArticuloOrigen
         ' 
-        TextEditCodigoArticuloOrigen.Location = New Point(141, 33)
+        TextEditCodigoArticuloOrigen.Location = New Point(142, 108)
         TextEditCodigoArticuloOrigen.Margin = New Padding(6, 3, 3, 6)
         TextEditCodigoArticuloOrigen.MinimumSize = New Size(0, 25)
         TextEditCodigoArticuloOrigen.Name = "TextEditCodigoArticuloOrigen"
         TextEditCodigoArticuloOrigen.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoArticuloOrigen.Properties.Appearance.Options.UseFont = True
         TextEditCodigoArticuloOrigen.Properties.MaxLength = 13
-        TextEditCodigoArticuloOrigen.Size = New Size(156, 22)
+        TextEditCodigoArticuloOrigen.Size = New Size(156, 25)
         TextEditCodigoArticuloOrigen.TabIndex = 12
         ' 
         ' btnConsultaArtUbiacion
@@ -474,7 +474,7 @@ Partial Class frmTrasladoProductos
         LabelStockArticuloDestino.Appearance.Options.UseTextOptions = True
         LabelStockArticuloDestino.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticuloDestino.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticuloDestino.Location = New Point(397, 115)
+        LabelStockArticuloDestino.Location = New Point(397, 111)
         LabelStockArticuloDestino.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticuloDestino.Name = "LabelStockArticuloDestino"
         LabelStockArticuloDestino.Size = New Size(157, 28)
@@ -485,7 +485,7 @@ Partial Class frmTrasladoProductos
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Tahoma", 15.75F)
-        Label6.Location = New Point(316, 115)
+        Label6.Location = New Point(316, 112)
         Label6.Margin = New Padding(3, 0, 0, 6)
         Label6.Name = "Label6"
         Label6.Size = New Size(76, 25)
@@ -502,7 +502,7 @@ Partial Class frmTrasladoProductos
         LabelNombreUbicacionDestino.Appearance.Options.UseFont = True
         LabelNombreUbicacionDestino.Appearance.Options.UseForeColor = True
         LabelNombreUbicacionDestino.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreUbicacionDestino.Location = New Point(26, 153)
+        LabelNombreUbicacionDestino.Location = New Point(27, 71)
         LabelNombreUbicacionDestino.Margin = New Padding(4, 3, 4, 3)
         LabelNombreUbicacionDestino.Name = "LabelNombreUbicacionDestino"
         LabelNombreUbicacionDestino.Size = New Size(528, 28)
@@ -513,7 +513,7 @@ Partial Class frmTrasladoProductos
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Tahoma", 15.75F)
-        Label7.Location = New Point(25, 113)
+        Label7.Location = New Point(26, 33)
         Label7.Margin = New Padding(3, 0, 0, 6)
         Label7.Name = "Label7"
         Label7.Size = New Size(123, 25)
@@ -523,21 +523,21 @@ Partial Class frmTrasladoProductos
         ' TextEditCodigoUbicacionDestino
         ' 
         TextEditCodigoUbicacionDestino.Enabled = False
-        TextEditCodigoUbicacionDestino.Location = New Point(154, 115)
+        TextEditCodigoUbicacionDestino.Location = New Point(153, 34)
         TextEditCodigoUbicacionDestino.Margin = New Padding(6, 3, 3, 6)
         TextEditCodigoUbicacionDestino.MinimumSize = New Size(0, 25)
         TextEditCodigoUbicacionDestino.Name = "TextEditCodigoUbicacionDestino"
         TextEditCodigoUbicacionDestino.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoUbicacionDestino.Properties.Appearance.Options.UseFont = True
         TextEditCodigoUbicacionDestino.Properties.MaxLength = 13
-        TextEditCodigoUbicacionDestino.Size = New Size(156, 22)
+        TextEditCodigoUbicacionDestino.Size = New Size(156, 25)
         TextEditCodigoUbicacionDestino.TabIndex = 19
         ' 
         ' Label8
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Tahoma", 15.75F)
-        Label8.Location = New Point(25, 37)
+        Label8.Location = New Point(25, 113)
         Label8.Margin = New Padding(3, 0, 0, 6)
         Label8.Name = "Label8"
         Label8.Size = New Size(110, 25)
@@ -554,7 +554,7 @@ Partial Class frmTrasladoProductos
         LabelNombreArticuloDestino.Appearance.Options.UseFont = True
         LabelNombreArticuloDestino.Appearance.Options.UseForeColor = True
         LabelNombreArticuloDestino.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreArticuloDestino.Location = New Point(26, 71)
+        LabelNombreArticuloDestino.Location = New Point(26, 147)
         LabelNombreArticuloDestino.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticuloDestino.Name = "LabelNombreArticuloDestino"
         LabelNombreArticuloDestino.Size = New Size(529, 28)
@@ -564,14 +564,14 @@ Partial Class frmTrasladoProductos
         ' TextEditCodigoArticuloDestino
         ' 
         TextEditCodigoArticuloDestino.Enabled = False
-        TextEditCodigoArticuloDestino.Location = New Point(141, 37)
+        TextEditCodigoArticuloDestino.Location = New Point(141, 113)
         TextEditCodigoArticuloDestino.Margin = New Padding(6, 3, 3, 6)
         TextEditCodigoArticuloDestino.MinimumSize = New Size(0, 25)
         TextEditCodigoArticuloDestino.Name = "TextEditCodigoArticuloDestino"
         TextEditCodigoArticuloDestino.Properties.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TextEditCodigoArticuloDestino.Properties.Appearance.Options.UseFont = True
         TextEditCodigoArticuloDestino.Properties.MaxLength = 13
-        TextEditCodigoArticuloDestino.Size = New Size(156, 22)
+        TextEditCodigoArticuloDestino.Size = New Size(156, 25)
         TextEditCodigoArticuloDestino.TabIndex = 12
         ' 
         ' Button1
@@ -624,7 +624,7 @@ Partial Class frmTrasladoProductos
         Margin = New Padding(2, 3, 2, 3)
         MinimumSize = New Size(600, 900)
         Name = "frmTrasladoProductos"
-        Padding = New Padding(10, 10, 10, 10)
+        Padding = New Padding(10)
         StartPosition = FormStartPosition.Manual
         Text = "Translado Mercancía"
         CType(GridViewArticulosParaTraslado, ComponentModel.ISupportInitialize).EndInit()

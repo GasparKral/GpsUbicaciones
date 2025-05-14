@@ -240,6 +240,25 @@ Module Querys
                         U.Codigo = ?"
         End Function
 
+        Public Shared Function ConsultarPedidosPorFecha() As String
+            Return $"SELECT
+                        P.Numero as Identificador,
+                        P.Fecha,
+                        P.Direccion,
+                        A.Codigo as CodigoArticulo,
+                        A.NombreComercial as NombreArticulo,
+                        A.PorPeso,
+                        M.Cantidad
+                    FROM
+                        (PEDCLI AS P
+                        INNER JOIN MOVPCL AS M ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO)
+                        INNER JOIN ARTICULOS AS A ON M.ARTICULO = A.Codigo
+                    WHERE
+                        P.Fecha = ? AND
+                        M.ARTICULO IS NOT NULL"
+        End Function
+
+
     End Class
 
     ''' <summary>
@@ -257,7 +276,7 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL de inserción que no devuelve resultados. Inserta un registro en la tabla StockLotes.</returns>
         Public Shared Function InsertarNuevoLoteDeArticuloEnStock() As String
-            Return "INSERT INTO StockLotes (Almacen, Lote, Articulo, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, ?, 0, 0, 0)"
+            Return "INSERT INTO StockLotes (Almacen, Lote, Articulo, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, 0, 0, 0, ?)"
         End Function
 
         ''' <summary>
@@ -279,19 +298,6 @@ Module Querys
     ''' Clase que contiene consultas SQL de actualización.
     ''' </summary>
     Class Update
-        ''' <summary>
-        ''' Obtiene una consulta SQL para actualizar la cantidad de stock de un lote.
-        ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Cantidad - Cantidad a añadir a Uds_Ini (puede ser negativa para restar)
-        ''' 2. Articulo - Código del artículo
-        ''' 3. Lote - Código del lote
-        ''' </param>
-        ''' <returns>Consulta SQL de actualización que no devuelve resultados. Actualiza el campo Uds_Ini en la tabla StockLotes.</returns>
-        Public Shared Function AgregarStock() As String
-            Return "UPDATE StockLotes SET Uds_Ini = Uds_Ini + ? WHERE Articulo = ? AND Lote = ?"
-        End Function
-
         Public Shared Function MoverStockDeLote() As String
             Return "UPDATE StockLotes SET Uds_Tra = Uds_Tra + ? WHERE Articulo = ? AND Lote = ?"
         End Function

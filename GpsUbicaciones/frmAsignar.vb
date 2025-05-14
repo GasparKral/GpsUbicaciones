@@ -263,7 +263,7 @@ Public Class frmAsignar
                 ' Definir acciones para cada caso
                 Dim ifTrueAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.ActualizarArticulo(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+                        RepositorioStockLote.MoverStock(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                     End Sub
 
                 Dim ifFalseAction As Action(Of IDbConnection) =

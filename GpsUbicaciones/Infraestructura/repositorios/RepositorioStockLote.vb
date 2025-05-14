@@ -63,10 +63,6 @@ Public Class RepositorioStockLote
         Return Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock, Almacen, CodigoUbicacion, CodigoArticulo, Stock)
     End Function
 
-    Public Shared Function ActualizarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer
-        Return Operacion.ExecuteNonQuery(Connection, Querys.Update.AgregarStock, Stock, CodigoArticulo, CodigoUbicacion)
-    End Function
-
     Public Shared Function MoverStock(Connection As IDbConnection, Cantidad As Single, CodigoArticulo As String, CodigoUbicacionOrigen As String) As Integer
         Return Operacion.ExecuteNonQuery(Connection, Querys.Update.MoverStockDeLote, Cantidad, CodigoArticulo, CodigoUbicacionOrigen)
     End Function

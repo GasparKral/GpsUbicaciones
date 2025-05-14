@@ -64,7 +64,7 @@ Partial Class frmSeleccionArticulos
         ' btnSalir
         ' 
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
@@ -79,9 +79,9 @@ Partial Class frmSeleccionArticulos
         ' GroupControlUbicacion
         ' 
         GroupControlUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        GroupControlUbicacion.Appearance.BackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        GroupControlUbicacion.Appearance.BackColor = Color.FromArgb(224, 224, 224)
         GroupControlUbicacion.Appearance.Options.UseBackColor = True
-        GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         GroupControlUbicacion.AppearanceCaption.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
         GroupControlUbicacion.Controls.Add(lblPorPeso)
@@ -104,7 +104,7 @@ Partial Class frmSeleccionArticulos
         ' lblPorPeso
         ' 
         lblPorPeso.BackColor = Color.White
-        lblPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0)
         lblPorPeso.ForeColor = Color.Red
         lblPorPeso.Location = New Point(295, 109)
         lblPorPeso.Name = "lblPorPeso"
@@ -117,7 +117,7 @@ Partial Class frmSeleccionArticulos
         ' LabelControl1
         ' 
         LabelControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0)
         LabelControl1.Appearance.Options.UseFont = True
         LabelControl1.Location = New Point(16, 109)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
@@ -205,7 +205,7 @@ Partial Class frmSeleccionArticulos
         ' 
         LabelNombreUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         LabelNombreUbicacion.Appearance.BackColor = Color.RoyalBlue
-        LabelNombreUbicacion.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelNombreUbicacion.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0)
         LabelNombreUbicacion.Appearance.ForeColor = Color.White
         LabelNombreUbicacion.Appearance.Options.UseBackColor = True
         LabelNombreUbicacion.Appearance.Options.UseFont = True
@@ -239,7 +239,7 @@ Partial Class frmSeleccionArticulos
         ' 
         GridControlArticulosSeleccionados.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        GridControlArticulosSeleccionados.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridControlArticulosSeleccionados.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
         GridControlArticulosSeleccionados.Location = New Point(13, 369)
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
@@ -272,7 +272,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ' LabelControl2
         ' 
-        LabelControl2.Appearance.BackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        LabelControl2.Appearance.BackColor = Color.FromArgb(224, 224, 224)
         LabelControl2.Appearance.Options.UseBackColor = True
         LabelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
         LabelControl2.ImageOptions.Image = CType(resources.GetObject("LabelControl2.ImageOptions.Image"), Image)
@@ -285,7 +285,7 @@ Partial Class frmSeleccionArticulos
         ' 
         Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label1.AutoSize = True
-        Label1.Font = New Font("Microsoft Sans Serif", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Microsoft Sans Serif", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
         Label1.ForeColor = Color.White
         Label1.Location = New Point(253, 7)
         Label1.Name = "Label1"
@@ -344,9 +344,9 @@ Partial Class frmSeleccionArticulos
         DatePicker.EditValue = Nothing
         DatePicker.Location = New Point(86, 54)
         DatePicker.Name = "DatePicker"
-        DatePicker.Properties.Appearance.Font = New Font("Tahoma", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DatePicker.Properties.Appearance.Font = New Font("Tahoma", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
         DatePicker.Properties.Appearance.Options.UseFont = True
-        DatePicker.Properties.AppearanceCalendar.DayCell.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DatePicker.Properties.AppearanceCalendar.DayCell.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, 0)
         DatePicker.Properties.AppearanceCalendar.DayCell.Options.UseFont = True
         DatePicker.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         DatePicker.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
@@ -358,7 +358,7 @@ Partial Class frmSeleccionArticulos
         ' LabelControl3
         ' 
         LabelControl3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        LabelControl3.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelControl3.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0)
         LabelControl3.Appearance.Options.UseFont = True
         LabelControl3.Location = New Point(14, 62)
         LabelControl3.Margin = New Padding(3, 2, 3, 2)
@@ -371,7 +371,7 @@ Partial Class frmSeleccionArticulos
         ' 
         GridPedidos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridPedidos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        GridPedidos.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridPedidos.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0)
         GridPedidos.Location = New Point(14, 99)
         GridPedidos.MainView = GridView2
         GridPedidos.Margin = New Padding(3, 2, 3, 2)
