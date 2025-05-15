@@ -66,7 +66,7 @@ Module Querys
         End Function
 
         Public Shared Function ConsultarArticulosEnUbicacion() As String
-            Return "SELECT
+            Return $"SELECT
                         A.Codigo AS CodigoArticulo,
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
@@ -82,14 +82,14 @@ Module Querys
                       ((ARTICULOS AS A
                         INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
                         INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
-                        INNER JOIN ALMACENES AS AL ON Left(U.Codigo,2) = AL.Codigo
+                        INNER JOIN ALMACENES AS AL ON {Almacen} = AL.Codigo
                     WHERE 
                         S.Lote = ? AND
                         S.Almacen = ? "
         End Function
 
         Public Shared Function ConsultarArticuloEnUbicacion() As String
-            Return "SELECT
+            Return $"SELECT
                         A.Codigo AS CodigoArticulo,
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
@@ -105,7 +105,7 @@ Module Querys
                       ((ARTICULOS AS A
                         INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
                         INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
-                        INNER JOIN ALMACENES AS AL ON Left(U.Codigo,2) = AL.Codigo
+                        INNER JOIN ALMACENES AS AL ON {Almacen} = AL.Codigo
                     WHERE 
                         A.Codigo = ? AND
                         S.Lote = ?"
@@ -210,14 +210,14 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve: Codigo[de la ubicación], Nombre[de la ubicación], CodigoAlmacen, Almacen[Nombre del almacén].</returns>
         Public Shared Function ConsultarDatosUbicacionPorCodigo() As String
-            Return "SELECT
+            Return $"SELECT
                         U.Codigo,
                         U.Nombre,
                         A.Codigo AS CodigoAlmacen,
                         A.Nombre AS Almacen
                     FROM
                         UBICACIONES AS U 
-                        LEFT JOIN ALMACENES AS A ON Left(U.Codigo,2) = A.Codigo 
+                        LEFT JOIN ALMACENES AS A ON {Almacen} = A.Codigo 
                     WHERE
                         U.Codigo = ?"
         End Function
@@ -241,26 +241,20 @@ Module Querys
         End Function
 
         Public Shared Function ConsultarPedidosPorFecha() As String
-            Return $"SELECT
-                P.Identificacion as Identificador,
-                P.Fecha,
-                (Trim(IIF(P.DirecEnvio IS NULL, '', P.DirecEnvio) & ' ' & 
-                IIF(P.PoblaEnvio IS NULL, '', P.PoblaEnvio) & ' ' & 
-                IIF(P.CPEnvio IS NULL, '', P.CPEnvio) & ' ' & 
-                IIF(P.ProviEnvio IS NULL, '', P.ProviEnvio) & ' ' & 
-                IIF(P.PaisEnvio IS NULL, '', P.PaisEnvio))) as Destino,
-                A.Codigo as CodigoArticulo,
-                A.NombreComercial as NombreArticulo,
-                A.PorPeso,
-                Round(M.Cantidad,{nDecUds}) as Cantidad,
-                M.Descripcion
+            Return $"SELECT    
+                M.Articulo,
+                M.Descripcion,
+                Round(Sum(M.Cantidad),{nDecUds}) as Cantidad
             FROM
-                (PEDCLI AS P
-                INNER JOIN MOVPCL AS M ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO)
-                INNER JOIN ARTICULOS AS A ON M.ARTICULO = A.Codigo
+                PEDCLI AS P
+                RIGHT JOIN MOVPCL AS M ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO
             WHERE
                 P.Fecha = ? AND
-                M.ARTICULO IS NOT NULL
+                M.ARTICULO IS NOT NULL AND
+                M.ARTICULO <> ''
+        GROUP BY
+                M.Articulo,
+                M.Descripcion
             "
         End Function
 

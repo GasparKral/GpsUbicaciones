@@ -34,7 +34,7 @@
         LabelNombreArticulo.Text = String.Empty
         LabelStockArticulo.Text = String.Empty
         TextEditCodigoArticulo.Text = String.Empty
-        SpinEditCantidadSeleccionada.Value = String.Empty
+        SpinEditCantidadSeleccionada.Value = 0
         If ActivarFoco Then
             TextEditCodigoArticulo.Focus()
         End If
@@ -80,6 +80,11 @@
 
         LimpiarArticulo()
         LimpiarUbicacion()
+
+        PermitirEdicion(SpinEditCantidadSeleccionada, False)
+        PermitirEdicion(TextEditCodigoArticulo, False)
+        PermitirEdicion(TextEditCodigoUbicacion, True)
+        GridControlArticulosSeleccionados.Visible = True
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -89,9 +94,14 @@
     Private Sub BotonConfirmarUbicacion_Click(sender As Object, e As EventArgs) Handles BotonConfirmarUbicacion.Click
         PermitirEdicion(TextEditCodigoUbicacion, False)
         PermitirEdicion(TextEditCodigoArticulo, True)
+        MostrarFrames(False)
     End Sub
 
     Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacion.TextChanged
+
+        If String.IsNullOrWhiteSpace(TextEditCodigoUbicacion.Text) Then
+            Exit Sub
+        End If
         Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacion.Text)
             If Ubicacion Is Nothing Then
                 TextEditCodigoUbicacion.Focus()
@@ -104,6 +114,11 @@
     End Sub
 
     Private Sub TextEditCodigoArticulo_TextChanged(sender As Object, e As EventArgs) Handles TextEditCodigoArticulo.TextChanged
+
+        If String.IsNullOrWhiteSpace(TextEditCodigoArticulo.Text) Then
+            Exit Sub
+        End If
+
         Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticulo.Text, TextEditCodigoUbicacion.Text)
             If StockLote Is Nothing Then
                 TextEditCodigoArticulo.Focus()
@@ -114,10 +129,10 @@
             LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
             LabelStockArticulo.Text = StockLote.Cantidad
             AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
+            SpinEditCantidadSeleccionada.Properties.MaxValue = StockLote.Cantidad
             PermitirEdicion(SpinEditCantidadSeleccionada, True)
         End Using
     End Sub
-
 #End Region
 
 End Class

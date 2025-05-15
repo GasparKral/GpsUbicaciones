@@ -106,7 +106,7 @@ Partial Class frmVenta
         ' BotonConfirmarUbicacion
         ' 
         BotonConfirmarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        BotonConfirmarUbicacion.ImageOptions.Image = CType(resources.GetObject("btnUbicacion.ImageOptions.Image"), Image)
+        BotonConfirmarUbicacion.ImageOptions.Image = CType(resources.GetObject("BotonConfirmarUbicacion.ImageOptions.Image"), Image)
         BotonConfirmarUbicacion.Location = New Point(519, 26)
         BotonConfirmarUbicacion.Margin = New Padding(4, 3, 4, 3)
         BotonConfirmarUbicacion.Name = "BotonConfirmarUbicacion"
@@ -155,7 +155,7 @@ Partial Class frmVenta
         GroupControlArticulos.Location = New Point(11, 158)
         GroupControlArticulos.Margin = New Padding(4, 3, 4, 3)
         GroupControlArticulos.Name = "GroupControlArticulos"
-        GroupControlArticulos.Size = New Size(578, 121)
+        GroupControlArticulos.Size = New Size(578, 124)
         GroupControlArticulos.TabIndex = 1
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
@@ -163,7 +163,7 @@ Partial Class frmVenta
         ' SpinEditCantidadSeleccionada
         ' 
         SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditCantidadSeleccionada.Location = New Point(414, 75)
+        SpinEditCantidadSeleccionada.Location = New Point(110, 75)
         SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
         SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
@@ -178,7 +178,7 @@ Partial Class frmVenta
         LabelIndicadorPorPeso.BackColor = Color.White
         LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(112, 73)
+        LabelIndicadorPorPeso.Location = New Point(206, 73)
         LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
         LabelIndicadorPorPeso.Size = New Size(207, 25)
         LabelIndicadorPorPeso.TabIndex = 13
@@ -191,7 +191,7 @@ Partial Class frmVenta
         LabelControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F)
         LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(325, 73)
+        LabelControl1.Location = New Point(21, 73)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
         LabelControl1.Size = New Size(83, 25)
@@ -210,7 +210,7 @@ Partial Class frmVenta
         LabelStockArticulo.Appearance.Options.UseTextOptions = True
         LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticulo.Location = New Point(16, 70)
+        LabelStockArticulo.Location = New Point(420, 73)
         LabelStockArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticulo.Name = "LabelStockArticulo"
         LabelStockArticulo.Size = New Size(89, 28)
@@ -220,7 +220,7 @@ Partial Class frmVenta
         ' BotonConfirmarArticulo
         ' 
         BotonConfirmarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        BotonConfirmarArticulo.ImageOptions.Image = CType(resources.GetObject("btnArticulo.ImageOptions.Image"), Image)
+        BotonConfirmarArticulo.ImageOptions.Image = CType(resources.GetObject("BotonConfirmarArticulo.ImageOptions.Image"), Image)
         BotonConfirmarArticulo.Location = New Point(517, 64)
         BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 3)
         BotonConfirmarArticulo.Name = "BotonConfirmarArticulo"
@@ -260,13 +260,14 @@ Partial Class frmVenta
         GridControlArticulosSeleccionados.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GridControlArticulosSeleccionados.Location = New Point(10, 284)
+        GridControlArticulosSeleccionados.Location = New Point(10, 287)
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Name = "GridControlArticulosSeleccionados"
-        GridControlArticulosSeleccionados.Size = New Size(579, 532)
+        GridControlArticulosSeleccionados.Size = New Size(579, 529)
         GridControlArticulosSeleccionados.TabIndex = 7
         GridControlArticulosSeleccionados.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosSeleccionados})
+        GridControlArticulosSeleccionados.Visible = False
         ' 
         ' GridViewArticulosSeleccionados
         ' 

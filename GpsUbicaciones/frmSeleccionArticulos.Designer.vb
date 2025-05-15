@@ -25,12 +25,15 @@ Partial Class frmSeleccionArticulos
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSeleccionArticulos))
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
+        ButtonConfirmacionLectura = New DevExpress.XtraEditors.SimpleButton()
+        Label2 = New Label()
+        Label3 = New Label()
+        lblArticulo = New Label()
+        lblUbicacion = New Label()
         SpinEditCantidadSeleccionada = New DevExpress.XtraEditors.SpinEdit()
         LabelIndicadorPorPeso = New Label()
-        LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
         LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
-        ButtonConfirmacionLectura = New DevExpress.XtraEditors.SimpleButton()
         TextBoxCodigoUbicacion = New TextBox()
         TextBoxCodigoArticulo = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
@@ -42,8 +45,8 @@ Partial Class frmSeleccionArticulos
         Label1 = New Label()
         GroupControl1 = New DevExpress.XtraEditors.GroupControl()
         SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
-        RadioButton2 = New RadioButton()
-        RadioButton1 = New RadioButton()
+        RadioButtonOpcionTraspasoAlamacen = New RadioButton()
+        RadioButtonOpcionAlbaran = New RadioButton()
         DatePicker = New DevExpress.XtraEditors.DateEdit()
         LabelControl3 = New DevExpress.XtraEditors.LabelControl()
         GridPedidos = New DevExpress.XtraGrid.GridControl()
@@ -85,12 +88,15 @@ Partial Class frmSeleccionArticulos
         GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlUbicacion.AppearanceCaption.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
+        GroupControlUbicacion.Controls.Add(ButtonConfirmacionLectura)
+        GroupControlUbicacion.Controls.Add(Label2)
+        GroupControlUbicacion.Controls.Add(Label3)
+        GroupControlUbicacion.Controls.Add(lblArticulo)
+        GroupControlUbicacion.Controls.Add(lblUbicacion)
         GroupControlUbicacion.Controls.Add(SpinEditCantidadSeleccionada)
         GroupControlUbicacion.Controls.Add(LabelIndicadorPorPeso)
-        GroupControlUbicacion.Controls.Add(LabelControl1)
         GroupControlUbicacion.Controls.Add(LabelNombreAlmacen)
         GroupControlUbicacion.Controls.Add(LabelStockArticulo)
-        GroupControlUbicacion.Controls.Add(ButtonConfirmacionLectura)
         GroupControlUbicacion.Controls.Add(TextBoxCodigoUbicacion)
         GroupControlUbicacion.Controls.Add(TextBoxCodigoArticulo)
         GroupControlUbicacion.Controls.Add(LabelNombreUbicacion)
@@ -98,22 +104,77 @@ Partial Class frmSeleccionArticulos
         GroupControlUbicacion.Location = New Point(14, 219)
         GroupControlUbicacion.Margin = New Padding(4, 3, 4, 3)
         GroupControlUbicacion.Name = "GroupControlUbicacion"
-        GroupControlUbicacion.Size = New Size(578, 145)
+        GroupControlUbicacion.Padding = New Padding(0, 0, 0, 10)
+        GroupControlUbicacion.Size = New Size(578, 224)
         GroupControlUbicacion.TabIndex = 1
         GroupControlUbicacion.Text = "Leer Artículos (Ubicacion / Articulo)"
+        ' 
+        ' ButtonConfirmacionLectura
+        ' 
+        ButtonConfirmacionLectura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonConfirmacionLectura.ImageOptions.Image = CType(resources.GetObject("ButtonConfirmacionLectura.ImageOptions.Image"), Image)
+        ButtonConfirmacionLectura.Location = New Point(510, 168)
+        ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
+        ButtonConfirmacionLectura.Name = "ButtonConfirmacionLectura"
+        ButtonConfirmacionLectura.Size = New Size(55, 50)
+        ButtonConfirmacionLectura.TabIndex = 8
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Tahoma", 15.75F)
+        Label2.Location = New Point(16, 176)
+        Label2.Margin = New Padding(3, 0, 0, 6)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(113, 25)
+        Label2.TabIndex = 30
+        Label2.Text = "CANTIDAD"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Tahoma", 15.75F)
+        Label3.Location = New Point(310, 104)
+        Label3.Margin = New Padding(3, 0, 0, 6)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(76, 25)
+        Label3.TabIndex = 29
+        Label3.Text = "STOCK"
+        ' 
+        ' lblArticulo
+        ' 
+        lblArticulo.AutoSize = True
+        lblArticulo.Font = New Font("Tahoma", 15.75F)
+        lblArticulo.Location = New Point(16, 102)
+        lblArticulo.Margin = New Padding(3, 0, 0, 6)
+        lblArticulo.Name = "lblArticulo"
+        lblArticulo.Size = New Size(110, 25)
+        lblArticulo.TabIndex = 28
+        lblArticulo.Text = "ARTÍCULO"
+        ' 
+        ' lblUbicacion
+        ' 
+        lblUbicacion.AutoSize = True
+        lblUbicacion.Font = New Font("Tahoma", 15.75F)
+        lblUbicacion.Location = New Point(16, 31)
+        lblUbicacion.Margin = New Padding(3, 0, 0, 6)
+        lblUbicacion.Name = "lblUbicacion"
+        lblUbicacion.Size = New Size(123, 25)
+        lblUbicacion.TabIndex = 27
+        lblUbicacion.Text = "UBICACIÓN"
         ' 
         ' SpinEditCantidadSeleccionada
         ' 
         SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
         SpinEditCantidadSeleccionada.Enabled = False
-        SpinEditCantidadSeleccionada.Location = New Point(105, 109)
+        SpinEditCantidadSeleccionada.Location = New Point(143, 177)
         SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
         SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
         SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
         SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
-        SpinEditCantidadSeleccionada.Size = New Size(71, 24)
+        SpinEditCantidadSeleccionada.Size = New Size(117, 24)
         SpinEditCantidadSeleccionada.TabIndex = 26
         ' 
         ' LabelIndicadorPorPeso
@@ -121,25 +182,13 @@ Partial Class frmSeleccionArticulos
         LabelIndicadorPorPeso.BackColor = Color.White
         LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(295, 109)
+        LabelIndicadorPorPeso.Location = New Point(275, 176)
         LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
         LabelIndicadorPorPeso.Size = New Size(209, 25)
         LabelIndicadorPorPeso.TabIndex = 13
         LabelIndicadorPorPeso.Text = "** Por Peso/Fracción **"
         LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
         LabelIndicadorPorPeso.Visible = False
-        ' 
-        ' LabelControl1
-        ' 
-        LabelControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(16, 109)
-        LabelControl1.Margin = New Padding(3, 2, 3, 2)
-        LabelControl1.Name = "LabelControl1"
-        LabelControl1.Size = New Size(83, 25)
-        LabelControl1.TabIndex = 9
-        LabelControl1.Text = "Cantidad"
         ' 
         ' LabelNombreAlmacen
         ' 
@@ -151,10 +200,10 @@ Partial Class frmSeleccionArticulos
         LabelNombreAlmacen.Appearance.Options.UseFont = True
         LabelNombreAlmacen.Appearance.Options.UseForeColor = True
         LabelNombreAlmacen.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreAlmacen.Location = New Point(184, 28)
+        LabelNombreAlmacen.Location = New Point(321, 28)
         LabelNombreAlmacen.Margin = New Padding(4, 3, 4, 3)
         LabelNombreAlmacen.Name = "LabelNombreAlmacen"
-        LabelNombreAlmacen.Size = New Size(147, 28)
+        LabelNombreAlmacen.Size = New Size(244, 33)
         LabelNombreAlmacen.TabIndex = 7
         LabelNombreAlmacen.Text = "Nombre Almacen"
         ' 
@@ -170,26 +219,17 @@ Partial Class frmSeleccionArticulos
         LabelStockArticulo.Appearance.Options.UseTextOptions = True
         LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticulo.Location = New Point(184, 106)
+        LabelStockArticulo.Location = New Point(400, 102)
         LabelStockArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticulo.Name = "LabelStockArticulo"
-        LabelStockArticulo.Size = New Size(104, 28)
+        LabelStockArticulo.Size = New Size(165, 28)
         LabelStockArticulo.TabIndex = 8
         LabelStockArticulo.Text = "Stock"
-        ' 
-        ' ButtonConfirmacionLectura
-        ' 
-        ButtonConfirmacionLectura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConfirmacionLectura.Location = New Point(511, 95)
-        ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
-        ButtonConfirmacionLectura.Name = "ButtonConfirmacionLectura"
-        ButtonConfirmacionLectura.Size = New Size(55, 50)
-        ButtonConfirmacionLectura.TabIndex = 6
         ' 
         ' TextBoxCodigoUbicacion
         ' 
         TextBoxCodigoUbicacion.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoUbicacion.Location = New Point(16, 27)
+        TextBoxCodigoUbicacion.Location = New Point(143, 28)
         TextBoxCodigoUbicacion.Margin = New Padding(4, 3, 4, 3)
         TextBoxCodigoUbicacion.Name = "TextBoxCodigoUbicacion"
         TextBoxCodigoUbicacion.Size = New Size(160, 33)
@@ -199,7 +239,7 @@ Partial Class frmSeleccionArticulos
         ' 
         TextBoxCodigoArticulo.Enabled = False
         TextBoxCodigoArticulo.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoArticulo.Location = New Point(16, 66)
+        TextBoxCodigoArticulo.Location = New Point(143, 99)
         TextBoxCodigoArticulo.Margin = New Padding(4, 3, 4, 3)
         TextBoxCodigoArticulo.Name = "TextBoxCodigoArticulo"
         TextBoxCodigoArticulo.Size = New Size(160, 33)
@@ -215,10 +255,10 @@ Partial Class frmSeleccionArticulos
         LabelNombreUbicacion.Appearance.Options.UseFont = True
         LabelNombreUbicacion.Appearance.Options.UseForeColor = True
         LabelNombreUbicacion.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreUbicacion.Location = New Point(349, 28)
+        LabelNombreUbicacion.Location = New Point(16, 65)
         LabelNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
         LabelNombreUbicacion.Name = "LabelNombreUbicacion"
-        LabelNombreUbicacion.Size = New Size(217, 28)
+        LabelNombreUbicacion.Size = New Size(549, 28)
         LabelNombreUbicacion.TabIndex = 4
         LabelNombreUbicacion.Text = "Nombre Ubicación"
         ' 
@@ -232,10 +272,10 @@ Partial Class frmSeleccionArticulos
         LabelNombreArticulo.Appearance.Options.UseFont = True
         LabelNombreArticulo.Appearance.Options.UseForeColor = True
         LabelNombreArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreArticulo.Location = New Point(184, 66)
+        LabelNombreArticulo.Location = New Point(16, 136)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
-        LabelNombreArticulo.Size = New Size(382, 28)
+        LabelNombreArticulo.Size = New Size(549, 28)
         LabelNombreArticulo.TabIndex = 4
         LabelNombreArticulo.Text = "Nombre Articulo"
         ' 
@@ -244,11 +284,11 @@ Partial Class frmSeleccionArticulos
         GridControlArticulosSeleccionados.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GridControlArticulosSeleccionados.Location = New Point(13, 369)
+        GridControlArticulosSeleccionados.Location = New Point(13, 448)
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Name = "GridControlArticulosSeleccionados"
-        GridControlArticulosSeleccionados.Size = New Size(579, 362)
+        GridControlArticulosSeleccionados.Size = New Size(579, 283)
         GridControlArticulosSeleccionados.TabIndex = 7
         GridControlArticulosSeleccionados.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosSeleccionados})
         GridControlArticulosSeleccionados.Visible = False
@@ -301,8 +341,8 @@ Partial Class frmSeleccionArticulos
         ' 
         GroupControl1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControl1.Controls.Add(SimpleButton1)
-        GroupControl1.Controls.Add(RadioButton2)
-        GroupControl1.Controls.Add(RadioButton1)
+        GroupControl1.Controls.Add(RadioButtonOpcionTraspasoAlamacen)
+        GroupControl1.Controls.Add(RadioButtonOpcionAlbaran)
         GroupControl1.Location = New Point(14, 736)
         GroupControl1.Name = "GroupControl1"
         GroupControl1.Size = New Size(576, 83)
@@ -319,29 +359,29 @@ Partial Class frmSeleccionArticulos
         SimpleButton1.Size = New Size(55, 50)
         SimpleButton1.TabIndex = 7
         ' 
-        ' RadioButton2
+        ' RadioButtonOpcionTraspasoAlamacen
         ' 
-        RadioButton2.AutoSize = True
-        RadioButton2.Font = New Font("Tahoma", 15.75F)
-        RadioButton2.Location = New Point(229, 32)
-        RadioButton2.Name = "RadioButton2"
-        RadioButton2.Size = New Size(200, 29)
-        RadioButton2.TabIndex = 1
-        RadioButton2.TabStop = True
-        RadioButton2.Text = "Traspaso Almacén"
-        RadioButton2.UseVisualStyleBackColor = True
+        RadioButtonOpcionTraspasoAlamacen.AutoSize = True
+        RadioButtonOpcionTraspasoAlamacen.Font = New Font("Tahoma", 15.75F)
+        RadioButtonOpcionTraspasoAlamacen.Location = New Point(229, 32)
+        RadioButtonOpcionTraspasoAlamacen.Name = "RadioButtonOpcionTraspasoAlamacen"
+        RadioButtonOpcionTraspasoAlamacen.Size = New Size(200, 29)
+        RadioButtonOpcionTraspasoAlamacen.TabIndex = 1
+        RadioButtonOpcionTraspasoAlamacen.TabStop = True
+        RadioButtonOpcionTraspasoAlamacen.Text = "Traspaso Almacén"
+        RadioButtonOpcionTraspasoAlamacen.UseVisualStyleBackColor = True
         ' 
-        ' RadioButton1
+        ' RadioButtonOpcionAlbaran
         ' 
-        RadioButton1.AutoSize = True
-        RadioButton1.Font = New Font("Tahoma", 15.75F)
-        RadioButton1.Location = New Point(52, 32)
-        RadioButton1.Name = "RadioButton1"
-        RadioButton1.Size = New Size(102, 29)
-        RadioButton1.TabIndex = 0
-        RadioButton1.TabStop = True
-        RadioButton1.Text = "Albarán"
-        RadioButton1.UseVisualStyleBackColor = True
+        RadioButtonOpcionAlbaran.AutoSize = True
+        RadioButtonOpcionAlbaran.Font = New Font("Tahoma", 15.75F)
+        RadioButtonOpcionAlbaran.Location = New Point(52, 32)
+        RadioButtonOpcionAlbaran.Name = "RadioButtonOpcionAlbaran"
+        RadioButtonOpcionAlbaran.Size = New Size(102, 29)
+        RadioButtonOpcionAlbaran.TabIndex = 0
+        RadioButtonOpcionAlbaran.TabStop = True
+        RadioButtonOpcionAlbaran.Text = "Albarán"
+        RadioButtonOpcionAlbaran.UseVisualStyleBackColor = True
         ' 
         ' DatePicker
         ' 
@@ -375,7 +415,7 @@ Partial Class frmSeleccionArticulos
         ' 
         GridPedidos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridPedidos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        GridPedidos.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridPedidos.Font = New Font("Tahoma", 15.75F)
         GridPedidos.Location = New Point(14, 99)
         GridPedidos.MainView = GridView2
         GridPedidos.Margin = New Padding(3, 2, 3, 2)
@@ -437,12 +477,10 @@ Partial Class frmSeleccionArticulos
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GroupControlUbicacion As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents ButtonConfirmacionLectura As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents TextBoxCodigoUbicacion As TextBox
     Friend WithEvents LabelNombreUbicacion As DevExpress.XtraEditors.LabelControl
     Friend WithEvents TextBoxCodigoArticulo As TextBox
     Friend WithEvents LabelNombreArticulo As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents LabelControl1 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelStockArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents GridControlArticulosSeleccionados As DevExpress.XtraGrid.GridControl
     Friend WithEvents GridViewArticulosSeleccionados As DevExpress.XtraGrid.Views.Grid.GridView
@@ -454,10 +492,15 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents DatePicker As DevExpress.XtraEditors.DateEdit
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents RadioButton2 As RadioButton
-    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents RadioButtonOpcionTraspasoAlamacen As RadioButton
+    Friend WithEvents RadioButtonOpcionAlbaran As RadioButton
     Friend WithEvents GridPedidos As DevExpress.XtraGrid.GridControl
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents LabelIndicadorPorPeso As Label
     Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents lblUbicacion As Label
+    Friend WithEvents lblArticulo As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents ButtonConfirmacionLectura As DevExpress.XtraEditors.SimpleButton
 End Class

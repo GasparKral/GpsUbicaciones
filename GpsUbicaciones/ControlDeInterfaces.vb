@@ -20,7 +20,10 @@ Module ControlDeInterfaces
         End If
     End Sub
 
-    Public Sub PermitirEdicion(campo As Control, estado As Boolean)
-        campo.Enabled = estado
+    Public Sub PermitirEdicion(control As Control, permitir As Boolean, Optional ActivarFoco As Boolean = True)
+        If control IsNot Nothing Then
+            control.Enabled = permitir
+            If permitir AndAlso ActivarFoco Then control.Focus()
+        End If
     End Sub
 End Module
