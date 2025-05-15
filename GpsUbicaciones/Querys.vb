@@ -242,22 +242,26 @@ Module Querys
 
         Public Shared Function ConsultarPedidosPorFecha() As String
             Return $"SELECT
-                        P.Identificacion as Identificador,
-                        P.Fecha,
-                        P.DirecEnvio as Destino,
-                        A.Codigo as CodigoArticulo,
-                        A.NombreComercial as NombreArticulo,
-                        A.PorPeso,
-                        Round(M.Cantidad,{nDecUds}) as Cantidad,
-                        M.Descripcion
-                    FROM
-                        (PEDCLI AS P
-                        INNER JOIN MOVPCL AS M ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO)
-                        INNER JOIN ARTICULOS AS A ON M.ARTICULO = A.Codigo
-                    WHERE
-                        P.Fecha = ? AND
-                        M.ARTICULO IS NOT NULL
-                    "
+                P.Identificacion as Identificador,
+                P.Fecha,
+                (Trim(IIF(P.DirecEnvio IS NULL, '', P.DirecEnvio) & ' ' & 
+                IIF(P.PoblaEnvio IS NULL, '', P.PoblaEnvio) & ' ' & 
+                IIF(P.CPEnvio IS NULL, '', P.CPEnvio) & ' ' & 
+                IIF(P.ProviEnvio IS NULL, '', P.ProviEnvio) & ' ' & 
+                IIF(P.PaisEnvio IS NULL, '', P.PaisEnvio))) as Destino,
+                A.Codigo as CodigoArticulo,
+                A.NombreComercial as NombreArticulo,
+                A.PorPeso,
+                Round(M.Cantidad,{nDecUds}) as Cantidad,
+                M.Descripcion
+            FROM
+                (PEDCLI AS P
+                INNER JOIN MOVPCL AS M ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO)
+                INNER JOIN ARTICULOS AS A ON M.ARTICULO = A.Codigo
+            WHERE
+                P.Fecha = ? AND
+                M.ARTICULO IS NOT NULL
+            "
         End Function
 
     End Class

@@ -8,7 +8,7 @@ Imports DevExpress.XtraGrid.Views.Grid
 Public Class frmTrasladoProductos
 
     Private ArticuloTransferido As ProductoTraslado = Nothing
-    Private ListaArticulos As New BindingList(Of ProductoTraslado)
+    Private ReadOnly ListaArticulos As New BindingList(Of ProductoTraslado)
 
 #Region "Configuracion Iniciales"
     Private Sub ConfigurarGrid()
@@ -17,11 +17,12 @@ Public Class frmTrasladoProductos
 
         ' Método auxiliar para crear columnas
         Dim CreateColumn = Function(fieldName As String, caption As String, width As Integer) As GridColumn
-                               Dim col As New GridColumn()
-                               col.FieldName = fieldName
-                               col.Caption = caption
-                               col.Visible = True
-                               col.Width = width
+                               Dim col As New GridColumn() With {
+                                   .FieldName = fieldName,
+                                   .Caption = caption,
+                                   .Visible = True,
+                                   .Width = width
+                               }
                                Return col
                            End Function
 
@@ -52,35 +53,61 @@ Public Class frmTrasladoProductos
     End Sub
 
     Private Sub EliminarFila(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs)
-        Dim gridView As GridView = TryCast(GridControlArticulosParaTraslado.MainView, GridView)
+        Try
+            Dim gridView As GridView = TryCast(GridControlArticulosParaTraslado.MainView, GridView)
 
-        If gridView IsNot Nothing Then
-            Dim rowHandle As Integer = gridView.FocusedRowHandle
+            If gridView IsNot Nothing Then
+                Dim rowHandle As Integer = gridView.FocusedRowHandle
 
-            If rowHandle >= 0 Then
-                Dim prodEliminado As ProductoTraslado = ListaArticulos(rowHandle)
-                ListaArticulos.RemoveAt(rowHandle)
+                If rowHandle >= 0 Then
+                    Dim prodEliminado As ProductoTraslado = ListaArticulos(rowHandle)
+                    ListaArticulos.RemoveAt(rowHandle)
 
-                If EsUltimoArticulo() Then
-                    PermitirEdicion(TextEditCodigoArticuloDestino, False)
-                End If
+                    If EsUltimoArticulo() Then
+                        PermitirEdicion(TextEditCodigoArticuloDestino, False)
+                        PermitirEdicion(TextEditCodigoArticuloOrigen, True)
+                    End If
 
-                ' Si el artículo eliminado es el actualmente visible, actualizar MaxValue
-                If prodEliminado.Articulo.NombreComercial = LabelNombreArticuloOrigen.Text Then
-                    Dim stockTotal As Integer = Integer.Parse(LabelStockArticuloOrigen.Text)
-                    Dim cantidadYaAsignada As Integer = ListaArticulos.
-                        Where(Function(p) p.Articulo.NombreComercial = prodEliminado.Articulo.NombreComercial).
-                        Sum(Function(p) p.CantidadAMover)
-                    SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = Math.Max(0, stockTotal - cantidadYaAsignada)
+                    ActualizarMaximoValorCantidad(prodEliminado)
                 End If
             End If
+        Catch ex As Exception
+            ManejarError(ex, "Error al eliminar fila")
+        End Try
+    End Sub
+
+    Private Sub ActualizarMaximoValorCantidad(prodEliminado As ProductoTraslado)
+        ' Si el artículo eliminado es el actualmente visible, actualizar MaxValue
+        If prodEliminado.Articulo.NombreComercial = LabelNombreArticuloOrigen.Text Then
+            Try
+                Dim stockTotal As Integer = Integer.Parse(LabelStockArticuloOrigen.Text)
+                Dim cantidadYaAsignada As Integer = ListaArticulos.
+                    Where(Function(p) p.Articulo.NombreComercial = prodEliminado.Articulo.NombreComercial).
+                    Sum(Function(p) p.CantidadAMover)
+                SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = Math.Max(0, stockTotal - cantidadYaAsignada)
+            Catch ex As Exception
+                ' Si hay problemas con la conversión, establecer a 0 por seguridad
+                SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = 0
+                ManejarError(ex, "Error al actualizar valor máximo")
+            End Try
         End If
     End Sub
 
     Private Sub frmTransladoProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ConfigurarGrid()
+        Try
+            ConfigurarGrid()
+            ConfigurarEstadoInicial()
+        Catch ex As Exception
+            ManejarError(ex, "Error al cargar el formulario")
+        End Try
+    End Sub
+
+    Private Sub ConfigurarEstadoInicial()
         PermitirEdicion(TextEditCodigoUbicacionOrigen, True)
+        PermitirEdicion(TextEditCodigoArticuloOrigen, False)
         PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, False)
+        PermitirEdicion(TextEditCodigoUbicacionDestino, False)
+        PermitirEdicion(TextEditCodigoArticuloDestino, False)
         PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
     End Sub
 #End Region
@@ -92,34 +119,57 @@ Public Class frmTrasladoProductos
     End Function
 
     Private Function ValidarCamposRequeridosOrigen() As Boolean
-        Return Not (String.IsNullOrEmpty(TextEditCodigoArticuloOrigen.Text)) AndAlso
-               Not (String.IsNullOrEmpty(TextEditCodigoUbicacionOrigen.Text))
+        Return Not (String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text)) AndAlso
+               Not (String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text))
     End Function
+
+    Private Function ValidarCamposRequeridosDestino() As Boolean
+        Return Not (String.IsNullOrWhiteSpace(TextEditCodigoArticuloDestino.Text)) AndAlso
+               Not (String.IsNullOrWhiteSpace(TextEditCodigoUbicacionDestino.Text)) AndAlso
+               SpinEditCantidadSeleccionadaDestino.Value > 0
+    End Function
+
     Private Function ValidarStockDisponible(nombreArticulo As String, cantidadSolicitada As Decimal, Optional productoExistente As ProductoTraslado = Nothing) As Boolean
-        Dim stockDisponible As Single = Single.Parse(LabelStockArticuloOrigen.Text)
-        Dim cantidadYaAsignada As Single = ListaArticulos.
-            Where(Function(p) p.Articulo.NombreComercial = nombreArticulo).Sum(Function(p) p.CantidadAMover)
+        Try
+            Dim stockDisponible As Single
+            If Not Single.TryParse(LabelStockArticuloOrigen.Text, stockDisponible) Then
+                Return False
+            End If
 
-        ' Si estamos actualizando un producto existente, restamos su cantidad actual
-        If productoExistente IsNot Nothing Then
-            cantidadYaAsignada -= productoExistente.CantidadAMover
-        End If
+            Dim cantidadYaAsignada As Single = ListaArticulos.
+                Where(Function(p) p.Articulo.NombreComercial = nombreArticulo).
+                Sum(Function(p) p.CantidadAMover)
 
-        If cantidadSolicitada > (stockDisponible - cantidadYaAsignada) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia,
-                String.Format(MensajesStock.Insuficiente, stockDisponible - cantidadYaAsignada))
+            ' Si estamos actualizando un producto existente, restamos su cantidad actual
+            If productoExistente IsNot Nothing Then
+                cantidadYaAsignada -= productoExistente.CantidadAMover
+            End If
+
+            If cantidadSolicitada > (stockDisponible - cantidadYaAsignada) Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia,
+                    String.Format(MensajesStock.Insuficiente, stockDisponible - cantidadYaAsignada))
+                Return False
+            End If
+
+            Return True
+        Catch ex As Exception
+            ManejarError(ex, "Error validando stock disponible")
             Return False
-        End If
+        End Try
+    End Function
 
-        Return True
+    Private Function EsMismaUbicacion() As Boolean
+        Return TextEditCodigoUbicacionOrigen.Text.Trim().Equals(TextEditCodigoUbicacionDestino.Text.Trim(), StringComparison.OrdinalIgnoreCase)
     End Function
 #End Region
 
 #Region "Control de UI"
 
-    Private Sub actualizarCampoStockOrigen()
+    Private Sub ActualizarCampoStockOrigen()
         Try
-            If String.IsNullOrEmpty(TextEditCodigoArticuloOrigen.Text) OrElse String.IsNullOrEmpty(TextEditCodigoUbicacionOrigen.Text) Then
+            If String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text) OrElse
+               String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
+                LimpiarStockOrigen()
                 Exit Sub
             End If
 
@@ -128,9 +178,8 @@ Public Class frmTrasladoProductos
                               TextEditCodigoUbicacionOrigen.Text), 0, 0)
 
             If dsFila Is Nothing OrElse dsFila("Stock") Is DBNull.Value Then
-                LabelStockArticuloOrigen.Text = "0"
-                SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = 0
-                Return
+                LimpiarStockOrigen()
+                Exit Sub
             End If
 
             Dim stock As Integer
@@ -138,13 +187,17 @@ Public Class frmTrasladoProductos
                 LabelStockArticuloOrigen.Text = stock.ToString()
                 SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = stock
             Else
-                LabelStockArticuloOrigen.Text = "0"
-                SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = 0
+                LimpiarStockOrigen()
             End If
         Catch ex As Exception
-            LabelStockArticuloOrigen.Text = "0"
-            SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = 0
+            LimpiarStockOrigen()
+            ManejarError(ex, "Error al actualizar campo stock origen")
         End Try
+    End Sub
+
+    Private Sub LimpiarStockOrigen()
+        LabelStockArticuloOrigen.Text = "0"
+        SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = 0
     End Sub
 
     Private Sub LimpiarCamposOrigen()
@@ -154,7 +207,9 @@ Public Class frmTrasladoProductos
         LabelNombreUbicacionOrigen.Text = String.Empty
         LabelNombreArticuloOrigen.Text = String.Empty
         SpinEditCantidadSeleccionadaOrigen.Value = 0
+        LabelIndicadorPorPesoOrigen.Visible = False
     End Sub
+
     Private Sub LimpiarCamposDestino()
         TextEditCodigoArticuloDestino.Clear()
         TextEditCodigoUbicacionDestino.Clear()
@@ -162,20 +217,30 @@ Public Class frmTrasladoProductos
         LabelNombreUbicacionDestino.Text = String.Empty
         LabelNombreArticuloDestino.Text = String.Empty
         SpinEditCantidadSeleccionadaDestino.Value = 0
+        LabelIndicadorPorPesoDestino.Visible = False
     End Sub
 
-    Private Sub teCodigoArticulo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoArticuloOrigen.KeyPress
+    Private Sub ManejarError(ex As Exception, mensaje As String)
+        ' Mostrar mensaje al usuario
+        FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"{mensaje}: {ex.Message}")
+    End Sub
+
+    ' Validación de entrada
+    Private Sub ControlEntradaAlfanumerica(sender As Object, e As KeyPressEventArgs)
         ' Solo permitir caracteres alfanuméricos
         If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
             e.Handled = True
         End If
     End Sub
 
-    Private Sub teCodigoUbicacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoUbicacionOrigen.KeyPress
-        ' Solo permitir caracteres alfanuméricos
-        If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
+    Private Sub teCodigoArticulo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoArticuloOrigen.KeyPress,
+                                                                                           TextEditCodigoArticuloDestino.KeyPress
+        ControlEntradaAlfanumerica(sender, e)
+    End Sub
+
+    Private Sub teCodigoUbicacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditCodigoUbicacionOrigen.KeyPress,
+                                                                                            TextEditCodigoUbicacionDestino.KeyPress
+        ControlEntradaAlfanumerica(sender, e)
     End Sub
 
 #End Region
@@ -183,86 +248,134 @@ Public Class frmTrasladoProductos
 #Region "Eventos del Formulario"
 
     Private Sub BotonAgregarArticulo_Click(sender As Object, e As EventArgs) Handles BotonAgregarArticulo.Click
-        ' Validaciones previas
-        If Not ValidarCamposRequeridosOrigen() Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.FaltanCampos)
-            Exit Sub
-        End If
-
-        If SpinEditCantidadSeleccionadaOrigen.Value = 0 Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesStock.CantidadInvalida)
-            Exit Sub
-        End If
-
         Try
+            ' Validaciones previas
+            If Not ValidarCamposRequeridosOrigen() Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.FaltanCampos)
+                Exit Sub
+            End If
+
+            If SpinEditCantidadSeleccionadaOrigen.Value <= 0 Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesStock.CantidadInvalida)
+                Exit Sub
+            End If
+
+            ' Buscar si el artículo ya existe en la lista
             Dim productoExistente = ListaArticulos.FirstOrDefault(Function(p) p.Articulo.Codigo = TextEditCodigoArticuloOrigen.Text)
 
             If productoExistente IsNot Nothing Then
-                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesArticulos.ArticuloYaSeleccionado)
-            Else
-                ' Validar stock para nuevo producto
-                If Not ValidarStockDisponible(LabelNombreArticuloOrigen.Text, SpinEditCantidadSeleccionadaOrigen.Value) Then
-                    LimpiarCamposOrigen()
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.ArticuloYaSeleccionado)
-                    Exit Sub
-                End If
-
-                Dim nuevoProducto As New ProductoTraslado With {
-                    .Articulo = RepositorioArticulo.ObtenerInFormacion(TextEditCodigoArticuloOrigen.Text),
-                    .CodigoUbicacionOrigen = TextEditCodigoUbicacionOrigen.Text,
-                    .Stock = LabelStockArticuloOrigen.Text,
-                    .CantidadAMover = SpinEditCantidadSeleccionadaOrigen.Value
-                }
-
-                ListaArticulos.Add(nuevoProducto)
-                PermitirEdicion(TextEditCodigoUbicacionDestino, True)
-                PermitirEdicion(TextEditCodigoArticuloOrigen, False)
-                LimpiarCamposOrigen()
-                SpinEditCantidadSeleccionadaOrigen.Value = 0
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesArticulos.ArticuloYaSeleccionado)
+                Exit Sub
             End If
+
+            ' Validar stock para nuevo producto
+            If Not ValidarStockDisponible(LabelNombreArticuloOrigen.Text, SpinEditCantidadSeleccionadaOrigen.Value) Then
+                Exit Sub
+            End If
+
+            ' Crear y agregar el nuevo producto
+            Dim nuevoProducto As New ProductoTraslado With {
+                .Articulo = RepositorioArticulo.ObtenerInFormacion(TextEditCodigoArticuloOrigen.Text),
+                .CodigoUbicacionOrigen = TextEditCodigoUbicacionOrigen.Text,
+                .Stock = LabelStockArticuloOrigen.Text,
+                .CantidadAMover = SpinEditCantidadSeleccionadaOrigen.Value
+            }
+
+            ListaArticulos.Add(nuevoProducto)
+            PermitirEdicion(TextEditCodigoUbicacionDestino, True, False)
+            PermitirEdicion(TextEditCodigoUbicacionOrigen, True, False)
+            PermitirEdicion(TextEditCodigoArticuloOrigen, False)
+            LimpiarCamposOrigen()
+
         Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
+            ManejarError(ex, "Error al agregar artículo")
         End Try
     End Sub
 
     Private Sub BotonConfirmarTraslado_Click(sender As Object, e As EventArgs) Handles BotonConfirmarTraslado.Click
-        Dim Trx = New NestedConditionalTransaction(Operacion)
+        Try
+            If Not ValidarCamposRequeridosDestino() Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.FaltanCampos)
+                Exit Sub
+            End If
 
-        Dim SiExiste As Action(Of IDbConnection) = Sub(Conn)
-                                                       RepositorioStockLote.TransferirStock(Conn, SpinEditCantidadSeleccionadaDestino.Value, TextEditCodigoArticuloDestino.Text, ArticuloTransferido.CodigoUbicacionOrigen, TextEditCodigoUbicacionDestino.Text)
-                                                   End Sub
-        Dim NoExiste As Action(Of IDbConnection) = Sub(Conn)
-                                                       RepositorioStockLote.InsertarArticuloDesdeStock(Conn, SpinEditCantidadSeleccionadaDestino.Value, TextEditCodigoArticuloDestino.Text, ArticuloTransferido.CodigoUbicacionOrigen, TextEditCodigoUbicacionDestino.Text)
-                                                   End Sub
+            If ArticuloTransferido Is Nothing Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoInvalido)
+                Exit Sub
+            End If
 
-        Dim success = Trx.ExecuteConditionalTransaction(
-            Querys.Select.VerificarExistenciaLoteDeArticulo,
-            SiExiste,
-            NoExiste,
-            TextEditCodigoArticuloDestino.Text,
-            TextEditCodigoUbicacionDestino.Text
-        )
+            If EsMismaUbicacion() Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No se puede transferir a la misma ubicación")
+                Exit Sub
+            End If
 
-        If success Then
-            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesGenerales.GuardadoCorrectamente)
+            Dim Trx = New NestedConditionalTransaction(Operacion)
 
+            Dim SiExiste As Action(Of IDbConnection) = Sub(Conn)
+                                                           RepositorioStockLote.TransferirStock(Conn,
+                                                                                             SpinEditCantidadSeleccionadaDestino.Value,
+                                                                                             TextEditCodigoArticuloDestino.Text,
+                                                                                             ArticuloTransferido.CodigoUbicacionOrigen,
+                                                                                             TextEditCodigoUbicacionDestino.Text)
+                                                       End Sub
+
+            Dim NoExiste As Action(Of IDbConnection) = Sub(Conn)
+                                                           RepositorioStockLote.InsertarArticuloDesdeStock(Conn,
+                                                                                                        SpinEditCantidadSeleccionadaDestino.Value,
+                                                                                                        TextEditCodigoArticuloDestino.Text,
+                                                                                                        ArticuloTransferido.CodigoUbicacionOrigen,
+                                                                                                        TextEditCodigoUbicacionDestino.Text)
+                                                       End Sub
+
+            Dim success = Trx.ExecuteConditionalTransaction(
+                Querys.Select.VerificarExistenciaLoteDeArticulo,
+                SiExiste,
+                NoExiste,
+                TextEditCodigoArticuloDestino.Text,
+                TextEditCodigoUbicacionDestino.Text
+            )
+
+            If success Then
+                ActualizarListaDespuesDeTransferencia()
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesGenerales.GuardadoCorrectamente)
+            Else
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al realizar la transferencia")
+            End If
+        Catch ex As Exception
+            ManejarError(ex, "Error al confirmar traslado")
+        End Try
+    End Sub
+
+    Private Sub ActualizarListaDespuesDeTransferencia()
+        Try
             Dim index = ListaArticulos.FindIndex(Function(p) p.Articulo.Codigo = ArticuloTransferido.Articulo.Codigo)
 
             If index >= 0 Then
                 Dim articuloEnLista = ListaArticulos(index)
-                If articuloEnLista.CantidadAMover = SpinEditCantidadSeleccionadaDestino.Value Then
+                If articuloEnLista.CantidadAMover <= SpinEditCantidadSeleccionadaDestino.Value Then
                     ListaArticulos.RemoveAt(index)
                 Else
                     articuloEnLista.CantidadAMover -= SpinEditCantidadSeleccionadaDestino.Value
                 End If
             End If
+
             GridViewArticulosParaTraslado.RefreshData()
 
             LimpiarCamposDestino()
             PermitirEdicion(TextEditCodigoArticuloDestino, False)
             PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
+
+            If EsUltimoArticulo() Then
+                PermitirEdicion(TextEditCodigoUbicacionDestino, False)
+                PermitirEdicion(TextEditCodigoUbicacionOrigen, True)
+            Else
+                PermitirEdicion(TextEditCodigoUbicacionDestino, True)
+            End If
+
             ArticuloTransferido = Nothing
-        End If
+        Catch ex As Exception
+            ManejarError(ex, "Error al actualizar lista después de transferencia")
+        End Try
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -270,107 +383,157 @@ Public Class frmTrasladoProductos
     End Sub
 
     Private Sub TextEditCodigoArticuloDestino_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoArticuloDestino.EditValueChanged
+        Try
+            If String.IsNullOrWhiteSpace(TextEditCodigoArticuloDestino.Text) Then
+                LimpiarCamposDestino()
+                PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
+                Exit Sub
+            End If
 
-        If TextEditCodigoArticuloDestino.Text = String.Empty Then
-            Exit Sub
-        End If
+            ArticuloTransferido = ListaArticulos.FirstOrDefault(Function(p) p.Articulo.Codigo = TextEditCodigoArticuloDestino.Text)
 
-        ArticuloTransferido = ListaArticulos.Where(Function(p) p.Articulo.Codigo = TextEditCodigoArticuloDestino.Text).FirstOrDefault()
+            If ArticuloTransferido Is Nothing Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoInvalido)
+                TextEditCodigoArticuloDestino.Focus()
+                TextEditCodigoArticuloDestino.SelectAll()
+                Exit Sub
+            End If
 
-        If ArticuloTransferido Is Nothing Then
-            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoInvalido)
-            TextEditCodigoArticuloDestino.Focus()
-            TextEditCodigoArticuloDestino.SelectAll()
-            Exit Sub
-        End If
+            ActualizarStockDestino()
 
-        Dim Trx = New NestedConditionalTransaction(Operacion)
+            LabelNombreArticuloDestino.Text = ArticuloTransferido.Articulo.NombreComercial
 
-        Dim SiExiste As Action(Of IDbConnection) = Sub(Conn)
-                                                       Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticuloDestino.Text, TextEditCodigoUbicacionDestino.Text)
-                                                           If StockLote IsNot Nothing Then
-                                                               LabelStockArticuloDestino.Text = StockLote.Cantidad
-                                                           End If
-                                                       End Using
-                                                   End Sub
-        Dim NoExiste As Action(Of IDbConnection) = Sub(Conn)
-                                                       LabelStockArticuloDestino.Text = 0
-                                                   End Sub
+            AceptarDecimales(SpinEditCantidadSeleccionadaDestino, ArticuloTransferido.Articulo.PorPeso, LabelIndicadorPorPesoDestino)
+            PermitirEdicion(SpinEditCantidadSeleccionadaDestino, True)
+            SpinEditCantidadSeleccionadaDestino.Properties.MaxValue = ArticuloTransferido.CantidadAMover
+        Catch ex As Exception
+            ManejarError(ex, "Error al cambiar código de artículo destino")
+        End Try
+    End Sub
 
-        Trx.ExecuteConditionalTransaction(
-            Querys.Select.VerificarExistenciaLoteDeArticulo,
-            SiExiste,
-            NoExiste,
-            TextEditCodigoArticuloDestino.Text,
-            TextEditCodigoUbicacionDestino.Text
-        )
+    Private Sub ActualizarStockDestino()
+        Try
+            Dim Trx = New NestedConditionalTransaction(Operacion)
 
-        LabelNombreArticuloDestino.Text = ArticuloTransferido.Articulo.NombreComercial
+            Dim SiExiste As Action(Of IDbConnection) = Sub(Conn)
+                                                           Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(
+                                                                        TextEditCodigoArticuloDestino.Text,
+                                                                        TextEditCodigoUbicacionDestino.Text)
+                                                               If StockLote IsNot Nothing Then
+                                                                   LabelStockArticuloDestino.Text = StockLote.Cantidad.ToString()
+                                                               Else
+                                                                   LabelStockArticuloDestino.Text = "0"
+                                                               End If
+                                                           End Using
+                                                       End Sub
 
-        AceptarDecimales(SpinEditCantidadSeleccionadaDestino, ArticuloTransferido.Articulo.PorPeso, LabelIndicadorPorPesoDestino)
-        PermitirEdicion(SpinEditCantidadSeleccionadaDestino, True)
-        SpinEditCantidadSeleccionadaDestino.Properties.MaxValue = ArticuloTransferido.CantidadAMover
+            Dim NoExiste As Action(Of IDbConnection) = Sub(Conn)
+                                                           LabelStockArticuloDestino.Text = "0"
+                                                       End Sub
 
+            Trx.ExecuteConditionalTransaction(
+                Querys.Select.VerificarExistenciaLoteDeArticulo,
+                SiExiste,
+                NoExiste,
+                TextEditCodigoArticuloDestino.Text,
+                TextEditCodigoUbicacionDestino.Text
+            )
+        Catch ex As Exception
+            LabelStockArticuloDestino.Text = "0"
+            ManejarError(ex, "Error al actualizar stock destino")
+        End Try
     End Sub
 
     Private Sub TextEditCodigoArticuloOrigen_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoArticuloOrigen.EditValueChanged
+        Try
+            If String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text) OrElse
+               String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
+                Exit Sub
+            End If
 
-        If TextEditCodigoArticuloOrigen.Text = String.Empty Then
-            Exit Sub
-        End If
+            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticuloOrigen.Text, TextEditCodigoUbicacionOrigen.Text)
+            If stockLote Is Nothing Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "El artículo no existe en esta ubicación")
+                TextEditCodigoUbicacionOrigen.Focus()
+                TextEditCodigoUbicacionOrigen.SelectAll()
+                Exit Sub
+            End If
 
-        Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticuloOrigen.Text, TextEditCodigoUbicacionOrigen.Text)
-        If stockLote Is Nothing Then
-            TextEditCodigoUbicacionOrigen.Focus()
-            TextEditCodigoUbicacionOrigen.SelectAll()
-            Exit Sub
-        End If
-
-        LabelNombreArticuloOrigen.Text = stockLote.Articulo.NombreComercial
-
-        AceptarDecimales(SpinEditCantidadSeleccionadaOrigen, stockLote.Articulo.PorPeso, LabelIndicadorPorPesoOrigen)
-
-        LabelNombreUbicacionOrigen.Text = stockLote.Lote.Nombre
-        LabelStockArticuloOrigen.Text = stockLote.Cantidad.ToString()
-        SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = stockLote.Cantidad
-        PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, True)
+            LabelNombreArticuloOrigen.Text = stockLote.Articulo.NombreComercial
+            AceptarDecimales(SpinEditCantidadSeleccionadaOrigen, stockLote.Articulo.PorPeso, LabelIndicadorPorPesoOrigen)
+            LabelNombreUbicacionOrigen.Text = stockLote.Lote.Nombre
+            LabelStockArticuloOrigen.Text = stockLote.Cantidad.ToString()
+            SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = stockLote.Cantidad
+            PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, True)
+        Catch ex As Exception
+            LimpiarCamposOrigen()
+            ManejarError(ex, "Error al cambiar código de artículo origen")
+        End Try
     End Sub
 
     Private Sub TextEditCodigoUbicacionDestino_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacionDestino.EditValueChanged
-        If TextEditCodigoUbicacionDestino.Text = String.Empty Then
-            Exit Sub
-        End If
+        Try
+            If String.IsNullOrWhiteSpace(TextEditCodigoUbicacionDestino.Text) Then
+                PermitirEdicion(TextEditCodigoArticuloDestino, False)
+                LabelNombreUbicacionDestino.Text = String.Empty
+                Exit Sub
+            End If
 
-        Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacionDestino.Text)
+            Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacionDestino.Text)
 
-        If Ubicacion Is Nothing Then
-            TextEditCodigoUbicacionDestino.Focus()
-            TextEditCodigoUbicacionDestino.SelectAll()
-            Exit Sub
-        End If
+            If Ubicacion Is Nothing Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
+                TextEditCodigoUbicacionDestino.Focus()
+                TextEditCodigoUbicacionDestino.SelectAll()
+                Exit Sub
+            End If
 
+            If EsMismaUbicacion() Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No se puede transferir a la misma ubicación")
+                TextEditCodigoUbicacionDestino.Focus()
+                TextEditCodigoUbicacionDestino.SelectAll()
+                Exit Sub
+            End If
 
-        LabelNombreUbicacionDestino.Text = Ubicacion.Nombre
-        PermitirEdicion(TextEditCodigoArticuloDestino, True)
+            LabelNombreUbicacionDestino.Text = Ubicacion.Nombre
+            PermitirEdicion(TextEditCodigoArticuloDestino, True)
 
+            ' Si ya hay un artículo seleccionado, actualizar su stock en la nueva ubicación
+            If ArticuloTransferido IsNot Nothing Then
+                ActualizarStockDestino()
+            End If
+        Catch ex As Exception
+            ManejarError(ex, "Error al cambiar código de ubicación destino")
+        End Try
     End Sub
 
     Private Sub TextEditCodigoUbicacionOrigen_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacionOrigen.EditValueChanged
+        Try
+            If String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
+                PermitirEdicion(TextEditCodigoArticuloOrigen, False)
+                LabelNombreUbicacionOrigen.Text = String.Empty
+                Exit Sub
+            End If
 
-        If TextEditCodigoUbicacionOrigen.Text = String.Empty Then
-            Exit Sub
-        End If
+            Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacionOrigen.Text)
 
-        Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacionOrigen.Text)
+            If Ubicacion Is Nothing Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
+                TextEditCodigoUbicacionOrigen.Focus()
+                TextEditCodigoUbicacionOrigen.SelectAll()
+                Exit Sub
+            End If
 
-        If Ubicacion Is Nothing Then
-            TextEditCodigoUbicacionOrigen.Focus()
-            TextEditCodigoUbicacionOrigen.SelectAll()
-            Exit Sub
-        End If
+            LabelNombreUbicacionOrigen.Text = Ubicacion.Nombre
+            PermitirEdicion(TextEditCodigoArticuloOrigen, True)
 
-        LabelNombreUbicacionOrigen.Text = Ubicacion.Nombre
-        PermitirEdicion(TextEditCodigoArticuloOrigen, True)
+            ' Si ya hay un artículo seleccionado, actualizar su stock
+            If Not String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text) Then
+                ActualizarCampoStockOrigen()
+            End If
+        Catch ex As Exception
+            ManejarError(ex, "Error al cambiar código de ubicación origen")
+        End Try
     End Sub
 #End Region
 
