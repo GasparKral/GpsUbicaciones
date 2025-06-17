@@ -222,6 +222,134 @@ Public Class frmSeleccionArticulos
 
 #End Region
 
+#Region "Eventos de Validación"
+
+    ''' <summary>
+    ''' Valida el código de ubicación cuando pierde el foco
+    ''' </summary>
+    Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoUbicacion.Validating
+        Try
+            ' Limpiar los campos relacionados
+            LabelNombreUbicacion.Text = String.Empty
+            LabelNombreAlmacen.Text = String.Empty
+
+            ' Si el campo está vacío, no validar pero limpiar campos dependientes
+            If String.IsNullOrWhiteSpace(TextBoxCodigoUbicacion.Text) Then
+                LimpiarArticulo(False)
+                PermitirEdicion(TextBoxCodigoArticulo, False)
+                Return
+            End If
+
+            ' Buscar la ubicación en la base de datos
+            Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextBoxCodigoUbicacion.Text)
+                If Ubicacion Is Nothing Then
+                    ' Ubicación no encontrada
+                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La ubicación especificada no existe o no es válida.")
+                    LimpiarArticulo(False)
+                    PermitirEdicion(TextBoxCodigoArticulo, False)
+                    e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
+                    Return
+                End If
+
+                ' Ubicación válida - actualizar campos
+                LabelNombreUbicacion.Text = Ubicacion.Nombre
+                LabelNombreAlmacen.Text = Ubicacion.NombreAlmacen
+                PermitirEdicion(TextBoxCodigoArticulo, True)
+
+                ' Limpiar artículo anterior si existe
+                LimpiarArticulo(False)
+            End Using
+
+        Catch ex As Exception
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al validar la ubicación: {ex.Message}")
+            e.Cancel = True
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Valida el código de artículo cuando pierde el foco
+    ''' </summary>
+    Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
+        Try
+            ' Limpiar los campos relacionados
+            LabelNombreArticulo.Text = String.Empty
+            LabelStockArticulo.Text = String.Empty
+            SpinEditCantidadSeleccionada.Value = CANTIDAD_MINIMA
+            PermitirEdicion(SpinEditCantidadSeleccionada, False)
+
+            ' Si el campo está vacío, no validar
+            If String.IsNullOrWhiteSpace(TextBoxCodigoArticulo.Text) Then
+                Return
+            End If
+
+            ' Verificar que haya una ubicación válida primero
+            If String.IsNullOrWhiteSpace(TextBoxCodigoUbicacion.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreUbicacion.Text) Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Debe especificar una ubicación válida antes de seleccionar un artículo.")
+                e.Cancel = True
+                Return
+            End If
+
+            ' Buscar el artículo en el lote especificado
+            Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+                If StockLote Is Nothing Then
+                    ' Artículo no encontrado en la ubicación
+                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "El artículo especificado no existe en esta ubicación o no tiene stock disponible.")
+                    e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
+                    Return
+                End If
+
+                ' Artículo válido - actualizar campos
+                LabelStockArticulo.Text = StockLote.Cantidad.ToString()
+                LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
+                AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
+                SpinEditCantidadSeleccionada.Properties.MaxValue = StockLote.Cantidad
+                PermitirEdicion(SpinEditCantidadSeleccionada, True)
+
+                ' Establecer el foco en la cantidad si todo es válido
+                SpinEditCantidadSeleccionada.Focus()
+            End Using
+
+        Catch ex As Exception
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al validar el artículo: {ex.Message}")
+            e.Cancel = True
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Valida la cantidad seleccionada cuando pierde el foco
+    ''' </summary>
+    Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
+        Try
+            ' Si no hay artículo seleccionado, no validar
+            If String.IsNullOrWhiteSpace(TextBoxCodigoArticulo.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
+                Return
+            End If
+
+            ' Validar que la cantidad sea mayor que cero
+            If SpinEditCantidadSeleccionada.Value <= CANTIDAD_MINIMA Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
+                e.Cancel = True
+                Return
+            End If
+
+            ' Validar que no exceda el stock disponible
+            Dim stockDisponible As Decimal
+            If Decimal.TryParse(LabelStockArticulo.Text, stockDisponible) Then
+                If SpinEditCantidadSeleccionada.Value > stockDisponible Then
+                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad seleccionada excede el stock disponible.")
+                    e.Cancel = True
+                    Return
+                End If
+            End If
+
+        Catch ex As Exception
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al validar la cantidad: {ex.Message}")
+            e.Cancel = True
+        End Try
+    End Sub
+
+#End Region
+
 #Region "Eventos de Formulario"
 
     ''' <summary>
@@ -277,64 +405,6 @@ Public Class frmSeleccionArticulos
         End Try
     End Sub
 
-    ''' <summary>
-    ''' Maneja el evento de cambio de texto en el TextBox de código de ubicación
-    ''' </summary>
-    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoUbicacion.TextChanged
-        Try
-            If String.IsNullOrWhiteSpace(TextBoxCodigoUbicacion.Text) Then
-                LabelNombreUbicacion.Text = String.Empty
-                LabelNombreAlmacen.Text = String.Empty
-                Return
-            End If
-
-            Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextBoxCodigoUbicacion.Text)
-                If Ubicacion Is Nothing Then
-                    LabelNombreUbicacion.Text = String.Empty
-                    LabelNombreAlmacen.Text = String.Empty
-                    Return
-                End If
-
-                LabelNombreUbicacion.Text = Ubicacion.Nombre
-                LabelNombreAlmacen.Text = Ubicacion.NombreAlmacen
-                PermitirEdicion(TextBoxCodigoArticulo, True)
-            End Using
-
-        Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al obtener información de ubicación: {ex.Message}")
-        End Try
-    End Sub
-
-    ''' <summary>
-    ''' Maneja el evento de cambio de texto en el TextBox de código de artículo
-    ''' </summary>
-    Private Sub TextBoxCodigoArticulo_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoArticulo.TextChanged
-        Try
-            If String.IsNullOrWhiteSpace(TextBoxCodigoArticulo.Text) Then
-                LabelNombreArticulo.Text = String.Empty
-                LabelStockArticulo.Text = String.Empty
-                Return
-            End If
-
-            Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
-                If StockLote Is Nothing Then
-                    LabelNombreArticulo.Text = String.Empty
-                    LabelStockArticulo.Text = String.Empty
-                    Return
-                End If
-
-                LabelStockArticulo.Text = StockLote.Cantidad.ToString()
-                LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
-                AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
-                SpinEditCantidadSeleccionada.Properties.MaxValue = StockLote.Cantidad
-                PermitirEdicion(SpinEditCantidadSeleccionada, True)
-            End Using
-
-        Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al obtener información del artículo: {ex.Message}")
-        End Try
-    End Sub
-
     Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
 
         If RadioButtonOpcionAlbaran.Checked Then
@@ -348,6 +418,7 @@ Public Class frmSeleccionArticulos
         End If
 
     End Sub
+
 #End Region
 
 End Class

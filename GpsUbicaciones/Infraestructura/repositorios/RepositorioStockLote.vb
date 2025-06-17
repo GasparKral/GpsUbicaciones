@@ -9,7 +9,9 @@ Public Class RepositorioStockLote
                 .Articulo = New Articulo With {
                     .Codigo = row("CodigoArticulo"),
                     .NombreComercial = row("NombreArticulo"),
-                    .PorPeso = Convert.ToBoolean(row("PorPeso"))
+                    .PorPeso = Convert.ToBoolean(row("PorPeso")),
+                    .CodigoBarras = row("CodBarras"),
+                    .ReferenciaProvedor = row("RefProveedor")
                 },
                 .Lote = New Ubicacion With {
                     .Identificador = row("CodigoUbicacion"),
@@ -30,52 +32,66 @@ Public Class RepositorioStockLote
 
     Public Shared Function ObtenerArticuloEnLote(CodigoArticulo As String, CodigoLote As String) As StockLote
         Dim stockLote As StockLote = Nothing
-        Using dsDatos = Operacion.ExecuteQuery(Querys.Select.ConsultarArticuloEnUbicacion, CodigoArticulo, CodigoLote, Almacen).Tables(0)
+        Dim parameters As Object() = {CodigoArticulo, CodigoArticulo, CodigoArticulo, CodigoLote}
+        Using dsDatos = Operacion.ExecuteQuery(Querys.Select.ConsultarArticuloEnUbicacion, parameters).Tables(0)
             If dsDatos.Rows.Count > 0 Then
                 Dim row As DataRow = dsDatos.Rows(0)
                 stockLote = New StockLote With {
-                    .Articulo = New Articulo With {
-                        .Codigo = row("CodigoArticulo"),
-                        .NombreComercial = row("NombreArticulo"),
-                        .PorPeso = Convert.ToBoolean(row("PorPeso"))
-                    },
-                    .Lote = New Ubicacion With {
-                        .Identificador = row("CodigoUbicacion"),
-                        .Nombre = row("NombreUbicacion"),
-                        .Almacen = row("CodigoAlmacen"),
-                        .NombreAlmacen = row("NombreAlmacen")
-                    },
-                    .UnidadesIniciales = Convert.ToSingle(row("UnidadesIniciales")),
-                    .UnidadesCompradas = Convert.ToSingle(row("UnidadesCompradas")),
-                    .UnidadesVendidas = Convert.ToSingle(row("UnidadesVendidas")),
-                    .UnidadesTransferidas = Convert.ToSingle(row("UnidadesTransferidas"))
-                }
+                .Articulo = New Articulo With {
+                    .Codigo = row("CodigoArticulo"),
+                    .NombreComercial = row("NombreArticulo"),
+                    .PorPeso = Convert.ToBoolean(row("PorPeso")),
+                    .CodigoBarras = row("CodBarras"),
+                    .ReferenciaProvedor = row("RefProveedor")
+                },
+                .Lote = New Ubicacion With {
+                    .Identificador = row("CodigoUbicacion"),
+                    .Nombre = row("NombreUbicacion"),
+                    .Almacen = row("CodigoAlmacen"),
+                    .NombreAlmacen = row("NombreAlmacen")
+                },
+                .UnidadesIniciales = Convert.ToSingle(row("UnidadesIniciales")),
+                .UnidadesCompradas = Convert.ToSingle(row("UnidadesCompradas")),
+                .UnidadesVendidas = Convert.ToSingle(row("UnidadesVendidas")),
+                .UnidadesTransferidas = Convert.ToSingle(row("UnidadesTransferidas"))
+            }
             Else
                 GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesUbicaciones.CodigoInvalido)
                 Return Nothing
             End If
         End Using
         Return stockLote
-
     End Function
 
     Public Shared Function InsertarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer
-        Return Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock, Almacen, CodigoUbicacion, CodigoArticulo, Stock)
+
+        Dim Articulo = RepositorioArticulo.ObtenerInformacion(CodigoArticulo)
+
+        Return Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock,
+        Articulo.Codigo, Almacen, CodigoUbicacion, Stock
+        )
     End Function
 
     Public Shared Function InsertarArticuloDesdeStock(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacionOrigen As String, CodigoUbicacionDestino As String) As Integer
-        Dim result = Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock, Almacen, CodigoUbicacionDestino, CodigoArticulo, Stock)
-        result += Operacion.ExecuteNonQuery(Connection, Querys.Update.ReducirStockEnLote, Stock, CodigoArticulo, CodigoUbicacionOrigen)
+
+        Dim Articulo = RepositorioArticulo.ObtenerInformacion(CodigoArticulo)
+
+        Dim result = Operacion.ExecuteNonQuery(Connection, Querys.Insert.InsertarNuevoLoteDeArticuloEnStock, Articulo.Codigo, Almacen, CodigoUbicacionDestino, Stock)
+        result += Operacion.ExecuteNonQuery(Connection, Querys.Update.ReducirStockEnLote, Stock, Articulo.Codigo, CodigoUbicacionOrigen)
         Return result
     End Function
 
     Public Shared Function AgregarStock(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer
-        Return Operacion.ExecuteNonQuery(Connection, Querys.Update.IncrementarStockEnLote, Stock, CodigoArticulo, CodigoUbicacion)
+        Dim Articulo = RepositorioArticulo.ObtenerInformacion(CodigoArticulo)
+
+        Return Operacion.ExecuteNonQuery(Connection, Querys.Update.IncrementarStockEnLote, Stock, Articulo.Codigo, CodigoUbicacion)
     End Function
 
     Public Shared Function TransferirStock(Connection As IDbConnection, Cantidad As Single, CodigoArticulo As String, CodigoUbicacionOrigen As String, CodigoUbicacionDestino As String) As Integer
-        Dim result = Operacion.ExecuteNonQuery(Connection, Querys.Update.ReducirStockEnLote, Cantidad, CodigoArticulo, CodigoUbicacionOrigen)
-        result += Operacion.ExecuteNonQuery(Connection, Querys.Update.IncrementarStockEnLote, Cantidad, CodigoArticulo, CodigoUbicacionDestino)
+        Dim Articulo = RepositorioArticulo.ObtenerInformacion(CodigoArticulo)
+
+        Dim result = Operacion.ExecuteNonQuery(Connection, Querys.Update.ReducirStockEnLote, Cantidad, Articulo.Codigo, CodigoUbicacionOrigen)
+        result += Operacion.ExecuteNonQuery(Connection, Querys.Update.IncrementarStockEnLote, Cantidad, Articulo.Codigo, CodigoUbicacionDestino)
         Return result
     End Function
 End Class

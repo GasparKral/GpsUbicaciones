@@ -66,10 +66,12 @@ Module Querys
         End Function
 
         Public Shared Function ConsultarArticulosEnUbicacion() As String
-            Return $"SELECT
+            Return "SELECT
                         A.Codigo AS CodigoArticulo,
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
+                        A.CodBarras,
+                        A.RefProveedor,
                         S.Uds_Ini AS UnidadesIniciales,
                         S.Uds_Com AS UnidadesCompradas,
                         S.Uds_Ven AS UnidadesVendidas,
@@ -79,20 +81,22 @@ Module Querys
                         Al.Codigo AS CodigoAlmacen,
                         Al.Nombre AS NombreAlmacen
                     FROM
-                      ((ARTICULOS AS A
+                        ((ARTICULOS AS A
                         INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
                         INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
-                        INNER JOIN ALMACENES AS AL ON {Almacen} = AL.Codigo
+                        INNER JOIN ALMACENES AS AL ON S.Almacen = AL.Codigo
                     WHERE 
-                        S.Lote = ? AND
-                        S.Almacen = ? "
+                        S.Lote = ?
+                    "
         End Function
 
         Public Shared Function ConsultarArticuloEnUbicacion() As String
-            Return $"SELECT
+            Return "SELECT
                         A.Codigo AS CodigoArticulo,
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
+                        A.CodBarras,
+                        A.RefProveedor,   
                         S.Uds_Ini AS UnidadesIniciales,
                         S.Uds_Com AS UnidadesCompradas,
                         S.Uds_Ven AS UnidadesVendidas,
@@ -101,14 +105,17 @@ Module Querys
                         U.Nombre AS NombreUbicacion,
                         Al.Codigo AS CodigoAlmacen,
                         Al.Nombre AS NombreAlmacen
-                    FROM
-                      ((ARTICULOS AS A
-                        INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
-                        INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
-                        INNER JOIN ALMACENES AS AL ON {Almacen} = AL.Codigo
+                    FROM 
+                        ((ARTICULOS A
+                        INNER JOIN STOCKLOTES S ON S.Articulo = A.Codigo)
+                        INNER JOIN UBICACIONES U ON U.Codigo = S.Lote)
+                        INNER JOIN ALMACENES AL ON S.Almacen = AL.Codigo
                     WHERE 
-                        A.Codigo = ? AND
-                        S.Lote = ?"
+                        (A.Codigo = ? OR 
+                        A.CodBarras = ? OR 
+                        A.RefProveedor = ?) AND 
+                        S.Lote = ?
+                    "
         End Function
 
         ''' <summary>
@@ -120,13 +127,16 @@ Module Querys
         ''' <returns>Consulta SQL que devuelve: NombreComercial, Codigo, PorPeso del artículo.</returns>
         Public Shared Function ConsultarDatosBasicosArticuloPorCodigo() As String
             Return "SELECT 
-                        A.NombreComercial,
                         A.Codigo,
-                        A.PorPeso
+                        A.NombreComercial,
+                        A.PorPeso,
+                        A.CodBarras,
+                        A.RefProveedor
                     FROM 
                        ARTICULOS AS A
                     WHERE 
-                        A.Codigo = ?"
+                        A.Codigo = ? OR A.CodBarras = ? OR A.RefProveedor = ?
+                    "
         End Function
 
         ''' <summary>
@@ -203,23 +213,24 @@ Module Querys
         End Function
 
         ''' <summary>
-        ''' Obtiene una consulta SQL para consultar los datos de una ubicación por su código.
+        ''' Crea una consulta fluida para consultar los datos de una ubicación por su código.
         ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Codigo - Código de la ubicación
-        ''' </param>
-        ''' <returns>Consulta SQL que devuelve: Codigo[de la ubicación], Nombre[de la ubicación], CodigoAlmacen, Almacen[Nombre del almacén].</returns>
+        ''' <param name="codigo">Código de la ubicación</param>
+        ''' <returns>FluentQuery configurada para consultar datos de ubicación</returns>
+        ''' 
         Public Shared Function ConsultarDatosUbicacionPorCodigo() As String
-            Return $"SELECT
+            Return "SELECT 
                         U.Codigo,
                         U.Nombre,
-                        A.Codigo AS CodigoAlmacen,
-                        A.Nombre AS Almacen
-                    FROM
-                        UBICACIONES AS U 
-                        LEFT JOIN ALMACENES AS A ON {Almacen} = A.Codigo 
-                    WHERE
-                        U.Codigo = ?"
+                        A.Codigo as CodigoAlmacen,
+                        A.Nombre as Almacen
+                    FROM 
+                        UBICACIONES AS U,
+                        ALMACENES AS A
+                    WHERE 
+                        U.Codigo = ? AND
+                        A.Codigo = ?
+                "
         End Function
 
         ''' <summary>
@@ -232,7 +243,7 @@ Module Querys
         Public Shared Function ConsultarUbicacionDeLotePorCodigo() As String
             Return "SELECT
                         U.Codigo,
-                        U.Nombre,
+                        U.Nombre
                     FROM
                         UBICACIONES AS U 
                         INNER JOIN STOCKLOTES AS S ON S.Lote = U.Codigo
@@ -275,7 +286,7 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL de inserción que no devuelve resultados. Inserta un registro en la tabla StockLotes.</returns>
         Public Shared Function InsertarNuevoLoteDeArticuloEnStock() As String
-            Return "INSERT INTO StockLotes (Almacen, Lote, Articulo, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, 0, 0, 0, ?)"
+            Return "INSERT INTO StockLotes (Articulo, Almacen, Lote, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, 0, 0, 0, ?)"
         End Function
 
         ''' <summary>
@@ -314,3 +325,4 @@ Module Querys
     End Class
 
 End Module
+

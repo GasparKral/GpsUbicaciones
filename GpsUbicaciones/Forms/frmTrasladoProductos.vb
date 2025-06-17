@@ -97,6 +97,9 @@ Public Class frmTrasladoProductos
         Try
             ConfigurarGrid()
             ConfigurarEstadoInicial()
+            ConfigurarValidaciones()
+            ' Establecer foco en el primer campo
+            TextEditCodigoUbicacionOrigen.Focus()
         Catch ex As Exception
             ManejarError(ex, "Error al cargar el formulario")
         End Try
@@ -109,6 +112,22 @@ Public Class frmTrasladoProductos
         PermitirEdicion(TextEditCodigoUbicacionDestino, False)
         PermitirEdicion(TextEditCodigoArticuloDestino, False)
         PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
+    End Sub
+
+    Private Sub ConfigurarValidaciones()
+        ' Configurar validaciones para los campos de origen
+        AddHandler TextEditCodigoUbicacionOrigen.Validating, AddressOf ValidarUbicacionOrigen
+        AddHandler TextEditCodigoArticuloOrigen.Validating, AddressOf ValidarArticuloOrigen
+
+        ' Configurar validaciones para los campos de destino
+        AddHandler TextEditCodigoUbicacionDestino.Validating, AddressOf ValidarUbicacionDestino
+        AddHandler TextEditCodigoArticuloDestino.Validating, AddressOf ValidarArticuloDestino
+
+        ' Configurar CausesValidation para todos los controles
+        TextEditCodigoUbicacionOrigen.Properties.ValidateOnEnterKey = True
+        TextEditCodigoArticuloOrigen.Properties.ValidateOnEnterKey = True
+        TextEditCodigoUbicacionDestino.Properties.ValidateOnEnterKey = True
+        TextEditCodigoArticuloDestino.Properties.ValidateOnEnterKey = True
     End Sub
 #End Region
 
@@ -161,6 +180,158 @@ Public Class frmTrasladoProductos
     Private Function EsMismaUbicacion() As Boolean
         Return TextEditCodigoUbicacionOrigen.Text.Trim().Equals(TextEditCodigoUbicacionDestino.Text.Trim(), StringComparison.OrdinalIgnoreCase)
     End Function
+
+    ' Validadores de Campos Origen
+    Private Sub ValidarUbicacionOrigen(sender As Object, e As CancelEventArgs)
+        Try
+            Dim textEdit = CType(sender, DevExpress.XtraEditors.TextEdit)
+
+            If String.IsNullOrWhiteSpace(textEdit.Text) Then
+                PermitirEdicion(TextEditCodigoArticuloOrigen, False)
+                LabelNombreUbicacionOrigen.Text = String.Empty
+                LimpiarCamposOrigen()
+                Return
+            End If
+
+            Dim ubicacion = RepositorioUbicacion.ObtenerInformacion(textEdit.Text)
+
+            If ubicacion Is Nothing Then
+                e.Cancel = True
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
+                textEdit.Focus()
+                textEdit.SelectAll()
+                Return
+            End If
+
+            LabelNombreUbicacionOrigen.Text = ubicacion.Nombre
+            PermitirEdicion(TextEditCodigoArticuloOrigen, True)
+
+            ' Si ya hay un artículo seleccionado, actualizar su stock
+            If Not String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text) Then
+                ActualizarCampoStockOrigen()
+            End If
+
+        Catch ex As Exception
+            e.Cancel = True
+            TextEditCodigoUbicacionOrigen.Clear()
+            ManejarError(ex, "Error al validar ubicación origen")
+        End Try
+    End Sub
+
+    Private Sub ValidarArticuloOrigen(sender As Object, e As CancelEventArgs)
+        Try
+            Dim textEdit = CType(sender, DevExpress.XtraEditors.TextEdit)
+
+            If String.IsNullOrWhiteSpace(textEdit.Text) OrElse
+               String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
+                LimpiarCamposOrigen()
+                Return
+            End If
+
+            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit.Text, TextEditCodigoUbicacionOrigen.Text)
+
+            If stockLote Is Nothing Then
+                Logger.Instance.Warning("Artículo {0} no encontrado en ubicación {1}", textEdit.Text, TextEditCodigoUbicacionOrigen.Text)
+                e.Cancel = True
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "El artículo no existe en esta ubicación")
+                textEdit.Focus()
+                textEdit.SelectAll()
+                Return
+            End If
+
+            LabelNombreArticuloOrigen.Text = stockLote.Articulo.NombreComercial
+            AceptarDecimales(SpinEditCantidadSeleccionadaOrigen, stockLote.Articulo.PorPeso, LabelIndicadorPorPesoOrigen)
+            LabelNombreUbicacionOrigen.Text = stockLote.Lote.Nombre
+            LabelStockArticuloOrigen.Text = stockLote.Cantidad.ToString()
+            SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = stockLote.Cantidad
+            PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, True)
+
+        Catch ex As Exception
+            Logger.Instance.Error(ex:=ex, message:=ex.Message)
+            e.Cancel = True
+            TextEditCodigoArticuloOrigen.Clear()
+            ManejarError(ex, "Error al validar artículo origen")
+        End Try
+    End Sub
+
+    ' Validadores de Campos Destino
+    Private Sub ValidarUbicacionDestino(sender As Object, e As CancelEventArgs)
+        Try
+            Dim textEdit = CType(sender, DevExpress.XtraEditors.TextEdit)
+
+            If String.IsNullOrWhiteSpace(textEdit.Text) Then
+                PermitirEdicion(TextEditCodigoArticuloDestino, False)
+                LabelNombreUbicacionDestino.Text = String.Empty
+                LimpiarCamposDestino()
+                Return
+            End If
+
+            Dim ubicacion = RepositorioUbicacion.ObtenerInformacion(textEdit.Text)
+
+            If ubicacion Is Nothing Then
+                e.Cancel = True
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
+                textEdit.Focus()
+                textEdit.SelectAll()
+                Return
+            End If
+
+            If EsMismaUbicacion() Then
+                e.Cancel = True
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No se puede transferir a la misma ubicación")
+                textEdit.Focus()
+                textEdit.SelectAll()
+                Return
+            End If
+
+            LabelNombreUbicacionDestino.Text = ubicacion.Nombre
+            PermitirEdicion(TextEditCodigoArticuloDestino, True)
+
+            ' Si ya hay un artículo seleccionado, actualizar su stock en la nueva ubicación
+            If ArticuloTransferido IsNot Nothing Then
+                ActualizarStockDestino()
+            End If
+
+        Catch ex As Exception
+            e.Cancel = True
+            TextEditCodigoUbicacionDestino.Clear()
+            ManejarError(ex, "Error al validar ubicación destino")
+        End Try
+    End Sub
+
+    Private Sub ValidarArticuloDestino(sender As Object, e As CancelEventArgs)
+        Try
+            Dim textEdit = CType(sender, DevExpress.XtraEditors.TextEdit)
+
+            If String.IsNullOrWhiteSpace(textEdit.Text) Then
+                LimpiarCamposDestino()
+                PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
+                ArticuloTransferido = Nothing
+                Return
+            End If
+            Dim articuloEsperado = RepositorioArticulo.ObtenerInformacion(textEdit.Text)
+            ArticuloTransferido = ListaArticulos.FirstOrDefault(Function(p) p.Articulo.Codigo = articuloEsperado.Codigo)
+
+            If ArticuloTransferido Is Nothing Then
+                e.Cancel = True
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoInvalido)
+                textEdit.Focus()
+                textEdit.SelectAll()
+                Return
+            End If
+
+            ActualizarStockDestino()
+            LabelNombreArticuloDestino.Text = ArticuloTransferido.Articulo.NombreComercial
+            AceptarDecimales(SpinEditCantidadSeleccionadaDestino, ArticuloTransferido.Articulo.PorPeso, LabelIndicadorPorPesoDestino)
+            PermitirEdicion(SpinEditCantidadSeleccionadaDestino, True)
+            SpinEditCantidadSeleccionadaDestino.Properties.MaxValue = ArticuloTransferido.CantidadAMover
+
+        Catch ex As Exception
+            e.Cancel = True
+            TextEditCodigoArticuloDestino.Clear()
+            ManejarError(ex, "Error al validar artículo destino")
+        End Try
+    End Sub
 #End Region
 
 #Region "Control de UI"
@@ -174,8 +345,9 @@ Public Class frmTrasladoProductos
             End If
 
             Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarStockDeLote,
-                              TextEditCodigoArticuloOrigen.Text,
+                              RepositorioArticulo.ObtenerInformacion(TextEditCodigoArticuloOrigen.Text).Codigo,
                               TextEditCodigoUbicacionOrigen.Text), 0, 0)
+
 
             If dsFila Is Nothing OrElse dsFila("Stock") Is DBNull.Value Then
                 LimpiarStockOrigen()
@@ -201,13 +373,13 @@ Public Class frmTrasladoProductos
     End Sub
 
     Private Sub LimpiarCamposOrigen()
-        TextEditCodigoArticuloOrigen.Clear()
         TextEditCodigoUbicacionOrigen.Clear()
+        TextEditCodigoArticuloOrigen.Clear()
         LabelStockArticuloOrigen.Text = String.Empty
-        LabelNombreUbicacionOrigen.Text = String.Empty
         LabelNombreArticuloOrigen.Text = String.Empty
         SpinEditCantidadSeleccionadaOrigen.Value = 0
         LabelIndicadorPorPesoOrigen.Visible = False
+        PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, False)
     End Sub
 
     Private Sub LimpiarCamposDestino()
@@ -227,8 +399,11 @@ Public Class frmTrasladoProductos
 
     ' Validación de entrada
     Private Sub ControlEntradaAlfanumerica(sender As Object, e As KeyPressEventArgs)
-        ' Solo permitir caracteres alfanuméricos
-        If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+        ' Permitir caracteres alfanuméricos, guión bajo (_) y guión (-)
+        If Not Char.IsLetterOrDigit(e.KeyChar) AndAlso
+       Not Char.IsControl(e.KeyChar) AndAlso
+       e.KeyChar <> "_"c AndAlso
+       e.KeyChar <> "-"c Then
             e.Handled = True
         End If
     End Sub
@@ -249,6 +424,11 @@ Public Class frmTrasladoProductos
 
     Private Sub BotonAgregarArticulo_Click(sender As Object, e As EventArgs) Handles BotonAgregarArticulo.Click
         Try
+            ' Validar el formulario antes de continuar
+            If Not Me.ValidateChildren() Then
+                Return
+            End If
+
             ' Validaciones previas
             If Not ValidarCamposRequeridosOrigen() Then
                 FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.FaltanCampos)
@@ -294,6 +474,11 @@ Public Class frmTrasladoProductos
 
     Private Sub BotonConfirmarTraslado_Click(sender As Object, e As EventArgs) Handles BotonConfirmarTraslado.Click
         Try
+            ' Validar el formulario antes de continuar
+            If Not Me.ValidateChildren() Then
+                Return
+            End If
+
             If Not ValidarCamposRequeridosDestino() Then
                 FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.FaltanCampos)
                 Exit Sub
@@ -331,7 +516,7 @@ Public Class frmTrasladoProductos
                 Querys.Select.VerificarExistenciaLoteDeArticulo,
                 SiExiste,
                 NoExiste,
-                TextEditCodigoArticuloDestino.Text,
+                RepositorioArticulo.ObtenerInformacion(TextEditCodigoArticuloDestino.Text).Codigo,
                 TextEditCodigoUbicacionDestino.Text
             )
 
@@ -368,6 +553,8 @@ Public Class frmTrasladoProductos
             If EsUltimoArticulo() Then
                 PermitirEdicion(TextEditCodigoUbicacionDestino, False)
                 PermitirEdicion(TextEditCodigoUbicacionOrigen, True)
+                ' Volver a poner el foco en el primer campo
+                TextEditCodigoUbicacionOrigen.Focus()
             Else
                 PermitirEdicion(TextEditCodigoUbicacionDestino, True)
             End If
@@ -380,35 +567,6 @@ Public Class frmTrasladoProductos
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         Me.Close()
-    End Sub
-
-    Private Sub TextEditCodigoArticuloDestino_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoArticuloDestino.EditValueChanged
-        Try
-            If String.IsNullOrWhiteSpace(TextEditCodigoArticuloDestino.Text) Then
-                LimpiarCamposDestino()
-                PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
-                Exit Sub
-            End If
-
-            ArticuloTransferido = ListaArticulos.FirstOrDefault(Function(p) p.Articulo.Codigo = TextEditCodigoArticuloDestino.Text)
-
-            If ArticuloTransferido Is Nothing Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoInvalido)
-                TextEditCodigoArticuloDestino.Focus()
-                TextEditCodigoArticuloDestino.SelectAll()
-                Exit Sub
-            End If
-
-            ActualizarStockDestino()
-
-            LabelNombreArticuloDestino.Text = ArticuloTransferido.Articulo.NombreComercial
-
-            AceptarDecimales(SpinEditCantidadSeleccionadaDestino, ArticuloTransferido.Articulo.PorPeso, LabelIndicadorPorPesoDestino)
-            PermitirEdicion(SpinEditCantidadSeleccionadaDestino, True)
-            SpinEditCantidadSeleccionadaDestino.Properties.MaxValue = ArticuloTransferido.CantidadAMover
-        Catch ex As Exception
-            ManejarError(ex, "Error al cambiar código de artículo destino")
-        End Try
     End Sub
 
     Private Sub ActualizarStockDestino()
@@ -444,97 +602,6 @@ Public Class frmTrasladoProductos
         End Try
     End Sub
 
-    Private Sub TextEditCodigoArticuloOrigen_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoArticuloOrigen.EditValueChanged
-        Try
-            If String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text) OrElse
-               String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
-                Exit Sub
-            End If
-
-            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticuloOrigen.Text, TextEditCodigoUbicacionOrigen.Text)
-            If stockLote Is Nothing Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "El artículo no existe en esta ubicación")
-                TextEditCodigoUbicacionOrigen.Focus()
-                TextEditCodigoUbicacionOrigen.SelectAll()
-                Exit Sub
-            End If
-
-            LabelNombreArticuloOrigen.Text = stockLote.Articulo.NombreComercial
-            AceptarDecimales(SpinEditCantidadSeleccionadaOrigen, stockLote.Articulo.PorPeso, LabelIndicadorPorPesoOrigen)
-            LabelNombreUbicacionOrigen.Text = stockLote.Lote.Nombre
-            LabelStockArticuloOrigen.Text = stockLote.Cantidad.ToString()
-            SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = stockLote.Cantidad
-            PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, True)
-        Catch ex As Exception
-            LimpiarCamposOrigen()
-            ManejarError(ex, "Error al cambiar código de artículo origen")
-        End Try
-    End Sub
-
-    Private Sub TextEditCodigoUbicacionDestino_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacionDestino.EditValueChanged
-        Try
-            If String.IsNullOrWhiteSpace(TextEditCodigoUbicacionDestino.Text) Then
-                PermitirEdicion(TextEditCodigoArticuloDestino, False)
-                LabelNombreUbicacionDestino.Text = String.Empty
-                Exit Sub
-            End If
-
-            Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacionDestino.Text)
-
-            If Ubicacion Is Nothing Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
-                TextEditCodigoUbicacionDestino.Focus()
-                TextEditCodigoUbicacionDestino.SelectAll()
-                Exit Sub
-            End If
-
-            If EsMismaUbicacion() Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No se puede transferir a la misma ubicación")
-                TextEditCodigoUbicacionDestino.Focus()
-                TextEditCodigoUbicacionDestino.SelectAll()
-                Exit Sub
-            End If
-
-            LabelNombreUbicacionDestino.Text = Ubicacion.Nombre
-            PermitirEdicion(TextEditCodigoArticuloDestino, True)
-
-            ' Si ya hay un artículo seleccionado, actualizar su stock en la nueva ubicación
-            If ArticuloTransferido IsNot Nothing Then
-                ActualizarStockDestino()
-            End If
-        Catch ex As Exception
-            ManejarError(ex, "Error al cambiar código de ubicación destino")
-        End Try
-    End Sub
-
-    Private Sub TextEditCodigoUbicacionOrigen_EditValueChanged(sender As Object, e As EventArgs) Handles TextEditCodigoUbicacionOrigen.EditValueChanged
-        Try
-            If String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
-                PermitirEdicion(TextEditCodigoArticuloOrigen, False)
-                LabelNombreUbicacionOrigen.Text = String.Empty
-                Exit Sub
-            End If
-
-            Dim Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacionOrigen.Text)
-
-            If Ubicacion Is Nothing Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
-                TextEditCodigoUbicacionOrigen.Focus()
-                TextEditCodigoUbicacionOrigen.SelectAll()
-                Exit Sub
-            End If
-
-            LabelNombreUbicacionOrigen.Text = Ubicacion.Nombre
-            PermitirEdicion(TextEditCodigoArticuloOrigen, True)
-
-            ' Si ya hay un artículo seleccionado, actualizar su stock
-            If Not String.IsNullOrWhiteSpace(TextEditCodigoArticuloOrigen.Text) Then
-                ActualizarCampoStockOrigen()
-            End If
-        Catch ex As Exception
-            ManejarError(ex, "Error al cambiar código de ubicación origen")
-        End Try
-    End Sub
 #End Region
 
 End Class

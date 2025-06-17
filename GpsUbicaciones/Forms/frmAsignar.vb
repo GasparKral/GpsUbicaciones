@@ -32,6 +32,8 @@ Public Class frmAsignar
 #Region "Eventos de Formulario"
     Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
         InicializarGrid()
+        ' Configurar validación para que se ejecute cuando el usuario termine de editar
+        Me.AutoValidate = AutoValidate.EnableAllowFocusChange
     End Sub
 
     Private Sub frmAsignar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
@@ -120,7 +122,7 @@ Public Class frmAsignar
 #Region "Carga de Datos"
     Private Sub CargarDatosArticulo(esValidacion As Boolean, Optional e As CancelEventArgs = Nothing)
         Try
-            Dim Articulo = RepositorioArticulo.ObtenerInFormacion(TextBoxCodigoArticulo.Text)
+            Dim Articulo = RepositorioArticulo.ObtenerInformacion(TextBoxCodigoArticulo.Text)
             LabelNombreArticulo.Text = Articulo.NombreComercial
 
             If esValidacion Then
@@ -149,7 +151,7 @@ Public Class frmAsignar
 
     Private Sub CargarDatosUbicacion(esValidacion As Boolean, Optional e As CancelEventArgs = Nothing)
         Try
-            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosUbicacionPorCodigo, TextBoxCodigoUbicacion.Text), 0, 0)
+            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosUbicacionPorCodigo, TextBoxCodigoUbicacion.Text, Almacen), 0, 0)
 
             If esValidacion Then
                 If dsDatos("CodigoAlmacen") <> Configuracion.Almacen Then
@@ -191,9 +193,7 @@ Public Class frmAsignar
                 Exit Sub
             End If
 
-            Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarStockDeLote,
-                              TextBoxCodigoArticulo.Text,
-                              TextBoxCodigoUbicacion.Text), 0, 0)
+            Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarStockDeLote, TextBoxCodigoUbicacion.Text, TextBoxCodigoArticulo.Text), 0, 0)
 
             If dsFila Is Nothing OrElse dsFila("Stock") Is DBNull.Value Then
                 SpinEditStock.Text = "0"
@@ -257,7 +257,7 @@ Public Class frmAsignar
                     Querys.Select.VerificarExistenciaLoteDeArticulo,
                     ifTrueAction,
                     ifFalseAction,
-                    TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text
+                    RepositorioArticulo.ObtenerInformacion(TextBoxCodigoArticulo.Text).Codigo, TextBoxCodigoUbicacion.Text
                 )
 
                 ' Si todo fue bien, actualizar la interfaz
@@ -296,24 +296,76 @@ Public Class frmAsignar
         Me.AutoValidate = AutoValidate.EnableAllowFocusChange
     End Sub
 
-
+    ''' <summary>
+    ''' Valida el código de artículo cuando el usuario termina de editarlo
+    ''' Se ejecuta al perder el foco o al presionar Tab/Enter
+    ''' </summary>
     Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
-        If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
-            e.Cancel = True
+        ' Si el campo está vacío, cancelar la validación pero no mostrar error
+        ' (el error se mostrará cuando el usuario intente confirmar)
+        If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text.Trim()) Then
+            ' Limpiar datos relacionados
+            LabelNombreArticulo.Text = String.Empty
+            LabelIndicadorPorPeso.Visible = False
+            SpinEditStock.Text = "0"
             Return
         End If
 
+        ' Cargar datos del artículo y actualizar stock
         CargarDatosArticulo(True, e)
-        actualizarCampoStock()
+
+        ' Solo actualizar stock si la validación del artículo fue exitosa
+        If Not e.Cancel Then
+            actualizarCampoStock()
+        End If
     End Sub
 
+    ''' <summary>
+    ''' Valida el código de ubicación cuando el usuario termina de editarlo
+    ''' Se ejecuta al perder el foco o al presionar Tab/Enter
+    ''' </summary>
     Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoUbicacion.Validating
-        If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text) Then
+        ' Si el campo está vacío, no hacer nada (se permite)
+        If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text.Trim()) Then
+            ' Limpiar datos relacionados
+            LabelNombreUbicacion.Text = String.Empty
+            LabelNombreAlmacen.Text = String.Empty
             Return
         End If
 
+        ' Cargar datos de la ubicación
         CargarDatosUbicacion(True, e)
+
+        ' Si la validación de ubicación fue exitosa y hay un artículo seleccionado,
+        ' actualizar el stock
+        If Not e.Cancel AndAlso Not String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
+            actualizarCampoStock()
+        End If
     End Sub
+
+    ''' <summary>
+    ''' Evento opcional para limpiar datos cuando el usuario borra el contenido
+    ''' </summary>
+    Private Sub TextBoxCodigoArticulo_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoArticulo.TextChanged
+        ' Solo limpiar si el campo queda completamente vacío
+        If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
+            LabelNombreArticulo.Text = String.Empty
+            LabelIndicadorPorPeso.Visible = False
+            SpinEditStock.Text = "0"
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Evento opcional para limpiar datos cuando el usuario borra el contenido de ubicación
+    ''' </summary>
+    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoUbicacion.TextChanged
+        ' Solo limpiar si el campo queda completamente vacío
+        If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text) Then
+            LabelNombreUbicacion.Text = String.Empty
+            LabelNombreAlmacen.Text = String.Empty
+        End If
+    End Sub
+
 #End Region
 
 End Class

@@ -1,12 +1,14 @@
 ﻿Public Class RepositorioArticulo
 
-    Public Shared Function ObtenerInFormacion(CodigoArticulo As String) As Articulo
+    Public Shared Function ObtenerInformacion(CodigoArticulo As String) As Articulo
         Try
-            Dim dsArticulo = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo, CodigoArticulo), 0, 0)
+            Dim dsArticulo = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosBasicosArticuloPorCodigo, CodigoArticulo, CodigoArticulo, CodigoArticulo), 0, 0)
             Return New Articulo With {
-            .Codigo = CodigoArticulo,
+            .Codigo = dsArticulo("Codigo"),
             .NombreComercial = dsArticulo("NombreComercial"),
-            .PorPeso = Convert.ToBoolean(dsArticulo("PorPeso"))
+            .PorPeso = Convert.ToBoolean(dsArticulo("PorPeso")),
+            .CodigoBarras = dsArticulo("CodBarras"),
+            .ReferenciaProvedor = dsArticulo("RefProveedor")
         }
         Catch err As InvalidOperationException
             GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesDeError.MensajesArticulos.CodigoInvalido)

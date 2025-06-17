@@ -54,7 +54,7 @@ Partial Class frmConsulta
         ' 
         GridControlConsultaArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlConsultaArticulos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        GridControlConsultaArticulos.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridControlConsultaArticulos.Font = New Font("Tahoma", 15.75F)
         GridControlConsultaArticulos.Location = New Point(10, 93)
         GridControlConsultaArticulos.MainView = GridViewConsultaArticulos
         GridControlConsultaArticulos.Margin = New Padding(3, 2, 3, 2)

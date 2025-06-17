@@ -2,7 +2,7 @@
   "profiles": {
     "GpsUbicaciones": {
       "commandName": "Project",
-      "commandLineArgs": "C: 038 001"
+      "commandLineArgs": "C: 038 001 00"
     }
   }
 }

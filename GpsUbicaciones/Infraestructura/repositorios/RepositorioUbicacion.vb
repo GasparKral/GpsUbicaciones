@@ -2,7 +2,7 @@
 
     Public Shared Function ObtenerInformacion(CodigoUbicacion As String) As Ubicacion
         Try
-            Dim dsUbicacion = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosUbicacionPorCodigo, CodigoUbicacion), 0, 0)
+            Dim dsUbicacion = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosUbicacionPorCodigo, CodigoUbicacion, Almacen), 0, 0)
 
             Return New Ubicacion With {
                 .Identificador = CodigoUbicacion,

@@ -93,7 +93,7 @@ Public Class AccessDatabaseOperation
 
             Return dt
         Catch ex As Exception
-            Throw New DatabaseOperationException("Error al cargar tabla", ex, commandText)
+            Throw New DatabaseOperationException("Error al cargar tabla", ex, commandText, parameters)
         Finally
             If connection.State = ConnectionState.Open Then
                 connection.Close()

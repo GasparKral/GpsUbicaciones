@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -9,15 +9,31 @@
     <MyType>WindowsForms</MyType>
     <OptionStrict>Off</OptionStrict>
     <ApplicationIcon>Warehouse.ico</ApplicationIcon>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Utils\**" />
+    <EmbeddedResource Remove="Utils\**" />
+    <None Remove="Utils\**" />
+    <Page Remove="Utils\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Warehouse.ico" />
@@ -30,14 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DevExpress.Win.BonusSkins" Version="24.2.6" />
-    <PackageReference Include="DevExpress.Win.Design" Version="24.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="frmAsignar - Copia.vb" />
     <Compile Update="frmVenta - Copia.vb" />
-    <Compile Update="frmVenta.vb">
+    <Compile Update="Forms\frmVenta.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="My Project\Application.Designer.vb">
@@ -52,6 +63,11 @@
     </Compile>
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Win.BonusSkins" Version="24.2.3" />
+		<PackageReference Include="DevExpress.Win.Design" Version="24.2.3" />
+	</ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Update="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
@@ -65,10 +81,9 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
+    <None Update="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+    </None>
   </ItemGroup>
 
 </Project>

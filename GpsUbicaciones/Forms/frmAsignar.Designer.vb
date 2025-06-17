@@ -1,9 +1,12 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿Imports DevExpress.Mvvm.Native
+Imports DevExpress.XtraEditors
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmAsignar
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,29 +23,34 @@ Partial Class frmAsignar
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAsignar))
-        btnSalir = New DevExpress.XtraEditors.SimpleButton()
-        GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        btnSalir = New SimpleButton()
+        GroupControlUbicacion = New GroupControl()
         ButtonConsultarUbicacion = New Button()
-        LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
-        BotonConfirmacionDeUbicacion = New DevExpress.XtraEditors.SimpleButton()
+        LabelNombreAlmacen = New LabelControl()
+        BotonConfirmacionDeUbicacion = New SimpleButton()
         TextBoxCodigoUbicacion = New TextBox()
-        LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
-        GroupControlArticulos = New DevExpress.XtraEditors.GroupControl()
-        SpinEditStock = New DevExpress.XtraEditors.SpinEdit()
+        LabelNombreUbicacion = New LabelControl()
+        GroupControlArticulos = New GroupControl()
+        SpinEditStock = New SpinEdit()
         LabelIndicadorPorPeso = New Label()
-        LabelControl3 = New DevExpress.XtraEditors.LabelControl()
-        btnNuevaUbicacion = New DevExpress.XtraEditors.SimpleButton()
-        LabelControl1 = New DevExpress.XtraEditors.LabelControl()
-        ButtonConfirmacionArticulo = New DevExpress.XtraEditors.SimpleButton()
+        LabelControl3 = New LabelControl()
+        btnNuevaUbicacion = New SimpleButton()
+        LabelControl1 = New LabelControl()
+        ButtonConfirmacionArticulo = New SimpleButton()
         TextBoxCodigoArticulo = New TextBox()
-        LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
+        LabelNombreArticulo = New LabelControl()
         GridControlAsignacionArticulos = New DevExpress.XtraGrid.GridControl()
         GridViewAsignacionArticulos = New DevExpress.XtraGrid.Views.Grid.GridView()
         PanelTitulo = New Panel()
-        LabelControl2 = New DevExpress.XtraEditors.LabelControl()
+        LabelControl2 = New LabelControl()
         Label1 = New Label()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
@@ -111,7 +119,7 @@ Partial Class frmAsignar
         LabelNombreAlmacen.Appearance.Options.UseBackColor = True
         LabelNombreAlmacen.Appearance.Options.UseFont = True
         LabelNombreAlmacen.Appearance.Options.UseForeColor = True
-        LabelNombreAlmacen.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelNombreAlmacen.AutoSizeMode = LabelAutoSizeMode.None
         LabelNombreAlmacen.Location = New Point(209, 29)
         LabelNombreAlmacen.Margin = New Padding(4, 3, 4, 3)
         LabelNombreAlmacen.Name = "LabelNombreAlmacen"
@@ -150,7 +158,7 @@ Partial Class frmAsignar
         LabelNombreUbicacion.Appearance.Options.UseBackColor = True
         LabelNombreUbicacion.Appearance.Options.UseFont = True
         LabelNombreUbicacion.Appearance.Options.UseForeColor = True
-        LabelNombreUbicacion.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelNombreUbicacion.AutoSizeMode = LabelAutoSizeMode.None
         LabelNombreUbicacion.Location = New Point(18, 67)
         LabelNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
         LabelNombreUbicacion.Name = "LabelNombreUbicacion"
@@ -174,7 +182,7 @@ Partial Class frmAsignar
         GroupControlArticulos.Location = New Point(9, 162)
         GroupControlArticulos.Margin = New Padding(4, 3, 4, 3)
         GroupControlArticulos.Name = "GroupControlArticulos"
-        GroupControlArticulos.Size = New Size(578, 136)
+        GroupControlArticulos.Size = New Size(578, 153)
         GroupControlArticulos.TabIndex = 1
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
@@ -182,14 +190,21 @@ Partial Class frmAsignar
         ' SpinEditStock
         ' 
         SpinEditStock.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditStock.Location = New Point(63, 106)
+        SpinEditStock.Location = New Point(63, 101)
+        SpinEditStock.Margin = New Padding(4, 3, 4, 3)
         SpinEditStock.Name = "SpinEditStock"
-        SpinEditStock.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SpinEditStock.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         SpinEditStock.Properties.Appearance.Options.UseFont = True
-        SpinEditStock.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        SpinEditStock.Properties.AutoHeight = False
+        EditorButtonImageOptions1.SvgImageSize = New Size(35, 35)
+        SerializableAppearanceObject1.Font = New Font("Tahoma", 35.35F)
+        SerializableAppearanceObject1.Options.UseFont = True
+        SpinEditStock.Properties.Buttons.AddRange(New Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 40, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        SpinEditStock.Properties.ContextImageOptions.SvgImageSize = New Size(40, 40)
         SpinEditStock.Properties.IsFloatValue = False
         SpinEditStock.Properties.MaskSettings.Set("mask", "N00")
-        SpinEditStock.Size = New Size(138, 24)
+        SpinEditStock.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
+        SpinEditStock.Size = New Size(164, 40)
         SpinEditStock.TabIndex = 26
         ' 
         ' LabelIndicadorPorPeso
@@ -197,9 +212,9 @@ Partial Class frmAsignar
         LabelIndicadorPorPeso.BackColor = Color.White
         LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(233, 105)
+        LabelIndicadorPorPeso.Location = New Point(234, 110)
         LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
-        LabelIndicadorPorPeso.Size = New Size(230, 25)
+        LabelIndicadorPorPeso.Size = New Size(270, 25)
         LabelIndicadorPorPeso.TabIndex = 12
         LabelIndicadorPorPeso.Text = "** Por Peso/Fracción **"
         LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
@@ -222,7 +237,7 @@ Partial Class frmAsignar
         btnNuevaUbicacion.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnNuevaUbicacion.Appearance.Options.UseFont = True
         btnNuevaUbicacion.CausesValidation = False
-        btnNuevaUbicacion.Location = New Point(380, 21)
+        btnNuevaUbicacion.Location = New Point(448, 25)
         btnNuevaUbicacion.Margin = New Padding(4, 3, 4, 3)
         btnNuevaUbicacion.Name = "btnNuevaUbicacion"
         btnNuevaUbicacion.Size = New Size(124, 39)
@@ -233,7 +248,7 @@ Partial Class frmAsignar
         ' 
         LabelControl1.Appearance.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(18, 108)
+        LabelControl1.Location = New Point(18, 112)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
         LabelControl1.Size = New Size(39, 19)
@@ -244,7 +259,7 @@ Partial Class frmAsignar
         ' 
         ButtonConfirmacionArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonConfirmacionArticulo.ImageOptions.Image = CType(resources.GetObject("ButtonConfirmacionArticulo.ImageOptions.Image"), Image)
-        ButtonConfirmacionArticulo.Location = New Point(517, 66)
+        ButtonConfirmacionArticulo.Location = New Point(517, 98)
         ButtonConfirmacionArticulo.Margin = New Padding(4, 3, 4, 3)
         ButtonConfirmacionArticulo.Name = "ButtonConfirmacionArticulo"
         ButtonConfirmacionArticulo.Size = New Size(55, 50)
@@ -268,11 +283,11 @@ Partial Class frmAsignar
         LabelNombreArticulo.Appearance.Options.UseBackColor = True
         LabelNombreArticulo.Appearance.Options.UseFont = True
         LabelNombreArticulo.Appearance.Options.UseForeColor = True
-        LabelNombreArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelNombreArticulo.AutoSizeMode = LabelAutoSizeMode.None
         LabelNombreArticulo.Location = New Point(15, 66)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
-        LabelNombreArticulo.Size = New Size(489, 28)
+        LabelNombreArticulo.Size = New Size(557, 28)
         LabelNombreArticulo.TabIndex = 4
         LabelNombreArticulo.Text = "Nombre Articulo"
         ' 
@@ -280,12 +295,12 @@ Partial Class frmAsignar
         ' 
         GridControlAsignacionArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlAsignacionArticulos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        GridControlAsignacionArticulos.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GridControlAsignacionArticulos.Location = New Point(10, 303)
+        GridControlAsignacionArticulos.Font = New Font("Tahoma", 15.75F)
+        GridControlAsignacionArticulos.Location = New Point(10, 320)
         GridControlAsignacionArticulos.MainView = GridViewAsignacionArticulos
         GridControlAsignacionArticulos.Margin = New Padding(3, 2, 3, 2)
         GridControlAsignacionArticulos.Name = "GridControlAsignacionArticulos"
-        GridControlAsignacionArticulos.Size = New Size(579, 567)
+        GridControlAsignacionArticulos.Size = New Size(579, 550)
         GridControlAsignacionArticulos.TabIndex = 7
         GridControlAsignacionArticulos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewAsignacionArticulos})
         GridControlAsignacionArticulos.Visible = False
@@ -313,7 +328,7 @@ Partial Class frmAsignar
         ' 
         ' LabelControl2
         ' 
-        LabelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
+        LabelControl2.AutoSizeMode = LabelAutoSizeMode.None
         LabelControl2.ImageOptions.Image = CType(resources.GetObject("LabelControl2.ImageOptions.Image"), Image)
         LabelControl2.Location = New Point(10, 3)
         LabelControl2.Name = "LabelControl2"

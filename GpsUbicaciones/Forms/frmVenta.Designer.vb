@@ -23,6 +23,11 @@ Partial Class frmVenta
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVenta))
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
@@ -163,14 +168,16 @@ Partial Class frmVenta
         ' SpinEditCantidadSeleccionada
         ' 
         SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditCantidadSeleccionada.Location = New Point(110, 75)
+        SpinEditCantidadSeleccionada.Location = New Point(110, 68)
         SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
-        SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
-        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        SpinEditCantidadSeleccionada.Properties.AutoHeight = False
+        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 35, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
         SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
-        SpinEditCantidadSeleccionada.Size = New Size(90, 24)
+        SpinEditCantidadSeleccionada.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
+        SpinEditCantidadSeleccionada.Size = New Size(139, 40)
         SpinEditCantidadSeleccionada.TabIndex = 26
         ' 
         ' LabelIndicadorPorPeso
@@ -178,11 +185,11 @@ Partial Class frmVenta
         LabelIndicadorPorPeso.BackColor = Color.White
         LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(206, 73)
+        LabelIndicadorPorPeso.Location = New Point(255, 73)
         LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
-        LabelIndicadorPorPeso.Size = New Size(207, 25)
+        LabelIndicadorPorPeso.Size = New Size(158, 25)
         LabelIndicadorPorPeso.TabIndex = 13
-        LabelIndicadorPorPeso.Text = "** Por Peso/Fracción **"
+        LabelIndicadorPorPeso.Text = "Por Peso/Fracción"
         LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
         LabelIndicadorPorPeso.Visible = False
         ' 
@@ -191,7 +198,7 @@ Partial Class frmVenta
         LabelControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F)
         LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(21, 73)
+        LabelControl1.Location = New Point(21, 75)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
         LabelControl1.Size = New Size(83, 25)
@@ -259,7 +266,7 @@ Partial Class frmVenta
         ' 
         GridControlArticulosSeleccionados.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
-        GridControlArticulosSeleccionados.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridControlArticulosSeleccionados.Font = New Font("Tahoma", 15.75F)
         GridControlArticulosSeleccionados.Location = New Point(10, 287)
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)

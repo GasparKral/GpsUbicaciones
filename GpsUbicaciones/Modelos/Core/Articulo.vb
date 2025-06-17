@@ -7,6 +7,9 @@
     Property NombreComercial As String
     Property PorPeso As Boolean
 
+    Property CodigoBarras As String = ""
+    Property ReferenciaProvedor As String = ""
+
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             Codigo = Nothing

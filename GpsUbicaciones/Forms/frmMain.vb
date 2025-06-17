@@ -28,20 +28,30 @@
 
 
         ' Leer el primer parametro de la linea de comandos:
-        '    C:  038 001
         Dim args() As String = Environment.GetCommandLineArgs()
-        If args.Length > 1 Then
-            ' Si hay un parametro, es el DISCO de datos
+
+        ' Verificar que tenemos al menos los argumentos mínimos (unidad, empresa, terminal)
+        If args.Length >= 4 Then  ' ejecutable + 3 argumentos mínimos
             Unidad = args(1)
-        End If
-        If args.Length > 2 Then
             EmpresaSeleccionada = args(2)
-        End If
-        If args.Length > 3 Then
             Terminal = args(3)
+
+            ' Argumentos opcionales
+            If args.Length > 4 Then
+                Almacen = args(4)
+            End If
+            If args.Length > 5 Then
+                DataBaseAplicationType = [Enum].Parse(GetType(DatabaseType), args(5))
+            End If
+
+            '      RevaluateSettings()
+            RutaDatos = Unidad & "\GpsWin"
+            settings.DataPath = RutaDatos
+            settings.SelectedCompany = EmpresaSeleccionada
+        Else
+            ' Manejar el caso cuando no hay suficientes argumentos
+            MessageBox.Show("Faltan argumentos requeridos: Unidad, Empresa y Terminal")
         End If
-
-
 
         Dim dt = Operacion.ExecuteTable("SELECT * FROM Pda WHERE Codigo = ?", Terminal)
 
@@ -82,5 +92,10 @@
     Private Sub btnTrasladarArticulos_Click(sender As Object, e As EventArgs) Handles btnTrasladarArticulos.Click
         frmTrasladoProductos.ShowDialog()
         frmTrasladoProductos.Dispose()
+    End Sub
+
+    Private Sub btnUtilidades_Click(sender As Object, e As EventArgs) Handles btnUtilidades.Click
+        frmUtilidades.ShowDialog()
+        frmUtilidades.Dispose()
     End Sub
 End Class

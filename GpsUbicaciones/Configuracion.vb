@@ -8,16 +8,27 @@
     Public nDecUds As Integer = 2
     Public ContraseñaBBDDComun As String = "GpS924"
     Public RutaDatos As String = Unidad & "\GpsWin"
-    Public Almacen As String
+    Public Almacen As String = "00"
+    Public DataBaseAplicationType As DatabaseType = DatabaseType.Access2007
 
     ' Configuración de la base de datos
-    Dim settings As New DatabaseSettings() With {
-        .DatabaseType = DatabaseType.Access2000,
+    Public settings As New DatabaseSettings() With {
+        .DatabaseType = DataBaseAplicationType,
         .Provider = "Microsoft.ACE.OLEDB.12.0",
         .Password = ContraseñaBBDDComun,
         .DataPath = RutaDatos,
         .SelectedCompany = EmpresaSeleccionada
     }
+
+    Public Sub RevaluateSettings()
+        settings = New DatabaseSettings() With {
+            .DatabaseType = DataBaseAplicationType,
+            .Provider = "Microsoft.ACE.OLEDB.12.0",
+            .Password = ContraseñaBBDDComun,
+            .DataPath = RutaDatos,
+            .SelectedCompany = EmpresaSeleccionada
+        }
+    End Sub
 
     Public Operacion As DatabaseOperation = DatabaseOperationFactory.Create(settings)
 
