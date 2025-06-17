@@ -24,6 +24,7 @@ Partial Class frmUtilidades
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUtilidades))
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
+        ResetTable = New DevExpress.XtraEditors.SimpleButton()
         SuspendLayout()
         ' 
         ' btnSalir
@@ -41,11 +42,21 @@ Partial Class frmUtilidades
         btnSalir.TabIndex = 4
         btnSalir.Text = "Salir"
         ' 
+        ' ResetTable
+        ' 
+        ResetTable.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), Image)
+        ResetTable.Location = New Point(12, 12)
+        ResetTable.Name = "ResetTable"
+        ResetTable.Size = New Size(163, 42)
+        ResetTable.TabIndex = 5
+        ResetTable.Text = "Reiniciar Tabla MovPDA"
+        ' 
         ' frmUtilidades
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(600, 950)
+        Controls.Add(ResetTable)
         Controls.Add(btnSalir)
         Font = New Font("Segoe UI", 9F)
         FormBorderStyle = FormBorderStyle.None
@@ -55,4 +66,5 @@ Partial Class frmUtilidades
     End Sub
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents ResetTable As DevExpress.XtraEditors.SimpleButton
 End Class
