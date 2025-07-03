@@ -90,8 +90,15 @@ Module Querys
                     "
         End Function
 
+        Public Shared Function ConsultarTotalArticuloEnLotes() As String
+            Return $"SELECT Round(SUM(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven), {nDecUds}) 
+                    FROM StockLotes S 
+                    WHERE Articulo = ?
+                    "
+        End Function
+
         Public Shared Function ConsultarArticuloEnUbicacion() As String
-            Return "SELECT
+            Return $"SELECT
                         A.Codigo AS CodigoArticulo,
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
@@ -101,15 +108,17 @@ Module Querys
                         S.Uds_Com AS UnidadesCompradas,
                         S.Uds_Ven AS UnidadesVendidas,
                         S.Uds_Tra AS UnidadesTransferidas,
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS StockTotal,
                         U.Codigo AS CodigoUbicacion,
                         U.Nombre AS NombreUbicacion,
                         Al.Codigo AS CodigoAlmacen,
                         Al.Nombre AS NombreAlmacen
                     FROM 
-                        ((ARTICULOS A
+                        (((ARTICULOS A
                         INNER JOIN STOCKLOTES S ON S.Articulo = A.Codigo)
                         INNER JOIN UBICACIONES U ON U.Codigo = S.Lote)
-                        INNER JOIN ALMACENES AL ON S.Almacen = AL.Codigo
+                        INNER JOIN ALMACENES AL ON S.Almacen = AL.Codigo)
+                        INNER JOIN STOCK ST ON ST.Articulo = A.Codigo
                     WHERE 
                         (A.Codigo = ? OR 
                         A.CodBarras = ? OR 
@@ -126,16 +135,19 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve: NombreComercial, Codigo, PorPeso del artículo.</returns>
         Public Shared Function ConsultarDatosBasicosArticuloPorCodigo() As String
-            Return "SELECT 
+            Return $"SELECT 
                         A.Codigo,
                         A.NombreComercial,
                         A.PorPeso,
                         A.CodBarras,
-                        A.RefProveedor
+                        A.RefProveedor,
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven, {nDecUds} ) as StockTotal
                     FROM 
                        ARTICULOS AS A
+                       INNER JOIN STOCK AS S ON S.Articulo = A.Codigo
                     WHERE 
-                        A.Codigo = ? OR A.CodBarras = ? OR A.RefProveedor = ?
+                        A.Codigo = ? OR A.CodBarras = ? OR A.RefProveedor = ? AND
+                        S.Almacen = ?
                     "
         End Function
 
@@ -253,21 +265,37 @@ Module Querys
 
         Public Shared Function ConsultarPedidosPorFecha() As String
             Return $"SELECT    
-                M.Articulo,
-                M.Descripcion,
-                Round(Sum(M.Cantidad),{nDecUds}) as Cantidad
-            FROM
-                PEDCLI AS P
-                RIGHT JOIN MOVPCL AS M ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO
-            WHERE
-                P.Fecha = ? AND
-                M.ARTICULO IS NOT NULL AND
-                M.ARTICULO <> ''
-        GROUP BY
-                M.Articulo,
-                M.Descripcion
-            "
+                        SubPedidos.Referencia,
+                        SubPedidos.Descripcion,
+                        U.Nombre AS Ubicacion,
+                        SubPedidos.CantidadPedida,
+                        ROUND(S.Uds_Ini + S.Uds_Com + S.Uds_Tra - S.Uds_Ven, {nDecUds}) AS StockDisponible
+                    FROM
+                        ((
+                            SELECT    
+                                M.Articulo AS Referencia,
+                                M.Descripcion,
+                                ROUND(SUM(M.Cantidad), {nDecUds}) AS CantidadPedida
+                            FROM
+                                MOVPCL AS M
+                                INNER JOIN PEDCLI AS P ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO
+                            WHERE
+                                P.Fecha = ? AND
+                                M.Articulo IS NOT NULL AND
+                                M.Articulo <> ''
+                            GROUP BY
+                                M.Articulo,
+                                M.Descripcion
+                        ) AS SubPedidos
+                        INNER JOIN STOCKLOTES AS S ON S.Articulo = SubPedidos.Referencia)
+                        INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote
+                    WHERE
+                        (S.Uds_Ini + S.Uds_Com + S.Uds_Tra - S.Uds_Ven) >= SubPedidos.CantidadPedida
+                    ORDER BY
+                        U.Orden, SubPedidos.Referencia
+        "
         End Function
+
 
     End Class
 

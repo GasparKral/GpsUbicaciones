@@ -6,19 +6,16 @@ Public Class frmAsignar
 
 #Region "Operaciones de Grid"
     Private Sub ActualizarGridDespuesDeOperacion(stock As Single)
-        Dim dt As DataTable = CType(GridControlAsignacionArticulos.DataSource, DataTable)
+        Dim dt As DataTable = GridControlAsignacionArticulos.DataSource
         Dim row As DataRow = dt.NewRow()
-        row("Articulo") = $"{TextBoxCodigoArticulo.Text}{vbTab}{LabelNombreArticulo.Text}"
-        row("Cantidad") = stock
-        dt.Rows.Add(row)
-    End Sub
 
-    Private Sub InicializarGrid()
-        ' Crear un nuevo DataTable y asignarlo como DataSource
-        Dim dt As New DataTable()
-        dt.Columns.Add("Articulo", GetType(String))
-        dt.Columns.Add("Cantidad", GetType(Decimal))
-        GridControlAsignacionArticulos.DataSource = dt
+        ' Usa los FieldName en lugar de los nombres de columna
+        row("Item") = $"{TextBoxCodigoArticulo.Text}{vbTab}{LabelNombreArticulo.Text}"
+        row("Location") = TextBoxCodigoUbicacion.Text
+        row("TotalStock") = LabelStockTotal.Text
+        row("LocalStock") = stock  ' Aquí estaba "ColumnLocalStock" pero debe ser "LocalStock"
+
+        dt.Rows.Add(row)
     End Sub
 
     Private Sub LimpiarGrid()
@@ -31,9 +28,15 @@ Public Class frmAsignar
 
 #Region "Eventos de Formulario"
     Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
-        InicializarGrid()
-        ' Configurar validación para que se ejecute cuando el usuario termine de editar
         Me.AutoValidate = AutoValidate.EnableAllowFocusChange
+        Dim dt As New DataTable()
+        ' Los nombres deben coincidir con los FieldName del designer
+        dt.Columns.Add("Item", GetType(String))
+        dt.Columns.Add("Location", GetType(String))
+        dt.Columns.Add("TotalStock", GetType(String))
+        dt.Columns.Add("LocalStock", GetType(Single))
+
+        GridControlAsignacionArticulos.DataSource = dt
     End Sub
 
     Private Sub frmAsignar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
@@ -57,15 +60,15 @@ Public Class frmAsignar
         End If
 
         Dim stock As Single
-        If Not Single.TryParse(SpinEditStock.Text, NumberStyles.Any, CultureInfo.InvariantCulture, stock) Then
+        If Not Single.TryParse(SpinEditCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, stock) Then
             FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
-            SpinEditStock.Focus()
+            SpinEditCantidad.Focus()
             Return False
         End If
 
         If stock = 0 Then
             FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesStock.CantidadInvalida)
-            SpinEditStock.Focus()
+            SpinEditCantidad.Focus()
             Return False
         End If
 
@@ -99,8 +102,9 @@ Public Class frmAsignar
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
         LabelNombreArticulo.Text = String.Empty
         TextBoxCodigoArticulo.Clear()
-        SpinEditStock.Clear()
+        SpinEditCantidad.Clear()
         LabelIndicadorPorPeso.Visible = False
+        LabelStockTotal.Text = String.Empty
         If ActivarFoco Then
             PermitirEdicion(TextBoxCodigoArticulo, True)
             TextBoxCodigoArticulo.Select()
@@ -124,10 +128,10 @@ Public Class frmAsignar
         Try
             Dim Articulo = RepositorioArticulo.ObtenerInformacion(TextBoxCodigoArticulo.Text)
             LabelNombreArticulo.Text = Articulo.NombreComercial
-
+            LabelStockTotal.Text = Articulo.StockTotal
             If esValidacion Then
                 LabelIndicadorPorPeso.Visible = Articulo.PorPeso
-                AceptarDecimales(SpinEditStock, Articulo.PorPeso, LabelIndicadorPorPeso)
+                AceptarDecimales(SpinEditCantidad, Articulo.PorPeso, LabelIndicadorPorPeso)
             End If
         Catch ex As InvalidOperationException
             FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
@@ -196,18 +200,18 @@ Public Class frmAsignar
             Dim dsFila = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarStockDeLote, TextBoxCodigoUbicacion.Text, TextBoxCodigoArticulo.Text), 0, 0)
 
             If dsFila Is Nothing OrElse dsFila("Stock") Is DBNull.Value Then
-                SpinEditStock.Text = "0"
+                SpinEditCantidad.Text = "0"
                 Return
             End If
 
             Dim stock As Integer
             If Integer.TryParse(dsFila("Stock").ToString(), stock) Then
-                SpinEditStock.Text = stock.ToString()
+                SpinEditCantidad.Text = stock.ToString()
             Else
-                SpinEditStock.Text = "0"
+                SpinEditCantidad.Text = "0"
             End If
         Catch ex As Exception
-            SpinEditStock.Text = "0"
+            SpinEditCantidad.Text = "0"
         End Try
     End Sub
 #End Region
@@ -237,6 +241,21 @@ Public Class frmAsignar
             Exit Sub
         End If
 
+        Dim cantidadTotalLotes As Single = RepositorioStockLote.ObtenerTotalArticuloEnLotes(TextBoxCodigoArticulo.Text)
+        Dim cantidadTotalStock As Single = RepositorioArticulo.ObtenerInformacion(TextBoxCodigoArticulo.Text).StockTotal
+
+        If cantidadTotalStock + SpinEditCantidad.Value > cantidadTotalLotes Then
+            ' Alert sobre la disconformidad y pedir confirmación
+            Dim mensaje As String = "La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?"
+            Dim titulo As String = "Confirmación"
+            Dim resultado As DialogResult = MessageBox.Show(mensaje, titulo, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+
+            If resultado = DialogResult.Cancel Then
+                Exit Sub ' El usuario canceló, no continuar
+            End If
+            ' Si resultado = DialogResult.OK, continúa con el proceso
+        End If
+
         ' Usar la transacción condicional
         Try
             Using nestedTx As New NestedConditionalTransaction(Operacion)
@@ -244,12 +263,12 @@ Public Class frmAsignar
                 ' Definir acciones para cada caso
                 Dim ifTrueAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.AgregarStock(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+                        RepositorioStockLote.AgregarStock(con, SpinEditCantidad.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                     End Sub
 
                 Dim ifFalseAction As Action(Of IDbConnection) =
                     Sub(con)
-                        RepositorioStockLote.InsertarArticulo(con, SpinEditStock.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+                        RepositorioStockLote.InsertarArticulo(con, SpinEditCantidad.Value, TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                     End Sub
 
                 ' Ejecutar la transacción condicional
@@ -262,7 +281,7 @@ Public Class frmAsignar
 
                 ' Si todo fue bien, actualizar la interfaz
                 If success Then
-                    ActualizarGridDespuesDeOperacion(SpinEditStock.Value)
+                    ActualizarGridDespuesDeOperacion(SpinEditCantidad.Value)
                     LimpiarArticulo()
                 End If
             End Using
@@ -303,11 +322,11 @@ Public Class frmAsignar
     Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
         ' Si el campo está vacío, cancelar la validación pero no mostrar error
         ' (el error se mostrará cuando el usuario intente confirmar)
-        If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text.Trim()) Then
+        If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text.Trim) Then
             ' Limpiar datos relacionados
             LabelNombreArticulo.Text = String.Empty
             LabelIndicadorPorPeso.Visible = False
-            SpinEditStock.Text = "0"
+            SpinEditCantidad.Text = "0"
             Return
         End If
 
@@ -351,7 +370,7 @@ Public Class frmAsignar
         If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
             LabelNombreArticulo.Text = String.Empty
             LabelIndicadorPorPeso.Visible = False
-            SpinEditStock.Text = "0"
+            SpinEditCantidad.Text = "0"
         End If
     End Sub
 
@@ -364,6 +383,12 @@ Public Class frmAsignar
             LabelNombreUbicacion.Text = String.Empty
             LabelNombreAlmacen.Text = String.Empty
         End If
+    End Sub
+
+    Private Sub LabelStockTotal_Click(sender As Object, e As EventArgs) Handles LabelStockTotal.Click
+        If LabelStockTotal.Text = "" Then Exit Sub
+
+        SpinEditCantidad.Value = CType(LabelStockTotal.Text, Single)
     End Sub
 
 #End Region

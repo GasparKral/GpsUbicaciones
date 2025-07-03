@@ -6,7 +6,7 @@
 
         ' Inicializar el DataTable
         Dim dt As New DataTable()
-        dt.Columns.Add("Articulo", GetType(String))
+        dt.Columns.Add("Ref", GetType(String))
         dt.Columns.Add("Nombre", GetType(String))
         dt.Columns.Add("Ubicacion", GetType(String))
         dt.Columns.Add("Uds", GetType(Single))
@@ -98,6 +98,7 @@
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
         LabelNombreArticulo.Text = String.Empty
         LabelStockArticulo.Text = String.Empty
+        LabelIndicadorPorPeso.Visible = False
         TextEditCodigoArticulo.Text = String.Empty
         SpinEditCantidadSeleccionada.Value = 0
         If ActivarFoco Then
@@ -269,9 +270,9 @@
             Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, RepositorioArticulo.ObtenerInformacion(TextEditCodigoArticulo.Text).Codigo, TextEditCodigoUbicacion.Text, SpinEditCantidadSeleccionada.Value)
 
             ' Añade una fila al grid
-            Dim dt As DataTable = CType(GridControlArticulosSeleccionados.DataSource, DataTable)
+            Dim dt As DataTable = GridControlArticulosSeleccionados.DataSource
             Dim row As DataRow = dt.NewRow()
-            row("Articulo") = TextEditCodigoArticulo.Text
+            row("Ref") = TextEditCodigoArticulo.Text
             row("Nombre") = LabelNombreArticulo.Text
             row("Ubicacion") = TextEditCodigoUbicacion.Text
             row("Uds") = CInt(SpinEditCantidadSeleccionada.Value)
@@ -308,6 +309,24 @@
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al confirmar la ubicación: {ex.Message}")
         End Try
+    End Sub
+
+    Private Sub ButtonCancelar_Click(sender As Object, e As EventArgs) Handles ButtonCancelar.Click
+        LimpiarUbicacion()
+        LimpiarArticulo(False)
+
+        GridControlArticulosSeleccionados.Visible = False
+
+        ' Configurar el estado inicial de los controles
+        PermitirEdicion(TextEditCodigoUbicacion, True)
+        PermitirEdicion(TextEditCodigoArticulo, False)
+        PermitirEdicion(SpinEditCantidadSeleccionada, False)
+
+        ' Mostrar el frame de ubicación y ocultar el de artículos
+        MostrarFrames(True)
+
+        ' Establecer el foco en el campo de ubicación
+        TextEditCodigoUbicacion.Focus()
     End Sub
 
 #End Region

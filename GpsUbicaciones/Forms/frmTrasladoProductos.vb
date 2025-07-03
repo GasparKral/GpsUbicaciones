@@ -1,87 +1,19 @@
 ﻿Imports System.ComponentModel
 Imports DevExpress.Data.Extensions
-Imports DevExpress.Mvvm.Native
-Imports DevExpress.XtraEditors.Repository
-Imports DevExpress.XtraGrid.Columns
-Imports DevExpress.XtraGrid.Views.Grid
 
 Public Class frmTrasladoProductos
 
     Private ArticuloTransferido As ProductoTraslado = Nothing
-    Private ReadOnly ListaArticulos As New BindingList(Of ProductoTraslado)
+    Private ReadOnly ArticulosEnEspera As New BindingList(Of ProductoTraslado)
 
 #Region "Configuracion Iniciales"
-    Private Sub ConfigurarGrid()
-        GridControlArticulosParaTraslado.DataSource = ListaArticulos
-        GridViewArticulosParaTraslado.Columns.Clear()
-
-        ' Método auxiliar para crear columnas
-        Dim CreateColumn = Function(fieldName As String, caption As String, width As Integer) As GridColumn
-                               Dim col As New GridColumn() With {
-                                   .FieldName = fieldName,
-                                   .Caption = caption,
-                                   .Visible = True,
-                                   .Width = width
-                               }
-                               Return col
-                           End Function
-
-        ' Columnas principales
-        GridViewArticulosParaTraslado.Columns.AddRange({
-            CreateColumn("NombreComercial", "ARTÍCULO", 200),
-            CreateColumn("CodigoUbicacionOrigen", "UBICACIÓN", 100),
-            CreateColumn("Stock", "STOCK", 60),
-            CreateColumn("CantidadAMover", "CANTIDAD", 80)
-        })
-
-        ' Configurar columna de eliminación
-        Dim colEliminar = CreateColumn("Eliminar", "ELIMINAR", 80)
-        Dim repoButton = New RepositoryItemButtonEdit()
-        repoButton.Buttons.Clear()
-        repoButton.Buttons.Add(New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete))
-        repoButton.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
-        AddHandler repoButton.ButtonClick, AddressOf EliminarFila
-
-        colEliminar.ColumnEdit = repoButton
-        colEliminar.OptionsColumn.AllowEdit = True
-        GridViewArticulosParaTraslado.Columns.Add(colEliminar)
-
-        ' Configuración adicional de la vista
-        GridViewArticulosParaTraslado.OptionsView.ShowAutoFilterRow = True
-        GridViewArticulosParaTraslado.OptionsView.ShowGroupPanel = False
-        GridViewArticulosParaTraslado.OptionsBehavior.Editable = True
-    End Sub
-
-    Private Sub EliminarFila(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs)
-        Try
-            Dim gridView As GridView = TryCast(GridControlArticulosParaTraslado.MainView, GridView)
-
-            If gridView IsNot Nothing Then
-                Dim rowHandle As Integer = gridView.FocusedRowHandle
-
-                If rowHandle >= 0 Then
-                    Dim prodEliminado As ProductoTraslado = ListaArticulos(rowHandle)
-                    ListaArticulos.RemoveAt(rowHandle)
-
-                    If EsUltimoArticulo() Then
-                        PermitirEdicion(TextEditCodigoArticuloDestino, False)
-                        PermitirEdicion(TextEditCodigoArticuloOrigen, True)
-                    End If
-
-                    ActualizarMaximoValorCantidad(prodEliminado)
-                End If
-            End If
-        Catch ex As Exception
-            ManejarError(ex, "Error al eliminar fila")
-        End Try
-    End Sub
 
     Private Sub ActualizarMaximoValorCantidad(prodEliminado As ProductoTraslado)
         ' Si el artículo eliminado es el actualmente visible, actualizar MaxValue
         If prodEliminado.Articulo.NombreComercial = LabelNombreArticuloOrigen.Text Then
             Try
                 Dim stockTotal As Integer = Integer.Parse(LabelStockArticuloOrigen.Text)
-                Dim cantidadYaAsignada As Integer = ListaArticulos.
+                Dim cantidadYaAsignada As Integer = ArticulosEnEspera.
                     Where(Function(p) p.Articulo.NombreComercial = prodEliminado.Articulo.NombreComercial).
                     Sum(Function(p) p.CantidadAMover)
                 SpinEditCantidadSeleccionadaOrigen.Properties.MaxValue = Math.Max(0, stockTotal - cantidadYaAsignada)
@@ -95,7 +27,7 @@ Public Class frmTrasladoProductos
 
     Private Sub frmTransladoProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            ConfigurarGrid()
+            ProductoTrasladoBindingSource.DataSource = ArticulosEnEspera
             ConfigurarEstadoInicial()
             ConfigurarValidaciones()
             ' Establecer foco en el primer campo
@@ -134,7 +66,7 @@ Public Class frmTrasladoProductos
 #Region "Validación de Campos"
 
     Private Function EsUltimoArticulo() As Boolean
-        Return ListaArticulos.Count = 0
+        Return ArticulosEnEspera.Count = 0
     End Function
 
     Private Function ValidarCamposRequeridosOrigen() As Boolean
@@ -155,7 +87,7 @@ Public Class frmTrasladoProductos
                 Return False
             End If
 
-            Dim cantidadYaAsignada As Single = ListaArticulos.
+            Dim cantidadYaAsignada As Single = ArticulosEnEspera.
                 Where(Function(p) p.Articulo.NombreComercial = nombreArticulo).
                 Sum(Function(p) p.CantidadAMover)
 
@@ -197,7 +129,6 @@ Public Class frmTrasladoProductos
 
             If ubicacion Is Nothing Then
                 e.Cancel = True
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
                 textEdit.Focus()
                 textEdit.SelectAll()
                 Return
@@ -220,22 +151,21 @@ Public Class frmTrasladoProductos
 
     Private Sub ValidarArticuloOrigen(sender As Object, e As CancelEventArgs)
         Try
-            Dim textEdit = CType(sender, DevExpress.XtraEditors.TextEdit)
+            Dim textEdit = TextEditCodigoArticuloOrigen.Text
 
-            If String.IsNullOrWhiteSpace(textEdit.Text) OrElse
+            If String.IsNullOrWhiteSpace(textEdit) OrElse
                String.IsNullOrWhiteSpace(TextEditCodigoUbicacionOrigen.Text) Then
                 LimpiarCamposOrigen()
                 Return
             End If
 
-            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit.Text, TextEditCodigoUbicacionOrigen.Text)
+            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit, TextEditCodigoUbicacionOrigen.Text)
 
             If stockLote Is Nothing Then
-                Logger.Instance.Warning("Artículo {0} no encontrado en ubicación {1}", textEdit.Text, TextEditCodigoUbicacionOrigen.Text)
+
                 e.Cancel = True
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "El artículo no existe en esta ubicación")
-                textEdit.Focus()
-                textEdit.SelectAll()
+                TextEditCodigoArticuloOrigen.Focus()
+                TextEditCodigoArticuloOrigen.SelectAll()
                 Return
             End If
 
@@ -270,7 +200,6 @@ Public Class frmTrasladoProductos
 
             If ubicacion Is Nothing Then
                 e.Cancel = True
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Ubicación no encontrada")
                 textEdit.Focus()
                 textEdit.SelectAll()
                 Return
@@ -310,11 +239,10 @@ Public Class frmTrasladoProductos
                 Return
             End If
             Dim articuloEsperado = RepositorioArticulo.ObtenerInformacion(textEdit.Text)
-            ArticuloTransferido = ListaArticulos.FirstOrDefault(Function(p) p.Articulo.Codigo = articuloEsperado.Codigo)
+            ArticuloTransferido = ArticulosEnEspera.FirstOrDefault(Function(p) p.Articulo.Codigo = articuloEsperado.Codigo)
 
             If ArticuloTransferido Is Nothing Then
                 e.Cancel = True
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoInvalido)
                 textEdit.Focus()
                 textEdit.SelectAll()
                 Return
@@ -375,6 +303,7 @@ Public Class frmTrasladoProductos
     Private Sub LimpiarCamposOrigen()
         TextEditCodigoUbicacionOrigen.Clear()
         TextEditCodigoArticuloOrigen.Clear()
+        LabelNombreUbicacionOrigen.Text = String.Empty
         LabelStockArticuloOrigen.Text = String.Empty
         LabelNombreArticuloOrigen.Text = String.Empty
         SpinEditCantidadSeleccionadaOrigen.Value = 0
@@ -441,7 +370,7 @@ Public Class frmTrasladoProductos
             End If
 
             ' Buscar si el artículo ya existe en la lista
-            Dim productoExistente = ListaArticulos.FirstOrDefault(Function(p) p.Articulo.Codigo = TextEditCodigoArticuloOrigen.Text)
+            Dim productoExistente = ArticulosEnEspera.FirstOrDefault(Function(p) p.Articulo.Codigo = TextEditCodigoArticuloOrigen.Text)
 
             If productoExistente IsNot Nothing Then
                 FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesArticulos.ArticuloYaSeleccionado)
@@ -455,13 +384,13 @@ Public Class frmTrasladoProductos
 
             ' Crear y agregar el nuevo producto
             Dim nuevoProducto As New ProductoTraslado With {
-                .Articulo = RepositorioArticulo.ObtenerInFormacion(TextEditCodigoArticuloOrigen.Text),
-                .CodigoUbicacionOrigen = TextEditCodigoUbicacionOrigen.Text,
-                .Stock = LabelStockArticuloOrigen.Text,
-                .CantidadAMover = SpinEditCantidadSeleccionadaOrigen.Value
-            }
+            .Articulo = RepositorioArticulo.ObtenerInformacion(TextEditCodigoArticuloOrigen.Text),
+            .CodigoUbicacionOrigen = TextEditCodigoUbicacionOrigen.Text,
+            .Stock = LabelStockArticuloOrigen.Text,
+            .CantidadAMover = SpinEditCantidadSeleccionadaOrigen.Value
+        }
 
-            ListaArticulos.Add(nuevoProducto)
+            ArticulosEnEspera.Add(nuevoProducto)
             PermitirEdicion(TextEditCodigoUbicacionDestino, True, False)
             PermitirEdicion(TextEditCodigoUbicacionOrigen, True, False)
             PermitirEdicion(TextEditCodigoArticuloOrigen, False)
@@ -533,12 +462,12 @@ Public Class frmTrasladoProductos
 
     Private Sub ActualizarListaDespuesDeTransferencia()
         Try
-            Dim index = ListaArticulos.FindIndex(Function(p) p.Articulo.Codigo = ArticuloTransferido.Articulo.Codigo)
+            Dim index = ArticulosEnEspera.FindIndex(Function(p) p.Articulo.Codigo = ArticuloTransferido.Articulo.Codigo)
 
             If index >= 0 Then
-                Dim articuloEnLista = ListaArticulos(index)
+                Dim articuloEnLista = ArticulosEnEspera(index)
                 If articuloEnLista.CantidadAMover <= SpinEditCantidadSeleccionadaDestino.Value Then
-                    ListaArticulos.RemoveAt(index)
+                    ArticulosEnEspera.RemoveAt(index)
                 Else
                     articuloEnLista.CantidadAMover -= SpinEditCantidadSeleccionadaDestino.Value
                 End If
@@ -599,6 +528,76 @@ Public Class frmTrasladoProductos
         Catch ex As Exception
             LabelStockArticuloDestino.Text = "0"
             ManejarError(ex, "Error al actualizar stock destino")
+        End Try
+    End Sub
+
+    Private Sub btnNuevaUbicacion_Click(sender As Object, e As EventArgs) Handles btnNuevaUbicacion.Click
+        LimpiarCamposOrigen()
+        PermitirEdicion(SpinEditCantidadSeleccionadaOrigen, False)
+        PermitirEdicion(TextEditCodigoArticuloOrigen, False)
+        PermitirEdicion(TextEditCodigoUbicacionOrigen, True)
+    End Sub
+
+    Private Sub RepositoryItemButtonEdit1_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles RepositoryItemButtonEdit1.ButtonClick, RepositoryItemButtonEdit1.ButtonClick
+        Try
+            ' Obtener el GridView actual
+            Dim view = TryCast(GridControlArticulosParaTraslado.FocusedView, DevExpress.XtraGrid.Views.Grid.GridView)
+
+            If view Is Nothing Then
+                Return
+            End If
+
+            ' Obtener el índice de la fila seleccionada
+            Dim rowHandle = view.FocusedRowHandle
+
+            If rowHandle < 0 Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No hay ninguna fila seleccionada")
+                Return
+            End If
+
+            ' Obtener el objeto ProductoTraslado de la fila
+            Dim productoAEliminar = TryCast(view.GetRow(rowHandle), ProductoTraslado)
+
+            If productoAEliminar Is Nothing Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "No se pudo obtener el producto a eliminar")
+                Return
+            End If
+
+            ' Confirmar la eliminación (opcional)
+            Dim resultado = MessageBox.Show(
+            $"¿Está seguro que desea eliminar el artículo '{productoAEliminar.Articulo.NombreComercial}'?",
+            "Confirmar eliminación",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question
+        )
+
+            If resultado = DialogResult.Yes Then
+                ' Eliminar el elemento de la lista
+                ArticulosEnEspera.Remove(productoAEliminar)
+
+                ' Actualizar el valor máximo del SpinEdit si es necesario
+                ActualizarMaximoValorCantidad(productoAEliminar)
+
+                ' Refrescar la vista del grid
+                view.RefreshData()
+
+                ' Si no quedan elementos, deshabilitar la sección de destino
+                If EsUltimoArticulo() Then
+                    PermitirEdicion(TextEditCodigoUbicacionDestino, False)
+                    PermitirEdicion(TextEditCodigoArticuloDestino, False)
+                    PermitirEdicion(SpinEditCantidadSeleccionadaDestino, False)
+                    LimpiarCamposDestino()
+
+                    ' Volver a habilitar la sección de origen
+                    PermitirEdicion(TextEditCodigoUbicacionOrigen, True)
+                    TextEditCodigoUbicacionOrigen.Focus()
+                End If
+
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Artículo eliminado correctamente")
+            End If
+
+        Catch ex As Exception
+            ManejarError(ex, "Error al eliminar artículo")
         End Try
     End Sub
 

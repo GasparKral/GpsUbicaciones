@@ -40,8 +40,11 @@ Partial Class frmMain
         ' 
         btnAsignar.Appearance.Font = CType(resources.GetObject("btnAsignar.Appearance.Font"), Font)
         btnAsignar.Appearance.Options.UseFont = True
-        btnAsignar.ImageOptions.Image = CType(resources.GetObject("btnAsignar.ImageOptions.Image"), Image)
+        btnAsignar.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnAsignar.ImageOptions.ImageToTextIndent = 0
+        btnAsignar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
+        btnAsignar.ImageOptions.SvgImage = CType(resources.GetObject("btnAsignar.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnAsignar.ImageOptions.SvgImageSize = New Size(60, 60)
         resources.ApplyResources(btnAsignar, "btnAsignar")
         btnAsignar.Name = "btnAsignar"
         ' 
@@ -50,6 +53,10 @@ Partial Class frmMain
         btnTrasladarArticulos.Appearance.Font = CType(resources.GetObject("btnTrasladarArticulos.Appearance.Font"), Font)
         btnTrasladarArticulos.Appearance.Options.UseFont = True
         btnTrasladarArticulos.ImageOptions.Image = CType(resources.GetObject("btnTrasladarArticulos.ImageOptions.Image"), Image)
+        btnTrasladarArticulos.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+        btnTrasladarArticulos.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
+        btnTrasladarArticulos.ImageOptions.SvgImage = CType(resources.GetObject("btnTrasladarArticulos.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnTrasladarArticulos.ImageOptions.SvgImageSize = New Size(60, 60)
         resources.ApplyResources(btnTrasladarArticulos, "btnTrasladarArticulos")
         btnTrasladarArticulos.Name = "btnTrasladarArticulos"
         ' 
@@ -58,15 +65,19 @@ Partial Class frmMain
         btnSalir.Appearance.Font = CType(resources.GetObject("btnSalir.Appearance.Font"), Font)
         btnSalir.Appearance.Options.UseFont = True
         resources.ApplyResources(btnSalir, "btnSalir")
-        btnSalir.ImageOptions.Image = CType(resources.GetObject("btnSalir.ImageOptions.Image"), Image)
+        btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnSalir.Name = "btnSalir"
         ' 
         ' btnSeleccionArticulos
         ' 
         btnSeleccionArticulos.Appearance.Font = CType(resources.GetObject("btnSeleccionArticulos.Appearance.Font"), Font)
         btnSeleccionArticulos.Appearance.Options.UseFont = True
-        btnSeleccionArticulos.ImageOptions.Image = CType(resources.GetObject("btnSeleccionArticulos.ImageOptions.Image"), Image)
+        btnSeleccionArticulos.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnSeleccionArticulos.ImageOptions.ImageToTextIndent = 0
+        btnSeleccionArticulos.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
+        btnSeleccionArticulos.ImageOptions.SvgImage = CType(resources.GetObject("btnSeleccionArticulos.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSeleccionArticulos.ImageOptions.SvgImageSize = New Size(60, 60)
         resources.ApplyResources(btnSeleccionArticulos, "btnSeleccionArticulos")
         btnSeleccionArticulos.Name = "btnSeleccionArticulos"
         ' 
@@ -74,8 +85,11 @@ Partial Class frmMain
         ' 
         btnVenta.Appearance.Font = CType(resources.GetObject("btnVenta.Appearance.Font"), Font)
         btnVenta.Appearance.Options.UseFont = True
-        btnVenta.ImageOptions.Image = CType(resources.GetObject("btnVenta.ImageOptions.Image"), Image)
+        btnVenta.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnVenta.ImageOptions.ImageToTextIndent = 0
+        btnVenta.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
+        btnVenta.ImageOptions.SvgImage = CType(resources.GetObject("btnVenta.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnVenta.ImageOptions.SvgImageSize = New Size(60, 60)
         resources.ApplyResources(btnVenta, "btnVenta")
         btnVenta.Name = "btnVenta"
         ' 
@@ -110,8 +124,11 @@ Partial Class frmMain
         ' 
         btnUtilidades.Appearance.Font = CType(resources.GetObject("btnUtilidades.Appearance.Font"), Font)
         btnUtilidades.Appearance.Options.UseFont = True
-        btnUtilidades.ImageOptions.Image = CType(resources.GetObject("btnUtilidades.ImageOptions.Image"), Image)
+        btnUtilidades.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnUtilidades.ImageOptions.ImageToTextIndent = 0
+        btnUtilidades.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
+        btnUtilidades.ImageOptions.SvgImage = CType(resources.GetObject("btnUtilidades.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnUtilidades.ImageOptions.SvgImageSize = New Size(60, 60)
         resources.ApplyResources(btnUtilidades, "btnUtilidades")
         btnUtilidades.Name = "btnUtilidades"
         ' 

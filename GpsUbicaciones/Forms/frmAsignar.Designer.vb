@@ -33,13 +33,15 @@ Partial Class frmAsignar
         Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         btnSalir = New SimpleButton()
         GroupControlUbicacion = New GroupControl()
-        ButtonConsultarUbicacion = New Button()
+        ButtonConsultarUbicacion = New SimpleButton()
         LabelNombreAlmacen = New LabelControl()
         BotonConfirmacionDeUbicacion = New SimpleButton()
         TextBoxCodigoUbicacion = New TextBox()
         LabelNombreUbicacion = New LabelControl()
         GroupControlArticulos = New GroupControl()
-        SpinEditStock = New SpinEdit()
+        LabelControl6 = New LabelControl()
+        LabelStockTotal = New LabelControl()
+        SpinEditCantidad = New SpinEdit()
         LabelIndicadorPorPeso = New Label()
         LabelControl3 = New LabelControl()
         btnNuevaUbicacion = New SimpleButton()
@@ -49,6 +51,10 @@ Partial Class frmAsignar
         LabelNombreArticulo = New LabelControl()
         GridControlAsignacionArticulos = New DevExpress.XtraGrid.GridControl()
         GridViewAsignacionArticulos = New DevExpress.XtraGrid.Views.Grid.GridView()
+        ColumnItem = New DevExpress.XtraGrid.Columns.GridColumn()
+        ColumnLocation = New DevExpress.XtraGrid.Columns.GridColumn()
+        ColumnTotalStock = New DevExpress.XtraGrid.Columns.GridColumn()
+        ColumnStock = New DevExpress.XtraGrid.Columns.GridColumn()
         PanelTitulo = New Panel()
         LabelControl2 = New LabelControl()
         Label1 = New Label()
@@ -56,7 +62,7 @@ Partial Class frmAsignar
         GroupControlUbicacion.SuspendLayout()
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlArticulos.SuspendLayout()
-        CType(SpinEditStock.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(SpinEditCantidad.Properties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridControlAsignacionArticulos, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewAsignacionArticulos, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
@@ -69,13 +75,16 @@ Partial Class frmAsignar
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
-        btnSalir.ImageOptions.Image = CType(resources.GetObject("btnSalir.ImageOptions.Image"), Image)
+        btnSalir.ImageOptions.ImageToTextAlignment = ImageAlignToText.LeftCenter
+        btnSalir.ImageOptions.Location = ImageLocation.MiddleLeft
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
         btnSalir.Location = New Point(437, 875)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(151, 67)
-        btnSalir.TabIndex = 3
-        btnSalir.Text = "Salir"
+        btnSalir.TabIndex = 0
+        btnSalir.Text = "Volver"
         ' 
         ' GroupControlUbicacion
         ' 
@@ -95,59 +104,61 @@ Partial Class frmAsignar
         GroupControlUbicacion.Location = New Point(9, 54)
         GroupControlUbicacion.Margin = New Padding(4, 3, 4, 3)
         GroupControlUbicacion.Name = "GroupControlUbicacion"
-        GroupControlUbicacion.Size = New Size(578, 100)
+        GroupControlUbicacion.Size = New Size(578, 108)
         GroupControlUbicacion.TabIndex = 0
         GroupControlUbicacion.Text = "Leer Ubicación"
         ' 
         ' ButtonConsultarUbicacion
         ' 
-        ButtonConsultarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConsultarUbicacion.BackgroundImage = CType(resources.GetObject("ButtonConsultarUbicacion.BackgroundImage"), Image)
-        ButtonConsultarUbicacion.BackgroundImageLayout = ImageLayout.Stretch
-        ButtonConsultarUbicacion.Location = New Point(470, 59)
+        ButtonConsultarUbicacion.ImageOptions.Location = ImageLocation.MiddleCenter
+        ButtonConsultarUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConsultarUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConsultarUbicacion.Location = New Point(468, 65)
         ButtonConsultarUbicacion.Name = "ButtonConsultarUbicacion"
-        ButtonConsultarUbicacion.Size = New Size(34, 36)
-        ButtonConsultarUbicacion.TabIndex = 8
-        ButtonConsultarUbicacion.UseVisualStyleBackColor = True
+        ButtonConsultarUbicacion.Size = New Size(33, 33)
+        ButtonConsultarUbicacion.TabIndex = 1
         ' 
         ' LabelNombreAlmacen
         ' 
         LabelNombreAlmacen.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         LabelNombreAlmacen.Appearance.BackColor = Color.RoyalBlue
-        LabelNombreAlmacen.Appearance.Font = New Font("Tahoma", 15.75F)
+        LabelNombreAlmacen.Appearance.Font = New Font("Tahoma", 12.25F)
         LabelNombreAlmacen.Appearance.ForeColor = Color.White
         LabelNombreAlmacen.Appearance.Options.UseBackColor = True
         LabelNombreAlmacen.Appearance.Options.UseFont = True
         LabelNombreAlmacen.Appearance.Options.UseForeColor = True
         LabelNombreAlmacen.AutoSizeMode = LabelAutoSizeMode.None
-        LabelNombreAlmacen.Location = New Point(209, 29)
+        LabelNombreAlmacen.Location = New Point(208, 26)
         LabelNombreAlmacen.Margin = New Padding(4, 3, 4, 3)
         LabelNombreAlmacen.Name = "LabelNombreAlmacen"
-        LabelNombreAlmacen.Size = New Size(295, 28)
+        LabelNombreAlmacen.Padding = New Padding(6, 0, 6, 0)
+        LabelNombreAlmacen.Size = New Size(295, 33)
         LabelNombreAlmacen.TabIndex = 7
-        LabelNombreAlmacen.Text = "Nombre Almacen"
         ' 
         ' BotonConfirmacionDeUbicacion
         ' 
         BotonConfirmacionDeUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        BotonConfirmacionDeUbicacion.ImageOptions.Image = CType(resources.GetObject("BotonConfirmacionDeUbicacion.ImageOptions.Image"), Image)
-        BotonConfirmacionDeUbicacion.Location = New Point(517, 30)
+        BotonConfirmacionDeUbicacion.Appearance.BorderColor = Color.Transparent
+        BotonConfirmacionDeUbicacion.Appearance.Options.UseBorderColor = True
+        BotonConfirmacionDeUbicacion.ImageOptions.Location = ImageLocation.MiddleCenter
+        BotonConfirmacionDeUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmacionDeUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonConfirmacionDeUbicacion.ImageOptions.SvgImageSize = New Size(50, 50)
+        BotonConfirmacionDeUbicacion.Location = New Point(517, 37)
         BotonConfirmacionDeUbicacion.Margin = New Padding(4, 3, 4, 3)
         BotonConfirmacionDeUbicacion.Name = "BotonConfirmacionDeUbicacion"
-        BotonConfirmacionDeUbicacion.Size = New Size(55, 50)
-        BotonConfirmacionDeUbicacion.TabIndex = 6
+        BotonConfirmacionDeUbicacion.Size = New Size(50, 50)
+        BotonConfirmacionDeUbicacion.TabIndex = 2
         BotonConfirmacionDeUbicacion.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
         BotonConfirmacionDeUbicacion.ToolTipTitle = "Confirma Ubicación"
         ' 
         ' TextBoxCodigoUbicacion
         ' 
         TextBoxCodigoUbicacion.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        TextBoxCodigoUbicacion.Location = New Point(16, 27)
+        TextBoxCodigoUbicacion.Location = New Point(15, 26)
         TextBoxCodigoUbicacion.Margin = New Padding(4, 3, 4, 3)
         TextBoxCodigoUbicacion.MaxLength = 13
         TextBoxCodigoUbicacion.Name = "TextBoxCodigoUbicacion"
         TextBoxCodigoUbicacion.Size = New Size(185, 33)
-        TextBoxCodigoUbicacion.TabIndex = 5
+        TextBoxCodigoUbicacion.TabIndex = 0
         ' 
         ' LabelNombreUbicacion
         ' 
@@ -159,19 +170,21 @@ Partial Class frmAsignar
         LabelNombreUbicacion.Appearance.Options.UseFont = True
         LabelNombreUbicacion.Appearance.Options.UseForeColor = True
         LabelNombreUbicacion.AutoSizeMode = LabelAutoSizeMode.None
-        LabelNombreUbicacion.Location = New Point(18, 67)
+        LabelNombreUbicacion.Location = New Point(15, 65)
         LabelNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
         LabelNombreUbicacion.Name = "LabelNombreUbicacion"
-        LabelNombreUbicacion.Size = New Size(445, 28)
+        LabelNombreUbicacion.Padding = New Padding(6, 0, 6, 0)
+        LabelNombreUbicacion.Size = New Size(445, 33)
         LabelNombreUbicacion.TabIndex = 4
-        LabelNombreUbicacion.Text = "Nombre Ubicación"
         ' 
         ' GroupControlArticulos
         ' 
         GroupControlArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControlArticulos.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlArticulos.AppearanceCaption.Options.UseFont = True
-        GroupControlArticulos.Controls.Add(SpinEditStock)
+        GroupControlArticulos.Controls.Add(LabelControl6)
+        GroupControlArticulos.Controls.Add(LabelStockTotal)
+        GroupControlArticulos.Controls.Add(SpinEditCantidad)
         GroupControlArticulos.Controls.Add(LabelIndicadorPorPeso)
         GroupControlArticulos.Controls.Add(LabelControl3)
         GroupControlArticulos.Controls.Add(btnNuevaUbicacion)
@@ -179,44 +192,78 @@ Partial Class frmAsignar
         GroupControlArticulos.Controls.Add(ButtonConfirmacionArticulo)
         GroupControlArticulos.Controls.Add(TextBoxCodigoArticulo)
         GroupControlArticulos.Controls.Add(LabelNombreArticulo)
-        GroupControlArticulos.Location = New Point(9, 162)
+        GroupControlArticulos.Location = New Point(9, 168)
         GroupControlArticulos.Margin = New Padding(4, 3, 4, 3)
         GroupControlArticulos.Name = "GroupControlArticulos"
-        GroupControlArticulos.Size = New Size(578, 153)
+        GroupControlArticulos.Size = New Size(578, 203)
         GroupControlArticulos.TabIndex = 1
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
         ' 
-        ' SpinEditStock
+        ' LabelControl6
         ' 
-        SpinEditStock.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditStock.Location = New Point(63, 101)
-        SpinEditStock.Margin = New Padding(4, 3, 4, 3)
-        SpinEditStock.Name = "SpinEditStock"
-        SpinEditStock.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
-        SpinEditStock.Properties.Appearance.Options.UseFont = True
-        SpinEditStock.Properties.AutoHeight = False
+        LabelControl6.Appearance.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelControl6.Appearance.Options.UseFont = True
+        LabelControl6.Location = New Point(15, 113)
+        LabelControl6.Margin = New Padding(3, 2, 3, 2)
+        LabelControl6.Name = "LabelControl6"
+        LabelControl6.Size = New Size(132, 19)
+        LabelControl6.TabIndex = 30
+        LabelControl6.Text = "Existencias Totales"
+        ' 
+        ' LabelStockTotal
+        ' 
+        LabelStockTotal.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        LabelStockTotal.Appearance.BackColor = Color.RoyalBlue
+        LabelStockTotal.Appearance.Font = New Font("Tahoma", 12.25F)
+        LabelStockTotal.Appearance.ForeColor = Color.White
+        LabelStockTotal.Appearance.Options.UseBackColor = True
+        LabelStockTotal.Appearance.Options.UseFont = True
+        LabelStockTotal.Appearance.Options.UseForeColor = True
+        LabelStockTotal.AutoSizeMode = LabelAutoSizeMode.None
+        LabelStockTotal.Location = New Point(154, 106)
+        LabelStockTotal.Margin = New Padding(4, 3, 4, 3)
+        LabelStockTotal.Name = "LabelStockTotal"
+        LabelStockTotal.Padding = New Padding(6, 0, 6, 0)
+        LabelStockTotal.Size = New Size(413, 33)
+        LabelStockTotal.TabIndex = 1
+        ' 
+        ' SpinEditCantidad
+        ' 
+        SpinEditCantidad.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        SpinEditCantidad.Location = New Point(84, 152)
+        SpinEditCantidad.Margin = New Padding(4, 3, 4, 3)
+        SpinEditCantidad.Name = "SpinEditCantidad"
+        SpinEditCantidad.Properties.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True
+        SpinEditCantidad.Properties.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SpinEditCantidad.Properties.Appearance.Options.UseFont = True
+        SpinEditCantidad.Properties.AutoHeight = False
+        EditorButtonImageOptions1.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False
         EditorButtonImageOptions1.SvgImageSize = New Size(35, 35)
-        SerializableAppearanceObject1.Font = New Font("Tahoma", 35.35F)
+        SerializableAppearanceObject1.Font = New Font("Tahoma", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SerializableAppearanceObject1.Options.UseFont = True
-        SpinEditStock.Properties.Buttons.AddRange(New Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 40, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
-        SpinEditStock.Properties.ContextImageOptions.SvgImageSize = New Size(40, 40)
-        SpinEditStock.Properties.IsFloatValue = False
-        SpinEditStock.Properties.MaskSettings.Set("mask", "N00")
-        SpinEditStock.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
-        SpinEditStock.Size = New Size(164, 40)
-        SpinEditStock.TabIndex = 26
+        SpinEditCantidad.Properties.Buttons.AddRange(New Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 40, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        SpinEditCantidad.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        SpinEditCantidad.Properties.ContextImageOptions.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True
+        SpinEditCantidad.Properties.ContextImageOptions.SvgImageSize = New Size(40, 40)
+        SpinEditCantidad.Properties.HideSelection = False
+        SpinEditCantidad.Properties.IsFloatValue = False
+        SpinEditCantidad.Properties.LookAndFeel.UseDefaultLookAndFeel = False
+        SpinEditCantidad.Properties.MaskSettings.Set("mask", "N00")
+        SpinEditCantidad.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
+        SpinEditCantidad.Size = New Size(185, 33)
+        SpinEditCantidad.TabIndex = 2
         ' 
         ' LabelIndicadorPorPeso
         ' 
         LabelIndicadorPorPeso.BackColor = Color.White
         LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(234, 110)
+        LabelIndicadorPorPeso.Location = New Point(276, 155)
         LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
-        LabelIndicadorPorPeso.Size = New Size(270, 25)
+        LabelIndicadorPorPeso.Size = New Size(234, 25)
         LabelIndicadorPorPeso.TabIndex = 12
-        LabelIndicadorPorPeso.Text = "** Por Peso/Fracción **"
+        LabelIndicadorPorPeso.Text = "Por Peso/Fracción"
         LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
         LabelIndicadorPorPeso.Visible = False
         ' 
@@ -224,7 +271,7 @@ Partial Class frmAsignar
         ' 
         LabelControl3.Appearance.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelControl3.Appearance.Options.UseFont = True
-        LabelControl3.Location = New Point(18, 30)
+        LabelControl3.Location = New Point(15, 34)
         LabelControl3.Margin = New Padding(3, 2, 3, 2)
         LabelControl3.Name = "LabelControl3"
         LabelControl3.Size = New Size(55, 19)
@@ -237,48 +284,53 @@ Partial Class frmAsignar
         btnNuevaUbicacion.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnNuevaUbicacion.Appearance.Options.UseFont = True
         btnNuevaUbicacion.CausesValidation = False
-        btnNuevaUbicacion.Location = New Point(448, 25)
+        btnNuevaUbicacion.ImageOptions.Location = ImageLocation.MiddleLeft
+        btnNuevaUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("btnNuevaUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnNuevaUbicacion.ImageOptions.SvgImageSize = New Size(27, 27)
+        btnNuevaUbicacion.Location = New Point(423, 26)
         btnNuevaUbicacion.Margin = New Padding(4, 3, 4, 3)
         btnNuevaUbicacion.Name = "btnNuevaUbicacion"
-        btnNuevaUbicacion.Size = New Size(124, 39)
-        btnNuevaUbicacion.TabIndex = 10
+        btnNuevaUbicacion.Size = New Size(144, 33)
+        btnNuevaUbicacion.TabIndex = 4
         btnNuevaUbicacion.Text = "Nueva Ubicación"
         ' 
         ' LabelControl1
         ' 
         LabelControl1.Appearance.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(18, 112)
+        LabelControl1.Location = New Point(15, 158)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
-        LabelControl1.Size = New Size(39, 19)
+        LabelControl1.Size = New Size(62, 19)
         LabelControl1.TabIndex = 9
-        LabelControl1.Text = "Stock"
+        LabelControl1.Text = "Cantidad"
         ' 
         ' ButtonConfirmacionArticulo
         ' 
         ButtonConfirmacionArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConfirmacionArticulo.ImageOptions.Image = CType(resources.GetObject("ButtonConfirmacionArticulo.ImageOptions.Image"), Image)
-        ButtonConfirmacionArticulo.Location = New Point(517, 98)
+        ButtonConfirmacionArticulo.ImageOptions.Location = ImageLocation.MiddleCenter
+        ButtonConfirmacionArticulo.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionArticulo.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionArticulo.ImageOptions.SvgImageSize = New Size(50, 50)
+        ButtonConfirmacionArticulo.Location = New Point(517, 145)
         ButtonConfirmacionArticulo.Margin = New Padding(4, 3, 4, 3)
         ButtonConfirmacionArticulo.Name = "ButtonConfirmacionArticulo"
-        ButtonConfirmacionArticulo.Size = New Size(55, 50)
+        ButtonConfirmacionArticulo.Size = New Size(50, 50)
         ButtonConfirmacionArticulo.TabIndex = 3
         ' 
         ' TextBoxCodigoArticulo
         ' 
         TextBoxCodigoArticulo.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoArticulo.Location = New Point(80, 27)
+        TextBoxCodigoArticulo.Location = New Point(84, 27)
         TextBoxCodigoArticulo.Margin = New Padding(4, 3, 4, 3)
         TextBoxCodigoArticulo.Name = "TextBoxCodigoArticulo"
-        TextBoxCodigoArticulo.Size = New Size(121, 33)
-        TextBoxCodigoArticulo.TabIndex = 1
+        TextBoxCodigoArticulo.Size = New Size(185, 33)
+        TextBoxCodigoArticulo.TabIndex = 0
         ' 
         ' LabelNombreArticulo
         ' 
         LabelNombreArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         LabelNombreArticulo.Appearance.BackColor = Color.RoyalBlue
-        LabelNombreArticulo.Appearance.Font = New Font("Tahoma", 15.75F)
+        LabelNombreArticulo.Appearance.Font = New Font("Tahoma", 12.25F)
         LabelNombreArticulo.Appearance.ForeColor = Color.White
         LabelNombreArticulo.Appearance.Options.UseBackColor = True
         LabelNombreArticulo.Appearance.Options.UseFont = True
@@ -287,33 +339,76 @@ Partial Class frmAsignar
         LabelNombreArticulo.Location = New Point(15, 66)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
-        LabelNombreArticulo.Size = New Size(557, 28)
+        LabelNombreArticulo.Padding = New Padding(6, 0, 6, 0)
+        LabelNombreArticulo.Size = New Size(552, 33)
         LabelNombreArticulo.TabIndex = 4
-        LabelNombreArticulo.Text = "Nombre Articulo"
         ' 
         ' GridControlAsignacionArticulos
         ' 
         GridControlAsignacionArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlAsignacionArticulos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlAsignacionArticulos.Font = New Font("Tahoma", 15.75F)
-        GridControlAsignacionArticulos.Location = New Point(10, 320)
+        GridControlAsignacionArticulos.Location = New Point(10, 376)
         GridControlAsignacionArticulos.MainView = GridViewAsignacionArticulos
         GridControlAsignacionArticulos.Margin = New Padding(3, 2, 3, 2)
         GridControlAsignacionArticulos.Name = "GridControlAsignacionArticulos"
-        GridControlAsignacionArticulos.Size = New Size(579, 550)
+        GridControlAsignacionArticulos.Size = New Size(577, 494)
         GridControlAsignacionArticulos.TabIndex = 7
         GridControlAsignacionArticulos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewAsignacionArticulos})
         GridControlAsignacionArticulos.Visible = False
         ' 
         ' GridViewAsignacionArticulos
         ' 
+        GridViewAsignacionArticulos.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItem, ColumnLocation, ColumnTotalStock, ColumnStock})
         GridViewAsignacionArticulos.DetailHeight = 262
         GridViewAsignacionArticulos.GridControl = GridControlAsignacionArticulos
         GridViewAsignacionArticulos.Name = "GridViewAsignacionArticulos"
         GridViewAsignacionArticulos.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
         GridViewAsignacionArticulos.OptionsBehavior.Editable = False
+        GridViewAsignacionArticulos.OptionsCustomization.AllowGroup = False
         GridViewAsignacionArticulos.OptionsEditForm.PopupEditFormWidth = 700
         GridViewAsignacionArticulos.OptionsView.ShowGroupPanel = False
+        GridViewAsignacionArticulos.OptionsView.ShowIndicator = False
+        ' 
+        ' ColumnItem
+        ' 
+        ColumnItem.Caption = "Artículo"
+        ColumnItem.FieldName = "Item"
+        ColumnItem.Name = "ColumnItem"
+        ColumnItem.OptionsColumn.AllowEdit = False
+        ColumnItem.Visible = True
+        ColumnItem.VisibleIndex = 0
+        ColumnItem.Width = 535
+        ' 
+        ' ColumnLocation
+        ' 
+        ColumnLocation.Caption = "Ubicación"
+        ColumnLocation.FieldName = "Location"
+        ColumnLocation.Name = "ColumnLocation"
+        ColumnLocation.OptionsColumn.AllowEdit = False
+        ColumnLocation.Visible = True
+        ColumnLocation.VisibleIndex = 1
+        ColumnLocation.Width = 182
+        ' 
+        ' ColumnTotalStock
+        ' 
+        ColumnTotalStock.Caption = "Existencias Totales"
+        ColumnTotalStock.FieldName = "TotalStock"
+        ColumnTotalStock.Name = "ColumnTotalStock"
+        ColumnTotalStock.OptionsColumn.AllowEdit = False
+        ColumnTotalStock.Visible = True
+        ColumnTotalStock.VisibleIndex = 2
+        ColumnTotalStock.Width = 105
+        ' 
+        ' ColumnStock
+        ' 
+        ColumnStock.Caption = "Asignadas"
+        ColumnStock.FieldName = "LocalStock"
+        ColumnStock.Name = "ColumnStock"
+        ColumnStock.OptionsColumn.AllowEdit = False
+        ColumnStock.Visible = True
+        ColumnStock.VisibleIndex = 3
+        ColumnStock.Width = 87
         ' 
         ' PanelTitulo
         ' 
@@ -348,8 +443,8 @@ Partial Class frmAsignar
         ' 
         ' frmAsignar
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
-        AutoScaleMode = AutoScaleMode.Font
+        AutoScaleDimensions = New SizeF(96F, 96F)
+        AutoScaleMode = AutoScaleMode.Dpi
         BackColor = Color.LightBlue
         ClientSize = New Size(600, 950)
         ControlBox = False
@@ -371,7 +466,7 @@ Partial Class frmAsignar
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).EndInit()
         GroupControlArticulos.ResumeLayout(False)
         GroupControlArticulos.PerformLayout()
-        CType(SpinEditStock.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(SpinEditCantidad.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridControlAsignacionArticulos, ComponentModel.ISupportInitialize).EndInit()
         CType(GridViewAsignacionArticulos, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
@@ -396,8 +491,14 @@ Partial Class frmAsignar
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents ButtonConsultarUbicacion As Button
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelIndicadorPorPeso As Label
-    Friend WithEvents SpinEditStock As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents SpinEditCantidad As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents LabelStockTotal As LabelControl
+    Friend WithEvents LabelControl6 As LabelControl
+    Friend WithEvents ColumnItem As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColumnLocation As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColumnTotalStock As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColumnStock As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ButtonConsultarUbicacion As SimpleButton
 End Class

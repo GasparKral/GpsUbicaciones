@@ -42,7 +42,8 @@ Public Class RepositorioStockLote
                     .NombreComercial = row("NombreArticulo"),
                     .PorPeso = Convert.ToBoolean(row("PorPeso")),
                     .CodigoBarras = row("CodBarras"),
-                    .ReferenciaProvedor = row("RefProveedor")
+                    .ReferenciaProvedor = row("RefProveedor"),
+                    .StockTotal = row("StockTotal")
                 },
                 .Lote = New Ubicacion With {
                     .Identificador = row("CodigoUbicacion"),
@@ -61,6 +62,10 @@ Public Class RepositorioStockLote
             End If
         End Using
         Return stockLote
+    End Function
+
+    Public Shared Function ObtenerTotalArticuloEnLotes(CodigoArticulo As String) As Single
+        Return Convert.ToSingle(Operacion.ExecuteScalar(Querys.Select.ConsultarTotalArticuloEnLotes, CodigoArticulo))
     End Function
 
     Public Shared Function InsertarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer

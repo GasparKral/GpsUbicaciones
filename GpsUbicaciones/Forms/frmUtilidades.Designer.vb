@@ -34,17 +34,19 @@ Partial Class frmUtilidades
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
-        btnSalir.ImageOptions.Image = CType(resources.GetObject("btnSalir.ImageOptions.Image"), Image)
+        btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
         btnSalir.Location = New Point(437, 872)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(151, 67)
         btnSalir.TabIndex = 4
-        btnSalir.Text = "Salir"
+        btnSalir.Text = "Volver"
         ' 
         ' ResetTable
         ' 
-        ResetTable.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), Image)
+        ResetTable.ImageOptions.SvgImage = CType(resources.GetObject("ResetTable.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         ResetTable.Location = New Point(12, 12)
         ResetTable.Name = "ResetTable"
         ResetTable.Size = New Size(163, 42)
@@ -53,8 +55,8 @@ Partial Class frmUtilidades
         ' 
         ' frmUtilidades
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
-        AutoScaleMode = AutoScaleMode.Font
+        AutoScaleDimensions = New SizeF(96F, 96F)
+        AutoScaleMode = AutoScaleMode.Dpi
         ClientSize = New Size(600, 950)
         Controls.Add(ResetTable)
         Controls.Add(btnSalir)

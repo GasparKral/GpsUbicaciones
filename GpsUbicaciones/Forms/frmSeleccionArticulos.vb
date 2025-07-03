@@ -5,6 +5,10 @@ Imports DevExpress.XtraGrid.Views.Grid
 ''' Formulario para la selección de artículos.
 ''' </summary>
 Public Class frmSeleccionArticulos
+    Sub New()
+
+        InitializeComponent()
+    End Sub
 
     ''' <summary>
     ''' Colección de artículos seleccionados durante la sesión
@@ -102,8 +106,6 @@ Public Class frmSeleccionArticulos
     ''' </summary>
     Private Sub frmSeleccionArticulos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            ConfigurarGridView()
-            ConfigurarGridArticulosSeleccionados()
 
             LimpiarUbicacion(False)
             LimpiarArticulo(False)
@@ -113,66 +115,6 @@ Public Class frmSeleccionArticulos
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario: {ex.Message}")
         End Try
-    End Sub
-
-    ''' <summary>
-    ''' Configura el GridView2 con sus columnas
-    ''' </summary>
-    Private Sub ConfigurarGridView()
-        GridView2.Columns.Clear()
-        CrearColumna(GridView2, "Articulo", 25, True)
-        CrearColumna(GridView2, "Descripcion", 50, True)
-        CrearColumna(GridView2, "Cantidad", 7, True)
-    End Sub
-
-    ''' <summary>
-    ''' Configura el GridViewArticulosSeleccionados con sus columnas
-    ''' </summary>
-    Private Sub ConfigurarGridArticulosSeleccionados()
-        GridControlArticulosSeleccionados.DataSource = ArticulosSeleccionados
-
-        If GridViewArticulosSeleccionados IsNot Nothing Then
-            GridViewArticulosSeleccionados.Columns.Clear()
-
-            ' Columna Articulo
-            Dim colArticulo As New DevExpress.XtraGrid.Columns.GridColumn() With {
-                .FieldName = "Articulo",
-                .Caption = "UBICACIÓN",
-                .Visible = True,
-                .VisibleIndex = 0,
-                .Width = 50
-            }
-            GridViewArticulosSeleccionados.Columns.Add(colArticulo)
-
-            ' Columna Nombre
-            Dim colNombre As New DevExpress.XtraGrid.Columns.GridColumn() With {
-                .FieldName = "Descripcion",
-                .Caption = "DESCRIPCION",
-                .Visible = True,
-                .VisibleIndex = 2
-            }
-            GridViewArticulosSeleccionados.Columns.Add(colNombre)
-
-            ' Columna Ubicacion
-            Dim colUbicacion As New DevExpress.XtraGrid.Columns.GridColumn() With {
-                .FieldName = "Ubicacion",
-                .Caption = "UBICACIÓN",
-                .Visible = True,
-                .VisibleIndex = 1,
-                .Width = 40
-            }
-            GridViewArticulosSeleccionados.Columns.Add(colUbicacion)
-
-            ' Columna Uds
-            Dim colUds As New DevExpress.XtraGrid.Columns.GridColumn() With {
-                .FieldName = "Unidades",
-                .Caption = "UDS",
-                .Visible = True,
-                .VisibleIndex = 3,
-                .Width = 25
-            }
-            GridViewArticulosSeleccionados.Columns.Add(colUds)
-        End If
     End Sub
 
     ''' <summary>
@@ -244,7 +186,6 @@ Public Class frmSeleccionArticulos
             Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextBoxCodigoUbicacion.Text)
                 If Ubicacion Is Nothing Then
                     ' Ubicación no encontrada
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La ubicación especificada no existe o no es válida.")
                     LimpiarArticulo(False)
                     PermitirEdicion(TextBoxCodigoArticulo, False)
                     e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
@@ -293,7 +234,6 @@ Public Class frmSeleccionArticulos
             Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
                 If StockLote Is Nothing Then
                     ' Artículo no encontrado en la ubicación
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "El artículo especificado no existe en esta ubicación o no tiene stock disponible.")
                     e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
                     Return
                 End If
@@ -395,17 +335,15 @@ Public Class frmSeleccionArticulos
                 Exit Sub
             End If
 
-            Dim fechaFormateada As String = DatePicker.DateTime.Date.ToString("dd/MM/yyyy")
-            Using dt As DataTable = Operacion.ExecuteQuery(Querys.Select.ConsultarPedidosPorFecha, fechaFormateada).Tables(0)
-                GridPedidos.DataSource = dt
-            End Using
+            Dim fecha As DateTime = DatePicker.DateTime.Date
+            GridPedidos.DataSource = Operacion.ExecuteQuery(Querys.Select.ConsultarPedidosPorFecha, fecha).Tables(0)
 
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al cargar los pedidos: {ex.Message}")
         End Try
     End Sub
 
-    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
+    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionAccion.Click
 
         If RadioButtonOpcionAlbaran.Checked Then
             For Each item As ArticuloSeleccion In ArticulosSeleccionados
@@ -417,6 +355,18 @@ Public Class frmSeleccionArticulos
 
         End If
 
+    End Sub
+
+    ' This event is generated by Data Source Configuration Wizard
+    Sub UnboundSource1_ValueNeeded(sender As Object, e As DevExpress.Data.UnboundSourceValueNeededEventArgs)
+        ' Handle this event to obtain data from your data source
+        ' e.Value = something /* TODO: Assign the real data here.*/
+    End Sub
+
+    ' This event is generated by Data Source Configuration Wizard
+    Sub UnboundSource1_ValuePushed(sender As Object, e As DevExpress.Data.UnboundSourceValuePushedEventArgs)
+        ' Handle this event to save modified data back to your data source
+        ' something = e.Value; /* TODO: Propagate the value into the storage.*/
     End Sub
 
 #End Region

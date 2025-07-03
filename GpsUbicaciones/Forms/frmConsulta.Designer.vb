@@ -42,13 +42,15 @@ Partial Class frmConsulta
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
-        btnSalir.ImageOptions.Image = CType(resources.GetObject("btnSalir.ImageOptions.Image"), Image)
+        btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
         btnSalir.Location = New Point(438, 875)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(151, 67)
         btnSalir.TabIndex = 3
-        btnSalir.Text = "Salir"
+        btnSalir.Text = "Volver"
         ' 
         ' GridControlConsultaArticulos
         ' 

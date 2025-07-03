@@ -104,9 +104,32 @@ Public Class AccessDatabaseOperation
     Private Sub AddParameters(cmd As OleDbCommand, parameters() As Object)
         If parameters IsNot Nothing AndAlso parameters.Length > 0 Then
             For Each param In parameters
-                Dim oleParam As New OleDbParameter("?", OleDbType.VarWChar) With {
-                    .Value = If(param, DBNull.Value)
-                }
+                Dim oleParam As New OleDbParameter()
+
+                If param Is Nothing Then
+                    oleParam.Value = DBNull.Value
+                    oleParam.OleDbType = OleDbType.VarWChar
+                Else
+                    ' Detectar el tipo y asignar el OleDbType correcto
+                    Select Case param.GetType()
+                        Case GetType(DateTime), GetType(Date)
+                            oleParam.OleDbType = OleDbType.Date
+                            oleParam.Value = param
+                        Case GetType(Integer)
+                            oleParam.OleDbType = OleDbType.Integer
+                            oleParam.Value = param
+                        Case GetType(Double), GetType(Decimal)
+                            oleParam.OleDbType = OleDbType.Double
+                            oleParam.Value = param
+                        Case GetType(Boolean)
+                            oleParam.OleDbType = OleDbType.Boolean
+                            oleParam.Value = param
+                        Case Else
+                            oleParam.OleDbType = OleDbType.VarWChar
+                            oleParam.Value = param.ToString()
+                    End Select
+                End If
+
                 cmd.Parameters.Add(oleParam)
             Next
         End If
@@ -115,6 +138,7 @@ Public Class AccessDatabaseOperation
 
     Public Overrides Function ExecuteScalar(commandText As String, ParamArray parameters() As Object) As Boolean
         Using connection = CreateConnection()
+            connection.Open()
             Return ExecuteScalar(connection, connection.BeginTransaction, commandText, parameters)
         End Using
     End Function
