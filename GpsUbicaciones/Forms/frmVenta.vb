@@ -283,8 +283,10 @@
 
             PermitirEdicion(SpinEditCantidadSeleccionada, False)
             PermitirEdicion(TextEditCodigoArticulo, False)
-            PermitirEdicion(TextEditCodigoUbicacion, True)
             GridControlArticulosSeleccionados.Visible = True
+            GroupControlArticulos.Visible = False
+            GroupControlUbicacion.Enabled = True
+            PermitirEdicion(TextEditCodigoUbicacion, True, True)
 
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al confirmar el artículo: {ex.Message}")

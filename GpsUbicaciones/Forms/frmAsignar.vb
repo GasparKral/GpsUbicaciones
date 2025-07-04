@@ -13,7 +13,7 @@ Public Class frmAsignar
         row("Item") = $"{TextBoxCodigoArticulo.Text}{vbTab}{LabelNombreArticulo.Text}"
         row("Location") = TextBoxCodigoUbicacion.Text
         row("TotalStock") = LabelStockTotal.Text
-        row("LocalStock") = stock  ' Aquí estaba "ColumnLocalStock" pero debe ser "LocalStock"
+        row("LocalStock") = stock
 
         dt.Rows.Add(row)
     End Sub
@@ -37,6 +37,8 @@ Public Class frmAsignar
         dt.Columns.Add("LocalStock", GetType(Single))
 
         GridControlAsignacionArticulos.DataSource = dt
+        SpinEditCantidad.Properties.LookAndFeel.UseDefaultLookAndFeel = False
+        SpinEditCantidad.Properties.LookAndFeel.SetSkinStyle("WXI")
     End Sub
 
     Private Sub frmAsignar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress

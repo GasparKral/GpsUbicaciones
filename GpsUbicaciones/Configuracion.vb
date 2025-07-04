@@ -1,5 +1,8 @@
 ﻿Module Configuracion
 
+    ' Instancia del logger
+    Public ReadOnly LoggerInstance As Logger = Logger.Instance
+
     ' Propiedades de la aplicación
     Public Unidad As String = "C:"
     Public SepDecimal As String

@@ -196,7 +196,7 @@ Partial Class frmTrasladoProductos
         GridControlArticulosParaTraslado.Name = "GridControlArticulosParaTraslado"
         GridControlArticulosParaTraslado.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {RepositoryItemButtonEdit1})
         GridControlArticulosParaTraslado.Size = New Size(576, 250)
-        GridControlArticulosParaTraslado.TabIndex = 1
+        GridControlArticulosParaTraslado.TabIndex = 2
         GridControlArticulosParaTraslado.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosParaTraslado})
         ' 
         ' ProductoTrasladoBindingSource
@@ -544,7 +544,7 @@ Partial Class frmTrasladoProductos
         GroupControl1.Name = "GroupControl1"
         GroupControl1.Padding = New Padding(12, 10, 12, 10)
         GroupControl1.Size = New Size(576, 248)
-        GroupControl1.TabIndex = 2
+        GroupControl1.TabIndex = 1
         GroupControl1.Text = "DESTINO"
         ' 
         ' BotonConfirmarTraslado

@@ -3,12 +3,16 @@
 Public Class AccessDatabaseOperation
     Inherits DatabaseOperation
 
+    Private Shared ReadOnly Logger As Logger = Logger.Instance
+
     Public Sub New(settings As DatabaseSettings)
         MyBase.New(settings)
+        Logger.Debug($"Inicializando AccessDatabaseOperation con proveedor: {settings.Provider}")
     End Sub
 
     Public Overrides Function CreateConnection(Optional company As String = "ACTIVA", Optional dataPath As String = "PRINCIPAL") As IDbConnection
         Dim connectionString = BuildConnectionString(company, dataPath)
+        Logger.Debug($"Creando conexión para empresa: {company}, ruta: {dataPath}")
         Return New OleDbConnection(connectionString)
     End Function
 
@@ -20,6 +24,7 @@ Public Class AccessDatabaseOperation
 
     Public Overrides Function ExecuteQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As DataSet
         Dim ds = New DataSet()
+        Logger.Debug($"Ejecutando consulta: {commandText.Substring(0, Math.Min(100, commandText.Length))}...")
 
         Try
             If connection.State <> ConnectionState.Open Then
@@ -34,8 +39,10 @@ Public Class AccessDatabaseOperation
                 End Using
             End Using
 
+            Logger.Debug($"Consulta ejecutada exitosamente. Tablas devueltas: {ds.Tables.Count}")
             Return ds
         Catch ex As Exception
+            Logger.Error($"Error ejecutando consulta: {commandText}", ex)
             Throw New DatabaseOperationException("Error al ejecutar consulta", ex, commandText)
         Finally
             If connection.State = ConnectionState.Open Then
@@ -51,6 +58,7 @@ Public Class AccessDatabaseOperation
     End Function
 
     Public Overrides Function ExecuteNonQuery(connection As IDbConnection, commandText As String, ParamArray parameters() As Object) As Integer
+        Logger.Debug($"Ejecutando comando NonQuery: {commandText.Substring(0, Math.Min(100, commandText.Length))}...")
         Try
             If connection.State <> ConnectionState.Open Then
                 connection.Open()
@@ -58,9 +66,12 @@ Public Class AccessDatabaseOperation
 
             Using cmd As New OleDbCommand(commandText, CType(connection, OleDbConnection))
                 AddParameters(cmd, parameters)
-                Return cmd.ExecuteNonQuery()
+                Dim rowsAffected = cmd.ExecuteNonQuery()
+                Logger.Debug($"Comando ejecutado exitosamente. Filas afectadas: {rowsAffected}")
+                Return rowsAffected
             End Using
         Catch ex As Exception
+            Logger.Error($"Error ejecutando comando: {commandText}", ex)
             Throw New DatabaseOperationException("Error al ejecutar comando", ex, commandText)
         Finally
             If connection.State = ConnectionState.Open Then

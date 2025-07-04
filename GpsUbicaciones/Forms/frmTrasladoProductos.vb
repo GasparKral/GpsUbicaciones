@@ -32,6 +32,13 @@ Public Class frmTrasladoProductos
             ConfigurarValidaciones()
             ' Establecer foco en el primer campo
             TextEditCodigoUbicacionOrigen.Focus()
+
+            SpinEditCantidadSeleccionadaDestino.Properties.LookAndFeel.UseDefaultLookAndFeel = False
+            SpinEditCantidadSeleccionadaDestino.Properties.LookAndFeel.SetSkinStyle("WXI")
+
+            SpinEditCantidadSeleccionadaOrigen.Properties.LookAndFeel.UseDefaultLookAndFeel = False
+            SpinEditCantidadSeleccionadaOrigen.Properties.LookAndFeel.SetSkinStyle("WXI")
+
         Catch ex As Exception
             ManejarError(ex, "Error al cargar el formulario")
         End Try

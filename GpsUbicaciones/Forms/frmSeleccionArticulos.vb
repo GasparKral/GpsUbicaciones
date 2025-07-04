@@ -6,8 +6,9 @@ Imports DevExpress.XtraGrid.Views.Grid
 ''' </summary>
 Public Class frmSeleccionArticulos
     Sub New()
-
         InitializeComponent()
+        SpinEditCantidadSeleccionada.Properties.LookAndFeel.UseDefaultLookAndFeel = False
+        SpinEditCantidadSeleccionada.Properties.LookAndFeel.SetSkinStyle("WXI")
     End Sub
 
     ''' <summary>
@@ -113,7 +114,7 @@ Public Class frmSeleccionArticulos
             DatePicker.DateTime = Now
             DatePicker.Focus()
         Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario: {ex.Message}")
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario:  {ex.Message}")
         End Try
     End Sub
 
