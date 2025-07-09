@@ -65,7 +65,7 @@ Public Class RepositorioStockLote
     End Function
 
     Public Shared Function ObtenerTotalArticuloEnLotes(CodigoArticulo As String) As Single
-        Return Convert.ToSingle(Operacion.ExecuteScalar(Querys.Select.ConsultarTotalArticuloEnLotes, CodigoArticulo))
+        Return Convert.ToSingle(Operacion.ExecuteScalar(Querys.Select.ConsultarTotalArticuloEnLotes, CodigoArticulo, Almacen))
     End Function
 
     Public Shared Function InsertarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer

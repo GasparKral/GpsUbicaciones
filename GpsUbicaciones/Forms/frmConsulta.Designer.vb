@@ -22,7 +22,6 @@ Partial Class frmConsulta
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsulta))
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GridControlConsultaArticulos = New DevExpress.XtraGrid.GridControl()
         GridViewConsultaArticulos = New DevExpress.XtraGrid.Views.Grid.GridView()
@@ -40,10 +39,9 @@ Partial Class frmConsulta
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSalir.Appearance.Options.UseFont = True
-        btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
         btnSalir.Location = New Point(438, 875)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
@@ -73,7 +71,7 @@ Partial Class frmConsulta
         GridViewConsultaArticulos.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
         GridViewConsultaArticulos.OptionsBehavior.Editable = False
         GridViewConsultaArticulos.OptionsEditForm.PopupEditFormWidth = 700
-        GridViewConsultaArticulos.OptionsView.ShowFooter = True
+        GridViewConsultaArticulos.OptionsView.ShowGroupPanel = False
         ' 
         ' PanelTitulo
         ' 
@@ -89,7 +87,7 @@ Partial Class frmConsulta
         ' LabelControl2
         ' 
         LabelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelControl2.ImageOptions.Image = CType(resources.GetObject("LabelControl2.ImageOptions.Image"), Image)
+        LabelControl2.ImageOptions.SvgImage = My.Resources.Resources.SearchMedium1
         LabelControl2.Location = New Point(10, 3)
         LabelControl2.Name = "LabelControl2"
         LabelControl2.Size = New Size(60, 42)

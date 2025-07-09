@@ -22,7 +22,6 @@ Partial Class frmVenta
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVenta))
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -50,7 +49,6 @@ Partial Class frmVenta
         ColumnLocation = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnAmmount = New DevExpress.XtraGrid.Columns.GridColumn()
         PanelTitulo = New Panel()
-        LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         Label1 = New Label()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
@@ -67,10 +65,8 @@ Partial Class frmVenta
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSalir.Appearance.Options.UseFont = True
-        btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnSalir.Location = New Point(438, 822)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -117,7 +113,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarUbicacion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonConfirmarUbicacion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarUbicacion.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarUbicacion.Location = New Point(513, 41)
         BotonConfirmarUbicacion.Margin = New Padding(4, 3, 4, 3)
@@ -176,12 +172,11 @@ Partial Class frmVenta
         ' 
         ButtonCancelar.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
         ButtonCancelar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
-        ButtonCancelar.ImageOptions.SvgImage = CType(resources.GetObject("ButtonCancelar.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
-        ButtonCancelar.Location = New Point(480, 26)
+        ButtonCancelar.Location = New Point(428, 26)
         ButtonCancelar.Name = "ButtonCancelar"
-        ButtonCancelar.Size = New Size(83, 40)
+        ButtonCancelar.Size = New Size(135, 40)
         ButtonCancelar.TabIndex = 2
-        ButtonCancelar.Text = "Cancellar"
+        ButtonCancelar.Text = "Nueva Ubicación"
         ' 
         ' SpinEditCantidadSeleccionada
         ' 
@@ -245,7 +240,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarArticulo.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarArticulo.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarArticulo.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonConfirmarArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarArticulo.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarArticulo.Location = New Point(513, 72)
         BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 3)
@@ -277,7 +272,7 @@ Partial Class frmVenta
         LabelNombreArticulo.Location = New Point(209, 29)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
-        LabelNombreArticulo.Size = New Size(264, 33)
+        LabelNombreArticulo.Size = New Size(212, 33)
         LabelNombreArticulo.TabIndex = 4
         ' 
         ' GridControlArticulosSeleccionados
@@ -340,24 +335,12 @@ Partial Class frmVenta
         ' PanelTitulo
         ' 
         PanelTitulo.BackColor = Color.RoyalBlue
-        PanelTitulo.Controls.Add(LabelControl2)
         PanelTitulo.Controls.Add(Label1)
         PanelTitulo.Dock = DockStyle.Top
         PanelTitulo.Location = New Point(0, 0)
         PanelTitulo.Name = "PanelTitulo"
         PanelTitulo.Size = New Size(600, 48)
         PanelTitulo.TabIndex = 8
-        ' 
-        ' LabelControl2
-        ' 
-        LabelControl2.Appearance.BackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        LabelControl2.Appearance.Options.UseBackColor = True
-        LabelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelControl2.ImageOptions.Image = CType(resources.GetObject("LabelControl2.ImageOptions.Image"), Image)
-        LabelControl2.Location = New Point(10, 3)
-        LabelControl2.Name = "LabelControl2"
-        LabelControl2.Size = New Size(69, 45)
-        LabelControl2.TabIndex = 2
         ' 
         ' Label1
         ' 
@@ -419,7 +402,6 @@ Partial Class frmVenta
     Friend WithEvents LabelNombreAlmacen As DevExpress.XtraEditors.LabelControl
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents Label1 As Label
-    Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelIndicadorPorPeso As Label
     Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
     Friend WithEvents ButtonCancelar As DevExpress.XtraEditors.SimpleButton

@@ -12,7 +12,7 @@ Public Class frmAsignar
         ' Usa los FieldName en lugar de los nombres de columna
         row("Item") = $"{TextBoxCodigoArticulo.Text}{vbTab}{LabelNombreArticulo.Text}"
         row("Location") = TextBoxCodigoUbicacion.Text
-        row("TotalStock") = LabelStockTotal.Text
+        row("TotalStock") = LabelTotalStock.Text
         row("LocalStock") = stock
 
         dt.Rows.Add(row)
@@ -88,25 +88,14 @@ Public Class frmAsignar
 #End Region
 
 #Region "Control de UI"
-    Private Sub MostrarFrames(EsUbicacion As Boolean)
-        GroupControlUbicacion.Enabled = EsUbicacion
-        GroupControlArticulos.Visible = Not EsUbicacion
-        GridControlAsignacionArticulos.Visible = Not EsUbicacion
 
-        If EsUbicacion Then
-            LimpiarUbicacion()
-        Else
-            LimpiarGrid()
-            LimpiarArticulo()
-        End If
-    End Sub
 
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
         LabelNombreArticulo.Text = String.Empty
         TextBoxCodigoArticulo.Clear()
         SpinEditCantidad.Clear()
-        LabelIndicadorPorPeso.Visible = False
-        LabelStockTotal.Text = String.Empty
+        IconWeigth.Visible = False
+        LabelTotalStock.Text = String.Empty
         If ActivarFoco Then
             PermitirEdicion(TextBoxCodigoArticulo, True)
             TextBoxCodigoArticulo.Select()
@@ -115,7 +104,6 @@ Public Class frmAsignar
 
     Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
         LabelNombreUbicacion.Text = String.Empty
-        LabelNombreAlmacen.Text = String.Empty
         TextBoxCodigoUbicacion.Clear()
         If ActivarFoco Then
             PermitirEdicion(TextBoxCodigoUbicacion, True)
@@ -126,32 +114,31 @@ Public Class frmAsignar
 #End Region
 
 #Region "Carga de Datos"
-    Private Sub CargarDatosArticulo(esValidacion As Boolean, Optional e As CancelEventArgs = Nothing)
+    Private Sub CargarStockLote(e As CancelEventArgs)
         Try
-            Dim Articulo = RepositorioArticulo.ObtenerInformacion(TextBoxCodigoArticulo.Text)
-            LabelNombreArticulo.Text = Articulo.NombreComercial
-            LabelStockTotal.Text = Articulo.StockTotal
-            If esValidacion Then
-                LabelIndicadorPorPeso.Visible = Articulo.PorPeso
-                AceptarDecimales(SpinEditCantidad, Articulo.PorPeso, LabelIndicadorPorPeso)
+            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+
+            If stockLote Is Nothing Then
+                e.Cancel = True
+                Exit Sub
             End If
+
+            LabelNombreArticulo.Text = stockLote.Articulo.NombreComercial
+            LabelTotalStock.Text = stockLote.Articulo.StockTotal
+            LabelLocalStock.Text = stockLote.Cantidad
+
+            AceptarDecimales(SpinEditCantidad, stockLote.Articulo.PorPeso, IconWeigth)
+
         Catch ex As InvalidOperationException
             FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoArticulo.SelectAll()
             TextBoxCodigoArticulo.Focus()
-            If esValidacion AndAlso e IsNot Nothing Then
-                e.Cancel = True
-            End If
+
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesArticulos.CodigoInvalido, TextBoxCodigoArticulo.Text))
             TextBoxCodigoArticulo.SelectAll()
             TextBoxCodigoArticulo.Focus()
-            If esValidacion Then
-                TextBoxCodigoArticulo.Text = String.Empty
-                If e IsNot Nothing Then
-                    e.Cancel = True
-                End If
-            End If
+
         End Try
     End Sub
 
@@ -171,7 +158,7 @@ Public Class frmAsignar
             End If
 
             LabelNombreUbicacion.Text = dsDatos("Nombre")
-            LabelNombreAlmacen.Text = dsDatos("Almacen")
+
         Catch ex As InvalidOperationException
             FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
             TextBoxCodigoUbicacion.SelectAll()
@@ -219,7 +206,7 @@ Public Class frmAsignar
 #End Region
 
 #Region "Eventos de Controles"
-    Private Sub BotonConfirmacionDeUbicacion_Click(sender As Object, e As EventArgs) Handles BotonConfirmacionDeUbicacion.Click
+    Private Sub BotonConfirmacionDeUbicacion_Click(sender As Object, e As EventArgs)
         If Not ValidarUbicacion() Then
             Exit Sub
         End If
@@ -228,9 +215,8 @@ Public Class frmAsignar
             Dim ubicacion = RepositorioUbicacion.ObtenerInformacion(TextBoxCodigoUbicacion.Text)
 
             LabelNombreUbicacion.Text = ubicacion.Nombre
-            LabelNombreAlmacen.Text = ubicacion.NombreAlmacen
 
-            MostrarFrames(False)
+
         Catch ex As InvalidOperationException
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesUbicaciones.ErrorValidacion, ex.Message))
             TextBoxCodigoUbicacion.Focus()
@@ -241,21 +227,6 @@ Public Class frmAsignar
         ' Validaciones iniciales
         If Not ValidarDatosArticulo() Then
             Exit Sub
-        End If
-
-        Dim cantidadTotalLotes As Single = RepositorioStockLote.ObtenerTotalArticuloEnLotes(TextBoxCodigoArticulo.Text)
-        Dim cantidadTotalStock As Single = RepositorioArticulo.ObtenerInformacion(TextBoxCodigoArticulo.Text).StockTotal
-
-        If cantidadTotalStock + SpinEditCantidad.Value > cantidadTotalLotes Then
-            ' Alert sobre la disconformidad y pedir confirmación
-            Dim mensaje As String = "La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?"
-            Dim titulo As String = "Confirmación"
-            Dim resultado As DialogResult = MessageBox.Show(mensaje, titulo, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
-
-            If resultado = DialogResult.Cancel Then
-                Exit Sub ' El usuario canceló, no continuar
-            End If
-            ' Si resultado = DialogResult.OK, continúa con el proceso
         End If
 
         ' Usar la transacción condicional
@@ -296,7 +267,7 @@ Public Class frmAsignar
 
     Private Sub ButtonConsultarUbicacion_Click(sender As Object, e As EventArgs) Handles ButtonConsultarUbicacion.Click
         Try
-            Using frm As New frmConsulta()
+            Using frm As New frmConsulta
                 frm.LabelUbicaciónConsultada.Text = LabelNombreUbicacion.Text
                 frm.Source = RepositorioStockLote.ObtenerArticulosEnLote(TextBoxCodigoUbicacion.Text)
                 frm.ShowDialog()
@@ -306,15 +277,19 @@ Public Class frmAsignar
         End Try
     End Sub
 
-    Private Sub btnNuevaUbicacion_Click(sender As Object, e As EventArgs) Handles btnNuevaUbicacion.Click
-        ' Deshabilitar validación temporalmente
-        Me.AutoValidate = AutoValidate.Disable
+    Private Sub btnNuevaUbicacion_Click() Handles btnNuevaUbicacion.Click
+        TextBoxCodigoUbicacion.Clear()
+        TextBoxCodigoArticulo.Clear()
+        LabelNombreUbicacion.Text = String.Empty
+        LabelNombreArticulo.Text = String.Empty
+        IconWeigth.Visible = False
+        SpinEditCantidad.Value = 0
+        LabelLocalStock.Text = "0000"
+        LabelTotalStock.Text = "0000"
 
-        LimpiarArticulo(False)
-        MostrarFrames(True)
-
-        ' Volver a habilitar la validación
-        Me.AutoValidate = AutoValidate.EnableAllowFocusChange
+        PermitirEdicion(SpinEditCantidad, False)
+        PermitirEdicion(TextBoxCodigoArticulo, False)
+        PermitirEdicion(TextBoxCodigoUbicacion, True)
     End Sub
 
     ''' <summary>
@@ -327,13 +302,14 @@ Public Class frmAsignar
         If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text.Trim) Then
             ' Limpiar datos relacionados
             LabelNombreArticulo.Text = String.Empty
-            LabelIndicadorPorPeso.Visible = False
+            IconWeigth.Visible = False
             SpinEditCantidad.Text = "0"
             Return
         End If
 
         ' Cargar datos del artículo y actualizar stock
-        CargarDatosArticulo(True, e)
+        CargarStockLote(e)
+        PermitirEdicion(SpinEditCantidad, True)
 
         ' Solo actualizar stock si la validación del artículo fue exitosa
         If Not e.Cancel Then
@@ -347,15 +323,16 @@ Public Class frmAsignar
     ''' </summary>
     Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoUbicacion.Validating
         ' Si el campo está vacío, no hacer nada (se permite)
-        If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text.Trim()) Then
+        If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text.Trim) Then
             ' Limpiar datos relacionados
             LabelNombreUbicacion.Text = String.Empty
-            LabelNombreAlmacen.Text = String.Empty
             Return
         End If
 
         ' Cargar datos de la ubicación
         CargarDatosUbicacion(True, e)
+        PermitirEdicion(ButtonConsultarUbicacion, True, False)
+        PermitirEdicion(TextBoxCodigoArticulo, True)
 
         ' Si la validación de ubicación fue exitosa y hay un artículo seleccionado,
         ' actualizar el stock
@@ -367,11 +344,11 @@ Public Class frmAsignar
     ''' <summary>
     ''' Evento opcional para limpiar datos cuando el usuario borra el contenido
     ''' </summary>
-    Private Sub TextBoxCodigoArticulo_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoArticulo.TextChanged
+    Private Sub TextBoxCodigoArticulo_TextChanged(sender As Object, e As EventArgs)
         ' Solo limpiar si el campo queda completamente vacío
         If String.IsNullOrEmpty(TextBoxCodigoArticulo.Text) Then
             LabelNombreArticulo.Text = String.Empty
-            LabelIndicadorPorPeso.Visible = False
+            IconWeigth.Visible = False
             SpinEditCantidad.Text = "0"
         End If
     End Sub
@@ -379,18 +356,57 @@ Public Class frmAsignar
     ''' <summary>
     ''' Evento opcional para limpiar datos cuando el usuario borra el contenido de ubicación
     ''' </summary>
-    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCodigoUbicacion.TextChanged
+    Private Sub TextBoxCodigoUbicacion_TextChanged(sender As Object, e As EventArgs)
         ' Solo limpiar si el campo queda completamente vacío
         If String.IsNullOrEmpty(TextBoxCodigoUbicacion.Text) Then
             LabelNombreUbicacion.Text = String.Empty
-            LabelNombreAlmacen.Text = String.Empty
         End If
     End Sub
 
-    Private Sub LabelStockTotal_Click(sender As Object, e As EventArgs) Handles LabelStockTotal.Click
-        If LabelStockTotal.Text = "" Then Exit Sub
+    Private Sub LabelStockTotal_Click(sender As Object, e As EventArgs)
+        If LabelTotalStock.Text = "" Then Exit Sub
 
-        SpinEditCantidad.Value = CType(LabelStockTotal.Text, Single)
+        SpinEditCantidad.Value = CType(LabelTotalStock.Text, Single)
+    End Sub
+
+    Private Sub SpinEditCantidad_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidad.Validating
+        If SpinEditCantidad.Value = 0 Then
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "La cantidad debe ser mayor a 0")
+            e.Cancel = True
+            SpinEditCantidad.Focus()
+            Exit Sub
+        End If
+
+        Dim stockTotal = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+        If (SpinEditCantidad.Value + stockTotal.Cantidad) > stockTotal.Articulo.StockTotal Then
+            ' Alert sobre la disconformidad y pedir confirmación
+            Dim confirmacion = MessageBox.Show("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+
+            If confirmacion <> DialogResult.OK Then
+                PermitirEdicion(btnNuevaUbicacion, False)
+                PermitirEdicion(ButtonConfirmacionArticulo, False)
+                e.Cancel = True
+                SpinEditCantidad.Focus()
+                Exit Sub
+            End If
+
+        End If
+
+        ' Activar botones
+        PermitirEdicion(btnNuevaUbicacion, True, False)
+        PermitirEdicion(ButtonConfirmacionArticulo, True)
+
+        ' Actualizar stock
+
+    End Sub
+
+    Private Sub LabelTotalStock_Click(sender As Object, e As EventArgs) Handles LabelTotalStock.Click
+        Dim stockValue As Single
+        If Single.TryParse(LabelTotalStock.Text, stockValue) AndAlso stockValue >= 0 Then
+            SpinEditCantidad.Value = stockValue
+        Else
+            Exit Sub
+        End If
     End Sub
 
 #End Region

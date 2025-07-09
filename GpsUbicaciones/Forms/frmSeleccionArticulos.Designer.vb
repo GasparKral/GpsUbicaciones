@@ -22,7 +22,6 @@ Partial Class frmSeleccionArticulos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSeleccionArticulos))
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -57,7 +56,6 @@ Partial Class frmSeleccionArticulos
         ColumnDelete = New DevExpress.XtraGrid.Columns.GridColumn()
         RepositoryCancelButton = New DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit()
         PanelTitulo = New Panel()
-        LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         Label1 = New Label()
         GroupControl1 = New DevExpress.XtraEditors.GroupControl()
         ButtonConfirmacionAccion = New DevExpress.XtraEditors.SimpleButton()
@@ -93,10 +91,8 @@ Partial Class frmSeleccionArticulos
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSalir.Appearance.Options.UseFont = True
-        btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnSalir.Location = New Point(439, 824)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -137,7 +133,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ButtonConfirmacionLectura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonConfirmacionLectura.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionLectura.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionLectura.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionLectura.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionLectura.ImageOptions.SvgImageSize = New Size(45, 45)
         ButtonConfirmacionLectura.Location = New Point(514, 170)
         ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
@@ -400,7 +396,6 @@ Partial Class frmSeleccionArticulos
         ' RepositoryCancelButton
         ' 
         EditorButtonImageOptions2.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
-        EditorButtonImageOptions2.SvgImage = CType(resources.GetObject("EditorButtonImageOptions2.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         EditorButtonImageOptions2.SvgImageSize = New Size(16, 16)
         RepositoryCancelButton.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete, "Eliminar", -1, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         RepositoryCancelButton.Name = "RepositoryCancelButton"
@@ -408,7 +403,6 @@ Partial Class frmSeleccionArticulos
         ' PanelTitulo
         ' 
         PanelTitulo.BackColor = Color.RoyalBlue
-        PanelTitulo.Controls.Add(LabelControl2)
         PanelTitulo.Controls.Add(Label1)
         PanelTitulo.Dock = DockStyle.Top
         PanelTitulo.Location = New Point(0, 0)
@@ -416,24 +410,13 @@ Partial Class frmSeleccionArticulos
         PanelTitulo.Size = New Size(600, 48)
         PanelTitulo.TabIndex = 8
         ' 
-        ' LabelControl2
-        ' 
-        LabelControl2.Appearance.BackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        LabelControl2.Appearance.Options.UseBackColor = True
-        LabelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelControl2.ImageOptions.Image = CType(resources.GetObject("LabelControl2.ImageOptions.Image"), Image)
-        LabelControl2.Location = New Point(10, 3)
-        LabelControl2.Name = "LabelControl2"
-        LabelControl2.Size = New Size(57, 42)
-        LabelControl2.TabIndex = 2
-        ' 
         ' Label1
         ' 
         Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label1.AutoSize = True
         Label1.Font = New Font("Microsoft Sans Serif", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(253, 7)
+        Label1.Location = New Point(296, 9)
         Label1.Name = "Label1"
         Label1.Size = New Size(281, 31)
         Label1.TabIndex = 1
@@ -455,7 +438,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ButtonConfirmacionAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionAccion.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionAccion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionAccion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
         ButtonConfirmacionAccion.Location = New Point(516, 26)
         ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)
@@ -650,7 +633,6 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents LabelNombreAlmacen As DevExpress.XtraEditors.LabelControl
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents Label1 As Label
-    Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents GroupControl1 As DevExpress.XtraEditors.GroupControl
     Friend WithEvents DatePicker As DevExpress.XtraEditors.DateEdit
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl

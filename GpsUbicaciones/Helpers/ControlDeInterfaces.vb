@@ -1,7 +1,7 @@
 ﻿Imports DevExpress.XtraEditors
 
 Module ControlDeInterfaces
-    Public Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean, Optional mostrarLabel As Label = Nothing)
+    Public Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean, Optional mostrarLabel As Control = Nothing)
         Control.Properties.Mask.UseMaskAsDisplayFormat = True
         If Valor Then
             Control.Properties.IsFloatValue = True

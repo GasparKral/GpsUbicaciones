@@ -24,7 +24,6 @@ Partial Class frmTrasladoProductos
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTrasladoProductos))
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -64,15 +63,11 @@ Partial Class frmTrasladoProductos
         lblArticulo = New Label()
         LabelNombreArticuloOrigen = New DevExpress.XtraEditors.LabelControl()
         TextEditCodigoArticuloOrigen = New DevExpress.XtraEditors.TextEdit()
-        btnConsultaArtUbiacion = New Button()
-        btnUbicacion = New DevExpress.XtraEditors.SimpleButton()
         PanelTitulo = New Panel()
-        LabelControl2 = New DevExpress.XtraEditors.LabelControl()
         Label4 = New Label()
         GroupControl1 = New DevExpress.XtraEditors.GroupControl()
         BotonConfirmarTraslado = New DevExpress.XtraEditors.SimpleButton()
         LabelIndicadorPorPesoDestino = New Label()
-        SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
         SpinEditCantidadSeleccionadaDestino = New DevExpress.XtraEditors.SpinEdit()
         Label5 = New Label()
         LabelStockArticuloDestino = New DevExpress.XtraEditors.LabelControl()
@@ -83,8 +78,6 @@ Partial Class frmTrasladoProductos
         Label8 = New Label()
         LabelNombreArticuloDestino = New DevExpress.XtraEditors.LabelControl()
         TextEditCodigoArticuloDestino = New DevExpress.XtraEditors.TextEdit()
-        Button1 = New Button()
-        SimpleButton2 = New DevExpress.XtraEditors.SimpleButton()
         BehaviorManager1 = New DevExpress.Utils.Behaviors.BehaviorManager(components)
         CType(GridViewArticulosParaTraslado, ComponentModel.ISupportInitialize).BeginInit()
         CType(RepositoryItemButtonEdit1, ComponentModel.ISupportInitialize).BeginInit()
@@ -173,7 +166,6 @@ Partial Class frmTrasladoProductos
         RepositoryItemButtonEdit1.Appearance.Options.UseForeColor = True
         RepositoryItemButtonEdit1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         EditorButtonImageOptions1.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
-        EditorButtonImageOptions1.SvgImage = CType(resources.GetObject("EditorButtonImageOptions1.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         EditorButtonImageOptions1.SvgImageSize = New Size(20, 20)
         RepositoryItemButtonEdit1.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete, "Eliminar", -1, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         RepositoryItemButtonEdit1.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
@@ -199,10 +191,6 @@ Partial Class frmTrasladoProductos
         GridControlArticulosParaTraslado.TabIndex = 2
         GridControlArticulosParaTraslado.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosParaTraslado})
         ' 
-        ' ProductoTrasladoBindingSource
-        ' 
-        ProductoTrasladoBindingSource.DataSource = GetType(ProductoTraslado)
-        ' 
         ' Label1
         ' 
         Label1.AutoSize = True
@@ -218,10 +206,9 @@ Partial Class frmTrasladoProductos
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSalir.Appearance.Options.UseFont = True
-        btnSalir.BackgroundImage = CType(resources.GetObject("btnSalir.BackgroundImage"), Image)
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
         btnSalir.Location = New Point(407, 821)
         btnSalir.Margin = New Padding(4, 2, 4, 2)
@@ -253,8 +240,6 @@ Partial Class frmTrasladoProductos
         GroupControlUbicacion.Controls.Add(lblArticulo)
         GroupControlUbicacion.Controls.Add(LabelNombreArticuloOrigen)
         GroupControlUbicacion.Controls.Add(TextEditCodigoArticuloOrigen)
-        GroupControlUbicacion.Controls.Add(btnConsultaArtUbiacion)
-        GroupControlUbicacion.Controls.Add(btnUbicacion)
         GroupControlUbicacion.Location = New Point(12, 62)
         GroupControlUbicacion.Margin = New Padding(5, 3, 5, 10)
         GroupControlUbicacion.Name = "GroupControlUbicacion"
@@ -270,7 +255,6 @@ Partial Class frmTrasladoProductos
         btnNuevaUbicacion.Appearance.Options.UseFont = True
         btnNuevaUbicacion.CausesValidation = False
         btnNuevaUbicacion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
-        btnNuevaUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("btnNuevaUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnNuevaUbicacion.ImageOptions.SvgImageSize = New Size(27, 27)
         btnNuevaUbicacion.Location = New Point(413, 27)
         btnNuevaUbicacion.Margin = New Padding(4, 3, 4, 3)
@@ -297,7 +281,7 @@ Partial Class frmTrasladoProductos
         ' 
         BotonAgregarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonAgregarArticulo.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonAgregarArticulo.ImageOptions.SvgImage = CType(resources.GetObject("BotonAgregarArticulo.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonAgregarArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonAgregarArticulo.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonAgregarArticulo.Location = New Point(508, 178)
         BotonAgregarArticulo.Margin = New Padding(5, 3, 5, 3)
@@ -455,35 +439,9 @@ Partial Class frmTrasladoProductos
         TextEditCodigoArticuloOrigen.Size = New Size(187, 25)
         TextEditCodigoArticuloOrigen.TabIndex = 1
         ' 
-        ' btnConsultaArtUbiacion
-        ' 
-        btnConsultaArtUbiacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnConsultaArtUbiacion.BackColor = Color.White
-        btnConsultaArtUbiacion.BackgroundImage = CType(resources.GetObject("btnConsultaArtUbiacion.BackgroundImage"), Image)
-        btnConsultaArtUbiacion.BackgroundImageLayout = ImageLayout.Stretch
-        btnConsultaArtUbiacion.Location = New Point(878, 68)
-        btnConsultaArtUbiacion.Margin = New Padding(4, 3, 4, 3)
-        btnConsultaArtUbiacion.Name = "btnConsultaArtUbiacion"
-        btnConsultaArtUbiacion.Size = New Size(41, 33)
-        btnConsultaArtUbiacion.TabIndex = 8
-        btnConsultaArtUbiacion.UseVisualStyleBackColor = False
-        ' 
-        ' btnUbicacion
-        ' 
-        btnUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnUbicacion.ImageOptions.Image = CType(resources.GetObject("btnUbicacion.ImageOptions.Image"), Image)
-        btnUbicacion.Location = New Point(949, 33)
-        btnUbicacion.Margin = New Padding(5, 3, 5, 3)
-        btnUbicacion.Name = "btnUbicacion"
-        btnUbicacion.Size = New Size(66, 47)
-        btnUbicacion.TabIndex = 6
-        btnUbicacion.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
-        btnUbicacion.ToolTipTitle = "Confirma Ubicación"
-        ' 
         ' PanelTitulo
         ' 
         PanelTitulo.BackColor = Color.RoyalBlue
-        PanelTitulo.Controls.Add(LabelControl2)
         PanelTitulo.Controls.Add(Label4)
         PanelTitulo.Dock = DockStyle.Top
         PanelTitulo.Location = New Point(12, 10)
@@ -491,16 +449,6 @@ Partial Class frmTrasladoProductos
         PanelTitulo.Name = "PanelTitulo"
         PanelTitulo.Size = New Size(576, 48)
         PanelTitulo.TabIndex = 17
-        ' 
-        ' LabelControl2
-        ' 
-        LabelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelControl2.ImageOptions.Image = CType(resources.GetObject("LabelControl2.ImageOptions.Image"), Image)
-        LabelControl2.Location = New Point(12, 3)
-        LabelControl2.Margin = New Padding(4, 3, 4, 3)
-        LabelControl2.Name = "LabelControl2"
-        LabelControl2.Size = New Size(67, 42)
-        LabelControl2.TabIndex = 2
         ' 
         ' Label4
         ' 
@@ -526,7 +474,6 @@ Partial Class frmTrasladoProductos
         GroupControl1.AppearanceCaption.Options.UseFont = True
         GroupControl1.Controls.Add(BotonConfirmarTraslado)
         GroupControl1.Controls.Add(LabelIndicadorPorPesoDestino)
-        GroupControl1.Controls.Add(SimpleButton1)
         GroupControl1.Controls.Add(SpinEditCantidadSeleccionadaDestino)
         GroupControl1.Controls.Add(Label5)
         GroupControl1.Controls.Add(LabelStockArticuloDestino)
@@ -537,8 +484,6 @@ Partial Class frmTrasladoProductos
         GroupControl1.Controls.Add(Label8)
         GroupControl1.Controls.Add(LabelNombreArticuloDestino)
         GroupControl1.Controls.Add(TextEditCodigoArticuloDestino)
-        GroupControl1.Controls.Add(Button1)
-        GroupControl1.Controls.Add(SimpleButton2)
         GroupControl1.Location = New Point(12, 566)
         GroupControl1.Margin = New Padding(5, 3, 5, 10)
         GroupControl1.Name = "GroupControl1"
@@ -551,7 +496,7 @@ Partial Class frmTrasladoProductos
         ' 
         BotonConfirmarTraslado.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarTraslado.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarTraslado.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarTraslado.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonConfirmarTraslado.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarTraslado.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarTraslado.Location = New Point(508, 188)
         BotonConfirmarTraslado.Margin = New Padding(5, 3, 5, 3)
@@ -574,18 +519,6 @@ Partial Class frmTrasladoProductos
         LabelIndicadorPorPesoDestino.Text = "Por Peso/Fracción"
         LabelIndicadorPorPesoDestino.TextAlign = ContentAlignment.MiddleCenter
         LabelIndicadorPorPesoDestino.Visible = False
-        ' 
-        ' SimpleButton1
-        ' 
-        SimpleButton1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        SimpleButton1.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), Image)
-        SimpleButton1.Location = New Point(923, 187)
-        SimpleButton1.Margin = New Padding(5, 3, 5, 3)
-        SimpleButton1.Name = "SimpleButton1"
-        SimpleButton1.Size = New Size(66, 47)
-        SimpleButton1.TabIndex = 26
-        SimpleButton1.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
-        SimpleButton1.ToolTipTitle = "Confirma Ubicación"
         ' 
         ' SpinEditCantidadSeleccionadaDestino
         ' 
@@ -737,31 +670,6 @@ Partial Class frmTrasladoProductos
         TextEditCodigoArticuloDestino.Size = New Size(187, 25)
         TextEditCodigoArticuloDestino.TabIndex = 1
         ' 
-        ' Button1
-        ' 
-        Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Button1.BackColor = Color.White
-        Button1.BackgroundImage = CType(resources.GetObject("Button1.BackgroundImage"), Image)
-        Button1.BackgroundImageLayout = ImageLayout.Stretch
-        Button1.Location = New Point(1310, 78)
-        Button1.Margin = New Padding(4, 3, 4, 3)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(41, 33)
-        Button1.TabIndex = 8
-        Button1.UseVisualStyleBackColor = False
-        ' 
-        ' SimpleButton2
-        ' 
-        SimpleButton2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        SimpleButton2.ImageOptions.Image = CType(resources.GetObject("SimpleButton2.ImageOptions.Image"), Image)
-        SimpleButton2.Location = New Point(1381, 43)
-        SimpleButton2.Margin = New Padding(5, 3, 5, 3)
-        SimpleButton2.Name = "SimpleButton2"
-        SimpleButton2.Size = New Size(66, 47)
-        SimpleButton2.TabIndex = 6
-        SimpleButton2.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
-        SimpleButton2.ToolTipTitle = "Confirma Ubicación"
-        ' 
         ' frmTrasladoProductos
         ' 
         Appearance.BackColor = Color.Gainsboro
@@ -822,8 +730,6 @@ Partial Class frmTrasladoProductos
     Friend WithEvents lblArticulo As Label
     Friend WithEvents LabelNombreArticuloOrigen As DevExpress.XtraEditors.LabelControl
     Friend WithEvents TextEditCodigoArticuloOrigen As DevExpress.XtraEditors.TextEdit
-    Friend WithEvents btnConsultaArtUbiacion As Button
-    Friend WithEvents btnUbicacion As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents LabelStockArticuloOrigen As DevExpress.XtraEditors.LabelControl
     Friend WithEvents Label3 As Label
     Friend WithEvents LabelNombreUbicacionOrigen As DevExpress.XtraEditors.LabelControl
@@ -833,10 +739,8 @@ Partial Class frmTrasladoProductos
     Friend WithEvents Label2 As Label
     Friend WithEvents BotonAgregarArticulo As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PanelTitulo As Panel
-    Friend WithEvents LabelControl2 As DevExpress.XtraEditors.LabelControl
     Friend WithEvents Label4 As Label
     Friend WithEvents GroupControl1 As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents SpinEditCantidadSeleccionadaDestino As DevExpress.XtraEditors.SpinEdit
     Friend WithEvents Label5 As Label
     Friend WithEvents LabelStockArticuloDestino As DevExpress.XtraEditors.LabelControl
@@ -847,8 +751,6 @@ Partial Class frmTrasladoProductos
     Friend WithEvents Label8 As Label
     Friend WithEvents LabelNombreArticuloDestino As DevExpress.XtraEditors.LabelControl
     Friend WithEvents TextEditCodigoArticuloDestino As DevExpress.XtraEditors.TextEdit
-    Friend WithEvents Button1 As Button
-    Friend WithEvents SimpleButton2 As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents LabelIndicadorPorPesoOrigen As Label
     Friend WithEvents BotonConfirmarTraslado As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents LabelIndicadorPorPesoDestino As Label

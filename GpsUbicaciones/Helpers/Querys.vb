@@ -93,7 +93,7 @@ Module Querys
         Public Shared Function ConsultarTotalArticuloEnLotes() As String
             Return $"SELECT Round(SUM(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven), {nDecUds}) 
                     FROM StockLotes S 
-                    WHERE Articulo = ?
+                    WHERE Articulo = ? AND Almacen = ?
                     "
         End Function
 
@@ -108,7 +108,7 @@ Module Querys
                         S.Uds_Com AS UnidadesCompradas,
                         S.Uds_Ven AS UnidadesVendidas,
                         S.Uds_Tra AS UnidadesTransferidas,
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS StockTotal,
+                        Round(ST.Uds_Ini+ST.Uds_Com+ST.Uds_Tra-ST.Uds_Ven,{nDecUds}) AS StockTotal,
                         U.Codigo AS CodigoUbicacion,
                         U.Nombre AS NombreUbicacion,
                         Al.Codigo AS CodigoAlmacen,
@@ -168,61 +168,11 @@ Module Querys
                         S.Lote = ?"
         End Function
 
-        ''' <summary>
-        ''' Obtiene una consulta SQL para consultar un artículo con su stock por código y almacén.
-        ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Codigo - Código del artículo
-        ''' 2. Almacen - Código del almacén
-        ''' </param>
-        ''' <returns>Consulta SQL que devuelve: NombreComercial, Codigo, Stock (cantidad disponible calculada).</returns>
-        Public Shared Function ConsultarArticuloConStockPorCodigoYAlmacen() As String
-            Return $"SELECT 
-                        A.NombreComercial,
-                        A.Codigo,
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS Stock
-                    FROM 
-                       ARTICULOS AS A
-                       INNER JOIN STOCK AS S ON S.Articulo = A.Codigo
-                    WHERE 
-                        A.Codigo = ? AND 
-                        S.Almacen = ?"
-        End Function
 
-        ''' <summary>
-        ''' Obtiene una consulta SQL para consultar stock total de un artículo por su código.
-        ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Articulo - Código del artículo
-        ''' </param>
-        ''' <returns>Consulta SQL que devuelve: Stock (cantidad total disponible calculada como Uds_Ini+Uds_Com+Uds_Tra-Uds_Ven).</returns>
-        Public Shared Function ConsultarStockTotalArticuloPorCodigo() As String
-            Return $"SELECT
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS Stock
-                    FROM
-                        STOCK AS S
-                    WHERE
-                        S.Articulo = ?"
-        End Function
 
-        ''' <summary>
-        ''' Obtiene una consulta SQL para consultar un lote específico de un artículo por código y lote.
-        ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Articulo - Código del artículo
-        ''' 2. Lote - Código del lote
-        ''' </param>
-        ''' <returns>Consulta SQL que devuelve: Articulo[Codigo de artículo], Lote[Ubicación del lote].</returns>
-        Public Shared Function ConsultarLoteDeArticuloPorCodigoYLote() As String
-            Return "SELECT 
-                        Articulo, 
-                        Lote 
-                    FROM 
-                        StockLotes
-                    WHERE 
-                        Articulo = ? AND 
-                        Lote = ?"
-        End Function
+
+
+
 
         ''' <summary>
         ''' Crea una consulta fluida para consultar los datos de una ubicación por su código.
@@ -245,23 +195,6 @@ Module Querys
                 "
         End Function
 
-        ''' <summary>
-        ''' Obtiene una consulta SQL para consultar la ubicación de un lote por su código.
-        ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Codigo - Código de la ubicación
-        ''' </param>
-        ''' <returns>Consulta SQL que devuelve: Codigo[de la ubicación], Nombre[de la ubicación].</returns>
-        Public Shared Function ConsultarUbicacionDeLotePorCodigo() As String
-            Return "SELECT
-                        U.Codigo,
-                        U.Nombre
-                    FROM
-                        UBICACIONES AS U 
-                        INNER JOIN STOCKLOTES AS S ON S.Lote = U.Codigo
-                    WHERE
-                        U.Codigo = ?"
-        End Function
 
         Public Shared Function ConsultarPedidosPorFecha() As String
             Return $"SELECT    
