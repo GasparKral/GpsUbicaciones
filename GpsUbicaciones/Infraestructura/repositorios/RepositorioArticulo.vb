@@ -9,7 +9,8 @@
             .PorPeso = Convert.ToBoolean(dsArticulo("PorPeso")),
             .CodigoBarras = dsArticulo("CodBarras"),
             .ReferenciaProvedor = dsArticulo("RefProveedor"),
-            .StockTotal = dsArticulo("StockTotal")
+            .StockTotal = dsArticulo("StockTotal"),
+            .Foto = dsArticulo("RutaFoto")
         }
         Catch err As InvalidOperationException
             GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesDeError.MensajesArticulos.CodigoInvalido)

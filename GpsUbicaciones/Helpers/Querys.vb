@@ -66,27 +66,30 @@ Module Querys
         End Function
 
         Public Shared Function ConsultarArticulosEnUbicacion() As String
-            Return "SELECT
+            Return $"SELECT
                         A.Codigo AS CodigoArticulo,
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
                         A.CodBarras,
                         A.RefProveedor,
+                        A.RutaFoto,
                         S.Uds_Ini AS UnidadesIniciales,
                         S.Uds_Com AS UnidadesCompradas,
                         S.Uds_Ven AS UnidadesVendidas,
                         S.Uds_Tra AS UnidadesTransferidas,
+                        Round(ST.Uds_Ini+ST.Uds_Com+ST.Uds_Tra-ST.Uds_Ven, {nDecUds} ) AS StockTotal,
                         U.Codigo AS CodigoUbicacion,
                         U.Nombre AS NombreUbicacion,
                         Al.Codigo AS CodigoAlmacen,
                         Al.Nombre AS NombreAlmacen
                     FROM
-                        ((ARTICULOS AS A
+                        (((ARTICULOS AS A
                         INNER JOIN STOCKLOTES AS S ON S.Articulo = A.Codigo)
                         INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote)
-                        INNER JOIN ALMACENES AS AL ON S.Almacen = AL.Codigo
+                        INNER JOIN ALMACENES AS AL ON S.Almacen = AL.Codigo)
+                        INNER JOIN STOCK AS ST ON ST.Articulo = A.Codigo
                     WHERE 
-                        S.Lote = ?
+                        S.Lote = ? AND ST.Almacen = ?
                     "
         End Function
 
@@ -103,7 +106,8 @@ Module Querys
                         A.NombreComercial AS NombreArticulo,
                         A.PorPeso,
                         A.CodBarras,
-                        A.RefProveedor,   
+                        A.RefProveedor,  
+                        A.RutaFoto,
                         S.Uds_Ini AS UnidadesIniciales,
                         S.Uds_Com AS UnidadesCompradas,
                         S.Uds_Ven AS UnidadesVendidas,
@@ -141,6 +145,7 @@ Module Querys
                         A.PorPeso,
                         A.CodBarras,
                         A.RefProveedor,
+                        A.RutaFoto,
                         Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven, {nDecUds} ) as StockTotal
                     FROM 
                        ARTICULOS AS A

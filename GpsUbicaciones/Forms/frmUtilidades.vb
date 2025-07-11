@@ -22,10 +22,28 @@
 
 
     Private Sub ButtonVisualizeTable_Click(sender As Object, e As EventArgs) Handles ButtonVisualizeTable.Click
-        Dim form = New frmMovimientosPDA(Operacion.ExecuteTable("Select * FROM MovPda WHERE Terminal = ?", Terminal))
+        Dim form = New frmMovimientosPDA(Operacion.ExecuteTable("Select MOVPDA.*, ARTICULOS.NombreComercial FROM MovPda INNER JOIN ARTICULOS ON MovPda.Articulo = Articulos.Codigo WHERE Terminal = ?", Terminal))
+        form.ShowDialog()
     End Sub
 
     Private Sub ButtonLocation_Click(sender As Object, e As EventArgs) Handles ButtonLocation.Click
+        ' Abrir popup de busqueda
+        Dim ReferenciaBusqueda As String = InputBox("Por favor, introduzca el código de referencia del artículo que desea buscar.", "Busqueda de ubicaciones")
 
+        If String.IsNullOrEmpty(ReferenciaBusqueda) Then
+            Exit Sub
+        End If
+
+        Dim form = New frmBusquedaLocalizacion(Operacion.ExecuteTable($"
+        SELECT U.Nombre, Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS Cantidad
+        FROM (UBICACIONES AS U
+        INNER JOIN STOCKLOTES AS S ON S.Lote = U.Codigo)
+        INNER JOIN ARTICULOS AS A ON A.Codigo = S.Articulo
+        WHERE  A.Codigo = ? OR 
+               A.CodBarras = ? OR 
+               A.RefProveedor = ?
+        ORDER BY U.Orden
+        ", ReferenciaBusqueda, ReferenciaBusqueda, ReferenciaBusqueda))
+        form.ShowDialog()
     End Sub
 End Class

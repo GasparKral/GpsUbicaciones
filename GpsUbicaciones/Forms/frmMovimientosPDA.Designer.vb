@@ -25,6 +25,7 @@ Partial Class frmMovimientosPDA
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GridControlMovimientos = New DevExpress.XtraGrid.GridControl()
         GridViewMovimientos = New DevExpress.XtraGrid.Views.Grid.GridView()
+        ColumnAcción = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnCantidad = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnAmmount = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnLocation = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -59,12 +60,21 @@ Partial Class frmMovimientosPDA
         ' 
         ' GridViewMovimientos
         ' 
-        GridViewMovimientos.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnCantidad, ColumnAmmount, ColumnLocation})
+        GridViewMovimientos.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnAcción, ColumnCantidad, ColumnAmmount, ColumnLocation})
         GridViewMovimientos.GridControl = GridControlMovimientos
         GridViewMovimientos.Name = "GridViewMovimientos"
         GridViewMovimientos.OptionsCustomization.AllowGroup = False
         GridViewMovimientos.OptionsView.ShowGroupPanel = False
         GridViewMovimientos.OptionsView.ShowIndicator = False
+        ' 
+        ' ColumnAcción
+        ' 
+        ColumnAcción.Caption = "Operación"
+        ColumnAcción.FieldName = "Operacion"
+        ColumnAcción.Name = "ColumnAcción"
+        ColumnAcción.Visible = True
+        ColumnAcción.VisibleIndex = 0
+        ColumnAcción.Width = 123
         ' 
         ' ColumnCantidad
         ' 
@@ -72,7 +82,8 @@ Partial Class frmMovimientosPDA
         ColumnCantidad.FieldName = "NombreComercial"
         ColumnCantidad.Name = "ColumnCantidad"
         ColumnCantidad.Visible = True
-        ColumnCantidad.VisibleIndex = 0
+        ColumnCantidad.VisibleIndex = 2
+        ColumnCantidad.Width = 652
         ' 
         ' ColumnAmmount
         ' 
@@ -80,7 +91,8 @@ Partial Class frmMovimientosPDA
         ColumnAmmount.FieldName = "Cantidad"
         ColumnAmmount.Name = "ColumnAmmount"
         ColumnAmmount.Visible = True
-        ColumnAmmount.VisibleIndex = 1
+        ColumnAmmount.VisibleIndex = 3
+        ColumnAmmount.Width = 181
         ' 
         ' ColumnLocation
         ' 
@@ -88,7 +100,8 @@ Partial Class frmMovimientosPDA
         ColumnLocation.FieldName = "Lote"
         ColumnLocation.Name = "ColumnLocation"
         ColumnLocation.Visible = True
-        ColumnLocation.VisibleIndex = 2
+        ColumnLocation.VisibleIndex = 1
+        ColumnLocation.Width = 234
         ' 
         ' frmMovimientosPDA
         ' 
@@ -112,4 +125,5 @@ Partial Class frmMovimientosPDA
     Friend WithEvents ColumnCantidad As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents ColumnAmmount As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents ColumnLocation As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColumnAcción As DevExpress.XtraGrid.Columns.GridColumn
 End Class

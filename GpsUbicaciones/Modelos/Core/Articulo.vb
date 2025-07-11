@@ -10,6 +10,7 @@
     Property CodigoBarras As String = ""
     Property ReferenciaProvedor As String = ""
     Property StockTotal As Single
+    Property Foto As String = ""
 
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
