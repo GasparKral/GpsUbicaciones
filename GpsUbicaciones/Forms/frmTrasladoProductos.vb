@@ -8,7 +8,19 @@ Public Class frmTrasladoProductos
 #Region "Configuracion Iniciales"
 
     Private Sub frmTransladoProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         Try
+            'Cargar estado temporal
+            Dim table = Operacion.ExecuteTable("SELECT * FROM MOVPDA WHERE TERMINAL = ? AND OPERACION = 'TR'", Terminal)
+
+            For Each transaction As DataRow In table.Rows
+                ArticulosEnEspera.Add(New ProductoTraslado With {
+                    .Articulo = RepositorioArticulo.ObtenerInformacion(transaction("Articulo")),
+                    .CantidadAMover = Single.Parse(transaction("Cantidad")),
+                    .CodigoUbicacionOrigen = transaction("Lote")
+                })
+            Next
+
             ProductoTrasladoBindingSource.DataSource = ArticulosEnEspera
             PermitirEdicion(TextEditItem, False)
             PermitirEdicion(SpinEditCantidadSeleccionada, False)
@@ -176,6 +188,22 @@ Public Class frmTrasladoProductos
                             ' Registrar para actualización posterior
                             articulosParaActualizar.Add((articulo, cantidadATransferir))
                             cantidadRestante -= cantidadATransferir
+
+                            ' Agregar al historico de transferencias
+                            If operacionExtendida IsNot Nothing Then
+                                Dim filasHistorico = operacionExtendida.ExecuteNonQuery(conn, trans,
+                                    "INSERT INTO LINTRASPLOTES VALUES (?,?,?,?,?)",
+                                    Date.Now,                         ' Fecha actual
+                                    articulo.Articulo.Codigo,         ' Código del artículo
+                                    cantidadATransferir,              ' Unidades transferidas
+                                    articulo.CodigoUbicacionOrigen,   ' Ubicación origen
+                                    TextEditLocation.Text)            ' Ubicación destino
+
+                                If filasHistorico <= 0 Then
+                                    Throw New Exception($"Error al registrar en histórico la transferencia de {cantidadATransferir} unidades del artículo {articulo.Articulo.Codigo}")
+                                End If
+                            End If
+
                         Else
                             Throw New Exception($"No se pudo transferir {cantidadATransferir} unidades del artículo {articulo.Articulo.Codigo}")
                         End If
@@ -228,17 +256,40 @@ Public Class frmTrasladoProductos
             Else
                 ' Reducir la cantidad restante
                 item.Articulo.CantidadAMover -= item.CantidadTransferida
+                Operacion.ExecuteNonQuery("UPDATE MOVPDA SET CANTIDAD = ? WHERE TERMINAL = ? AND OPERACION = 'TR' AND ARTICULO = ? AND LOTE = ?", item.Articulo.CantidadAMover, Terminal, item.Articulo.Articulo.Codigo, item.Articulo.CodigoUbicacionOrigen)
             End If
         Next
 
         ' Remover los artículos que se agotaron
         For Each articuloParaRemover In articulosParaRemover
             ArticulosEnEspera.Remove(articuloParaRemover)
+            Operacion.ExecuteNonQuery("DELETE FROM MOVPDA WHERE ARTICULO = ? AND LOTE = ? AND TERMINAL = ? AND OPERACION = 'TR'", articuloParaRemover.Articulo.Codigo, articuloParaRemover.CodigoUbicacionOrigen, Terminal)
         Next
 
         ' Actualizar la grilla
         GridControlArticulosParaTraslado.RefreshDataSource()
+        LabelLoadedAmount.Text = CalcularTotalEnEspera(TextEditItem.Text)
     End Sub
+
+    Private Function CalcularTotalEnEspera(textEdit As String) As String
+        Return ArticulosEnEspera.Where(Function(item) _
+                                                                             item.Articulo.Codigo.Equals(textEdit) OrElse
+                                                                             item.Articulo.CodigoBarras.Equals(textEdit) OrElse
+                                                                             item.Articulo.ReferenciaProvedor.Equals(textEdit)
+                        ).Sum(Function(item) item.CantidadAMover).ToString()
+    End Function
+
+    Private Function EliminarDeBaseDatos(codigo As String, ubicacionOrigen As String, cantidadAMover As Object) As Boolean
+        Try
+            Operacion.ExecuteNonQuery("Delete FROM MOVPDA WHERE TERMINAL = ? AND OPERACION = 'TR' AND ARTICULO = ? AND LOTE = ?", Terminal, codigo, ubicacionOrigen)
+            Return True
+        Catch ex As Exception
+            ' Log del error si es necesario
+            Console.WriteLine("Error al eliminar de la base de datos MOVPDA: " & ex.Message)
+            Return False
+        End Try
+    End Function
+
 
     Private Sub CambioDePatron(patron As Boolean)
         If patron Then
@@ -314,19 +365,32 @@ Public Class frmTrasladoProductos
                 Return
             End If
 
-            If BuscarArticuloEnEspera(TextEditItem.Text, TextEditLocation.Text) Then
-                ManejarError(Nothing, "No se usar la misma ubicación dos veces")
-                e.Cancel = True
-                Exit Sub
-            End If
+            Dim stockLote As StockLote
 
-            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit, TextEditLocation.Text)
+            If PatronDeTrabajo Then
+                If BuscarArticuloEnEspera(TextEditItem.Text, TextEditLocation.Text) Then
+                    ManejarError(Nothing, "No se usar la misma ubicación dos veces")
+                    e.Cancel = True
+                    Exit Sub
+                End If
 
-            If stockLote Is Nothing Then
-                e.Cancel = True
-                TextEditItem.Focus()
-                TextEditItem.SelectAll()
-                Return
+                stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit, TextEditLocation.Text)
+
+                If stockLote Is Nothing Then
+                    e.Cancel = True
+                    TextEditItem.Focus()
+                    TextEditItem.SelectAll()
+                    Return
+                End If
+
+            Else
+                stockLote = New StockLote With {
+                    .Articulo = RepositorioArticulo.ObtenerInformacion(textEdit),
+                    .Lote = RepositorioUbicacion.ObtenerInformacion(TextEditLocation.Text),
+                    .UnidadesTransferidas = CalcularTotalEnEspera(textEdit)
+                }
+
+                LabelLoadedAmount.Text = CalcularTotalEnEspera(textEdit)
             End If
 
             LabelItemName.Text = stockLote.Articulo.NombreComercial
@@ -334,9 +398,8 @@ Public Class frmTrasladoProductos
             LabelLocation.Text = stockLote.Lote.Nombre
             LabelStockArticulo.Text = stockLote.Cantidad.ToString()
             SpinEditCantidadSeleccionada.Properties.MaxValue = stockLote.Cantidad
+            SpinEditCantidadSeleccionada.Properties.MinValue = 0.0
             PermitirEdicion(SpinEditCantidadSeleccionada, True)
-
-            LabelLoadedAmount.Text = ArticulosEnEspera.Where(Function(A) A.Articulo.Codigo.Equals(textEdit)).Sum(Function(A) A.CantidadAMover)
 
         Catch ex As Exception
             Logger.Instance.Error(ex:=ex, message:=ex.Message)
@@ -345,8 +408,9 @@ Public Class frmTrasladoProductos
             ManejarError(ex, "Error al validar artículo origen")
         End Try
     End Sub
+
     Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
-        If SpinEditCantidadSeleccionada.Value = 0 Then
+        If SpinEditCantidadSeleccionada.Text = "0" Then
             e.Cancel = True
             SpinEditCantidadSeleccionada.Focus()
             SpinEditCantidadSeleccionada.SelectAll()
@@ -373,6 +437,61 @@ Public Class frmTrasladoProductos
 
     Private Sub teCodigoUbicacion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextEditLocation.KeyPress
         ControlEntradaAlfanumerica(sender, e)
+    End Sub
+
+    Private Sub TileViewArticulosParaTraslado_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileViewArticulosParaTraslado.ContextButtonClick
+        Try
+            ' Verificar que es el botón de eliminar
+            If e.Item.Name = "ButtonItemElimination" Then
+                ' Obtener el TileView
+                Dim tileView As DevExpress.XtraGrid.Views.Tile.TileView = CType(sender, DevExpress.XtraGrid.Views.Tile.TileView)
+
+                ' Verificar si hay una fila seleccionada
+                If tileView.FocusedRowHandle >= 0 Then
+                    ' Obtener el índice de la fila enfocada
+                    Dim rowHandle As Integer = tileView.FocusedRowHandle
+
+                    ' Obtener los valores necesarios para identificar el registro
+                    Dim codigo As String = tileView.GetRowCellValue(rowHandle, "Codigo")?.ToString()
+                    Dim ubicacionOrigen As String = tileView.GetRowCellValue(rowHandle, "CodigoUbicacionOrigen")?.ToString()
+                    Dim cantidadAMover As Object = tileView.GetRowCellValue(rowHandle, "CantidadAMover")
+
+                    ' Mostrar confirmación antes de eliminar
+                    Dim mensaje As String = $"¿Está seguro que desea eliminar este artículo del traslado?{vbCrLf}{vbCrLf}" &
+                                      $"Artículo: {codigo}{vbCrLf}" &
+                                      $"Ubicación: {ubicacionOrigen}{vbCrLf}" &
+                                      $"Cantidad: {cantidadAMover}"
+
+                    Dim result As DialogResult = MessageBox.Show(mensaje,
+                                                            "Confirmar eliminación",
+                                                            MessageBoxButtons.YesNo,
+                                                            MessageBoxIcon.Question)
+
+                    If result = DialogResult.Yes Then
+                        ' Eliminar de la base de datos (tabla MOVPDA)
+                        If EliminarDeBaseDatos(codigo, ubicacionOrigen, cantidadAMover) Then
+                            ' Eliminar la fila del TileView
+                            tileView.DeleteRow(rowHandle)
+
+                            ' Actualizar la vista
+                            tileView.RefreshData()
+
+                            ' Actualizar contadores si es necesario
+                            LabelLoadedAmount.Text = CalcularTotalEnEspera(TextEditItem.Text)
+
+                            MessageBox.Show("Artículo eliminado correctamente del traslado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show("Error al eliminar el artículo de la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
+                    End If
+                Else
+                    MessageBox.Show("No hay ningún artículo seleccionado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Error al eliminar el artículo: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 #End Region

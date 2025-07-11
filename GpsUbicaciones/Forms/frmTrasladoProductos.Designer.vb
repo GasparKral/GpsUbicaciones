@@ -57,8 +57,9 @@ Partial Class frmTrasladoProductos
         RepositoryItemButtonEdit1 = New DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit()
         GridControlArticulosParaTraslado = New DevExpress.XtraGrid.GridControl()
         ProductoTrasladoBindingSource = New BindingSource(components)
-        TileView1 = New DevExpress.XtraGrid.Views.Tile.TileView()
+        TileViewArticulosParaTraslado = New DevExpress.XtraGrid.Views.Tile.TileView()
         ColumnStock = New DevExpress.XtraGrid.Columns.TileViewColumn()
+        ColumnItemRef = New DevExpress.XtraGrid.Columns.TileViewColumn()
         Label1 = New Label()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControl = New DevExpress.XtraEditors.GroupControl()
@@ -85,7 +86,7 @@ Partial Class frmTrasladoProductos
         CType(RepositoryItemButtonEdit1, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridControlArticulosParaTraslado, ComponentModel.ISupportInitialize).BeginInit()
         CType(ProductoTrasladoBindingSource, ComponentModel.ISupportInitialize).BeginInit()
-        CType(TileView1, ComponentModel.ISupportInitialize).BeginInit()
+        CType(TileViewArticulosParaTraslado, ComponentModel.ISupportInitialize).BeginInit()
         CType(GroupControl, ComponentModel.ISupportInitialize).BeginInit()
         GroupControl.SuspendLayout()
         CType(IconWeight, ComponentModel.ISupportInitialize).BeginInit()
@@ -151,50 +152,50 @@ Partial Class frmTrasladoProductos
         GridControlArticulosParaTraslado.EmbeddedNavigator.Margin = New Padding(10, 3, 10, 3)
         GridControlArticulosParaTraslado.Font = New Font("Tahoma", 15.75F)
         GridControlArticulosParaTraslado.Location = New Point(12, 428)
-        GridControlArticulosParaTraslado.MainView = TileView1
+        GridControlArticulosParaTraslado.MainView = TileViewArticulosParaTraslado
         GridControlArticulosParaTraslado.Margin = New Padding(4, 3, 4, 3)
         GridControlArticulosParaTraslado.MinimumSize = New Size(0, 250)
         GridControlArticulosParaTraslado.Name = "GridControlArticulosParaTraslado"
         GridControlArticulosParaTraslado.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {RepositoryItemButtonEdit1})
         GridControlArticulosParaTraslado.Size = New Size(576, 388)
-        GridControlArticulosParaTraslado.TabIndex = 2
-        GridControlArticulosParaTraslado.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {TileView1})
+        GridControlArticulosParaTraslado.TabIndex = 0
+        GridControlArticulosParaTraslado.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {TileViewArticulosParaTraslado})
         GridControlArticulosParaTraslado.Visible = False
         ' 
-        ' TileView1
+        ' TileViewArticulosParaTraslado
         ' 
-        TileView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemName, ColumnLocation, ColumnStock, ColumnToMove})
+        TileViewArticulosParaTraslado.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemName, ColumnLocation, ColumnStock, ColumnToMove, ColumnItemRef})
         ContextButton1.AlignmentOptions.Position = DevExpress.Utils.ContextItemPosition.Far
         ContextButton1.Caption = "Eliminar"
         ContextButton1.Id = New Guid("d52ff8d4-0134-4f8e-9853-0ce6a09f3d92")
         ContextButton1.ImageOptionsCollection.ItemNormal.SvgImage = My.Resources.Resources.close
         ContextButton1.Name = "ButtonItemElimination"
-        TileView1.ContextButtons.Add(ContextButton1)
-        TileView1.GridControl = GridControlArticulosParaTraslado
-        TileView1.Name = "TileView1"
-        TileView1.OptionsTiles.GroupTextPadding = New Padding(12, 8, 12, 8)
-        TileView1.OptionsTiles.IndentBetweenGroups = 0
-        TileView1.OptionsTiles.IndentBetweenItems = 0
-        TileView1.OptionsTiles.ItemSize = New Size(424, 120)
-        TileView1.OptionsTiles.LayoutMode = DevExpress.XtraGrid.Views.Tile.TileViewLayoutMode.List
-        TileView1.OptionsTiles.Orientation = Orientation.Vertical
-        TileView1.OptionsTiles.Padding = New Padding(0)
-        TileView1.OptionsTiles.RowCount = 0
-        TileView1.TileColumns.Add(TableColumnDefinition1)
-        TileView1.TileColumns.Add(TableColumnDefinition2)
-        TileView1.TileColumns.Add(TableColumnDefinition3)
-        TileView1.TileColumns.Add(TableColumnDefinition4)
-        TileView1.TileRows.Add(TableRowDefinition1)
-        TileView1.TileRows.Add(TableRowDefinition2)
-        TileView1.TileRows.Add(TableRowDefinition3)
+        TileViewArticulosParaTraslado.ContextButtons.Add(ContextButton1)
+        TileViewArticulosParaTraslado.GridControl = GridControlArticulosParaTraslado
+        TileViewArticulosParaTraslado.Name = "TileViewArticulosParaTraslado"
+        TileViewArticulosParaTraslado.OptionsTiles.GroupTextPadding = New Padding(12, 8, 12, 8)
+        TileViewArticulosParaTraslado.OptionsTiles.IndentBetweenGroups = 0
+        TileViewArticulosParaTraslado.OptionsTiles.IndentBetweenItems = 0
+        TileViewArticulosParaTraslado.OptionsTiles.ItemSize = New Size(424, 120)
+        TileViewArticulosParaTraslado.OptionsTiles.LayoutMode = DevExpress.XtraGrid.Views.Tile.TileViewLayoutMode.List
+        TileViewArticulosParaTraslado.OptionsTiles.Orientation = Orientation.Vertical
+        TileViewArticulosParaTraslado.OptionsTiles.Padding = New Padding(0)
+        TileViewArticulosParaTraslado.OptionsTiles.RowCount = 0
+        TileViewArticulosParaTraslado.TileColumns.Add(TableColumnDefinition1)
+        TileViewArticulosParaTraslado.TileColumns.Add(TableColumnDefinition2)
+        TileViewArticulosParaTraslado.TileColumns.Add(TableColumnDefinition3)
+        TileViewArticulosParaTraslado.TileColumns.Add(TableColumnDefinition4)
+        TileViewArticulosParaTraslado.TileRows.Add(TableRowDefinition1)
+        TileViewArticulosParaTraslado.TileRows.Add(TableRowDefinition2)
+        TileViewArticulosParaTraslado.TileRows.Add(TableRowDefinition3)
         TableSpan1.ColumnSpan = 3
         TableSpan2.ColumnSpan = 3
         TableSpan2.RowIndex = 1
         TableSpan3.ColumnSpan = 3
         TableSpan3.RowIndex = 2
-        TileView1.TileSpans.Add(TableSpan1)
-        TileView1.TileSpans.Add(TableSpan2)
-        TileView1.TileSpans.Add(TableSpan3)
+        TileViewArticulosParaTraslado.TileSpans.Add(TableSpan1)
+        TileViewArticulosParaTraslado.TileSpans.Add(TableSpan2)
+        TileViewArticulosParaTraslado.TileSpans.Add(TableSpan3)
         TileViewItemElement1.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement1.AnchorElementIndex = 4
         TileViewItemElement1.Appearance.Normal.Font = New Font("Tahoma", 14.25F)
@@ -248,12 +249,12 @@ Partial Class frmTrasladoProductos
         TileViewItemElement6.RowIndex = 2
         TileViewItemElement6.Text = "Cantidad A Mover:"
         TileViewItemElement6.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
-        TileView1.TileTemplate.Add(TileViewItemElement1)
-        TileView1.TileTemplate.Add(TileViewItemElement2)
-        TileView1.TileTemplate.Add(TileViewItemElement3)
-        TileView1.TileTemplate.Add(TileViewItemElement4)
-        TileView1.TileTemplate.Add(TileViewItemElement5)
-        TileView1.TileTemplate.Add(TileViewItemElement6)
+        TileViewArticulosParaTraslado.TileTemplate.Add(TileViewItemElement1)
+        TileViewArticulosParaTraslado.TileTemplate.Add(TileViewItemElement2)
+        TileViewArticulosParaTraslado.TileTemplate.Add(TileViewItemElement3)
+        TileViewArticulosParaTraslado.TileTemplate.Add(TileViewItemElement4)
+        TileViewArticulosParaTraslado.TileTemplate.Add(TileViewItemElement5)
+        TileViewArticulosParaTraslado.TileTemplate.Add(TileViewItemElement6)
         ' 
         ' ColumnStock
         ' 
@@ -264,6 +265,14 @@ Partial Class frmTrasladoProductos
         ColumnStock.Visible = True
         ColumnStock.VisibleIndex = 2
         ColumnStock.Width = 95
+        ' 
+        ' ColumnItemRef
+        ' 
+        ColumnItemRef.Caption = "ItemReference"
+        ColumnItemRef.FieldName = "Codigo"
+        ColumnItemRef.Name = "ColumnItemRef"
+        ColumnItemRef.Visible = True
+        ColumnItemRef.VisibleIndex = 4
         ' 
         ' Label1
         ' 
@@ -288,7 +297,7 @@ Partial Class frmTrasladoProductos
         btnSalir.Margin = New Padding(4, 2, 4, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(181, 67)
-        btnSalir.TabIndex = 15
+        btnSalir.TabIndex = 1
         btnSalir.Text = "Volver"
         ' 
         ' GroupControl
@@ -629,7 +638,7 @@ Partial Class frmTrasladoProductos
         CType(RepositoryItemButtonEdit1, ComponentModel.ISupportInitialize).EndInit()
         CType(GridControlArticulosParaTraslado, ComponentModel.ISupportInitialize).EndInit()
         CType(ProductoTrasladoBindingSource, ComponentModel.ISupportInitialize).EndInit()
-        CType(TileView1, ComponentModel.ISupportInitialize).EndInit()
+        CType(TileViewArticulosParaTraslado, ComponentModel.ISupportInitialize).EndInit()
         CType(GroupControl, ComponentModel.ISupportInitialize).EndInit()
         GroupControl.ResumeLayout(False)
         GroupControl.PerformLayout()
@@ -670,9 +679,10 @@ Partial Class frmTrasladoProductos
     Friend WithEvents LabelLoaded As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label5 As Label
-    Friend WithEvents TileView1 As DevExpress.XtraGrid.Views.Tile.TileView
+    Friend WithEvents TileViewArticulosParaTraslado As DevExpress.XtraGrid.Views.Tile.TileView
     Friend WithEvents ColumnItemName As DevExpress.XtraGrid.Columns.TileViewColumn
     Friend WithEvents ColumnLocation As DevExpress.XtraGrid.Columns.TileViewColumn
     Friend WithEvents ColumnStock As DevExpress.XtraGrid.Columns.TileViewColumn
     Friend WithEvents ColumnToMove As DevExpress.XtraGrid.Columns.TileViewColumn
+    Friend WithEvents ColumnItemRef As DevExpress.XtraGrid.Columns.TileViewColumn
 End Class
