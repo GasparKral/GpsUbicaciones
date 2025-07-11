@@ -7,8 +7,6 @@ Imports DevExpress.XtraGrid.Views.Grid
 Public Class frmSeleccionArticulos
     Sub New()
         InitializeComponent()
-        SpinEditCantidadSeleccionada.Properties.LookAndFeel.UseDefaultLookAndFeel = False
-        SpinEditCantidadSeleccionada.Properties.LookAndFeel.SetSkinStyle("WXI")
     End Sub
 
     ''' <summary>
@@ -16,133 +14,20 @@ Public Class frmSeleccionArticulos
     ''' </summary>
     Private ReadOnly ArticulosSeleccionados As New BindingList(Of ArticuloSeleccion)
 
-    ''' <summary>
-    ''' Valor mínimo aceptable para la cantidad seleccionada
-    ''' </summary>
-    Private Const CANTIDAD_MINIMA As Decimal = 0
-
-#Region "Validación de Campos"
-
-    ''' <summary>
-    ''' Valida que la ubicación ingresada sea válida
-    ''' </summary>
-    ''' <returns>True si la ubicación es válida, False en caso contrario</returns>
-    Private Function ValidarUbicacion() As Boolean
-        If String.IsNullOrWhiteSpace(TextBoxCodigoUbicacion.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, MensajesUbicaciones.CodigoFaltante)
-            TextBoxCodigoUbicacion.Focus()
-            Return False
-        End If
-
-        If String.IsNullOrWhiteSpace(LabelNombreUbicacion.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La ubicación no existe o no es válida.")
-            TextBoxCodigoUbicacion.Focus()
-            Return False
-        End If
-
-        Return True
-    End Function
-
-    ''' <summary>
-    ''' Valida que el artículo ingresado sea válido
-    ''' </summary>
-    ''' <returns>True si el artículo es válido, False en caso contrario</returns>
-    Private Function ValidarArticulo() As Boolean
-        If String.IsNullOrWhiteSpace(TextBoxCodigoArticulo.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Debe especificar un código de artículo.")
-            TextBoxCodigoArticulo.Focus()
-            Return False
-        End If
-
-        If String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "El artículo no existe o no es válido.")
-            TextBoxCodigoArticulo.Focus()
-            Return False
-        End If
-
-        Return True
-    End Function
-
-    ''' <summary>
-    ''' Valida que la cantidad seleccionada sea válida
-    ''' </summary>
-    ''' <returns>True si la cantidad es válida, False en caso contrario</returns>
-    Private Function ValidarCantidad() As Boolean
-        If SpinEditCantidadSeleccionada.Value <= CANTIDAD_MINIMA Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
-            SpinEditCantidadSeleccionada.Focus()
-            Return False
-        End If
-
-        Dim stockDisponible As Decimal
-        If Not Decimal.TryParse(LabelStockArticulo.Text, stockDisponible) Then
-            Return False
-        End If
-
-        If SpinEditCantidadSeleccionada.Value > stockDisponible Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad seleccionada excede el stock disponible.")
-            SpinEditCantidadSeleccionada.Focus()
-            Return False
-        End If
-
-        Return True
-    End Function
-
-#End Region
 
 #Region "Control UI"
-
-    ''' <summary>
-    ''' Maneja el evento KeyPress del formulario para navegar con Enter
-    ''' </summary>
-    Private Sub frmSeleccionArticulos_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
-        ' Al pulsar enter salte al siguiente control
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            Me.SelectNextControl(Me.ActiveControl, True, True, True, True)
-        End If
-    End Sub
 
     ''' <summary>
     ''' Inicializa el formulario y sus controles
     ''' </summary>
     Private Sub frmSeleccionArticulos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-
-            LimpiarUbicacion(False)
-            LimpiarArticulo(False)
-
             DatePicker.DateTime = Now
             DatePicker.Focus()
+            GridControlArticulosSeleccionados.DataSource = ArticulosSeleccionados
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario:  {ex.Message}")
         End Try
-    End Sub
-
-    ''' <summary>
-    ''' Limpia los campos relacionados con el artículo
-    ''' </summary>
-    ''' <param name="ActivarFoco">Indica si debe activarse el foco en el campo de artículo</param>
-    Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
-        LabelNombreArticulo.Text = String.Empty
-        LabelStockArticulo.Text = String.Empty
-        TextBoxCodigoArticulo.Text = String.Empty
-        SpinEditCantidadSeleccionada.Value = CANTIDAD_MINIMA
-        If ActivarFoco Then
-            TextBoxCodigoArticulo.Focus()
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Limpia los campos relacionados con la ubicación
-    ''' </summary>
-    ''' <param name="ActivarFoco">Indica si debe activarse el foco en el campo de ubicación</param>
-    Private Sub LimpiarUbicacion(Optional ActivarFoco As Boolean = True)
-        LabelNombreUbicacion.Text = String.Empty
-        LabelNombreAlmacen.Text = String.Empty
-        TextBoxCodigoUbicacion.Text = String.Empty
-        If ActivarFoco Then
-            TextBoxCodigoUbicacion.Focus()
-        End If
     End Sub
 
     ''' <summary>
@@ -170,25 +55,23 @@ Public Class frmSeleccionArticulos
     ''' <summary>
     ''' Valida el código de ubicación cuando pierde el foco
     ''' </summary>
-    Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoUbicacion.Validating
+    Private Sub TextEditLocation_Validating(sender As Object, e As CancelEventArgs) Handles TextEditLocation.Validating
         Try
             ' Limpiar los campos relacionados
             LabelNombreUbicacion.Text = String.Empty
             LabelNombreAlmacen.Text = String.Empty
 
-            ' Si el campo está vacío, no validar pero limpiar campos dependientes
-            If String.IsNullOrWhiteSpace(TextBoxCodigoUbicacion.Text) Then
-                LimpiarArticulo(False)
-                PermitirEdicion(TextBoxCodigoArticulo, False)
+            If String.IsNullOrWhiteSpace(TextEditLocation.Text) Then
+                PermitirEdicion(TextEditItem, False)
+                e.Cancel = True
                 Return
             End If
 
             ' Buscar la ubicación en la base de datos
-            Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextBoxCodigoUbicacion.Text)
+            Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditLocation.Text)
                 If Ubicacion Is Nothing Then
                     ' Ubicación no encontrada
-                    LimpiarArticulo(False)
-                    PermitirEdicion(TextBoxCodigoArticulo, False)
+                    PermitirEdicion(TextEditItem, False)
                     e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
                     Return
                 End If
@@ -196,10 +79,9 @@ Public Class frmSeleccionArticulos
                 ' Ubicación válida - actualizar campos
                 LabelNombreUbicacion.Text = Ubicacion.Nombre
                 LabelNombreAlmacen.Text = Ubicacion.NombreAlmacen
-                PermitirEdicion(TextBoxCodigoArticulo, True)
+                PermitirEdicion(TextEditItem, True)
 
                 ' Limpiar artículo anterior si existe
-                LimpiarArticulo(False)
             End Using
 
         Catch ex As Exception
@@ -211,28 +93,28 @@ Public Class frmSeleccionArticulos
     ''' <summary>
     ''' Valida el código de artículo cuando pierde el foco
     ''' </summary>
-    Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextBoxCodigoArticulo.Validating
+    Private Sub TextBoxCodigoArticulo_Validating(sender As Object, e As CancelEventArgs) Handles TextEditItem.Validating
         Try
             ' Limpiar los campos relacionados
             LabelNombreArticulo.Text = String.Empty
             LabelStockArticulo.Text = String.Empty
-            SpinEditCantidadSeleccionada.Value = CANTIDAD_MINIMA
+            SpinEditCantidadSeleccionada.Value = 0
             PermitirEdicion(SpinEditCantidadSeleccionada, False)
 
             ' Si el campo está vacío, no validar
-            If String.IsNullOrWhiteSpace(TextBoxCodigoArticulo.Text) Then
+            If String.IsNullOrWhiteSpace(TextEditItem.Text) Then
                 Return
             End If
 
             ' Verificar que haya una ubicación válida primero
-            If String.IsNullOrWhiteSpace(TextBoxCodigoUbicacion.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreUbicacion.Text) Then
+            If String.IsNullOrWhiteSpace(TextEditLocation.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreUbicacion.Text) Then
                 FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Debe especificar una ubicación válida antes de seleccionar un artículo.")
                 e.Cancel = True
                 Return
             End If
 
             ' Buscar el artículo en el lote especificado
-            Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextBoxCodigoArticulo.Text, TextBoxCodigoUbicacion.Text)
+            Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
                 If StockLote Is Nothing Then
                     ' Artículo no encontrado en la ubicación
                     e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
@@ -242,12 +124,9 @@ Public Class frmSeleccionArticulos
                 ' Artículo válido - actualizar campos
                 LabelStockArticulo.Text = StockLote.Cantidad.ToString()
                 LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
-                AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
+                AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, IconWeight)
                 SpinEditCantidadSeleccionada.Properties.MaxValue = StockLote.Cantidad
                 PermitirEdicion(SpinEditCantidadSeleccionada, True)
-
-                ' Establecer el foco en la cantidad si todo es válido
-                SpinEditCantidadSeleccionada.Focus()
             End Using
 
         Catch ex As Exception
@@ -260,14 +139,15 @@ Public Class frmSeleccionArticulos
     ''' Valida la cantidad seleccionada cuando pierde el foco
     ''' </summary>
     Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
+
         Try
             ' Si no hay artículo seleccionado, no validar
-            If String.IsNullOrWhiteSpace(TextBoxCodigoArticulo.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
+            If String.IsNullOrWhiteSpace(TextEditItem.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
                 Return
             End If
 
             ' Validar que la cantidad sea mayor que cero
-            If SpinEditCantidadSeleccionada.Value <= CANTIDAD_MINIMA Then
+            If SpinEditCantidadSeleccionada.Value <= 0 Then
                 FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
                 e.Cancel = True
                 Return
@@ -282,6 +162,8 @@ Public Class frmSeleccionArticulos
                     Return
                 End If
             End If
+
+            ButtonConfirmacionAccion.Focus()
 
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al validar la cantidad: {ex.Message}")
@@ -305,21 +187,16 @@ Public Class frmSeleccionArticulos
     ''' </summary>
     Private Sub ButtonConfirmacionLectura_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionLectura.Click
         Try
-            If Not ValidarUbicacion() OrElse Not ValidarArticulo() OrElse Not ValidarCantidad() Then
-                Exit Sub
-            End If
 
             Dim nuevoArticulo As New ArticuloSeleccion With {
-                .Articulo = TextBoxCodigoArticulo.Text,
-                .Ubicacion = TextBoxCodigoUbicacion.Text,
+                .Articulo = TextEditItem.Text,
+                .Ubicacion = TextEditLocation.Text,
                 .Descripcion = LabelNombreArticulo.Text,
                 .Unidades = SpinEditCantidadSeleccionada.Value
             }
 
             ArticulosSeleccionados.Add(nuevoArticulo)
-            LimpiarUbicacion()
-            LimpiarArticulo(False)
-            PermitirEdicion(TextBoxCodigoArticulo, False)
+            PermitirEdicion(TextEditItem, False)
             PermitirEdicion(SpinEditCantidadSeleccionada, False)
             GridControlArticulosSeleccionados.Visible = True
         Catch ex As Exception
@@ -336,15 +213,14 @@ Public Class frmSeleccionArticulos
                 Exit Sub
             End If
 
-            Dim fecha As DateTime = DatePicker.DateTime.Date
-            GridPedidos.DataSource = Operacion.ExecuteQuery(Querys.Select.ConsultarPedidosPorFecha, fecha).Tables(0)
+            GridPedidos.DataSource = Operacion.ExecuteQuery(Querys.Select.ConsultarPedidosPorFecha, DatePicker.EditValue.Date, Almacen).Tables(0)
 
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al cargar los pedidos: {ex.Message}")
         End Try
     End Sub
 
-    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionAccion.Click
+    Private Sub ButtonConfirmacionAccion_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionAccion.Click
 
         If RadioButtonOpcionAlbaran.Checked Then
             For Each item As ArticuloSeleccion In ArticulosSeleccionados
@@ -358,17 +234,69 @@ Public Class frmSeleccionArticulos
 
     End Sub
 
-    ' This event is generated by Data Source Configuration Wizard
-    Sub UnboundSource1_ValueNeeded(sender As Object, e As DevExpress.Data.UnboundSourceValueNeededEventArgs)
-        ' Handle this event to obtain data from your data source
-        ' e.Value = something /* TODO: Assign the real data here.*/
+    ''' <summary>
+    ''' Maneja el evento Click del botón de cancelación en el repositorio
+    ''' Elimina el artículo seleccionado de la lista y de la base de datos si es necesario
+    ''' </summary>
+    Private Sub RepositoryCancelButton_Click(sender As Object, e As EventArgs) Handles RepositoryCancelButton.Click
+        Try
+            ' Obtener el índice de la fila seleccionada
+            Dim RowHandler = GridViewArticulosSeleccionados.FocusedRowHandle
+
+            ' Verificar que hay una fila seleccionada válida
+            If RowHandler < 0 OrElse RowHandler >= ArticulosSeleccionados.Count Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "No hay ningún artículo seleccionado para eliminar.")
+                Return
+            End If
+
+            ' Obtener el artículo seleccionado antes de eliminarlo
+            Dim articuloAEliminar As ArticuloSeleccion = ArticulosSeleccionados(RowHandler)
+
+            ' Confirmar la eliminación con el usuario
+            Dim resultado = MessageBox.Show(
+            $"¿Está seguro de que desea eliminar el artículo {articuloAEliminar.Articulo} de la ubicación {articuloAEliminar.Ubicacion}?",
+            "Confirmar eliminación",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question
+        )
+
+            If resultado = DialogResult.Yes Then
+                ' Eliminar de la tabla MOVPDA si existe un registro
+                Try
+                    Operacion.ExecuteNonQuery(
+                    "DELETE FROM MovPda WHERE Terminal = ? AND Articulo = ? AND Lote = ? AND OPERACION = 'VE'",
+                    Terminal,
+                    articuloAEliminar.Articulo,
+                    articuloAEliminar.Ubicacion,
+                    articuloAEliminar.Unidades
+                )
+                Catch dbEx As Exception
+                    ' Log del error pero continuar con la eliminación de la lista
+                    FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia,
+                    $"No se pudo eliminar el registro de la base de datos: {dbEx.Message}")
+                End Try
+
+                ' Eliminar de la colección local
+                ArticulosSeleccionados.RemoveAt(RowHandler)
+
+                ' Actualizar la interfaz
+                GridControlArticulosSeleccionados.RefreshDataSource()
+
+                ' Si no quedan artículos, ocultar el grid
+                If ArticulosSeleccionados.Count = 0 Then
+                    GridControlArticulosSeleccionados.Visible = False
+                End If
+
+                ' Mensaje de confirmación
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Artículo eliminado correctamente.")
+            End If
+
+        Catch ex As Exception
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al eliminar el artículo: {ex.Message}")
+        End Try
     End Sub
 
-    ' This event is generated by Data Source Configuration Wizard
-    Sub UnboundSource1_ValuePushed(sender As Object, e As DevExpress.Data.UnboundSourceValuePushedEventArgs)
-        ' Handle this event to save modified data back to your data source
-        ' something = e.Value; /* TODO: Propagate the value into the storage.*/
-    End Sub
+
 
 #End Region
 

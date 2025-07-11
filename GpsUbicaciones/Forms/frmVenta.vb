@@ -98,7 +98,7 @@
     Private Sub LimpiarArticulo(Optional ActivarFoco As Boolean = True)
         LabelNombreArticulo.Text = String.Empty
         LabelStockArticulo.Text = String.Empty
-        LabelIndicadorPorPeso.Visible = False
+        IconWeight.Visible = False
         TextEditCodigoArticulo.Text = String.Empty
         SpinEditCantidadSeleccionada.Value = 0
         If ActivarFoco Then
@@ -149,8 +149,6 @@
             ' Buscar la ubicación en la base de datos
             Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditCodigoUbicacion.Text)
                 If Ubicacion Is Nothing Then
-                    ' Ubicación no encontrada
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La ubicación especificada no existe o no es válida.")
                     LimpiarArticulo(False)
                     PermitirEdicion(TextEditCodigoArticulo, False)
                     e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
@@ -198,8 +196,6 @@
             ' Buscar el artículo en el lote especificado
             Using StockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditCodigoArticulo.Text, TextEditCodigoUbicacion.Text)
                 If StockLote Is Nothing Then
-                    ' Artículo no encontrado en la ubicación
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "El artículo especificado no existe en esta ubicación o no tiene stock disponible.")
                     e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
                     TextEditCodigoArticulo.SelectAll()
                     Return
@@ -208,7 +204,7 @@
                 ' Artículo válido - actualizar campos
                 LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
                 LabelStockArticulo.Text = StockLote.Cantidad.ToString()
-                AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, LabelIndicadorPorPeso)
+                AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, IconWeight)
                 SpinEditCantidadSeleccionada.Properties.MaxValue = StockLote.Cantidad
                 PermitirEdicion(SpinEditCantidadSeleccionada, True)
 

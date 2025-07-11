@@ -22,6 +22,9 @@ Public Class frmTrasladoProductos
             Next
 
             ProductoTrasladoBindingSource.DataSource = ArticulosEnEspera
+
+            If ArticulosEnEspera.Count > 0 Then GridControlArticulosParaTraslado.Visible = True
+
             PermitirEdicion(TextEditItem, False)
             PermitirEdicion(SpinEditCantidadSeleccionada, False)
             PermitirEdicion(TextEditLocation, True)

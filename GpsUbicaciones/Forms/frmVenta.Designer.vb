@@ -22,6 +22,7 @@ Partial Class frmVenta
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVenta))
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -34,9 +35,9 @@ Partial Class frmVenta
         TextEditCodigoUbicacion = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         GroupControlArticulos = New DevExpress.XtraEditors.GroupControl()
+        IconWeight = New DevExpress.XtraEditors.SvgImageBox()
         ButtonCancelar = New DevExpress.XtraEditors.SimpleButton()
         SpinEditCantidadSeleccionada = New DevExpress.XtraEditors.SpinEdit()
-        LabelIndicadorPorPeso = New Label()
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
         BotonConfirmarArticulo = New DevExpress.XtraEditors.SimpleButton()
@@ -54,6 +55,7 @@ Partial Class frmVenta
         GroupControlUbicacion.SuspendLayout()
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlArticulos.SuspendLayout()
+        CType(IconWeight, ComponentModel.ISupportInitialize).BeginInit()
         CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
@@ -67,6 +69,7 @@ Partial Class frmVenta
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnSalir.Location = New Point(438, 822)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -113,7 +116,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarUbicacion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarUbicacion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
+        BotonConfirmarUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         BotonConfirmarUbicacion.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarUbicacion.Location = New Point(513, 41)
         BotonConfirmarUbicacion.Margin = New Padding(4, 3, 4, 3)
@@ -152,9 +155,9 @@ Partial Class frmVenta
         GroupControlArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControlArticulos.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlArticulos.AppearanceCaption.Options.UseFont = True
+        GroupControlArticulos.Controls.Add(IconWeight)
         GroupControlArticulos.Controls.Add(ButtonCancelar)
         GroupControlArticulos.Controls.Add(SpinEditCantidadSeleccionada)
-        GroupControlArticulos.Controls.Add(LabelIndicadorPorPeso)
         GroupControlArticulos.Controls.Add(LabelControl1)
         GroupControlArticulos.Controls.Add(LabelStockArticulo)
         GroupControlArticulos.Controls.Add(BotonConfirmarArticulo)
@@ -168,13 +171,23 @@ Partial Class frmVenta
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
         ' 
+        ' IconWeight
+        ' 
+        IconWeight.Location = New Point(335, 68)
+        IconWeight.Name = "IconWeight"
+        IconWeight.Size = New Size(40, 40)
+        IconWeight.SvgImage = CType(resources.GetObject("IconWeight.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        IconWeight.TabIndex = 10
+        IconWeight.Text = "SvgImageBox1"
+        ' 
         ' ButtonCancelar
         ' 
         ButtonCancelar.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
         ButtonCancelar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
-        ButtonCancelar.Location = New Point(428, 26)
+        ButtonCancelar.ImageOptions.SvgImage = CType(resources.GetObject("ButtonCancelar.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonCancelar.Location = New Point(381, 72)
         ButtonCancelar.Name = "ButtonCancelar"
-        ButtonCancelar.Size = New Size(135, 40)
+        ButtonCancelar.Size = New Size(125, 40)
         ButtonCancelar.TabIndex = 2
         ButtonCancelar.Text = "Nueva Ubicación"
         ' 
@@ -188,23 +201,13 @@ Partial Class frmVenta
         SpinEditCantidadSeleccionada.Properties.AutoHeight = False
         SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 35, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
+        SpinEditCantidadSeleccionada.Properties.LookAndFeel.SkinName = "WXI"
+        SpinEditCantidadSeleccionada.Properties.LookAndFeel.UseDefaultLookAndFeel = False
         SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
         SpinEditCantidadSeleccionada.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
+        SpinEditCantidadSeleccionada.Properties.ValidateOnEnterKey = True
         SpinEditCantidadSeleccionada.Size = New Size(139, 40)
         SpinEditCantidadSeleccionada.TabIndex = 1
-        ' 
-        ' LabelIndicadorPorPeso
-        ' 
-        LabelIndicadorPorPeso.BackColor = Color.White
-        LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(348, 77)
-        LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
-        LabelIndicadorPorPeso.Size = New Size(158, 25)
-        LabelIndicadorPorPeso.TabIndex = 13
-        LabelIndicadorPorPeso.Text = "Por Peso/Fracción"
-        LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
-        LabelIndicadorPorPeso.Visible = False
         ' 
         ' LabelControl1
         ' 
@@ -214,9 +217,9 @@ Partial Class frmVenta
         LabelControl1.Location = New Point(21, 75)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
-        LabelControl1.Size = New Size(83, 25)
+        LabelControl1.Size = New Size(90, 25)
         LabelControl1.TabIndex = 9
-        LabelControl1.Text = "Cantidad"
+        LabelControl1.Text = "Cantidad:"
         ' 
         ' LabelStockArticulo
         ' 
@@ -233,14 +236,14 @@ Partial Class frmVenta
         LabelStockArticulo.Location = New Point(256, 73)
         LabelStockArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticulo.Name = "LabelStockArticulo"
-        LabelStockArticulo.Size = New Size(85, 33)
+        LabelStockArticulo.Size = New Size(72, 33)
         LabelStockArticulo.TabIndex = 8
         ' 
         ' BotonConfirmarArticulo
         ' 
         BotonConfirmarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarArticulo.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
+        BotonConfirmarArticulo.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarArticulo.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         BotonConfirmarArticulo.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarArticulo.Location = New Point(513, 72)
         BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 3)
@@ -272,7 +275,7 @@ Partial Class frmVenta
         LabelNombreArticulo.Location = New Point(209, 29)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
-        LabelNombreArticulo.Size = New Size(212, 33)
+        LabelNombreArticulo.Size = New Size(354, 33)
         LabelNombreArticulo.TabIndex = 4
         ' 
         ' GridControlArticulosSeleccionados
@@ -281,6 +284,8 @@ Partial Class frmVenta
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Font = New Font("Tahoma", 15.75F)
         GridControlArticulosSeleccionados.Location = New Point(10, 304)
+        GridControlArticulosSeleccionados.LookAndFeel.SkinName = "WXI"
+        GridControlArticulosSeleccionados.LookAndFeel.UseDefaultLookAndFeel = False
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Name = "GridControlArticulosSeleccionados"
@@ -297,8 +302,10 @@ Partial Class frmVenta
         GridViewArticulosSeleccionados.Name = "GridViewArticulosSeleccionados"
         GridViewArticulosSeleccionados.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
         GridViewArticulosSeleccionados.OptionsBehavior.Editable = False
+        GridViewArticulosSeleccionados.OptionsCustomization.AllowFilter = False
         GridViewArticulosSeleccionados.OptionsEditForm.PopupEditFormWidth = 700
         GridViewArticulosSeleccionados.OptionsView.ShowGroupPanel = False
+        GridViewArticulosSeleccionados.OptionsView.ShowIndicator = False
         ' 
         ' ColumnItemRef
         ' 
@@ -378,6 +385,7 @@ Partial Class frmVenta
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).EndInit()
         GroupControlArticulos.ResumeLayout(False)
         GroupControlArticulos.PerformLayout()
+        CType(IconWeight, ComponentModel.ISupportInitialize).EndInit()
         CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
@@ -402,11 +410,11 @@ Partial Class frmVenta
     Friend WithEvents LabelNombreAlmacen As DevExpress.XtraEditors.LabelControl
     Friend WithEvents PanelTitulo As Panel
     Friend WithEvents Label1 As Label
-    Friend WithEvents LabelIndicadorPorPeso As Label
     Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
     Friend WithEvents ButtonCancelar As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents ColumnItemRef As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents ColumnItemName As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents ColumnLocation As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents ColumnAmmount As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents IconWeight As DevExpress.XtraEditors.SvgImageBox
 End Class

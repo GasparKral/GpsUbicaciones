@@ -34,17 +34,17 @@ Partial Class frmSeleccionArticulos
         Dim SerializableAppearanceObject8 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
+        TextEditItem = New DevExpress.XtraEditors.TextEdit()
+        TextEditLocation = New DevExpress.XtraEditors.TextEdit()
+        IconWeight = New DevExpress.XtraEditors.SvgImageBox()
         ButtonConfirmacionLectura = New DevExpress.XtraEditors.SimpleButton()
         Label2 = New Label()
         Label3 = New Label()
         lblArticulo = New Label()
         lblUbicacion = New Label()
         SpinEditCantidadSeleccionada = New DevExpress.XtraEditors.SpinEdit()
-        LabelIndicadorPorPeso = New Label()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
         LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
-        TextBoxCodigoUbicacion = New TextBox()
-        TextBoxCodigoArticulo = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
         GridControlArticulosSeleccionados = New DevExpress.XtraGrid.GridControl()
@@ -71,8 +71,15 @@ Partial Class frmSeleccionArticulos
         ColumnUnits = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnStock = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnState = New DevExpress.XtraGrid.Columns.GridColumn()
+        XtraTabControl1 = New DevExpress.XtraTab.XtraTabControl()
+        XtraTabPage1 = New DevExpress.XtraTab.XtraTabPage()
+        XtraTabPage2 = New DevExpress.XtraTab.XtraTabPage()
+        XtraTabPage3 = New DevExpress.XtraTab.XtraTabPage()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
+        CType(TextEditItem.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(TextEditLocation.Properties, ComponentModel.ISupportInitialize).BeginInit()
+        CType(IconWeight, ComponentModel.ISupportInitialize).BeginInit()
         CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
@@ -84,6 +91,11 @@ Partial Class frmSeleccionArticulos
         CType(DatePicker.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridPedidos, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridView2, ComponentModel.ISupportInitialize).BeginInit()
+        CType(XtraTabControl1, ComponentModel.ISupportInitialize).BeginInit()
+        XtraTabControl1.SuspendLayout()
+        XtraTabPage1.SuspendLayout()
+        XtraTabPage2.SuspendLayout()
+        XtraTabPage3.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnSalir
@@ -93,6 +105,7 @@ Partial Class frmSeleccionArticulos
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.Location = New Point(439, 824)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -102,32 +115,63 @@ Partial Class frmSeleccionArticulos
         ' 
         ' GroupControlUbicacion
         ' 
-        GroupControlUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        GroupControlUbicacion.Appearance.BackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        GroupControlUbicacion.Appearance.BackColor = Color.Transparent
         GroupControlUbicacion.Appearance.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlUbicacion.AppearanceCaption.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
+        GroupControlUbicacion.Controls.Add(TextEditItem)
+        GroupControlUbicacion.Controls.Add(TextEditLocation)
+        GroupControlUbicacion.Controls.Add(IconWeight)
         GroupControlUbicacion.Controls.Add(ButtonConfirmacionLectura)
         GroupControlUbicacion.Controls.Add(Label2)
         GroupControlUbicacion.Controls.Add(Label3)
         GroupControlUbicacion.Controls.Add(lblArticulo)
         GroupControlUbicacion.Controls.Add(lblUbicacion)
         GroupControlUbicacion.Controls.Add(SpinEditCantidadSeleccionada)
-        GroupControlUbicacion.Controls.Add(LabelIndicadorPorPeso)
         GroupControlUbicacion.Controls.Add(LabelNombreAlmacen)
         GroupControlUbicacion.Controls.Add(LabelStockArticulo)
-        GroupControlUbicacion.Controls.Add(TextBoxCodigoUbicacion)
-        GroupControlUbicacion.Controls.Add(TextBoxCodigoArticulo)
         GroupControlUbicacion.Controls.Add(LabelNombreUbicacion)
         GroupControlUbicacion.Controls.Add(LabelNombreArticulo)
-        GroupControlUbicacion.Location = New Point(13, 219)
+        GroupControlUbicacion.Dock = DockStyle.Fill
+        GroupControlUbicacion.Location = New Point(0, 0)
         GroupControlUbicacion.Margin = New Padding(4, 3, 4, 3)
         GroupControlUbicacion.Name = "GroupControlUbicacion"
         GroupControlUbicacion.Padding = New Padding(0, 0, 0, 10)
-        GroupControlUbicacion.Size = New Size(577, 224)
+        GroupControlUbicacion.ShowCaption = False
+        GroupControlUbicacion.Size = New Size(575, 317)
         GroupControlUbicacion.TabIndex = 1
         GroupControlUbicacion.Text = "Leer Artículos (Ubicacion / Articulo)"
+        ' 
+        ' TextEditItem
+        ' 
+        TextEditItem.Location = New Point(98, 77)
+        TextEditItem.Name = "TextEditItem"
+        TextEditItem.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
+        TextEditItem.Properties.Appearance.Options.UseFont = True
+        TextEditItem.Properties.ValidateOnEnterKey = True
+        TextEditItem.Size = New Size(205, 32)
+        TextEditItem.TabIndex = 1
+        ' 
+        ' TextEditLocation
+        ' 
+        TextEditLocation.Location = New Point(112, 8)
+        TextEditLocation.Name = "TextEditLocation"
+        TextEditLocation.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
+        TextEditLocation.Properties.Appearance.Options.UseFont = True
+        TextEditLocation.Properties.ValidateOnEnterKey = True
+        TextEditLocation.Size = New Size(191, 32)
+        TextEditLocation.TabIndex = 0
+        ' 
+        ' IconWeight
+        ' 
+        IconWeight.Location = New Point(346, 150)
+        IconWeight.Name = "IconWeight"
+        IconWeight.Size = New Size(40, 40)
+        IconWeight.SvgImage = My.Resources.Resources.weightedpies
+        IconWeight.TabIndex = 31
+        IconWeight.Text = "SvgImageBox1"
+        IconWeight.Visible = False
         ' 
         ' ButtonConfirmacionLectura
         ' 
@@ -135,84 +179,74 @@ Partial Class frmSeleccionArticulos
         ButtonConfirmacionLectura.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         ButtonConfirmacionLectura.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionLectura.ImageOptions.SvgImageSize = New Size(45, 45)
-        ButtonConfirmacionLectura.Location = New Point(514, 170)
+        ButtonConfirmacionLectura.Location = New Point(494, 239)
         ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
         ButtonConfirmacionLectura.Name = "ButtonConfirmacionLectura"
-        ButtonConfirmacionLectura.Size = New Size(50, 50)
-        ButtonConfirmacionLectura.TabIndex = 8
+        ButtonConfirmacionLectura.Size = New Size(75, 75)
+        ButtonConfirmacionLectura.TabIndex = 3
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Tahoma", 15.75F)
-        Label2.Location = New Point(16, 183)
+        Label2.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        Label2.Location = New Point(16, 162)
         Label2.Margin = New Padding(3, 0, 0, 6)
         Label2.Name = "Label2"
-        Label2.Size = New Size(113, 25)
+        Label2.Size = New Size(88, 19)
         Label2.TabIndex = 30
-        Label2.Text = "CANTIDAD"
+        Label2.Text = "Cantidad:"
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Tahoma", 15.75F)
-        Label3.Location = New Point(310, 102)
+        Label3.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        Label3.Location = New Point(309, 87)
         Label3.Margin = New Padding(3, 0, 0, 6)
         Label3.Name = "Label3"
-        Label3.Size = New Size(76, 25)
+        Label3.Size = New Size(106, 19)
         Label3.TabIndex = 29
-        Label3.Text = "STOCK"
+        Label3.Text = "Existencias:"
         ' 
         ' lblArticulo
         ' 
         lblArticulo.AutoSize = True
-        lblArticulo.Font = New Font("Tahoma", 15.75F)
-        lblArticulo.Location = New Point(16, 102)
+        lblArticulo.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        lblArticulo.Location = New Point(16, 86)
         lblArticulo.Margin = New Padding(3, 0, 0, 6)
         lblArticulo.Name = "lblArticulo"
-        lblArticulo.Size = New Size(110, 25)
+        lblArticulo.Size = New Size(79, 19)
         lblArticulo.TabIndex = 28
-        lblArticulo.Text = "ARTÍCULO"
+        lblArticulo.Text = "Artículo:"
         ' 
         ' lblUbicacion
         ' 
         lblUbicacion.AutoSize = True
-        lblUbicacion.Font = New Font("Tahoma", 15.75F)
-        lblUbicacion.Location = New Point(16, 31)
+        lblUbicacion.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        lblUbicacion.Location = New Point(16, 16)
         lblUbicacion.Margin = New Padding(3, 0, 0, 6)
         lblUbicacion.Name = "lblUbicacion"
-        lblUbicacion.Size = New Size(123, 25)
+        lblUbicacion.Size = New Size(93, 19)
         lblUbicacion.TabIndex = 27
-        lblUbicacion.Text = "UBICACIÓN"
+        lblUbicacion.Text = "Ubicación:"
         ' 
         ' SpinEditCantidadSeleccionada
         ' 
         SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
         SpinEditCantidadSeleccionada.Enabled = False
-        SpinEditCantidadSeleccionada.Location = New Point(143, 176)
+        SpinEditCantidadSeleccionada.Location = New Point(112, 150)
         SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
         SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
         SpinEditCantidadSeleccionada.Properties.AutoHeight = False
         SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 35, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
+        SpinEditCantidadSeleccionada.Properties.LookAndFeel.SkinName = "WXI"
+        SpinEditCantidadSeleccionada.Properties.LookAndFeel.UseDefaultLookAndFeel = False
         SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
         SpinEditCantidadSeleccionada.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
-        SpinEditCantidadSeleccionada.Size = New Size(160, 40)
-        SpinEditCantidadSeleccionada.TabIndex = 26
-        ' 
-        ' LabelIndicadorPorPeso
-        ' 
-        LabelIndicadorPorPeso.BackColor = Color.White
-        LabelIndicadorPorPeso.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        LabelIndicadorPorPeso.ForeColor = Color.Red
-        LabelIndicadorPorPeso.Location = New Point(329, 183)
-        LabelIndicadorPorPeso.Name = "LabelIndicadorPorPeso"
-        LabelIndicadorPorPeso.Size = New Size(174, 25)
-        LabelIndicadorPorPeso.TabIndex = 13
-        LabelIndicadorPorPeso.Text = "Por Peso/Fracción"
-        LabelIndicadorPorPeso.TextAlign = ContentAlignment.MiddleCenter
-        LabelIndicadorPorPeso.Visible = False
+        SpinEditCantidadSeleccionada.Properties.ValidateOnEnterKey = True
+        SpinEditCantidadSeleccionada.Size = New Size(228, 40)
+        SpinEditCantidadSeleccionada.TabIndex = 2
         ' 
         ' LabelNombreAlmacen
         ' 
@@ -227,11 +261,11 @@ Partial Class frmSeleccionArticulos
         LabelNombreAlmacen.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
         LabelNombreAlmacen.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelNombreAlmacen.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreAlmacen.Location = New Point(310, 28)
+        LabelNombreAlmacen.Location = New Point(310, 7)
         LabelNombreAlmacen.Margin = New Padding(4, 3, 4, 3)
         LabelNombreAlmacen.Name = "LabelNombreAlmacen"
         LabelNombreAlmacen.Padding = New Padding(6, 0, 6, 0)
-        LabelNombreAlmacen.Size = New Size(254, 33)
+        LabelNombreAlmacen.Size = New Size(252, 33)
         LabelNombreAlmacen.TabIndex = 7
         LabelNombreAlmacen.Text = " "
         ' 
@@ -245,35 +279,16 @@ Partial Class frmSeleccionArticulos
         LabelStockArticulo.Appearance.Options.UseFont = True
         LabelStockArticulo.Appearance.Options.UseForeColor = True
         LabelStockArticulo.Appearance.Options.UseTextOptions = True
-        LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+        LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticulo.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticulo.Location = New Point(400, 98)
+        LabelStockArticulo.Location = New Point(419, 77)
         LabelStockArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticulo.Name = "LabelStockArticulo"
         LabelStockArticulo.Padding = New Padding(6, 0, 6, 0)
-        LabelStockArticulo.Size = New Size(164, 33)
+        LabelStockArticulo.Size = New Size(143, 33)
         LabelStockArticulo.TabIndex = 8
         LabelStockArticulo.Text = " "
-        ' 
-        ' TextBoxCodigoUbicacion
-        ' 
-        TextBoxCodigoUbicacion.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoUbicacion.Location = New Point(143, 28)
-        TextBoxCodigoUbicacion.Margin = New Padding(4, 3, 4, 3)
-        TextBoxCodigoUbicacion.Name = "TextBoxCodigoUbicacion"
-        TextBoxCodigoUbicacion.Size = New Size(160, 33)
-        TextBoxCodigoUbicacion.TabIndex = 0
-        ' 
-        ' TextBoxCodigoArticulo
-        ' 
-        TextBoxCodigoArticulo.Enabled = False
-        TextBoxCodigoArticulo.Font = New Font("Tahoma", 15.75F)
-        TextBoxCodigoArticulo.Location = New Point(143, 98)
-        TextBoxCodigoArticulo.Margin = New Padding(4, 3, 4, 3)
-        TextBoxCodigoArticulo.Name = "TextBoxCodigoArticulo"
-        TextBoxCodigoArticulo.Size = New Size(160, 33)
-        TextBoxCodigoArticulo.TabIndex = 1
         ' 
         ' LabelNombreUbicacion
         ' 
@@ -288,11 +303,11 @@ Partial Class frmSeleccionArticulos
         LabelNombreUbicacion.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
         LabelNombreUbicacion.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelNombreUbicacion.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreUbicacion.Location = New Point(16, 65)
+        LabelNombreUbicacion.Location = New Point(16, 44)
         LabelNombreUbicacion.Margin = New Padding(4, 3, 4, 3)
         LabelNombreUbicacion.Name = "LabelNombreUbicacion"
         LabelNombreUbicacion.Padding = New Padding(6, 0, 6, 0)
-        LabelNombreUbicacion.Size = New Size(548, 28)
+        LabelNombreUbicacion.Size = New Size(546, 28)
         LabelNombreUbicacion.TabIndex = 4
         LabelNombreUbicacion.Text = " "
         ' 
@@ -309,25 +324,27 @@ Partial Class frmSeleccionArticulos
         LabelNombreArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
         LabelNombreArticulo.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelNombreArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreArticulo.Location = New Point(16, 136)
+        LabelNombreArticulo.Location = New Point(16, 115)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
         LabelNombreArticulo.Padding = New Padding(6, 0, 6, 0)
-        LabelNombreArticulo.Size = New Size(548, 28)
+        LabelNombreArticulo.Size = New Size(546, 28)
         LabelNombreArticulo.TabIndex = 4
         LabelNombreArticulo.Text = " "
         ' 
         ' GridControlArticulosSeleccionados
         ' 
-        GridControlArticulosSeleccionados.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        GridControlArticulosSeleccionados.Dock = DockStyle.Fill
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Font = New Font("Tahoma", 15.75F)
-        GridControlArticulosSeleccionados.Location = New Point(13, 448)
+        GridControlArticulosSeleccionados.Location = New Point(0, 0)
+        GridControlArticulosSeleccionados.LookAndFeel.SkinName = "WXI"
+        GridControlArticulosSeleccionados.LookAndFeel.UseDefaultLookAndFeel = False
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Name = "GridControlArticulosSeleccionados"
         GridControlArticulosSeleccionados.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {RepositoryCancelButton})
-        GridControlArticulosSeleccionados.Size = New Size(577, 283)
+        GridControlArticulosSeleccionados.Size = New Size(575, 317)
         GridControlArticulosSeleccionados.TabIndex = 7
         GridControlArticulosSeleccionados.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosSeleccionados})
         GridControlArticulosSeleccionados.Visible = False
@@ -340,6 +357,7 @@ Partial Class frmSeleccionArticulos
         GridViewArticulosSeleccionados.Name = "GridViewArticulosSeleccionados"
         GridViewArticulosSeleccionados.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
         GridViewArticulosSeleccionados.OptionsBehavior.Editable = False
+        GridViewArticulosSeleccionados.OptionsCustomization.AllowFilter = False
         GridViewArticulosSeleccionados.OptionsEditForm.PopupEditFormWidth = 700
         GridViewArticulosSeleccionados.OptionsView.ShowGroupPanel = False
         GridViewArticulosSeleccionados.OptionsView.ShowIndicator = False
@@ -398,6 +416,9 @@ Partial Class frmSeleccionArticulos
         EditorButtonImageOptions2.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
         EditorButtonImageOptions2.SvgImageSize = New Size(16, 16)
         RepositoryCancelButton.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete, "Eliminar", -1, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        RepositoryCancelButton.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        RepositoryCancelButton.LookAndFeel.SkinName = "WXI"
+        RepositoryCancelButton.LookAndFeel.UseDefaultLookAndFeel = False
         RepositoryCancelButton.Name = "RepositoryCancelButton"
         ' 
         ' PanelTitulo
@@ -424,13 +445,14 @@ Partial Class frmSeleccionArticulos
         ' 
         ' GroupControl1
         ' 
-        GroupControl1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControl1.Controls.Add(ButtonConfirmacionAccion)
         GroupControl1.Controls.Add(RadioButtonOpcionTraspasoAlamacen)
         GroupControl1.Controls.Add(RadioButtonOpcionAlbaran)
-        GroupControl1.Location = New Point(13, 736)
+        GroupControl1.Dock = DockStyle.Fill
+        GroupControl1.Location = New Point(0, 0)
         GroupControl1.Name = "GroupControl1"
-        GroupControl1.Size = New Size(577, 83)
+        GroupControl1.ShowCaption = False
+        GroupControl1.Size = New Size(575, 317)
         GroupControl1.TabIndex = 2
         GroupControl1.Text = "Destino"
         ' 
@@ -440,17 +462,17 @@ Partial Class frmSeleccionArticulos
         ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         ButtonConfirmacionAccion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
-        ButtonConfirmacionAccion.Location = New Point(516, 26)
+        ButtonConfirmacionAccion.Location = New Point(488, 237)
         ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)
         ButtonConfirmacionAccion.Name = "ButtonConfirmacionAccion"
-        ButtonConfirmacionAccion.Size = New Size(50, 50)
-        ButtonConfirmacionAccion.TabIndex = 7
+        ButtonConfirmacionAccion.Size = New Size(75, 75)
+        ButtonConfirmacionAccion.TabIndex = 2
         ' 
         ' RadioButtonOpcionTraspasoAlamacen
         ' 
         RadioButtonOpcionTraspasoAlamacen.AutoSize = True
         RadioButtonOpcionTraspasoAlamacen.Font = New Font("Tahoma", 15.75F)
-        RadioButtonOpcionTraspasoAlamacen.Location = New Point(229, 32)
+        RadioButtonOpcionTraspasoAlamacen.Location = New Point(233, 256)
         RadioButtonOpcionTraspasoAlamacen.Name = "RadioButtonOpcionTraspasoAlamacen"
         RadioButtonOpcionTraspasoAlamacen.Size = New Size(200, 29)
         RadioButtonOpcionTraspasoAlamacen.TabIndex = 1
@@ -462,7 +484,7 @@ Partial Class frmSeleccionArticulos
         ' 
         RadioButtonOpcionAlbaran.AutoSize = True
         RadioButtonOpcionAlbaran.Font = New Font("Tahoma", 15.75F)
-        RadioButtonOpcionAlbaran.Location = New Point(52, 32)
+        RadioButtonOpcionAlbaran.Location = New Point(56, 256)
         RadioButtonOpcionAlbaran.Name = "RadioButtonOpcionAlbaran"
         RadioButtonOpcionAlbaran.Size = New Size(102, 29)
         RadioButtonOpcionAlbaran.TabIndex = 0
@@ -473,7 +495,7 @@ Partial Class frmSeleccionArticulos
         ' DatePicker
         ' 
         DatePicker.EditValue = Nothing
-        DatePicker.Location = New Point(86, 54)
+        DatePicker.Location = New Point(88, 54)
         DatePicker.Name = "DatePicker"
         DatePicker.Properties.Appearance.Font = New Font("Tahoma", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DatePicker.Properties.Appearance.Options.UseFont = True
@@ -482,6 +504,7 @@ Partial Class frmSeleccionArticulos
         DatePicker.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         DatePicker.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         DatePicker.Properties.CalendarView = DevExpress.XtraEditors.Repository.CalendarView.Fluent
+        DatePicker.Properties.LookAndFeel.UseDefaultLookAndFeel = False
         DatePicker.Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.False
         DatePicker.Size = New Size(188, 40)
         DatePicker.TabIndex = 0
@@ -504,10 +527,12 @@ Partial Class frmSeleccionArticulos
         GridPedidos.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridPedidos.Font = New Font("Tahoma", 15.75F)
         GridPedidos.Location = New Point(13, 99)
+        GridPedidos.LookAndFeel.SkinName = "WXI"
+        GridPedidos.LookAndFeel.UseDefaultLookAndFeel = False
         GridPedidos.MainView = GridView2
         GridPedidos.Margin = New Padding(3, 2, 3, 2)
         GridPedidos.Name = "GridPedidos"
-        GridPedidos.Size = New Size(577, 115)
+        GridPedidos.Size = New Size(577, 363)
         GridPedidos.TabIndex = 12
         GridPedidos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridView2})
         ' 
@@ -519,7 +544,12 @@ Partial Class frmSeleccionArticulos
         GridView2.Name = "GridView2"
         GridView2.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
         GridView2.OptionsBehavior.Editable = False
+        GridView2.OptionsCustomization.AllowFilter = False
+        GridView2.OptionsCustomization.AllowSort = False
         GridView2.OptionsEditForm.PopupEditFormWidth = 700
+        GridView2.OptionsMenu.EnableColumnMenu = False
+        GridView2.OptionsMenu.EnableFooterMenu = False
+        GridView2.OptionsMenu.EnableGroupPanelMenu = False
         GridView2.OptionsView.ShowGroupPanel = False
         GridView2.OptionsView.ShowIndicator = False
         ' 
@@ -531,6 +561,7 @@ Partial Class frmSeleccionArticulos
         ColumnRef.OptionsColumn.AllowEdit = False
         ColumnRef.Visible = True
         ColumnRef.VisibleIndex = 0
+        ColumnRef.Width = 68
         ' 
         ' ColumnItem
         ' 
@@ -540,14 +571,17 @@ Partial Class frmSeleccionArticulos
         ColumnItem.OptionsColumn.AllowEdit = False
         ColumnItem.Visible = True
         ColumnItem.VisibleIndex = 1
+        ColumnItem.Width = 172
         ' 
         ' ColumnPlacement
         ' 
         ColumnPlacement.Caption = "Ubicación"
+        ColumnPlacement.FieldName = "Ubicacion"
         ColumnPlacement.Name = "ColumnPlacement"
         ColumnPlacement.OptionsColumn.AllowEdit = False
         ColumnPlacement.Visible = True
-        ColumnPlacement.VisibleIndex = 2
+        ColumnPlacement.VisibleIndex = 3
+        ColumnPlacement.Width = 131
         ' 
         ' ColumnUnits
         ' 
@@ -556,7 +590,8 @@ Partial Class frmSeleccionArticulos
         ColumnUnits.Name = "ColumnUnits"
         ColumnUnits.OptionsColumn.AllowEdit = False
         ColumnUnits.Visible = True
-        ColumnUnits.VisibleIndex = 3
+        ColumnUnits.VisibleIndex = 2
+        ColumnUnits.Width = 63
         ' 
         ' ColumnStock
         ' 
@@ -566,6 +601,7 @@ Partial Class frmSeleccionArticulos
         ColumnStock.OptionsColumn.AllowEdit = False
         ColumnStock.Visible = True
         ColumnStock.VisibleIndex = 4
+        ColumnStock.Width = 67
         ' 
         ' ColumnState
         ' 
@@ -575,9 +611,50 @@ Partial Class frmSeleccionArticulos
         ColumnState.OptionsColumn.AllowEdit = False
         ColumnState.ShowUnboundExpressionMenu = True
         ColumnState.UnboundDataType = GetType(String)
-        ColumnState.UnboundExpression = "Iif([StockDisponible] >= [CantidadPedida], '✅ Disponible', '⚠️ Parcial')"
+        ColumnState.UnboundExpression = "Iif([Existencias] Is Null, '🚫 Sin Stock', [Existencias] >= [Cantidad], '✅ Disponible', [Existencias] > 0, '⚠️ Parcial', '❌ Sin Existencias')"
         ColumnState.Visible = True
         ColumnState.VisibleIndex = 5
+        ColumnState.Width = 74
+        ' 
+        ' XtraTabControl1
+        ' 
+        XtraTabControl1.Location = New Point(13, 467)
+        XtraTabControl1.LookAndFeel.SkinName = "WXI"
+        XtraTabControl1.LookAndFeel.UseDefaultLookAndFeel = False
+        XtraTabControl1.MultiLine = DevExpress.Utils.DefaultBoolean.True
+        XtraTabControl1.Name = "XtraTabControl1"
+        XtraTabControl1.SelectedTabPage = XtraTabPage1
+        XtraTabControl1.Size = New Size(577, 352)
+        XtraTabControl1.TabIndex = 1
+        XtraTabControl1.TabPages.AddRange(New DevExpress.XtraTab.XtraTabPage() {XtraTabPage1, XtraTabPage2, XtraTabPage3})
+        ' 
+        ' XtraTabPage1
+        ' 
+        XtraTabPage1.Appearance.Header.Font = New Font("Tahoma", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        XtraTabPage1.Appearance.Header.Options.UseFont = True
+        XtraTabPage1.Controls.Add(GroupControlUbicacion)
+        XtraTabPage1.Name = "XtraTabPage1"
+        XtraTabPage1.ShowCloseButton = DevExpress.Utils.DefaultBoolean.False
+        XtraTabPage1.Size = New Size(575, 317)
+        XtraTabPage1.Text = "Lectura"
+        ' 
+        ' XtraTabPage2
+        ' 
+        XtraTabPage2.Appearance.Header.Font = New Font("Tahoma", 14.25F, FontStyle.Bold)
+        XtraTabPage2.Appearance.Header.Options.UseFont = True
+        XtraTabPage2.Controls.Add(GridControlArticulosSeleccionados)
+        XtraTabPage2.Name = "XtraTabPage2"
+        XtraTabPage2.Size = New Size(575, 317)
+        XtraTabPage2.Text = "Visualización"
+        ' 
+        ' XtraTabPage3
+        ' 
+        XtraTabPage3.Appearance.Header.Font = New Font("Tahoma", 14.25F, FontStyle.Bold)
+        XtraTabPage3.Appearance.Header.Options.UseFont = True
+        XtraTabPage3.Controls.Add(GroupControl1)
+        XtraTabPage3.Name = "XtraTabPage3"
+        XtraTabPage3.Size = New Size(575, 317)
+        XtraTabPage3.Text = "Destino"
         ' 
         ' frmSeleccionArticulos
         ' 
@@ -586,13 +663,11 @@ Partial Class frmSeleccionArticulos
         BackColor = Color.SkyBlue
         ClientSize = New Size(600, 900)
         ControlBox = False
+        Controls.Add(XtraTabControl1)
         Controls.Add(GridPedidos)
         Controls.Add(LabelControl3)
         Controls.Add(DatePicker)
-        Controls.Add(GroupControl1)
         Controls.Add(PanelTitulo)
-        Controls.Add(GridControlArticulosSeleccionados)
-        Controls.Add(GroupControlUbicacion)
         Controls.Add(btnSalir)
         FormBorderStyle = FormBorderStyle.None
         KeyPreview = True
@@ -604,6 +679,9 @@ Partial Class frmSeleccionArticulos
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).EndInit()
         GroupControlUbicacion.ResumeLayout(False)
         GroupControlUbicacion.PerformLayout()
+        CType(TextEditItem.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(TextEditLocation.Properties, ComponentModel.ISupportInitialize).EndInit()
+        CType(IconWeight, ComponentModel.ISupportInitialize).EndInit()
         CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
@@ -617,15 +695,18 @@ Partial Class frmSeleccionArticulos
         CType(DatePicker.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridPedidos, ComponentModel.ISupportInitialize).EndInit()
         CType(GridView2, ComponentModel.ISupportInitialize).EndInit()
+        CType(XtraTabControl1, ComponentModel.ISupportInitialize).EndInit()
+        XtraTabControl1.ResumeLayout(False)
+        XtraTabPage1.ResumeLayout(False)
+        XtraTabPage2.ResumeLayout(False)
+        XtraTabPage3.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
     Friend WithEvents btnSalir As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GroupControlUbicacion As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents TextBoxCodigoUbicacion As TextBox
     Friend WithEvents LabelNombreUbicacion As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents TextBoxCodigoArticulo As TextBox
     Friend WithEvents LabelNombreArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents LabelStockArticulo As DevExpress.XtraEditors.LabelControl
     Friend WithEvents GridControlArticulosSeleccionados As DevExpress.XtraGrid.GridControl
@@ -641,7 +722,6 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents RadioButtonOpcionAlbaran As RadioButton
     Friend WithEvents GridPedidos As DevExpress.XtraGrid.GridControl
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents LabelIndicadorPorPeso As Label
     Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
     Friend WithEvents lblUbicacion As Label
     Friend WithEvents lblArticulo As Label
@@ -660,4 +740,11 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents ColumnDelete As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents RepositoryCancelButton As DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit
     Friend WithEvents ColumnState As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents XtraTabControl1 As DevExpress.XtraTab.XtraTabControl
+    Friend WithEvents XtraTabPage1 As DevExpress.XtraTab.XtraTabPage
+    Friend WithEvents XtraTabPage2 As DevExpress.XtraTab.XtraTabPage
+    Friend WithEvents XtraTabPage3 As DevExpress.XtraTab.XtraTabPage
+    Friend WithEvents IconWeight As DevExpress.XtraEditors.SvgImageBox
+    Friend WithEvents TextEditLocation As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents TextEditItem As DevExpress.XtraEditors.TextEdit
 End Class

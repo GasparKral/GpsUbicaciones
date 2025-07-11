@@ -173,12 +173,6 @@ Module Querys
                         S.Lote = ?"
         End Function
 
-
-
-
-
-
-
         ''' <summary>
         ''' Crea una consulta fluida para consultar los datos de una ubicación por su código.
         ''' </summary>
@@ -200,40 +194,38 @@ Module Querys
                 "
         End Function
 
-
         Public Shared Function ConsultarPedidosPorFecha() As String
-            Return $"SELECT    
-                        SubPedidos.Referencia,
-                        SubPedidos.Descripcion,
-                        U.Nombre AS Ubicacion,
-                        SubPedidos.CantidadPedida,
-                        ROUND(S.Uds_Ini + S.Uds_Com + S.Uds_Tra - S.Uds_Ven, {nDecUds}) AS StockDisponible
-                    FROM
-                        ((
+            Return $"SELECT 
+                            Sub.Referencia,
+                            Sub.Descripcion,
+                            Sub.Cantidad,
+                            ROUND(S.Uds_Ini + S.Uds_Com + S.Uds_Tra - S.Uds_Ven, {nDecUds}) AS Existencias,
+                            U.Nombre
+                        FROM ((
                             SELECT    
                                 M.Articulo AS Referencia,
                                 M.Descripcion,
-                                ROUND(SUM(M.Cantidad), {nDecUds}) AS CantidadPedida
+                                ROUND(SUM(M.Cantidad),{nDecUds}) AS Cantidad
                             FROM
                                 MOVPCL AS M
                                 INNER JOIN PEDCLI AS P ON P.SERIE = M.SERIE AND P.NUMERO = M.NUMERO
                             WHERE
-                                P.Fecha = ? AND
+                                DateValue(P.Fecha) = DateValue(?) AND
                                 M.Articulo IS NOT NULL AND
                                 M.Articulo <> ''
                             GROUP BY
                                 M.Articulo,
                                 M.Descripcion
-                        ) AS SubPedidos
-                        INNER JOIN STOCKLOTES AS S ON S.Articulo = SubPedidos.Referencia)
-                        INNER JOIN UBICACIONES AS U ON U.Codigo = S.Lote
-                    WHERE
-                        (S.Uds_Ini + S.Uds_Com + S.Uds_Tra - S.Uds_Ven) >= SubPedidos.CantidadPedida
-                    ORDER BY
-                        U.Orden, SubPedidos.Referencia
-        "
-        End Function
+                        ) as Sub
+                        LEFT JOIN STOCKLOTES As S ON SUB.Referencia = S.Articulo 
+                            AND (S.Uds_Ini + S.Uds_Com + S.Uds_Tra - S.Uds_Ven) >= Sub.Cantidad
+                            AND S.Almacen = ?)
+                        LEFT JOIN UBICACIONES as U ON U.Codigo = S.Lote
+                        ORDER BY
+                            U.Orden, Sub.Referencia
+            "
 
+        End Function
 
     End Class
 
