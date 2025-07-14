@@ -27,6 +27,11 @@ Partial Class frmVenta
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim EditorButtonImageOptions2 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject5 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject6 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject7 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject8 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
@@ -50,6 +55,8 @@ Partial Class frmVenta
         ColumnAmmount = New DevExpress.XtraGrid.Columns.GridColumn()
         PanelTitulo = New Panel()
         Label1 = New Label()
+        ColumnDelete = New DevExpress.XtraGrid.Columns.GridColumn()
+        RepositoryItemButtonEdit1 = New DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).BeginInit()
@@ -59,6 +66,7 @@ Partial Class frmVenta
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
         PanelTitulo.SuspendLayout()
+        CType(RepositoryItemButtonEdit1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' btnSalir
@@ -289,6 +297,7 @@ Partial Class frmVenta
         GridControlArticulosSeleccionados.MainView = GridViewArticulosSeleccionados
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Name = "GridControlArticulosSeleccionados"
+        GridControlArticulosSeleccionados.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {RepositoryItemButtonEdit1})
         GridControlArticulosSeleccionados.Size = New Size(579, 512)
         GridControlArticulosSeleccionados.TabIndex = 7
         GridControlArticulosSeleccionados.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewArticulosSeleccionados})
@@ -296,7 +305,7 @@ Partial Class frmVenta
         ' 
         ' GridViewArticulosSeleccionados
         ' 
-        GridViewArticulosSeleccionados.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemRef, ColumnItemName, ColumnLocation, ColumnAmmount})
+        GridViewArticulosSeleccionados.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemRef, ColumnItemName, ColumnLocation, ColumnAmmount, ColumnDelete})
         GridViewArticulosSeleccionados.DetailHeight = 262
         GridViewArticulosSeleccionados.GridControl = GridControlArticulosSeleccionados
         GridViewArticulosSeleccionados.Name = "GridViewArticulosSeleccionados"
@@ -314,6 +323,7 @@ Partial Class frmVenta
         ColumnItemRef.Name = "ColumnItemRef"
         ColumnItemRef.Visible = True
         ColumnItemRef.VisibleIndex = 0
+        ColumnItemRef.Width = 238
         ' 
         ' ColumnItemName
         ' 
@@ -322,6 +332,7 @@ Partial Class frmVenta
         ColumnItemName.Name = "ColumnItemName"
         ColumnItemName.Visible = True
         ColumnItemName.VisibleIndex = 1
+        ColumnItemName.Width = 238
         ' 
         ' ColumnLocation
         ' 
@@ -330,6 +341,7 @@ Partial Class frmVenta
         ColumnLocation.Name = "ColumnLocation"
         ColumnLocation.Visible = True
         ColumnLocation.VisibleIndex = 2
+        ColumnLocation.Width = 238
         ' 
         ' ColumnAmmount
         ' 
@@ -338,6 +350,7 @@ Partial Class frmVenta
         ColumnAmmount.Name = "ColumnAmmount"
         ColumnAmmount.Visible = True
         ColumnAmmount.VisibleIndex = 3
+        ColumnAmmount.Width = 316
         ' 
         ' PanelTitulo
         ' 
@@ -359,6 +372,22 @@ Partial Class frmVenta
         Label1.Size = New Size(216, 32)
         Label1.TabIndex = 1
         Label1.Text = "Venta Artículos"
+        ' 
+        ' ColumnDelete
+        ' 
+        ColumnDelete.Caption = "GridColumn1"
+        ColumnDelete.ColumnEdit = RepositoryItemButtonEdit1
+        ColumnDelete.Name = "ColumnDelete"
+        ColumnDelete.OptionsColumn.ShowCaption = False
+        ColumnDelete.Visible = True
+        ColumnDelete.VisibleIndex = 4
+        ColumnDelete.Width = 160
+        ' 
+        ' RepositoryItemButtonEdit1
+        ' 
+        RepositoryItemButtonEdit1.AutoHeight = False
+        RepositoryItemButtonEdit1.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete, "Eliminar", -1, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        RepositoryItemButtonEdit1.Name = "RepositoryItemButtonEdit1"
         ' 
         ' frmVenta
         ' 
@@ -391,6 +420,7 @@ Partial Class frmVenta
         CType(GridViewArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
         PanelTitulo.PerformLayout()
+        CType(RepositoryItemButtonEdit1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -417,4 +447,6 @@ Partial Class frmVenta
     Friend WithEvents ColumnLocation As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents ColumnAmmount As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents IconWeight As DevExpress.XtraEditors.SvgImageBox
+    Friend WithEvents ColumnDelete As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents RepositoryItemButtonEdit1 As DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit
 End Class

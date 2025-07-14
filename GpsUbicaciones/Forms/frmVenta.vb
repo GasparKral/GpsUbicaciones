@@ -128,6 +128,21 @@
 
 #End Region
 
+#Region "Funciones Auxiliares"
+    Private Function EliminarArticuloBaseDeDatos(CodigoArticulo As String, Cantidad As Single, CodigoUbicacion As String)
+        Try
+            Operacion.ExecuteNonQuery("DELETE FROM MOVPDA WHERE Terminal = ? AND Operacion ='VE' AND Articulo = ?", Terminal, CodigoArticulo, Cantidad, CodigoUbicacion)
+            Return True
+        Catch ex As Exception
+            ' Log del error si es necesario
+            Console.WriteLine("Error al eliminar de la base de datos MOVPDA: " & ex.Message)
+            Return False
+        End Try
+
+
+    End Function
+#End Region
+
 #Region "Eventos de Validación"
 
     ''' <summary>
@@ -325,6 +340,20 @@
 
         ' Establecer el foco en el campo de ubicación
         TextEditCodigoUbicacion.Focus()
+    End Sub
+
+    Private Sub RepositoryItemButtonEdit1_Click(sender As Object, e As EventArgs) Handles RepositoryItemButtonEdit1.Click
+
+        ' Obtener el index de la fila
+        Dim RowHandler = GridViewArticulosSeleccionados.FocusedRowHandle
+
+        Dim codigoArticulo = GridViewArticulosSeleccionados.GetRowCellValue(RowHandler, "Ref")
+        Dim cantidad = Single.Parse(GridViewArticulosSeleccionados.GetRowCellValue(RowHandler, "Uds"))
+        Dim codigoUbicacion = GridViewArticulosSeleccionados.GetRowCellValue(RowHandler, "Ubicacion")
+
+        If Not EliminarArticuloBaseDeDatos(codigoArticulo, cantidad, codigoUbicacion) Then
+            MessageBox.Show("Error al eliminar el artículo de la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
 
 #End Region
