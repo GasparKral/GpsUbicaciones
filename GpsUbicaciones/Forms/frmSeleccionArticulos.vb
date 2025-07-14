@@ -24,6 +24,22 @@ Public Class frmSeleccionArticulos
         Try
             DatePicker.DateTime = Now
             DatePicker.Focus()
+
+            ' Leer estado temporal
+            Using Info As DataTable = Operacion.ExecuteTable("SELECT * FROM MOVPDA WHERE Terminal = ? AND Operacion ='SE'", Terminal)
+                If Info.Rows.Count > 0 Then
+                    For Each row As DataRow In Info.Rows
+                        Dim temp As New ArticuloSeleccion With {
+                            .Articulo = row("Articulo"),
+                            .Ubicacion = row("Lote"),
+                            .Unidades = Single.Parse(row("Cantidad"))
+                        }
+
+                        ArticulosSeleccionados.Add(temp)
+                    Next
+                End If
+            End Using
+
             GridControlArticulosSeleccionados.DataSource = ArticulosSeleccionados
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario:  {ex.Message}")
@@ -203,6 +219,8 @@ Public Class frmSeleccionArticulos
                 .Descripcion = LabelNombreArticulo.Text,
                 .Unidades = SpinEditCantidadSeleccionada.Value
             }
+
+            Operacion.ExecuteNonQuery("INSERT INTO MOVPDA VALUES(?, 'SE',?,?,?)", Terminal, nuevoArticulo.Articulo, nuevoArticulo.Ubicacion, nuevoArticulo.Unidades)
 
             ArticulosSeleccionados.Add(nuevoArticulo)
             PermitirEdicion(TextEditItem, False)

@@ -60,6 +60,7 @@ Partial Class frmSeleccionArticulos
         PanelTitulo = New Panel()
         Label1 = New Label()
         GroupControl1 = New DevExpress.XtraEditors.GroupControl()
+        ButtonConfirmacionAccion = New DevExpress.XtraEditors.SimpleButton()
         RadioButtonOpcionTraspasoAlamacen = New RadioButton()
         RadioButtonOpcionAlbaran = New RadioButton()
         DatePicker = New DevExpress.XtraEditors.DateEdit()
@@ -76,7 +77,6 @@ Partial Class frmSeleccionArticulos
         XtraTabPage1 = New DevExpress.XtraTab.XtraTabPage()
         XtraTabPage2 = New DevExpress.XtraTab.XtraTabPage()
         XtraTabPage3 = New DevExpress.XtraTab.XtraTabPage()
-        ButtonConfirmacionAccion = New DevExpress.XtraEditors.SimpleButton()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
         CType(TextEditItem.Properties, ComponentModel.ISupportInitialize).BeginInit()
@@ -385,7 +385,7 @@ Partial Class frmSeleccionArticulos
         ColumnItemRef.OptionsColumn.AllowEdit = False
         ColumnItemRef.Visible = True
         ColumnItemRef.VisibleIndex = 0
-        ColumnItemRef.Width = 120
+        ColumnItemRef.Width = 98
         ' 
         ' ColumnItemName
         ' 
@@ -395,7 +395,7 @@ Partial Class frmSeleccionArticulos
         ColumnItemName.OptionsColumn.AllowEdit = False
         ColumnItemName.Visible = True
         ColumnItemName.VisibleIndex = 1
-        ColumnItemName.Width = 387
+        ColumnItemName.Width = 316
         ' 
         ' ColumnLocation
         ' 
@@ -405,7 +405,7 @@ Partial Class frmSeleccionArticulos
         ColumnLocation.OptionsColumn.AllowEdit = False
         ColumnLocation.Visible = True
         ColumnLocation.VisibleIndex = 2
-        ColumnLocation.Width = 213
+        ColumnLocation.Width = 163
         ' 
         ' ColumnAmmount
         ' 
@@ -415,7 +415,7 @@ Partial Class frmSeleccionArticulos
         ColumnAmmount.OptionsColumn.AllowEdit = False
         ColumnAmmount.Visible = True
         ColumnAmmount.VisibleIndex = 3
-        ColumnAmmount.Width = 69
+        ColumnAmmount.Width = 78
         ' 
         ' ColumnDelete
         ' 
@@ -424,7 +424,7 @@ Partial Class frmSeleccionArticulos
         ColumnDelete.OptionsColumn.AllowSize = False
         ColumnDelete.Visible = True
         ColumnDelete.VisibleIndex = 4
-        ColumnDelete.Width = 120
+        ColumnDelete.Width = 89
         ' 
         ' RepositoryCancelButton
         ' 
@@ -470,6 +470,19 @@ Partial Class frmSeleccionArticulos
         GroupControl1.Size = New Size(575, 317)
         GroupControl1.TabIndex = 2
         GroupControl1.Text = "Destino"
+        ' 
+        ' ButtonConfirmacionAccion
+        ' 
+        ButtonConfirmacionAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
+        ButtonConfirmacionAccion.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionAccion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
+        ButtonConfirmacionAccion.Location = New Point(488, 237)
+        ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)
+        ButtonConfirmacionAccion.Name = "ButtonConfirmacionAccion"
+        ButtonConfirmacionAccion.Size = New Size(75, 75)
+        ButtonConfirmacionAccion.TabIndex = 2
+        ButtonConfirmacionAccion.Text = "adasd"
         ' 
         ' RadioButtonOpcionTraspasoAlamacen
         ' 
@@ -658,19 +671,6 @@ Partial Class frmSeleccionArticulos
         XtraTabPage3.Name = "XtraTabPage3"
         XtraTabPage3.Size = New Size(575, 317)
         XtraTabPage3.Text = "Destino"
-        ' 
-        ' ButtonConfirmacionAccion
-        ' 
-        ButtonConfirmacionAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionAccion.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionAccion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
-        ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
-        ButtonConfirmacionAccion.Location = New Point(488, 237)
-        ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)
-        ButtonConfirmacionAccion.Name = "ButtonConfirmacionAccion"
-        ButtonConfirmacionAccion.Size = New Size(75, 75)
-        ButtonConfirmacionAccion.TabIndex = 2
-        ButtonConfirmacionAccion.Text = "adasd"
         ' 
         ' frmSeleccionArticulos
         ' 
