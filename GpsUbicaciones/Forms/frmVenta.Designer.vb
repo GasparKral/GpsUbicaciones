@@ -22,7 +22,6 @@ Partial Class frmVenta
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVenta))
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -69,7 +68,7 @@ Partial Class frmVenta
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.Location = New Point(438, 822)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -116,7 +115,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarUbicacion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonConfirmarUbicacion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarUbicacion.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarUbicacion.Location = New Point(513, 41)
         BotonConfirmarUbicacion.Margin = New Padding(4, 3, 4, 3)
@@ -176,18 +175,19 @@ Partial Class frmVenta
         IconWeight.Location = New Point(335, 68)
         IconWeight.Name = "IconWeight"
         IconWeight.Size = New Size(40, 40)
-        IconWeight.SvgImage = CType(resources.GetObject("IconWeight.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        IconWeight.SvgImage = My.Resources.Resources.weightedpies
         IconWeight.TabIndex = 10
         IconWeight.Text = "SvgImageBox1"
         ' 
         ' ButtonCancelar
         ' 
+        ButtonCancelar.CausesValidation = False
         ButtonCancelar.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
         ButtonCancelar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
-        ButtonCancelar.ImageOptions.SvgImage = CType(resources.GetObject("ButtonCancelar.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonCancelar.ImageOptions.SvgImage = My.Resources.Resources.neworder
         ButtonCancelar.Location = New Point(381, 72)
         ButtonCancelar.Name = "ButtonCancelar"
-        ButtonCancelar.Size = New Size(125, 40)
+        ButtonCancelar.Size = New Size(125, 50)
         ButtonCancelar.TabIndex = 2
         ButtonCancelar.Text = "Nueva Ubicación"
         ' 
@@ -243,7 +243,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarArticulo.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarArticulo.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarArticulo.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        BotonConfirmarArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarArticulo.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarArticulo.Location = New Point(513, 72)
         BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 3)

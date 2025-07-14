@@ -65,6 +65,8 @@ Partial Class frmConsulta
         ' 
         ' GridViewConsultaArticulos
         ' 
+        GridViewConsultaArticulos.Appearance.Row.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridViewConsultaArticulos.Appearance.Row.Options.UseFont = True
         GridViewConsultaArticulos.DetailHeight = 262
         GridViewConsultaArticulos.GridControl = GridControlConsultaArticulos
         GridViewConsultaArticulos.Name = "GridViewConsultaArticulos"

@@ -25,47 +25,47 @@ Partial Class frmAsignar
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim EditorButtonImageOptions2 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New Controls.EditorButtonImageOptions()
-        Dim SerializableAppearanceObject5 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim SerializableAppearanceObject6 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim SerializableAppearanceObject7 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim SerializableAppearanceObject8 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim TableColumnDefinition5 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
-        Dim TableColumnDefinition6 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
-        Dim TableColumnDefinition7 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
-        Dim TableColumnDefinition8 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
-        Dim TableRowDefinition8 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableRowDefinition9 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableRowDefinition10 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableRowDefinition11 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableRowDefinition12 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableRowDefinition13 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableRowDefinition14 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
-        Dim TableSpan9 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan10 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan11 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan12 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan13 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan14 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan15 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TableSpan16 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
-        Dim TileViewItemElement18 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement19 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement20 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement21 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement22 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement23 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement24 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement25 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement26 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement27 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement28 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement29 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement30 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement31 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement32 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement33 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement34 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim TableColumnDefinition1 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
+        Dim TableColumnDefinition2 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
+        Dim TableColumnDefinition3 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
+        Dim TableColumnDefinition4 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New TableLayout.TableColumnDefinition()
+        Dim TableRowDefinition1 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableRowDefinition2 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableRowDefinition3 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableRowDefinition4 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableRowDefinition5 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableRowDefinition6 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableRowDefinition7 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New TableLayout.TableRowDefinition()
+        Dim TableSpan1 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan2 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan3 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan4 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan5 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan6 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan7 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TableSpan8 As DevExpress.XtraEditors.TableLayout.TableSpan = New TableLayout.TableSpan()
+        Dim TileViewItemElement1 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement2 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement3 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement4 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement5 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement6 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement7 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement8 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement9 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement10 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement11 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement12 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement13 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement14 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement15 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement16 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement17 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
         ColumnImage = New DevExpress.XtraGrid.Columns.TileViewColumn()
         RepositoryItemPictureEdit1 = New Repository.RepositoryItemPictureEdit()
         ColumnLocation = New DevExpress.XtraGrid.Columns.TileViewColumn()
@@ -404,11 +404,11 @@ Partial Class frmAsignar
         SpinEditCantidad.Properties.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SpinEditCantidad.Properties.Appearance.Options.UseFont = True
         SpinEditCantidad.Properties.AutoHeight = False
-        EditorButtonImageOptions2.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False
-        EditorButtonImageOptions2.SvgImageSize = New Size(35, 35)
-        SerializableAppearanceObject5.Font = New Font("Tahoma", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        SerializableAppearanceObject5.Options.UseFont = True
-        SpinEditCantidad.Properties.Buttons.AddRange(New Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 40, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        EditorButtonImageOptions1.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False
+        EditorButtonImageOptions1.SvgImageSize = New Size(35, 35)
+        SerializableAppearanceObject1.Font = New Font("Tahoma", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SerializableAppearanceObject1.Options.UseFont = True
+        SpinEditCantidad.Properties.Buttons.AddRange(New Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 40, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         SpinEditCantidad.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         SpinEditCantidad.Properties.ContextImageOptions.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True
         SpinEditCantidad.Properties.ContextImageOptions.SvgImageSize = New Size(40, 40)
@@ -498,206 +498,206 @@ Partial Class frmAsignar
         TileView1.OptionsTiles.Orientation = Orientation.Vertical
         TileView1.OptionsTiles.Padding = New Padding(0)
         TileView1.OptionsTiles.RowCount = 0
-        TileView1.TileColumns.Add(TableColumnDefinition5)
-        TileView1.TileColumns.Add(TableColumnDefinition6)
-        TileView1.TileColumns.Add(TableColumnDefinition7)
-        TileView1.TileColumns.Add(TableColumnDefinition8)
-        TableRowDefinition8.Length.Value = 25R
-        TableRowDefinition9.Length.Value = 21R
-        TableRowDefinition10.Length.Value = 21R
-        TableRowDefinition11.Length.Value = 25R
-        TableRowDefinition12.Length.Value = 21R
-        TableRowDefinition13.Length.Value = 25R
-        TableRowDefinition14.Length.Value = 21R
-        TileView1.TileRows.Add(TableRowDefinition8)
-        TileView1.TileRows.Add(TableRowDefinition9)
-        TileView1.TileRows.Add(TableRowDefinition10)
-        TileView1.TileRows.Add(TableRowDefinition11)
-        TileView1.TileRows.Add(TableRowDefinition12)
-        TileView1.TileRows.Add(TableRowDefinition13)
-        TileView1.TileRows.Add(TableRowDefinition14)
-        TableSpan9.ColumnIndex = 1
-        TableSpan9.ColumnSpan = 3
-        TableSpan10.ColumnIndex = 1
-        TableSpan10.ColumnSpan = 3
-        TableSpan10.RowIndex = 3
-        TableSpan11.ColumnIndex = 1
-        TableSpan11.ColumnSpan = 3
-        TableSpan11.RowIndex = 5
-        TableSpan12.ColumnIndex = 1
-        TableSpan12.ColumnSpan = 3
-        TableSpan12.RowIndex = 1
-        TableSpan13.ColumnIndex = 1
-        TableSpan13.ColumnSpan = 3
-        TableSpan13.RowIndex = 2
-        TableSpan14.ColumnIndex = 1
-        TableSpan14.ColumnSpan = 3
-        TableSpan14.RowIndex = 4
-        TableSpan15.ColumnIndex = 1
-        TableSpan15.ColumnSpan = 3
-        TableSpan15.RowIndex = 6
-        TableSpan16.RowSpan = 7
-        TileView1.TileSpans.Add(TableSpan9)
-        TileView1.TileSpans.Add(TableSpan10)
-        TileView1.TileSpans.Add(TableSpan11)
-        TileView1.TileSpans.Add(TableSpan12)
-        TileView1.TileSpans.Add(TableSpan13)
-        TileView1.TileSpans.Add(TableSpan14)
-        TileView1.TileSpans.Add(TableSpan15)
-        TileView1.TileSpans.Add(TableSpan16)
-        TileViewItemElement18.Column = ColumnImage
-        TileViewItemElement18.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement18.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement18.RowIndex = 2
-        TileViewItemElement18.Text = "ColumnImage"
-        TileViewItemElement18.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement18.TextVisible = False
-        TileViewItemElement19.Appearance.Normal.Font = New Font("Tahoma", 14.25F, FontStyle.Bold Or FontStyle.Underline, GraphicsUnit.Point, CByte(0))
-        TileViewItemElement19.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement19.ColumnIndex = 2
-        TileViewItemElement19.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement19.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement19.Text = "Información Articulo"
-        TileViewItemElement19.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement20.Appearance.Normal.Font = New Font("Tahoma", 14.25F, FontStyle.Bold Or FontStyle.Underline)
-        TileViewItemElement20.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement20.ColumnIndex = 3
-        TileViewItemElement20.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement20.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement20.RowIndex = 3
-        TileViewItemElement20.Text = "Existencias"
-        TileViewItemElement20.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement21.Appearance.Normal.Font = New Font("Tahoma", 14.25F, FontStyle.Bold Or FontStyle.Underline)
-        TileViewItemElement21.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement21.ColumnIndex = 3
-        TileViewItemElement21.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement21.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement21.RowIndex = 5
-        TileViewItemElement21.Text = "Asignado"
-        TileViewItemElement21.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement22.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        TileViewItemElement22.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement22.ColumnIndex = 1
-        TileViewItemElement22.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement22.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement22.RowIndex = 2
-        TileViewItemElement22.Text = "Referencia:"
-        TileViewItemElement22.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement23.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TileViewItemElement23.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement23.ColumnIndex = 1
-        TileViewItemElement23.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement23.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement23.RowIndex = 1
-        TileViewItemElement23.Text = "Ubicación:"
-        TileViewItemElement23.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement24.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement24.AnchorElementIndex = 5
-        TileViewItemElement24.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        TileViewItemElement24.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement24.Column = ColumnLocation
-        TileViewItemElement24.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement24.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement24.Text = "ColumnLocation"
-        TileViewItemElement24.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement25.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        TileViewItemElement25.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement25.ColumnIndex = 1
-        TileViewItemElement25.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement25.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement25.RowIndex = 4
-        TileViewItemElement25.Text = "Local:"
-        TileViewItemElement25.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement26.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement26.AnchorElementIndex = 7
-        TileViewItemElement26.Appearance.Normal.Font = New Font("Tahoma", 12F)
-        TileViewItemElement26.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement26.Column = ColumnLocal
-        TileViewItemElement26.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement26.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement26.Text = "ColumnLocal"
-        TileViewItemElement26.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement27.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement27.AnchorElementIndex = 8
-        TileViewItemElement27.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement27.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement27.Text = "|"
-        TileViewItemElement27.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement28.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement28.AnchorElementIndex = 9
-        TileViewItemElement28.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        TileViewItemElement28.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement28.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement28.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement28.Text = "Total:"
-        TileViewItemElement28.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement29.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement29.AnchorElementIndex = 10
-        TileViewItemElement29.Appearance.Normal.Font = New Font("Tahoma", 12F)
-        TileViewItemElement29.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement29.Column = ColumnTotalStock
-        TileViewItemElement29.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement29.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement29.Text = "ColumnTotalStock"
-        TileViewItemElement29.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement30.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement30.AnchorElementIndex = 4
-        TileViewItemElement30.Appearance.Normal.Font = New Font("Tahoma", 12F)
-        TileViewItemElement30.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement30.Column = ColumnReference
-        TileViewItemElement30.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement30.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement30.Text = "ColumnReference"
-        TileViewItemElement30.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement31.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement31.AnchorElementIndex = 12
-        TileViewItemElement31.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement31.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement31.Text = "|"
-        TileViewItemElement31.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement32.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement32.AnchorElementIndex = 13
-        TileViewItemElement32.Appearance.Normal.Font = New Font("Tahoma", 12F)
-        TileViewItemElement32.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement32.Column = ColumnItem
-        TileViewItemElement32.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement32.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement32.Text = "ColumnItem"
-        TileViewItemElement32.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement33.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        TileViewItemElement33.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement33.ColumnIndex = 1
-        TileViewItemElement33.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement33.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement33.RowIndex = 6
-        TileViewItemElement33.Text = "Asignadas:"
-        TileViewItemElement33.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement34.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement34.AnchorElementIndex = 15
-        TileViewItemElement34.Appearance.Normal.Font = New Font("Tahoma", 12F)
-        TileViewItemElement34.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement34.Column = ColumnStock
-        TileViewItemElement34.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
-        TileViewItemElement34.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
-        TileViewItemElement34.Text = "ColumnStock"
-        TileViewItemElement34.TextAlignment = TileItemContentAlignment.MiddleCenter
-        TileView1.TileTemplate.Add(TileViewItemElement18)
-        TileView1.TileTemplate.Add(TileViewItemElement19)
-        TileView1.TileTemplate.Add(TileViewItemElement20)
-        TileView1.TileTemplate.Add(TileViewItemElement21)
-        TileView1.TileTemplate.Add(TileViewItemElement22)
-        TileView1.TileTemplate.Add(TileViewItemElement23)
-        TileView1.TileTemplate.Add(TileViewItemElement24)
-        TileView1.TileTemplate.Add(TileViewItemElement25)
-        TileView1.TileTemplate.Add(TileViewItemElement26)
-        TileView1.TileTemplate.Add(TileViewItemElement27)
-        TileView1.TileTemplate.Add(TileViewItemElement28)
-        TileView1.TileTemplate.Add(TileViewItemElement29)
-        TileView1.TileTemplate.Add(TileViewItemElement30)
-        TileView1.TileTemplate.Add(TileViewItemElement31)
-        TileView1.TileTemplate.Add(TileViewItemElement32)
-        TileView1.TileTemplate.Add(TileViewItemElement33)
-        TileView1.TileTemplate.Add(TileViewItemElement34)
+        TileView1.TileColumns.Add(TableColumnDefinition1)
+        TileView1.TileColumns.Add(TableColumnDefinition2)
+        TileView1.TileColumns.Add(TableColumnDefinition3)
+        TileView1.TileColumns.Add(TableColumnDefinition4)
+        TableRowDefinition1.Length.Value = 25R
+        TableRowDefinition2.Length.Value = 21R
+        TableRowDefinition3.Length.Value = 21R
+        TableRowDefinition4.Length.Value = 25R
+        TableRowDefinition5.Length.Value = 21R
+        TableRowDefinition6.Length.Value = 25R
+        TableRowDefinition7.Length.Value = 21R
+        TileView1.TileRows.Add(TableRowDefinition1)
+        TileView1.TileRows.Add(TableRowDefinition2)
+        TileView1.TileRows.Add(TableRowDefinition3)
+        TileView1.TileRows.Add(TableRowDefinition4)
+        TileView1.TileRows.Add(TableRowDefinition5)
+        TileView1.TileRows.Add(TableRowDefinition6)
+        TileView1.TileRows.Add(TableRowDefinition7)
+        TableSpan1.ColumnIndex = 1
+        TableSpan1.ColumnSpan = 3
+        TableSpan2.ColumnIndex = 1
+        TableSpan2.ColumnSpan = 3
+        TableSpan2.RowIndex = 3
+        TableSpan3.ColumnIndex = 1
+        TableSpan3.ColumnSpan = 3
+        TableSpan3.RowIndex = 5
+        TableSpan4.ColumnIndex = 1
+        TableSpan4.ColumnSpan = 3
+        TableSpan4.RowIndex = 1
+        TableSpan5.ColumnIndex = 1
+        TableSpan5.ColumnSpan = 3
+        TableSpan5.RowIndex = 2
+        TableSpan6.ColumnIndex = 1
+        TableSpan6.ColumnSpan = 3
+        TableSpan6.RowIndex = 4
+        TableSpan7.ColumnIndex = 1
+        TableSpan7.ColumnSpan = 3
+        TableSpan7.RowIndex = 6
+        TableSpan8.RowSpan = 7
+        TileView1.TileSpans.Add(TableSpan1)
+        TileView1.TileSpans.Add(TableSpan2)
+        TileView1.TileSpans.Add(TableSpan3)
+        TileView1.TileSpans.Add(TableSpan4)
+        TileView1.TileSpans.Add(TableSpan5)
+        TileView1.TileSpans.Add(TableSpan6)
+        TileView1.TileSpans.Add(TableSpan7)
+        TileView1.TileSpans.Add(TableSpan8)
+        TileViewItemElement1.Column = ColumnImage
+        TileViewItemElement1.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement1.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement1.RowIndex = 2
+        TileViewItemElement1.Text = "ColumnImage"
+        TileViewItemElement1.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement1.TextVisible = False
+        TileViewItemElement2.Appearance.Normal.Font = New Font("Tahoma", 14.25F, FontStyle.Bold Or FontStyle.Underline, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement2.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement2.ColumnIndex = 2
+        TileViewItemElement2.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement2.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement2.Text = "Información Articulo"
+        TileViewItemElement2.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement3.Appearance.Normal.Font = New Font("Tahoma", 14.25F, FontStyle.Bold Or FontStyle.Underline)
+        TileViewItemElement3.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement3.ColumnIndex = 3
+        TileViewItemElement3.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement3.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement3.RowIndex = 3
+        TileViewItemElement3.Text = "Existencias"
+        TileViewItemElement3.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement4.Appearance.Normal.Font = New Font("Tahoma", 14.25F, FontStyle.Bold Or FontStyle.Underline)
+        TileViewItemElement4.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement4.ColumnIndex = 3
+        TileViewItemElement4.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement4.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement4.RowIndex = 5
+        TileViewItemElement4.Text = "Asignado"
+        TileViewItemElement4.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement5.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        TileViewItemElement5.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement5.ColumnIndex = 1
+        TileViewItemElement5.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement5.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement5.RowIndex = 2
+        TileViewItemElement5.Text = "Referencia:"
+        TileViewItemElement5.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement6.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement6.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement6.ColumnIndex = 1
+        TileViewItemElement6.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement6.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement6.RowIndex = 1
+        TileViewItemElement6.Text = "Ubicación:"
+        TileViewItemElement6.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement7.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement7.AnchorElementIndex = 5
+        TileViewItemElement7.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement7.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement7.Column = ColumnLocation
+        TileViewItemElement7.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement7.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement7.Text = "ColumnLocation"
+        TileViewItemElement7.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement8.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        TileViewItemElement8.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement8.ColumnIndex = 1
+        TileViewItemElement8.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement8.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement8.RowIndex = 4
+        TileViewItemElement8.Text = "Local:"
+        TileViewItemElement8.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement9.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement9.AnchorElementIndex = 7
+        TileViewItemElement9.Appearance.Normal.Font = New Font("Tahoma", 12F)
+        TileViewItemElement9.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement9.Column = ColumnLocal
+        TileViewItemElement9.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement9.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement9.Text = "ColumnLocal"
+        TileViewItemElement9.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement10.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement10.AnchorElementIndex = 8
+        TileViewItemElement10.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement10.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement10.Text = "|"
+        TileViewItemElement10.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement11.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement11.AnchorElementIndex = 9
+        TileViewItemElement11.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        TileViewItemElement11.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement11.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement11.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement11.Text = "Total:"
+        TileViewItemElement11.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement12.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement12.AnchorElementIndex = 10
+        TileViewItemElement12.Appearance.Normal.Font = New Font("Tahoma", 12F)
+        TileViewItemElement12.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement12.Column = ColumnTotalStock
+        TileViewItemElement12.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement12.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement12.Text = "ColumnTotalStock"
+        TileViewItemElement12.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement13.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement13.AnchorElementIndex = 4
+        TileViewItemElement13.Appearance.Normal.Font = New Font("Tahoma", 12F)
+        TileViewItemElement13.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement13.Column = ColumnReference
+        TileViewItemElement13.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement13.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement13.Text = "ColumnReference"
+        TileViewItemElement13.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement14.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement14.AnchorElementIndex = 12
+        TileViewItemElement14.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement14.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement14.Text = "|"
+        TileViewItemElement14.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement15.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement15.AnchorElementIndex = 13
+        TileViewItemElement15.Appearance.Normal.Font = New Font("Tahoma", 12F)
+        TileViewItemElement15.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement15.Column = ColumnItem
+        TileViewItemElement15.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement15.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement15.Text = "ColumnItem"
+        TileViewItemElement15.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement16.Appearance.Normal.Font = New Font("Tahoma", 12F, FontStyle.Bold)
+        TileViewItemElement16.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement16.ColumnIndex = 1
+        TileViewItemElement16.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement16.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement16.RowIndex = 6
+        TileViewItemElement16.Text = "Asignadas:"
+        TileViewItemElement16.TextAlignment = TileItemContentAlignment.MiddleLeft
+        TileViewItemElement17.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement17.AnchorElementIndex = 15
+        TileViewItemElement17.Appearance.Normal.Font = New Font("Tahoma", 12F)
+        TileViewItemElement17.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement17.Column = ColumnStock
+        TileViewItemElement17.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
+        TileViewItemElement17.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
+        TileViewItemElement17.Text = "ColumnStock"
+        TileViewItemElement17.TextAlignment = TileItemContentAlignment.MiddleCenter
+        TileView1.TileTemplate.Add(TileViewItemElement1)
+        TileView1.TileTemplate.Add(TileViewItemElement2)
+        TileView1.TileTemplate.Add(TileViewItemElement3)
+        TileView1.TileTemplate.Add(TileViewItemElement4)
+        TileView1.TileTemplate.Add(TileViewItemElement5)
+        TileView1.TileTemplate.Add(TileViewItemElement6)
+        TileView1.TileTemplate.Add(TileViewItemElement7)
+        TileView1.TileTemplate.Add(TileViewItemElement8)
+        TileView1.TileTemplate.Add(TileViewItemElement9)
+        TileView1.TileTemplate.Add(TileViewItemElement10)
+        TileView1.TileTemplate.Add(TileViewItemElement11)
+        TileView1.TileTemplate.Add(TileViewItemElement12)
+        TileView1.TileTemplate.Add(TileViewItemElement13)
+        TileView1.TileTemplate.Add(TileViewItemElement14)
+        TileView1.TileTemplate.Add(TileViewItemElement15)
+        TileView1.TileTemplate.Add(TileViewItemElement16)
+        TileView1.TileTemplate.Add(TileViewItemElement17)
         ' 
         ' PanelTitulo
         ' 

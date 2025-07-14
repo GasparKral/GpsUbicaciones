@@ -282,9 +282,16 @@ Public Class frmTrasladoProductos
                         ).Sum(Function(item) item.CantidadAMover).ToString()
     End Function
 
-    Private Function EliminarDeBaseDatos(codigo As String, ubicacionOrigen As String, cantidadAMover As Object) As Boolean
+    Private Function EliminarDeBaseDatos(nombreArticulo As String, ubicacionOrigen As String, cantidadAMover As Single) As Boolean
         Try
-            Operacion.ExecuteNonQuery("Delete FROM MOVPDA WHERE TERMINAL = ? AND OPERACION = 'TR' AND ARTICULO = ? AND LOTE = ?", Terminal, codigo, ubicacionOrigen)
+            Operacion.ExecuteNonQuery("DELETE MOVPDA.* FROM MOVPDA INNER JOIN ARTICULOS ON ARTICULOS.CODIGO = MOVPDA.ARTICULO WHERE
+                Operacion = 'TR' AND
+                Terminal = ? AND
+                Articulo = ARTICULOS.Codigo AND
+                MOVPDA.Lote = ? AND
+                Cantidad = ? AND
+                ARTICULOS.NombreComercial = ?",
+                Terminal, ubicacionOrigen, cantidadAMover, nombreArticulo)
             Return True
         Catch ex As Exception
             ' Log del error si es necesario
@@ -455,13 +462,13 @@ Public Class frmTrasladoProductos
                     Dim rowHandle As Integer = tileView.FocusedRowHandle
 
                     ' Obtener los valores necesarios para identificar el registro
-                    Dim codigo As String = tileView.GetRowCellValue(rowHandle, "Codigo")?.ToString()
+                    Dim nombreComercial As String = tileView.GetRowCellValue(rowHandle, "NombreComercial")?.ToString()
                     Dim ubicacionOrigen As String = tileView.GetRowCellValue(rowHandle, "CodigoUbicacionOrigen")?.ToString()
-                    Dim cantidadAMover As Object = tileView.GetRowCellValue(rowHandle, "CantidadAMover")
+                    Dim cantidadAMover As Single = tileView.GetRowCellValue(rowHandle, "CantidadAMover")
 
                     ' Mostrar confirmación antes de eliminar
                     Dim mensaje As String = $"¿Está seguro que desea eliminar este artículo del traslado?{vbCrLf}{vbCrLf}" &
-                                      $"Artículo: {codigo}{vbCrLf}" &
+                                      $"Artículo: {nombreComercial}{vbCrLf}" &
                                       $"Ubicación: {ubicacionOrigen}{vbCrLf}" &
                                       $"Cantidad: {cantidadAMover}"
 
@@ -472,7 +479,7 @@ Public Class frmTrasladoProductos
 
                     If result = DialogResult.Yes Then
                         ' Eliminar de la base de datos (tabla MOVPDA)
-                        If EliminarDeBaseDatos(codigo, ubicacionOrigen, cantidadAMover) Then
+                        If EliminarDeBaseDatos(nombreComercial, ubicacionOrigen, cantidadAMover) Then
                             ' Eliminar la fila del TileView
                             tileView.DeleteRow(rowHandle)
 

@@ -176,7 +176,7 @@ Partial Class frmTrasladoProductos
         TileViewArticulosParaTraslado.OptionsTiles.GroupTextPadding = New Padding(12, 8, 12, 8)
         TileViewArticulosParaTraslado.OptionsTiles.IndentBetweenGroups = 0
         TileViewArticulosParaTraslado.OptionsTiles.IndentBetweenItems = 0
-        TileViewArticulosParaTraslado.OptionsTiles.ItemSize = New Size(424, 120)
+        TileViewArticulosParaTraslado.OptionsTiles.ItemSize = New Size(424, 110)
         TileViewArticulosParaTraslado.OptionsTiles.LayoutMode = DevExpress.XtraGrid.Views.Tile.TileViewLayoutMode.List
         TileViewArticulosParaTraslado.OptionsTiles.Orientation = Orientation.Vertical
         TileViewArticulosParaTraslado.OptionsTiles.Padding = New Padding(0)
@@ -410,6 +410,7 @@ Partial Class frmTrasladoProductos
         ' ButtonClearForm
         ' 
         ButtonClearForm.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonClearForm.CausesValidation = False
         ButtonClearForm.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         ButtonClearForm.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ButtonClearForm.ImageOptions.SvgImageSize = New Size(70, 70)
