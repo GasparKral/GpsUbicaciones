@@ -22,6 +22,7 @@ Partial Class frmSeleccionArticulos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSeleccionArticulos))
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -34,6 +35,7 @@ Partial Class frmSeleccionArticulos
         Dim SerializableAppearanceObject8 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
+        ButtonReset = New DevExpress.XtraEditors.SimpleButton()
         TextEditItem = New DevExpress.XtraEditors.TextEdit()
         TextEditLocation = New DevExpress.XtraEditors.TextEdit()
         IconWeight = New DevExpress.XtraEditors.SvgImageBox()
@@ -58,7 +60,6 @@ Partial Class frmSeleccionArticulos
         PanelTitulo = New Panel()
         Label1 = New Label()
         GroupControl1 = New DevExpress.XtraEditors.GroupControl()
-        ButtonConfirmacionAccion = New DevExpress.XtraEditors.SimpleButton()
         RadioButtonOpcionTraspasoAlamacen = New RadioButton()
         RadioButtonOpcionAlbaran = New RadioButton()
         DatePicker = New DevExpress.XtraEditors.DateEdit()
@@ -75,6 +76,7 @@ Partial Class frmSeleccionArticulos
         XtraTabPage1 = New DevExpress.XtraTab.XtraTabPage()
         XtraTabPage2 = New DevExpress.XtraTab.XtraTabPage()
         XtraTabPage3 = New DevExpress.XtraTab.XtraTabPage()
+        ButtonConfirmacionAccion = New DevExpress.XtraEditors.SimpleButton()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
         CType(TextEditItem.Properties, ComponentModel.ISupportInitialize).BeginInit()
@@ -105,7 +107,7 @@ Partial Class frmSeleccionArticulos
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnSalir.Location = New Point(439, 824)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -120,6 +122,7 @@ Partial Class frmSeleccionArticulos
         GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlUbicacion.AppearanceCaption.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
+        GroupControlUbicacion.Controls.Add(ButtonReset)
         GroupControlUbicacion.Controls.Add(TextEditItem)
         GroupControlUbicacion.Controls.Add(TextEditLocation)
         GroupControlUbicacion.Controls.Add(IconWeight)
@@ -142,6 +145,18 @@ Partial Class frmSeleccionArticulos
         GroupControlUbicacion.Size = New Size(575, 317)
         GroupControlUbicacion.TabIndex = 1
         GroupControlUbicacion.Text = "Leer Artículos (Ubicacion / Articulo)"
+        ' 
+        ' ButtonReset
+        ' 
+        ButtonReset.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonReset.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
+        ButtonReset.ImageOptions.SvgImage = CType(resources.GetObject("ButtonReset.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonReset.ImageOptions.SvgImageSize = New Size(45, 45)
+        ButtonReset.Location = New Point(404, 227)
+        ButtonReset.Margin = New Padding(4, 3, 4, 3)
+        ButtonReset.Name = "ButtonReset"
+        ButtonReset.Size = New Size(75, 75)
+        ButtonReset.TabIndex = 32
         ' 
         ' TextEditItem
         ' 
@@ -168,7 +183,7 @@ Partial Class frmSeleccionArticulos
         IconWeight.Location = New Point(346, 150)
         IconWeight.Name = "IconWeight"
         IconWeight.Size = New Size(40, 40)
-        IconWeight.SvgImage = My.Resources.Resources.weightedpies
+        IconWeight.SvgImage = CType(resources.GetObject("IconWeight.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         IconWeight.TabIndex = 31
         IconWeight.Text = "SvgImageBox1"
         IconWeight.Visible = False
@@ -177,9 +192,9 @@ Partial Class frmSeleccionArticulos
         ' 
         ButtonConfirmacionLectura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonConfirmacionLectura.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionLectura.ImageOptions.SvgImage = My.Resources.Resources.actions_check
+        ButtonConfirmacionLectura.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionLectura.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         ButtonConfirmacionLectura.ImageOptions.SvgImageSize = New Size(45, 45)
-        ButtonConfirmacionLectura.Location = New Point(494, 239)
+        ButtonConfirmacionLectura.Location = New Point(487, 227)
         ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
         ButtonConfirmacionLectura.Name = "ButtonConfirmacionLectura"
         ButtonConfirmacionLectura.Size = New Size(75, 75)
@@ -456,18 +471,6 @@ Partial Class frmSeleccionArticulos
         GroupControl1.TabIndex = 2
         GroupControl1.Text = "Destino"
         ' 
-        ' ButtonConfirmacionAccion
-        ' 
-        ButtonConfirmacionAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionAccion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
-        ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
-        ButtonConfirmacionAccion.Location = New Point(488, 237)
-        ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)
-        ButtonConfirmacionAccion.Name = "ButtonConfirmacionAccion"
-        ButtonConfirmacionAccion.Size = New Size(75, 75)
-        ButtonConfirmacionAccion.TabIndex = 2
-        ' 
         ' RadioButtonOpcionTraspasoAlamacen
         ' 
         RadioButtonOpcionTraspasoAlamacen.AutoSize = True
@@ -656,6 +659,19 @@ Partial Class frmSeleccionArticulos
         XtraTabPage3.Size = New Size(575, 317)
         XtraTabPage3.Text = "Destino"
         ' 
+        ' ButtonConfirmacionAccion
+        ' 
+        ButtonConfirmacionAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
+        ButtonConfirmacionAccion.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionAccion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
+        ButtonConfirmacionAccion.Location = New Point(488, 237)
+        ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)
+        ButtonConfirmacionAccion.Name = "ButtonConfirmacionAccion"
+        ButtonConfirmacionAccion.Size = New Size(75, 75)
+        ButtonConfirmacionAccion.TabIndex = 2
+        ButtonConfirmacionAccion.Text = "adasd"
+        ' 
         ' frmSeleccionArticulos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -717,7 +733,6 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents GroupControl1 As DevExpress.XtraEditors.GroupControl
     Friend WithEvents DatePicker As DevExpress.XtraEditors.DateEdit
     Friend WithEvents LabelControl3 As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents ButtonConfirmacionAccion As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents RadioButtonOpcionTraspasoAlamacen As RadioButton
     Friend WithEvents RadioButtonOpcionAlbaran As RadioButton
     Friend WithEvents GridPedidos As DevExpress.XtraGrid.GridControl
@@ -747,4 +762,6 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents IconWeight As DevExpress.XtraEditors.SvgImageBox
     Friend WithEvents TextEditLocation As DevExpress.XtraEditors.TextEdit
     Friend WithEvents TextEditItem As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents ButtonReset As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents ButtonConfirmacionAccion As DevExpress.XtraEditors.SimpleButton
 End Class

@@ -48,6 +48,15 @@ Public Class frmSeleccionArticulos
         GridView.Columns.Add(Columna)
     End Sub
 
+    Private Sub LimpiarCampos()
+        PermitirEdicion(TextEditItem, False)
+        PermitirEdicion(SpinEditCantidadSeleccionada, False)
+        GridControlArticulosSeleccionados.Visible = True
+        TextEditItem.Clear()
+        TextEditLocation.Clear()
+        SpinEditCantidadSeleccionada.Value = 0
+    End Sub
+
 #End Region
 
 #Region "Eventos de Validación"
@@ -199,9 +208,21 @@ Public Class frmSeleccionArticulos
             PermitirEdicion(TextEditItem, False)
             PermitirEdicion(SpinEditCantidadSeleccionada, False)
             GridControlArticulosSeleccionados.Visible = True
+            LimpiarCampos()
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al confirmar la lectura: {ex.Message}")
         End Try
+    End Sub
+
+    ''' <summary>
+    ''' Maneja el evento Click del botón Reset
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ButtonReset_Click(sender As Object, e As EventArgs) Handles ButtonReset.Click
+        PermitirEdicion(TextEditItem, False)
+        PermitirEdicion(SpinEditCantidadSeleccionada, False)
+        LimpiarCampos()
     End Sub
 
     ''' <summary>
@@ -220,6 +241,11 @@ Public Class frmSeleccionArticulos
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Maneja el evento Click del botón de confirmación de acción
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub ButtonConfirmacionAccion_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionAccion.Click
 
         If RadioButtonOpcionAlbaran.Checked Then
@@ -295,8 +321,6 @@ Public Class frmSeleccionArticulos
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al eliminar el artículo: {ex.Message}")
         End Try
     End Sub
-
-
 
 #End Region
 
