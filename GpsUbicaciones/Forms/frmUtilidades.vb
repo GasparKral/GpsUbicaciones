@@ -22,7 +22,7 @@
 
 
     Private Sub ButtonVisualizeTable_Click(sender As Object, e As EventArgs) Handles ButtonVisualizeTable.Click
-        Dim form = New frmMovimientosPDA(Operacion.ExecuteTable("Select MOVPDA.*, ARTICULOS.NombreComercial FROM MovPda INNER JOIN ARTICULOS ON MovPda.Articulo = Articulos.Codigo WHERE Terminal = ?", Terminal))
+        Dim form = New frmMovimientosPDA(RepositorioMovPDA.ObtenerMovimientosPDA)
         form.ShowDialog()
     End Sub
 

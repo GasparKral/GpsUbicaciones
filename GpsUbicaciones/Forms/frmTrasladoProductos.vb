@@ -10,10 +10,8 @@ Public Class frmTrasladoProductos
     Private Sub frmTransladoProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Try
-            'Cargar estado temporal
-            Dim table = Operacion.ExecuteTable("SELECT * FROM MOVPDA WHERE TERMINAL = ? AND OPERACION = 'TR'", Terminal)
 
-            For Each transaction As DataRow In table.Rows
+            For Each transaction As DataRow In RepositorioMovPDA.ObtenerTraspasosPDA.Rows
                 ArticulosEnEspera.Add(New ProductoTraslado With {
                     .Articulo = RepositorioArticulo.ObtenerInformacion(transaction("Articulo")),
                     .CantidadAMover = Single.Parse(transaction("Cantidad")),
@@ -69,7 +67,7 @@ Public Class frmTrasladoProductos
 
         If PatronDeTrabajo Then
             ' Agregar a MOVPDA OPERACION:TR[Transeferencia]
-            Operacion.ExecuteNonQuery("INSERT INTO MOVPDA VALUES(?,'TR',?,?,?)", Terminal, TextEditItem.Text, SpinEditCantidadSeleccionada.Value, TextEditLocation.Text)
+            RepositorioMovPDA.InsertarOperacionPDA(RepositorioMovPDA.TypeOperacion.TRASPASO, TextEditItem.Text, SpinEditCantidadSeleccionada.Value, TextEditLocation.Text)
 
             ' Agregar a la lista de espera
             Dim articuloParaTranslado As New ProductoTraslado With {
@@ -291,7 +289,7 @@ Public Class frmTrasladoProductos
         ' Remover los artículos que se agotaron
         For Each articuloParaRemover In articulosParaRemover
             ArticulosEnEspera.Remove(articuloParaRemover)
-            Operacion.ExecuteNonQuery("DELETE FROM MOVPDA WHERE ARTICULO = ? AND LOTE = ? AND TERMINAL = ? AND OPERACION = 'TR'", articuloParaRemover.Articulo.Codigo, articuloParaRemover.CodigoUbicacionOrigen, Terminal)
+            RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.TRASPASO, articuloParaRemover.Articulo.Codigo, articuloParaRemover.CantidadAMover, articuloParaRemover.CodigoUbicacionOrigen)
         Next
 
         ' Actualizar la grilla

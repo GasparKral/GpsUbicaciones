@@ -26,7 +26,7 @@ Public Class frmSeleccionArticulos
             DatePicker.Focus()
 
             ' Leer estado temporal
-            Using Info As DataTable = Operacion.ExecuteTable("SELECT * FROM MOVPDA WHERE Terminal = ? AND Operacion ='SE'", Terminal)
+            Using Info As DataTable = RepositorioMovPDA.ObtenerSeleccionesPDA
                 If Info.Rows.Count > 0 Then
                     For Each row As DataRow In Info.Rows
                         Dim temp As New ArticuloSeleccion With {
@@ -223,8 +223,7 @@ Public Class frmSeleccionArticulos
                 .Descripcion = LabelNombreArticulo.Text,
                 .Unidades = SpinEditCantidadSeleccionada.Value
             }
-
-            Operacion.ExecuteNonQuery("INSERT INTO MOVPDA VALUES(?,'SE',?,?,?)", Terminal, nuevoArticulo.Articulo, nuevoArticulo.Unidades, nuevoArticulo.Ubicacion)
+            RepositorioMovPDA.InsertarOperacionPDA(RepositorioMovPDA.TypeOperacion.SELECCION, nuevoArticulo.Articulo, nuevoArticulo.Unidades, nuevoArticulo.Ubicacion)
 
             ArticulosSeleccionados.Add(nuevoArticulo)
             PermitirEdicion(TextEditItem, False)
@@ -272,7 +271,7 @@ Public Class frmSeleccionArticulos
 
         If RadioButtonOpcionAlbaran.Checked Then
             For Each item As ArticuloSeleccion In ArticulosSeleccionados
-                Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, item.Articulo, item.Ubicacion, item.Unidades)
+                RepositorioMovPDA.InsertarOperacionPDA(RepositorioMovPDA.TypeOperacion.VENTA, item.Articulo, item.Unidades, item.Articulo)
             Next
         End If
 
@@ -289,7 +288,7 @@ Public Class frmSeleccionArticulos
     Private Sub RepositoryCancelButton_Click(sender As Object, e As EventArgs) Handles RepositoryCancelButton.Click
         Try
             ' Obtener el índice de la fila seleccionada
-            Dim RowHandler = GridViewArticulosSeleccionados.FocusedRowHandle
+            Dim RowHandler = TileView1.FocusedRowHandle
 
             ' Verificar que hay una fila seleccionada válida
             If RowHandler < 0 OrElse RowHandler >= ArticulosSeleccionados.Count Then
@@ -311,13 +310,7 @@ Public Class frmSeleccionArticulos
             If resultado = DialogResult.Yes Then
                 ' Eliminar de la tabla MOVPDA si existe un registro
                 Try
-                    Operacion.ExecuteNonQuery(
-                    "DELETE FROM MovPda WHERE Terminal = ? AND Articulo = ? AND Lote = ? AND OPERACION = 'VE'",
-                    Terminal,
-                    articuloAEliminar.Articulo,
-                    articuloAEliminar.Ubicacion,
-                    articuloAEliminar.Unidades
-                )
+                    RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.VENTA, articuloAEliminar.Articulo, articuloAEliminar.Unidades, articuloAEliminar.Ubicacion)
                 Catch dbEx As Exception
                     ' Log del error pero continuar con la eliminación de la lista
                     FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia,
@@ -342,6 +335,18 @@ Public Class frmSeleccionArticulos
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al eliminar el artículo: {ex.Message}")
         End Try
+    End Sub
+
+    Private Sub TileView1_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileView1.ContextButtonClick
+
+        Dim RowHandler = TileView1.FocusedRowHandle
+
+        Dim ItemRef = TileView1.GetRowCellValue(RowHandler, "Articulo")
+        Dim Ammount = Single.Parse(TileView1.GetRowCellValue(RowHandler, "Unidades"))
+        Dim Location = TileView1.GetRowCellValue(RowHandler, "Ubicacion")
+
+        RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.SELECCION, ItemRef, Ammount, Location)
+
     End Sub
 
 #End Region

@@ -22,28 +22,34 @@ Partial Class frmVenta
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim EditorButtonImageOptions2 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
-        Dim SerializableAppearanceObject5 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim SerializableAppearanceObject6 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim SerializableAppearanceObject7 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim SerializableAppearanceObject8 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
-        Dim TableColumnDefinition4 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
-        Dim TableColumnDefinition5 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
-        Dim TableColumnDefinition6 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
-        Dim TableRowDefinition4 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New DevExpress.XtraEditors.TableLayout.TableRowDefinition()
-        Dim TableRowDefinition5 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New DevExpress.XtraEditors.TableLayout.TableRowDefinition()
-        Dim TableRowDefinition6 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New DevExpress.XtraEditors.TableLayout.TableRowDefinition()
-        Dim TableSpan4 As DevExpress.XtraEditors.TableLayout.TableSpan = New DevExpress.XtraEditors.TableLayout.TableSpan()
-        Dim TableSpan5 As DevExpress.XtraEditors.TableLayout.TableSpan = New DevExpress.XtraEditors.TableLayout.TableSpan()
-        Dim TableSpan6 As DevExpress.XtraEditors.TableLayout.TableSpan = New DevExpress.XtraEditors.TableLayout.TableSpan()
-        Dim TileViewItemElement9 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement10 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement11 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement12 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement13 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement14 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement15 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
-        Dim TileViewItemElement16 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVenta))
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim ContextButton1 As DevExpress.Utils.ContextButton = New DevExpress.Utils.ContextButton()
+        Dim TableColumnDefinition1 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
+        Dim TableColumnDefinition2 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
+        Dim TableColumnDefinition3 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
+        Dim TableRowDefinition1 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New DevExpress.XtraEditors.TableLayout.TableRowDefinition()
+        Dim TableRowDefinition2 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New DevExpress.XtraEditors.TableLayout.TableRowDefinition()
+        Dim TableRowDefinition3 As DevExpress.XtraEditors.TableLayout.TableRowDefinition = New DevExpress.XtraEditors.TableLayout.TableRowDefinition()
+        Dim TableSpan1 As DevExpress.XtraEditors.TableLayout.TableSpan = New DevExpress.XtraEditors.TableLayout.TableSpan()
+        Dim TableSpan2 As DevExpress.XtraEditors.TableLayout.TableSpan = New DevExpress.XtraEditors.TableLayout.TableSpan()
+        Dim TableSpan3 As DevExpress.XtraEditors.TableLayout.TableSpan = New DevExpress.XtraEditors.TableLayout.TableSpan()
+        Dim TileViewItemElement1 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement2 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement3 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement4 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement5 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement6 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement7 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        Dim TileViewItemElement8 As DevExpress.XtraGrid.Views.Tile.TileViewItemElement = New DevExpress.XtraGrid.Views.Tile.TileViewItemElement()
+        ColumnItemRef = New DevExpress.XtraGrid.Columns.TileViewColumn()
+        ColumnItemName = New DevExpress.XtraGrid.Columns.TileViewColumn()
+        ColumnLocation = New DevExpress.XtraGrid.Columns.TileViewColumn()
+        ColumnAmmount = New DevExpress.XtraGrid.Columns.TileViewColumn()
         btnSalir = New DevExpress.XtraEditors.SimpleButton()
         GroupControlUbicacion = New DevExpress.XtraEditors.GroupControl()
         LabelNombreAlmacen = New DevExpress.XtraEditors.LabelControl()
@@ -60,13 +66,9 @@ Partial Class frmVenta
         TextEditCodigoArticulo = New TextBox()
         LabelNombreArticulo = New DevExpress.XtraEditors.LabelControl()
         GridControlArticulosSeleccionados = New DevExpress.XtraGrid.GridControl()
+        TileView1 = New DevExpress.XtraGrid.Views.Tile.TileView()
         PanelTitulo = New Panel()
         Label1 = New Label()
-        TileView1 = New DevExpress.XtraGrid.Views.Tile.TileView()
-        ColumnItemRef = New DevExpress.XtraGrid.Columns.TileViewColumn()
-        ColumnItemName = New DevExpress.XtraGrid.Columns.TileViewColumn()
-        ColumnLocation = New DevExpress.XtraGrid.Columns.TileViewColumn()
-        ColumnAmmount = New DevExpress.XtraGrid.Columns.TileViewColumn()
         CType(GroupControlUbicacion, ComponentModel.ISupportInitialize).BeginInit()
         GroupControlUbicacion.SuspendLayout()
         CType(GroupControlArticulos, ComponentModel.ISupportInitialize).BeginInit()
@@ -74,9 +76,44 @@ Partial Class frmVenta
         CType(IconWeight, ComponentModel.ISupportInitialize).BeginInit()
         CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).BeginInit()
-        PanelTitulo.SuspendLayout()
         CType(TileView1, ComponentModel.ISupportInitialize).BeginInit()
+        PanelTitulo.SuspendLayout()
         SuspendLayout()
+        ' 
+        ' ColumnItemRef
+        ' 
+        ColumnItemRef.Caption = "Referencia"
+        ColumnItemRef.FieldName = "Ref"
+        ColumnItemRef.Name = "ColumnItemRef"
+        ColumnItemRef.Visible = True
+        ColumnItemRef.VisibleIndex = 0
+        ' 
+        ' ColumnItemName
+        ' 
+        ColumnItemName.Caption = "Artículo"
+        ColumnItemName.FieldName = "Nombre"
+        ColumnItemName.Name = "ColumnItemName"
+        ColumnItemName.Visible = True
+        ColumnItemName.VisibleIndex = 1
+        ColumnItemName.Width = 242
+        ' 
+        ' ColumnLocation
+        ' 
+        ColumnLocation.Caption = "Ubicación"
+        ColumnLocation.FieldName = "Ubicacion"
+        ColumnLocation.Name = "ColumnLocation"
+        ColumnLocation.Visible = True
+        ColumnLocation.VisibleIndex = 2
+        ColumnLocation.Width = 135
+        ' 
+        ' ColumnAmmount
+        ' 
+        ColumnAmmount.Caption = "Unidades"
+        ColumnAmmount.FieldName = "Uds"
+        ColumnAmmount.Name = "ColumnAmmount"
+        ColumnAmmount.Visible = True
+        ColumnAmmount.VisibleIndex = 3
+        ColumnAmmount.Width = 59
         ' 
         ' btnSalir
         ' 
@@ -85,7 +122,7 @@ Partial Class frmVenta
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
+        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         btnSalir.Location = New Point(438, 822)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -132,7 +169,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarUbicacion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarUbicacion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
+        BotonConfirmarUbicacion.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarUbicacion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         BotonConfirmarUbicacion.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarUbicacion.Location = New Point(513, 41)
         BotonConfirmarUbicacion.Margin = New Padding(4, 3, 4, 3)
@@ -192,7 +229,7 @@ Partial Class frmVenta
         IconWeight.Location = New Point(335, 68)
         IconWeight.Name = "IconWeight"
         IconWeight.Size = New Size(40, 40)
-        IconWeight.SvgImage = My.Resources.Resources.weightedpies
+        IconWeight.SvgImage = CType(resources.GetObject("IconWeight.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         IconWeight.TabIndex = 10
         IconWeight.Text = "SvgImageBox1"
         ' 
@@ -203,7 +240,7 @@ Partial Class frmVenta
         ButtonCancelar.CausesValidation = False
         ButtonCancelar.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
         ButtonCancelar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
-        ButtonCancelar.ImageOptions.SvgImage = My.Resources.Resources.neworder
+        ButtonCancelar.ImageOptions.SvgImage = CType(resources.GetObject("ButtonCancelar.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         ButtonCancelar.Location = New Point(381, 72)
         ButtonCancelar.Name = "ButtonCancelar"
         ButtonCancelar.Size = New Size(125, 50)
@@ -218,7 +255,7 @@ Partial Class frmVenta
         SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
         SpinEditCantidadSeleccionada.Properties.AutoHeight = False
-        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 35, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 35, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
         SpinEditCantidadSeleccionada.Properties.LookAndFeel.SkinName = "WXI"
         SpinEditCantidadSeleccionada.Properties.LookAndFeel.UseDefaultLookAndFeel = False
@@ -262,7 +299,7 @@ Partial Class frmVenta
         ' 
         BotonConfirmarArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         BotonConfirmarArticulo.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        BotonConfirmarArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
+        BotonConfirmarArticulo.ImageOptions.SvgImage = CType(resources.GetObject("BotonConfirmarArticulo.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
         BotonConfirmarArticulo.ImageOptions.SvgImageSize = New Size(45, 45)
         BotonConfirmarArticulo.Location = New Point(513, 72)
         BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 3)
@@ -313,6 +350,111 @@ Partial Class frmVenta
         GridControlArticulosSeleccionados.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {TileView1})
         GridControlArticulosSeleccionados.Visible = False
         ' 
+        ' TileView1
+        ' 
+        TileView1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        TileView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemRef, ColumnItemName, ColumnLocation, ColumnAmmount})
+        ContextButton1.AlignmentOptions.Position = DevExpress.Utils.ContextItemPosition.Far
+        ContextButton1.Caption = "Eliminar"
+        ContextButton1.Id = New Guid("7f06b520-71dc-4689-95ba-2d8c19f46cf2")
+        ContextButton1.ImageOptionsCollection.ItemNormal.SvgImage = My.Resources.Resources.close
+        ContextButton1.Name = "ButtonDelete"
+        TileView1.ContextButtons.Add(ContextButton1)
+        TileView1.DetailHeight = 262
+        TileView1.GridControl = GridControlArticulosSeleccionados
+        TileView1.Name = "TileView1"
+        TileView1.OptionsEditForm.PopupEditFormWidth = 700
+        TileView1.OptionsTiles.ItemSize = New Size(470, 79)
+        TileView1.OptionsTiles.LayoutMode = DevExpress.XtraGrid.Views.Tile.TileViewLayoutMode.List
+        TileView1.OptionsTiles.Orientation = Orientation.Vertical
+        TileView1.OptionsTiles.Padding = New Padding(8)
+        TileView1.OptionsTiles.RowCount = 0
+        TileView1.OptionsTiles.VerticalContentAlignment = DevExpress.Utils.VertAlignment.Top
+        TileView1.TileColumns.Add(TableColumnDefinition1)
+        TileView1.TileColumns.Add(TableColumnDefinition2)
+        TileView1.TileColumns.Add(TableColumnDefinition3)
+        TableRowDefinition1.Length.Value = 21R
+        TableRowDefinition2.Length.Value = 21R
+        TableRowDefinition3.Length.Value = 21R
+        TileView1.TileRows.Add(TableRowDefinition1)
+        TileView1.TileRows.Add(TableRowDefinition2)
+        TileView1.TileRows.Add(TableRowDefinition3)
+        TableSpan1.ColumnSpan = 3
+        TableSpan2.ColumnSpan = 3
+        TableSpan2.RowIndex = 1
+        TableSpan3.ColumnSpan = 3
+        TableSpan3.RowIndex = 2
+        TileView1.TileSpans.Add(TableSpan1)
+        TileView1.TileSpans.Add(TableSpan2)
+        TileView1.TileSpans.Add(TableSpan3)
+        TileViewItemElement1.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement1.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement1.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement1.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement1.RowIndex = 1
+        TileViewItemElement1.Text = "Referencia:"
+        TileViewItemElement1.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
+        TileViewItemElement2.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement2.AnchorElementIndex = 0
+        TileViewItemElement2.Column = ColumnItemRef
+        TileViewItemElement2.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement2.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement2.RowIndex = 2
+        TileViewItemElement2.Text = "ColumnItemRef"
+        TileViewItemElement2.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement3.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement3.AnchorElementIndex = 1
+        TileViewItemElement3.ColumnIndex = 2
+        TileViewItemElement3.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement3.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement3.RowIndex = 2
+        TileViewItemElement3.Text = "|"
+        TileViewItemElement3.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement4.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement4.AnchorElementIndex = 2
+        TileViewItemElement4.Column = ColumnItemName
+        TileViewItemElement4.ColumnIndex = 2
+        TileViewItemElement4.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement4.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement4.Text = "ColumnItemName"
+        TileViewItemElement4.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement5.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement5.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement5.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement5.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement5.Text = "Ubicación:"
+        TileViewItemElement5.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
+        TileViewItemElement6.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement6.AnchorElementIndex = 4
+        TileViewItemElement6.Column = ColumnLocation
+        TileViewItemElement6.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement6.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement6.Text = "ColumnLocation"
+        TileViewItemElement6.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement7.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement7.Appearance.Normal.Options.UseFont = True
+        TileViewItemElement7.ColumnIndex = 1
+        TileViewItemElement7.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement7.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement7.RowIndex = 2
+        TileViewItemElement7.Text = "Unidades:"
+        TileViewItemElement7.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
+        TileViewItemElement8.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
+        TileViewItemElement8.AnchorElementIndex = 6
+        TileViewItemElement8.Column = ColumnAmmount
+        TileViewItemElement8.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileViewItemElement8.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
+        TileViewItemElement8.Text = "ColumnAmmount"
+        TileViewItemElement8.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+        TileView1.TileTemplate.Add(TileViewItemElement1)
+        TileView1.TileTemplate.Add(TileViewItemElement2)
+        TileView1.TileTemplate.Add(TileViewItemElement3)
+        TileView1.TileTemplate.Add(TileViewItemElement4)
+        TileView1.TileTemplate.Add(TileViewItemElement5)
+        TileView1.TileTemplate.Add(TileViewItemElement6)
+        TileView1.TileTemplate.Add(TileViewItemElement7)
+        TileView1.TileTemplate.Add(TileViewItemElement8)
+        ' 
         ' PanelTitulo
         ' 
         PanelTitulo.BackColor = Color.RoyalBlue
@@ -333,140 +475,6 @@ Partial Class frmVenta
         Label1.Size = New Size(216, 32)
         Label1.TabIndex = 1
         Label1.Text = "Venta Artículos"
-        ' 
-        ' TileView1
-        ' 
-        TileView1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
-        TileView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemRef, ColumnItemName, ColumnLocation, ColumnAmmount})
-        TileView1.DetailHeight = 262
-        TileView1.GridControl = GridControlArticulosSeleccionados
-        TileView1.Name = "TileView1"
-        TileView1.OptionsEditForm.PopupEditFormWidth = 700
-        TileView1.OptionsTiles.ItemSize = New Size(470, 79)
-        TileView1.OptionsTiles.LayoutMode = DevExpress.XtraGrid.Views.Tile.TileViewLayoutMode.List
-        TileView1.OptionsTiles.Orientation = Orientation.Vertical
-        TileView1.OptionsTiles.Padding = New Padding(8)
-        TileView1.OptionsTiles.RowCount = 0
-        TileView1.OptionsTiles.VerticalContentAlignment = DevExpress.Utils.VertAlignment.Top
-        TileView1.TileColumns.Add(TableColumnDefinition4)
-        TileView1.TileColumns.Add(TableColumnDefinition5)
-        TileView1.TileColumns.Add(TableColumnDefinition6)
-        TableRowDefinition4.Length.Value = 21R
-        TableRowDefinition5.Length.Value = 21R
-        TableRowDefinition6.Length.Value = 21R
-        TileView1.TileRows.Add(TableRowDefinition4)
-        TileView1.TileRows.Add(TableRowDefinition5)
-        TileView1.TileRows.Add(TableRowDefinition6)
-        TableSpan4.ColumnSpan = 3
-        TableSpan5.ColumnSpan = 3
-        TableSpan5.RowIndex = 1
-        TableSpan6.ColumnSpan = 3
-        TableSpan6.RowIndex = 2
-        TileView1.TileSpans.Add(TableSpan4)
-        TileView1.TileSpans.Add(TableSpan5)
-        TileView1.TileSpans.Add(TableSpan6)
-        TileViewItemElement9.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
-        TileViewItemElement9.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement9.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement9.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement9.RowIndex = 1
-        TileViewItemElement9.Text = "Referencia:"
-        TileViewItemElement9.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
-        TileViewItemElement10.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement10.AnchorElementIndex = 0
-        TileViewItemElement10.Column = ColumnItemRef
-        TileViewItemElement10.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement10.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement10.RowIndex = 2
-        TileViewItemElement10.Text = "ColumnItemRef"
-        TileViewItemElement10.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement11.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement11.AnchorElementIndex = 1
-        TileViewItemElement11.ColumnIndex = 2
-        TileViewItemElement11.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement11.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement11.RowIndex = 2
-        TileViewItemElement11.Text = "|"
-        TileViewItemElement11.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement12.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement12.AnchorElementIndex = 2
-        TileViewItemElement12.Column = ColumnItemName
-        TileViewItemElement12.ColumnIndex = 2
-        TileViewItemElement12.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement12.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement12.Text = "ColumnItemName"
-        TileViewItemElement12.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement13.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TileViewItemElement13.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement13.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement13.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement13.Text = "Ubicación:"
-        TileViewItemElement13.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
-        TileViewItemElement14.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement14.AnchorElementIndex = 4
-        TileViewItemElement14.Column = ColumnLocation
-        TileViewItemElement14.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement14.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement14.Text = "ColumnLocation"
-        TileViewItemElement14.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement15.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
-        TileViewItemElement15.Appearance.Normal.Options.UseFont = True
-        TileViewItemElement15.ColumnIndex = 1
-        TileViewItemElement15.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement15.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement15.RowIndex = 2
-        TileViewItemElement15.Text = "Unidades:"
-        TileViewItemElement15.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
-        TileViewItemElement16.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
-        TileViewItemElement16.AnchorElementIndex = 6
-        TileViewItemElement16.Column = ColumnAmmount
-        TileViewItemElement16.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement16.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
-        TileViewItemElement16.Text = "ColumnAmmount"
-        TileViewItemElement16.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileView1.TileTemplate.Add(TileViewItemElement9)
-        TileView1.TileTemplate.Add(TileViewItemElement10)
-        TileView1.TileTemplate.Add(TileViewItemElement11)
-        TileView1.TileTemplate.Add(TileViewItemElement12)
-        TileView1.TileTemplate.Add(TileViewItemElement13)
-        TileView1.TileTemplate.Add(TileViewItemElement14)
-        TileView1.TileTemplate.Add(TileViewItemElement15)
-        TileView1.TileTemplate.Add(TileViewItemElement16)
-        ' 
-        ' ColumnItemRef
-        ' 
-        ColumnItemRef.Caption = "Referencia"
-        ColumnItemRef.FieldName = "Ref"
-        ColumnItemRef.Name = "ColumnItemRef"
-        ColumnItemRef.Visible = True
-        ColumnItemRef.VisibleIndex = 0
-        ' 
-        ' ColumnItemName
-        ' 
-        ColumnItemName.Caption = "Artículo"
-        ColumnItemName.FieldName = "Nombre"
-        ColumnItemName.Name = "ColumnItemName"
-        ColumnItemName.Visible = True
-        ColumnItemName.VisibleIndex = 1
-        ColumnItemName.Width = 242
-        ' 
-        ' ColumnLocation
-        ' 
-        ColumnLocation.Caption = "Ubicación"
-        ColumnLocation.FieldName = "Ubicacion"
-        ColumnLocation.Name = "ColumnLocation"
-        ColumnLocation.Visible = True
-        ColumnLocation.VisibleIndex = 2
-        ColumnLocation.Width = 135
-        ' 
-        ' ColumnAmmount
-        ' 
-        ColumnAmmount.Caption = "Unidades"
-        ColumnAmmount.FieldName = "Uds"
-        ColumnAmmount.Name = "ColumnAmmount"
-        ColumnAmmount.Visible = True
-        ColumnAmmount.VisibleIndex = 3
-        ColumnAmmount.Width = 59
         ' 
         ' frmVenta
         ' 
@@ -496,9 +504,9 @@ Partial Class frmVenta
         CType(IconWeight, ComponentModel.ISupportInitialize).EndInit()
         CType(SpinEditCantidadSeleccionada.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridControlArticulosSeleccionados, ComponentModel.ISupportInitialize).EndInit()
+        CType(TileView1, ComponentModel.ISupportInitialize).EndInit()
         PanelTitulo.ResumeLayout(False)
         PanelTitulo.PerformLayout()
-        CType(TileView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 

@@ -4,15 +4,21 @@
 
     Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-        ' Inicializar el DataTable
-        Dim dt As New DataTable()
-        dt.Columns.Add("Ref", GetType(String))
-        dt.Columns.Add("Nombre", GetType(String))
-        dt.Columns.Add("Ubicacion", GetType(String))
-        dt.Columns.Add("Uds", GetType(Single))
+        Using Table = RepositorioMovPDA.ObtenerVentasPDA
+            If Table.Rows.Count > 0 Then
+                GridControlArticulosSeleccionados.DataSource = Table
+            Else
+                ' Inicializar el DataTable
+                Dim dt As New DataTable()
+                dt.Columns.Add("Ref", GetType(String))
+                dt.Columns.Add("Nombre", GetType(String))
+                dt.Columns.Add("Ubicacion", GetType(String))
+                dt.Columns.Add("Uds", GetType(Single))
 
-        ' Asignar el DataTable al Grid
-        GridControlArticulosSeleccionados.DataSource = dt
+                ' Asignar el DataTable al Grid
+                GridControlArticulosSeleccionados.DataSource = dt
+            End If
+        End Using
 
         Call LimpiarUbicacion()
     End Sub
@@ -342,18 +348,15 @@
         TextEditCodigoUbicacion.Focus()
     End Sub
 
-    Private Sub RepositoryItemButtonEdit1_Click(sender As Object, e As EventArgs)
+    Private Sub TileView1_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileView1.ContextButtonClick
 
-        ' Obtener el index de la fila
-        Dim RowHandler = GridViewArticulosSeleccionados.FocusedRowHandle
+        Dim RowHandler = TileView1.FocusedRowHandle
 
-        Dim codigoArticulo = GridViewArticulosSeleccionados.GetRowCellValue(RowHandler, "Ref")
-        Dim cantidad = Single.Parse(GridViewArticulosSeleccionados.GetRowCellValue(RowHandler, "Uds"))
-        Dim codigoUbicacion = GridViewArticulosSeleccionados.GetRowCellValue(RowHandler, "Ubicacion")
+        Dim ItemRef = TileView1.GetRowCellValue(RowHandler, "Ref")
+        Dim Ammount = TileView1.GetRowCellValue(RowHandler, "Uds")
+        Dim Location = TileView1.GetRowCellValue(RowHandler, "Ubicacion")
 
-        If Not EliminarArticuloBaseDeDatos(codigoArticulo, cantidad, codigoUbicacion) Then
-            MessageBox.Show("Error al eliminar el artículo de la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+        RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.VENTA, ItemRef, Ammount, Location)
     End Sub
 
 #End Region

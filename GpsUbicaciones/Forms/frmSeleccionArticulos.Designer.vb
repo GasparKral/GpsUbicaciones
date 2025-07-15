@@ -27,6 +27,7 @@ Partial Class frmSeleccionArticulos
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim ContextButton1 As DevExpress.Utils.ContextButton = New DevExpress.Utils.ContextButton()
         Dim TableColumnDefinition1 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
         Dim TableColumnDefinition2 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
         Dim TableColumnDefinition3 As DevExpress.XtraEditors.TableLayout.TableColumnDefinition = New DevExpress.XtraEditors.TableLayout.TableColumnDefinition()
@@ -427,6 +428,12 @@ Partial Class frmSeleccionArticulos
         ' TileView1
         ' 
         TileView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnItemRef, ColumnItemName, ColumnLocation, ColumnAmmount, ColumnDelete})
+        ContextButton1.AlignmentOptions.Position = DevExpress.Utils.ContextItemPosition.Far
+        ContextButton1.Caption = "Eliminar"
+        ContextButton1.Id = New Guid("acf8b12b-8aed-4cde-ab03-878bd663d8cc")
+        ContextButton1.ImageOptionsCollection.ItemNormal.SvgImage = My.Resources.Resources.close
+        ContextButton1.Name = "ButtonDelete"
+        TileView1.ContextButtons.Add(ContextButton1)
         TileView1.DetailHeight = 262
         TileView1.GridControl = GridControlArticulosSeleccionados
         TileView1.Name = "TileView1"
