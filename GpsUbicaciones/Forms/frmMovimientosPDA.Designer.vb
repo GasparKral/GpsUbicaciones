@@ -52,6 +52,8 @@ Partial Class frmMovimientosPDA
         ' GridControlMovimientos
         ' 
         GridControlMovimientos.Location = New Point(12, 12)
+        GridControlMovimientos.LookAndFeel.SkinName = "WXI"
+        GridControlMovimientos.LookAndFeel.UseDefaultLookAndFeel = False
         GridControlMovimientos.MainView = GridViewMovimientos
         GridControlMovimientos.Name = "GridControlMovimientos"
         GridControlMovimientos.Size = New Size(576, 855)
@@ -60,6 +62,14 @@ Partial Class frmMovimientosPDA
         ' 
         ' GridViewMovimientos
         ' 
+        GridViewMovimientos.Appearance.Row.Options.UseBackColor = True
+        GridViewMovimientos.Appearance.Row.Options.UseForeColor = True
+        GridViewMovimientos.Appearance.VertLine.BackColor = Color.Transparent
+        GridViewMovimientos.Appearance.VertLine.BorderColor = Color.Transparent
+        GridViewMovimientos.Appearance.VertLine.ForeColor = Color.Transparent
+        GridViewMovimientos.Appearance.VertLine.Options.UseBackColor = True
+        GridViewMovimientos.Appearance.VertLine.Options.UseBorderColor = True
+        GridViewMovimientos.Appearance.VertLine.Options.UseForeColor = True
         GridViewMovimientos.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnAcción, ColumnCantidad, ColumnAmmount, ColumnLocation})
         GridViewMovimientos.GridControl = GridControlMovimientos
         GridViewMovimientos.Name = "GridViewMovimientos"
@@ -70,19 +80,22 @@ Partial Class frmMovimientosPDA
         ' ColumnAcción
         ' 
         ColumnAcción.Caption = "OP"
+        ColumnAcción.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom
         ColumnAcción.FieldName = "Operacion"
-        ColumnAcción.MaxWidth = 35
-        ColumnAcción.MinWidth = 35
+        ColumnAcción.MaxWidth = 50
+        ColumnAcción.MinWidth = 50
         ColumnAcción.Name = "ColumnAcción"
+        ColumnAcción.OptionsColumn.AllowEdit = False
         ColumnAcción.Visible = True
         ColumnAcción.VisibleIndex = 0
-        ColumnAcción.Width = 35
+        ColumnAcción.Width = 50
         ' 
         ' ColumnCantidad
         ' 
         ColumnCantidad.Caption = "Artículo"
         ColumnCantidad.FieldName = "NombreComercial"
         ColumnCantidad.Name = "ColumnCantidad"
+        ColumnCantidad.OptionsColumn.AllowEdit = False
         ColumnCantidad.Visible = True
         ColumnCantidad.VisibleIndex = 2
         ColumnCantidad.Width = 754
@@ -91,17 +104,20 @@ Partial Class frmMovimientosPDA
         ' 
         ColumnAmmount.Caption = "Cantidad"
         ColumnAmmount.FieldName = "Cantidad"
-        ColumnAmmount.MaxWidth = 75
-        ColumnAmmount.MinWidth = 75
+        ColumnAmmount.MaxWidth = 80
+        ColumnAmmount.MinWidth = 80
         ColumnAmmount.Name = "ColumnAmmount"
+        ColumnAmmount.OptionsColumn.AllowEdit = False
         ColumnAmmount.Visible = True
         ColumnAmmount.VisibleIndex = 3
+        ColumnAmmount.Width = 80
         ' 
         ' ColumnLocation
         ' 
         ColumnLocation.Caption = "Ubicación"
         ColumnLocation.FieldName = "Lote"
         ColumnLocation.Name = "ColumnLocation"
+        ColumnLocation.OptionsColumn.AllowEdit = False
         ColumnLocation.Visible = True
         ColumnLocation.VisibleIndex = 1
         ColumnLocation.Width = 371
