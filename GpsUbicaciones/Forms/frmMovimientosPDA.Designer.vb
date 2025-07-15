@@ -69,12 +69,14 @@ Partial Class frmMovimientosPDA
         ' 
         ' ColumnAcción
         ' 
-        ColumnAcción.Caption = "Operación"
+        ColumnAcción.Caption = "OP"
         ColumnAcción.FieldName = "Operacion"
+        ColumnAcción.MaxWidth = 35
+        ColumnAcción.MinWidth = 35
         ColumnAcción.Name = "ColumnAcción"
         ColumnAcción.Visible = True
         ColumnAcción.VisibleIndex = 0
-        ColumnAcción.Width = 123
+        ColumnAcción.Width = 35
         ' 
         ' ColumnCantidad
         ' 
@@ -83,16 +85,17 @@ Partial Class frmMovimientosPDA
         ColumnCantidad.Name = "ColumnCantidad"
         ColumnCantidad.Visible = True
         ColumnCantidad.VisibleIndex = 2
-        ColumnCantidad.Width = 652
+        ColumnCantidad.Width = 754
         ' 
         ' ColumnAmmount
         ' 
         ColumnAmmount.Caption = "Cantidad"
         ColumnAmmount.FieldName = "Cantidad"
+        ColumnAmmount.MaxWidth = 75
+        ColumnAmmount.MinWidth = 75
         ColumnAmmount.Name = "ColumnAmmount"
         ColumnAmmount.Visible = True
         ColumnAmmount.VisibleIndex = 3
-        ColumnAmmount.Width = 181
         ' 
         ' ColumnLocation
         ' 
@@ -101,7 +104,7 @@ Partial Class frmMovimientosPDA
         ColumnLocation.Name = "ColumnLocation"
         ColumnLocation.Visible = True
         ColumnLocation.VisibleIndex = 1
-        ColumnLocation.Width = 234
+        ColumnLocation.Width = 371
         ' 
         ' frmMovimientosPDA
         ' 

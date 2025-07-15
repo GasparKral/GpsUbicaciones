@@ -342,7 +342,7 @@
         TextEditCodigoUbicacion.Focus()
     End Sub
 
-    Private Sub RepositoryItemButtonEdit1_Click(sender As Object, e As EventArgs) Handles RepositoryItemButtonEdit1.Click
+    Private Sub RepositoryItemButtonEdit1_Click(sender As Object, e As EventArgs)
 
         ' Obtener el index de la fila
         Dim RowHandler = GridViewArticulosSeleccionados.FocusedRowHandle

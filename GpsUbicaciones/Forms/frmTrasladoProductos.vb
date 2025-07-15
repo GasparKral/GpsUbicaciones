@@ -30,7 +30,8 @@ Public Class frmTrasladoProductos
             PermitirEdicion(TextEditLocation, True)
 
             GroupControl.CustomHeaderButtons("Cargar/Descargar").Properties.Appearance.ForeColor = Color.White
-
+            ' Fuente en Roboto Regular 12pto
+            GroupControl.CustomHeaderButtons("Cargar/Descargar").Properties.Appearance.Font = New Font("Roboto", 12, FontStyle.Regular)
         Catch ex As Exception
             ManejarError(ex, "Error al cargar el formulario")
         End Try

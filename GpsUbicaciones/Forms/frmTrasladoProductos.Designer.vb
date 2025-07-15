@@ -101,31 +101,34 @@ Partial Class frmTrasladoProductos
         ' 
         ColumnLocation.Caption = "Ubicación"
         ColumnLocation.FieldName = "CodigoUbicacionOrigen"
+        ColumnLocation.MinWidth = 30
         ColumnLocation.Name = "ColumnLocation"
         ColumnLocation.OptionsColumn.AllowEdit = False
         ColumnLocation.Visible = True
         ColumnLocation.VisibleIndex = 1
-        ColumnLocation.Width = 281
+        ColumnLocation.Width = 421
         ' 
         ' ColumnItemName
         ' 
         ColumnItemName.Caption = "Articulo"
         ColumnItemName.FieldName = "NombreComercial"
+        ColumnItemName.MinWidth = 30
         ColumnItemName.Name = "ColumnItemName"
         ColumnItemName.OptionsColumn.AllowEdit = False
         ColumnItemName.Visible = True
         ColumnItemName.VisibleIndex = 0
-        ColumnItemName.Width = 359
+        ColumnItemName.Width = 538
         ' 
         ' ColumnToMove
         ' 
         ColumnToMove.Caption = "A Mover"
         ColumnToMove.FieldName = "CantidadAMover"
+        ColumnToMove.MinWidth = 30
         ColumnToMove.Name = "ColumnToMove"
         ColumnToMove.OptionsColumn.AllowEdit = False
         ColumnToMove.Visible = True
         ColumnToMove.VisibleIndex = 3
-        ColumnToMove.Width = 68
+        ColumnToMove.Width = 102
         ' 
         ' RepositoryItemButtonEdit1
         ' 
@@ -149,15 +152,15 @@ Partial Class frmTrasladoProductos
         ' 
         GridControlArticulosParaTraslado.BackgroundImageLayout = ImageLayout.None
         GridControlArticulosParaTraslado.DataSource = ProductoTrasladoBindingSource
-        GridControlArticulosParaTraslado.EmbeddedNavigator.Margin = New Padding(10, 3, 10, 3)
+        GridControlArticulosParaTraslado.EmbeddedNavigator.Margin = New Padding(15, 4, 15, 4)
         GridControlArticulosParaTraslado.Font = New Font("Tahoma", 15.75F)
-        GridControlArticulosParaTraslado.Location = New Point(12, 428)
+        GridControlArticulosParaTraslado.Location = New Point(18, 626)
         GridControlArticulosParaTraslado.MainView = TileViewArticulosParaTraslado
-        GridControlArticulosParaTraslado.Margin = New Padding(4, 3, 4, 3)
-        GridControlArticulosParaTraslado.MinimumSize = New Size(0, 250)
+        GridControlArticulosParaTraslado.Margin = New Padding(6, 4, 6, 4)
+        GridControlArticulosParaTraslado.MinimumSize = New Size(0, 365)
         GridControlArticulosParaTraslado.Name = "GridControlArticulosParaTraslado"
         GridControlArticulosParaTraslado.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {RepositoryItemButtonEdit1})
-        GridControlArticulosParaTraslado.Size = New Size(576, 388)
+        GridControlArticulosParaTraslado.Size = New Size(864, 567)
         GridControlArticulosParaTraslado.TabIndex = 0
         GridControlArticulosParaTraslado.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {TileViewArticulosParaTraslado})
         GridControlArticulosParaTraslado.Visible = False
@@ -171,6 +174,7 @@ Partial Class frmTrasladoProductos
         ContextButton1.ImageOptionsCollection.ItemNormal.SvgImage = My.Resources.Resources.close
         ContextButton1.Name = "ButtonItemElimination"
         TileViewArticulosParaTraslado.ContextButtons.Add(ContextButton1)
+        TileViewArticulosParaTraslado.DetailHeight = 512
         TileViewArticulosParaTraslado.GridControl = GridControlArticulosParaTraslado
         TileViewArticulosParaTraslado.Name = "TileViewArticulosParaTraslado"
         TileViewArticulosParaTraslado.OptionsTiles.GroupTextPadding = New Padding(12, 8, 12, 8)
@@ -260,27 +264,30 @@ Partial Class frmTrasladoProductos
         ' 
         ColumnStock.Caption = "Existencias"
         ColumnStock.FieldName = "Stock"
+        ColumnStock.MinWidth = 30
         ColumnStock.Name = "ColumnStock"
         ColumnStock.OptionsColumn.AllowEdit = False
         ColumnStock.Visible = True
         ColumnStock.VisibleIndex = 2
-        ColumnStock.Width = 95
+        ColumnStock.Width = 142
         ' 
         ' ColumnItemRef
         ' 
         ColumnItemRef.Caption = "ItemReference"
         ColumnItemRef.FieldName = "Codigo"
+        ColumnItemRef.MinWidth = 30
         ColumnItemRef.Name = "ColumnItemRef"
         ColumnItemRef.Visible = True
         ColumnItemRef.VisibleIndex = 4
+        ColumnItemRef.Width = 112
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(354, 10)
-        Label1.Margin = New Padding(4, 0, 4, 0)
+        Label1.Location = New Point(531, 15)
+        Label1.Margin = New Padding(6, 0, 6, 0)
         Label1.Name = "Label1"
-        Label1.Size = New Size(73, 13)
+        Label1.Size = New Size(110, 19)
         Label1.TabIndex = 14
         Label1.Text = "ALMACEN: 00"
         ' 
@@ -293,10 +300,10 @@ Partial Class frmTrasladoProductos
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
-        btnSalir.Location = New Point(407, 821)
-        btnSalir.Margin = New Padding(4, 2, 4, 2)
+        btnSalir.Location = New Point(610, 1200)
+        btnSalir.Margin = New Padding(6, 3, 6, 3)
         btnSalir.Name = "btnSalir"
-        btnSalir.Size = New Size(181, 67)
+        btnSalir.Size = New Size(272, 98)
         btnSalir.TabIndex = 1
         btnSalir.Text = "Volver"
         ' 
@@ -306,7 +313,7 @@ Partial Class frmTrasladoProductos
         GroupControl.Appearance.BackColor = Color.Transparent
         GroupControl.Appearance.Options.UseBackColor = True
         GroupControl.AppearanceCaption.BorderColor = Color.SaddleBrown
-        GroupControl.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        GroupControl.AppearanceCaption.Font = New Font("Roboto", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControl.AppearanceCaption.Options.UseBackColor = True
         GroupControl.AppearanceCaption.Options.UseBorderColor = True
         GroupControl.AppearanceCaption.Options.UseFont = True
@@ -331,12 +338,12 @@ Partial Class frmTrasladoProductos
         GroupControl.CustomHeaderButtons.AddRange(New DevExpress.XtraEditors.ButtonPanel.IBaseButton() {New DevExpress.XtraEditors.ButtonsPanelControl.GroupBoxButton("Cargar/Descargar", True, ButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, True, Nothing, True, False, True, Nothing, -1)})
         GroupControl.CustomHeaderButtonsLocation = DevExpress.Utils.GroupElementLocation.AfterText
         GroupControl.GroupStyle = DevExpress.Utils.GroupStyle.Card
-        GroupControl.Location = New Point(12, 62)
+        GroupControl.Location = New Point(18, 91)
         GroupControl.LookAndFeel.UseDefaultLookAndFeel = False
-        GroupControl.Margin = New Padding(5, 3, 5, 10)
+        GroupControl.Margin = New Padding(8, 4, 8, 15)
         GroupControl.Name = "GroupControl"
-        GroupControl.Padding = New Padding(12, 10, 12, 10)
-        GroupControl.Size = New Size(576, 353)
+        GroupControl.Padding = New Padding(18, 15, 18, 15)
+        GroupControl.Size = New Size(864, 516)
         GroupControl.TabIndex = 0
         GroupControl.Text = "Cargar En Carrito"
         ' 
@@ -353,11 +360,11 @@ Partial Class frmTrasladoProductos
         LabelLoadedAmount.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelLoadedAmount.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelLoadedAmount.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelLoadedAmount.Location = New Point(296, 217)
-        LabelLoadedAmount.Margin = New Padding(5, 3, 5, 3)
+        LabelLoadedAmount.Location = New Point(444, 317)
+        LabelLoadedAmount.Margin = New Padding(8, 4, 8, 4)
         LabelLoadedAmount.Name = "LabelLoadedAmount"
-        LabelLoadedAmount.Padding = New Padding(6, 0, 6, 0)
-        LabelLoadedAmount.Size = New Size(94, 28)
+        LabelLoadedAmount.Padding = New Padding(9, 0, 9, 0)
+        LabelLoadedAmount.Size = New Size(141, 41)
         LabelLoadedAmount.TabIndex = 33
         LabelLoadedAmount.Text = "0000"
         LabelLoadedAmount.Visible = False
@@ -366,8 +373,8 @@ Partial Class frmTrasladoProductos
         ' 
         LabelLoaded.AutoSize = True
         LabelLoaded.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        LabelLoaded.Location = New Point(200, 224)
-        LabelLoaded.Margin = New Padding(4, 0, 0, 6)
+        LabelLoaded.Location = New Point(300, 327)
+        LabelLoaded.Margin = New Padding(6, 0, 0, 9)
         LabelLoaded.Name = "LabelLoaded"
         LabelLoaded.Size = New Size(91, 19)
         LabelLoaded.TabIndex = 32
@@ -378,8 +385,8 @@ Partial Class frmTrasladoProductos
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        Label2.Location = New Point(19, 309)
-        Label2.Margin = New Padding(4, 0, 0, 6)
+        Label2.Location = New Point(28, 452)
+        Label2.Margin = New Padding(6, 0, 0, 9)
         Label2.Name = "Label2"
         Label2.Size = New Size(88, 19)
         Label2.TabIndex = 31
@@ -389,8 +396,8 @@ Partial Class frmTrasladoProductos
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Tahoma", 15.75F, FontStyle.Bold Or FontStyle.Underline)
-        Label5.Location = New Point(19, 263)
-        Label5.Margin = New Padding(4, 0, 0, 6)
+        Label5.Location = New Point(28, 384)
+        Label5.Margin = New Padding(6, 0, 0, 9)
         Label5.Name = "Label5"
         Label5.Size = New Size(155, 25)
         Label5.TabIndex = 30
@@ -400,8 +407,8 @@ Partial Class frmTrasladoProductos
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        Label6.Location = New Point(19, 224)
-        Label6.Margin = New Padding(4, 0, 0, 6)
+        Label6.Location = New Point(28, 327)
+        Label6.Margin = New Padding(6, 0, 0, 9)
         Label6.Name = "Label6"
         Label6.Size = New Size(58, 19)
         Label6.TabIndex = 29
@@ -414,19 +421,20 @@ Partial Class frmTrasladoProductos
         ButtonClearForm.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         ButtonClearForm.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ButtonClearForm.ImageOptions.SvgImageSize = New Size(70, 70)
-        ButtonClearForm.Location = New Point(397, 267)
-        ButtonClearForm.Margin = New Padding(5, 3, 5, 3)
+        ButtonClearForm.Location = New Point(596, 390)
+        ButtonClearForm.Margin = New Padding(8, 4, 8, 4)
         ButtonClearForm.Name = "ButtonClearForm"
-        ButtonClearForm.Size = New Size(75, 75)
+        ButtonClearForm.Size = New Size(112, 110)
         ButtonClearForm.TabIndex = 27
         ButtonClearForm.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
         ButtonClearForm.ToolTipTitle = "Confirma Ubicación"
         ' 
         ' IconWeight
         ' 
-        IconWeight.Location = New Point(298, 291)
+        IconWeight.Location = New Point(447, 425)
+        IconWeight.Margin = New Padding(4, 4, 4, 4)
         IconWeight.Name = "IconWeight"
-        IconWeight.Size = New Size(56, 51)
+        IconWeight.Size = New Size(84, 75)
         IconWeight.SvgImage = My.Resources.Resources.weightedpies
         IconWeight.TabIndex = 25
         IconWeight.Text = "SvgImageBox1"
@@ -438,10 +446,10 @@ Partial Class frmTrasladoProductos
         ButtonConfirm.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         ButtonConfirm.ImageOptions.SvgImage = My.Resources.Resources.save
         ButtonConfirm.ImageOptions.SvgImageSize = New Size(70, 70)
-        ButtonConfirm.Location = New Point(482, 267)
-        ButtonConfirm.Margin = New Padding(5, 3, 5, 3)
+        ButtonConfirm.Location = New Point(723, 390)
+        ButtonConfirm.Margin = New Padding(8, 4, 8, 4)
         ButtonConfirm.Name = "ButtonConfirm"
-        ButtonConfirm.Size = New Size(75, 75)
+        ButtonConfirm.Size = New Size(112, 110)
         ButtonConfirm.TabIndex = 3
         ButtonConfirm.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
         ButtonConfirm.ToolTipTitle = "Confirma Ubicación"
@@ -449,20 +457,20 @@ Partial Class frmTrasladoProductos
         ' SpinEditCantidadSeleccionada
         ' 
         SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditCantidadSeleccionada.Location = New Point(111, 297)
-        SpinEditCantidadSeleccionada.Margin = New Padding(4, 3, 4, 3)
+        SpinEditCantidadSeleccionada.Location = New Point(166, 434)
+        SpinEditCantidadSeleccionada.Margin = New Padding(6, 4, 6, 4)
         SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
         SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
         SpinEditCantidadSeleccionada.Properties.AutoHeight = False
-        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 35, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
+        SpinEditCantidadSeleccionada.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", 52, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.Default)})
         SpinEditCantidadSeleccionada.Properties.IsFloatValue = False
         SpinEditCantidadSeleccionada.Properties.LookAndFeel.SkinName = "WXI"
         SpinEditCantidadSeleccionada.Properties.LookAndFeel.UseDefaultLookAndFeel = False
         SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
         SpinEditCantidadSeleccionada.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
         SpinEditCantidadSeleccionada.Properties.ValidateOnEnterKey = True
-        SpinEditCantidadSeleccionada.Size = New Size(180, 40)
+        SpinEditCantidadSeleccionada.Size = New Size(270, 58)
         SpinEditCantidadSeleccionada.TabIndex = 2
         ' 
         ' LabelStockArticulo
@@ -478,19 +486,19 @@ Partial Class frmTrasladoProductos
         LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticulo.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticulo.Location = New Point(82, 217)
-        LabelStockArticulo.Margin = New Padding(5, 3, 5, 3)
+        LabelStockArticulo.Location = New Point(123, 317)
+        LabelStockArticulo.Margin = New Padding(8, 4, 8, 4)
         LabelStockArticulo.Name = "LabelStockArticulo"
-        LabelStockArticulo.Padding = New Padding(6, 0, 6, 0)
-        LabelStockArticulo.Size = New Size(94, 28)
+        LabelStockArticulo.Padding = New Padding(9, 0, 9, 0)
+        LabelStockArticulo.Size = New Size(141, 41)
         LabelStockArticulo.TabIndex = 23
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
         Label3.Font = New Font("Tahoma", 15.75F, FontStyle.Bold Or FontStyle.Underline)
-        Label3.Location = New Point(18, 183)
-        Label3.Margin = New Padding(4, 0, 0, 6)
+        Label3.Location = New Point(27, 267)
+        Label3.Margin = New Padding(6, 0, 0, 9)
         Label3.Name = "Label3"
         Label3.Size = New Size(130, 25)
         Label3.TabIndex = 22
@@ -509,19 +517,19 @@ Partial Class frmTrasladoProductos
         LabelLocation.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
         LabelLocation.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelLocation.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelLocation.Location = New Point(18, 75)
-        LabelLocation.Margin = New Padding(5, 3, 5, 3)
+        LabelLocation.Location = New Point(27, 110)
+        LabelLocation.Margin = New Padding(8, 4, 8, 4)
         LabelLocation.Name = "LabelLocation"
-        LabelLocation.Padding = New Padding(6, 0, 6, 0)
-        LabelLocation.Size = New Size(539, 28)
+        LabelLocation.Padding = New Padding(9, 0, 9, 0)
+        LabelLocation.Size = New Size(808, 41)
         LabelLocation.TabIndex = 21
         ' 
         ' lblUbicacion
         ' 
         lblUbicacion.AutoSize = True
         lblUbicacion.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        lblUbicacion.Location = New Point(18, 47)
-        lblUbicacion.Margin = New Padding(4, 0, 0, 6)
+        lblUbicacion.Location = New Point(27, 69)
+        lblUbicacion.Margin = New Padding(6, 0, 0, 9)
         lblUbicacion.Name = "lblUbicacion"
         lblUbicacion.Size = New Size(93, 19)
         lblUbicacion.TabIndex = 20
@@ -530,23 +538,23 @@ Partial Class frmTrasladoProductos
         ' TextEditLocation
         ' 
         TextEditLocation.Enabled = False
-        TextEditLocation.Location = New Point(118, 39)
-        TextEditLocation.Margin = New Padding(7, 3, 4, 6)
-        TextEditLocation.MinimumSize = New Size(0, 25)
+        TextEditLocation.Location = New Point(177, 57)
+        TextEditLocation.Margin = New Padding(10, 4, 6, 9)
+        TextEditLocation.MinimumSize = New Size(0, 37)
         TextEditLocation.Name = "TextEditLocation"
         TextEditLocation.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         TextEditLocation.Properties.Appearance.Options.UseFont = True
         TextEditLocation.Properties.MaxLength = 13
         TextEditLocation.Properties.ValidateOnEnterKey = True
-        TextEditLocation.Size = New Size(187, 32)
+        TextEditLocation.Size = New Size(280, 32)
         TextEditLocation.TabIndex = 0
         ' 
         ' lblArticulo
         ' 
         lblArticulo.AutoSize = True
         lblArticulo.Font = New Font("Tahoma", 12F, FontStyle.Bold)
-        lblArticulo.Location = New Point(18, 117)
-        lblArticulo.Margin = New Padding(4, 0, 0, 6)
+        lblArticulo.Location = New Point(27, 171)
+        lblArticulo.Margin = New Padding(6, 0, 0, 9)
         lblArticulo.Name = "lblArticulo"
         lblArticulo.Size = New Size(79, 19)
         lblArticulo.TabIndex = 18
@@ -565,24 +573,24 @@ Partial Class frmTrasladoProductos
         LabelItemName.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
         LabelItemName.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelItemName.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelItemName.Location = New Point(18, 152)
-        LabelItemName.Margin = New Padding(5, 3, 5, 3)
+        LabelItemName.Location = New Point(27, 222)
+        LabelItemName.Margin = New Padding(8, 4, 8, 4)
         LabelItemName.Name = "LabelItemName"
-        LabelItemName.Padding = New Padding(6, 0, 6, 0)
-        LabelItemName.Size = New Size(539, 28)
+        LabelItemName.Padding = New Padding(9, 0, 9, 0)
+        LabelItemName.Size = New Size(808, 41)
         LabelItemName.TabIndex = 17
         ' 
         ' TextEditItem
         ' 
-        TextEditItem.Location = New Point(118, 109)
-        TextEditItem.Margin = New Padding(7, 3, 4, 8)
-        TextEditItem.MinimumSize = New Size(0, 25)
+        TextEditItem.Location = New Point(177, 159)
+        TextEditItem.Margin = New Padding(10, 4, 6, 12)
+        TextEditItem.MinimumSize = New Size(0, 37)
         TextEditItem.Name = "TextEditItem"
         TextEditItem.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         TextEditItem.Properties.Appearance.Options.UseFont = True
         TextEditItem.Properties.MaxLength = 13
         TextEditItem.Properties.ValidateOnEnterKey = True
-        TextEditItem.Size = New Size(187, 32)
+        TextEditItem.Size = New Size(280, 32)
         TextEditItem.TabIndex = 1
         ' 
         ' PanelTitulo
@@ -590,10 +598,10 @@ Partial Class frmTrasladoProductos
         PanelTitulo.BackColor = Color.Peru
         PanelTitulo.Controls.Add(Label4)
         PanelTitulo.Dock = DockStyle.Top
-        PanelTitulo.Location = New Point(12, 10)
-        PanelTitulo.Margin = New Padding(4, 3, 4, 3)
+        PanelTitulo.Location = New Point(18, 15)
+        PanelTitulo.Margin = New Padding(6, 4, 6, 4)
         PanelTitulo.Name = "PanelTitulo"
-        PanelTitulo.Size = New Size(576, 48)
+        PanelTitulo.Size = New Size(864, 70)
         PanelTitulo.TabIndex = 17
         ' 
         ' Label4
@@ -601,8 +609,8 @@ Partial Class frmTrasladoProductos
         Label4.AutoSize = True
         Label4.Font = New Font("Microsoft Sans Serif", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(331, 10)
-        Label4.Margin = New Padding(4, 0, 4, 0)
+        Label4.Location = New Point(496, 15)
+        Label4.Margin = New Padding(6, 0, 6, 0)
         Label4.Name = "Label4"
         Label4.Size = New Size(241, 31)
         Label4.TabIndex = 1
@@ -617,11 +625,11 @@ Partial Class frmTrasladoProductos
         Appearance.Options.UseBorderColor = True
         Appearance.Options.UseFont = True
         Appearance.Options.UseForeColor = True
-        AutoScaleDimensions = New SizeF(6F, 13F)
+        AutoScaleDimensions = New SizeF(9F, 19F)
         AutoScaleMode = AutoScaleMode.Font
         AutoSize = True
         AutoSizeMode = AutoSizeMode.GrowAndShrink
-        ClientSize = New Size(600, 900)
+        ClientSize = New Size(900, 1100)
         Controls.Add(PanelTitulo)
         Controls.Add(GroupControl)
         Controls.Add(btnSalir)
@@ -630,10 +638,10 @@ Partial Class frmTrasladoProductos
         FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.None
         FormBorderStyle = FormBorderStyle.None
         Location = New Point(0, 80)
-        Margin = New Padding(2, 3, 2, 3)
+        Margin = New Padding(3, 4, 3, 4)
         MinimumSize = New Size(600, 900)
         Name = "frmTrasladoProductos"
-        Padding = New Padding(12, 10, 12, 10)
+        Padding = New Padding(18, 15, 18, 15)
         StartPosition = FormStartPosition.Manual
         Text = "Translado Mercancía"
         CType(RepositoryItemButtonEdit1, ComponentModel.ISupportInitialize).EndInit()

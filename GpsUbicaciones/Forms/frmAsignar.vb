@@ -40,7 +40,6 @@ Public Class frmAsignar
 
 #Region "Eventos de Formulario"
     Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Me.AutoValidate = AutoValidate.EnableAllowFocusChange
         Dim dt As New DataTable()
         ' Los nombres deben coincidir con los FieldName del designer
         dt.Columns.Add("Ref", GetType(String))
