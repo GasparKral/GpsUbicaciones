@@ -60,6 +60,12 @@ Public Class frmTrasladoProductos
 #Region "Eventos del Formulario"
 
     Private Sub ButtonConfirm_Click(sender As Object, e As EventArgs) Handles ButtonConfirm.Click
+
+        If Not ValidadarCampos() Then
+            MessageBox.Show("Todos los campos son obligatorios", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
         If PatronDeTrabajo Then
             ' Agregar a MOVPDA OPERACION:TR[Transeferencia]
             Operacion.ExecuteNonQuery("INSERT INTO MOVPDA VALUES(?,'TR',?,?,?)", Terminal, TextEditItem.Text, SpinEditCantidadSeleccionada.Value, TextEditLocation.Text)
@@ -109,6 +115,24 @@ Public Class frmTrasladoProductos
 #End Region
 
 #Region "Funciones Auxiliares"
+
+    Private Function ValidadarCampos() As Boolean
+
+        If TextEditLocation.Text = String.Empty OrElse TextEditLocation.Text = "" Then
+            Return False
+        End If
+
+        If TextEditItem.Text = String.Empty OrElse TextEditItem.Text = "" Then
+            Return False
+        End If
+
+        If SpinEditCantidadSeleccionada.Value = 0 Then
+            Return False
+        End If
+
+        Return True
+    End Function
+
     ''' <summary>
     ''' Busca los articulos en espera con el mismo codigo de articulo y codigo de ubicacion 
     ''' </summary>

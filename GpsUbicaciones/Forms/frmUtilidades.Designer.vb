@@ -51,7 +51,7 @@ Partial Class frmUtilidades
         ResetTable.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ResetTable.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ResetTable.ImageOptions.SvgImageSize = New Size(60, 60)
-        ResetTable.Location = New Point(3, 429)
+        ResetTable.Location = New Point(12, 387)
         ResetTable.Name = "ResetTable"
         ResetTable.Size = New Size(576, 120)
         ResetTable.TabIndex = 5
@@ -64,7 +64,7 @@ Partial Class frmUtilidades
         ButtonVisualizeTable.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ButtonVisualizeTable.ImageOptions.SvgImage = My.Resources.Resources.about
         ButtonVisualizeTable.ImageOptions.SvgImageSize = New Size(60, 60)
-        ButtonVisualizeTable.Location = New Point(3, 261)
+        ButtonVisualizeTable.Location = New Point(12, 261)
         ButtonVisualizeTable.Name = "ButtonVisualizeTable"
         ButtonVisualizeTable.Size = New Size(576, 120)
         ButtonVisualizeTable.TabIndex = 6
@@ -77,7 +77,7 @@ Partial Class frmUtilidades
         ButtonLocation.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ButtonLocation.ImageOptions.SvgImage = My.Resources.Resources.customerquicklocations
         ButtonLocation.ImageOptions.SvgImageSize = New Size(60, 60)
-        ButtonLocation.Location = New Point(3, 25)
+        ButtonLocation.Location = New Point(12, 25)
         ButtonLocation.Name = "ButtonLocation"
         ButtonLocation.Size = New Size(576, 120)
         ButtonLocation.TabIndex = 7

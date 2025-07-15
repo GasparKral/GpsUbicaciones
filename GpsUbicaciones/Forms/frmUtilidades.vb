@@ -34,7 +34,7 @@
             Exit Sub
         End If
 
-        Dim form = New frmBusquedaLocalizacion(Operacion.ExecuteTable($"
+        Dim table = Operacion.ExecuteTable($"
         SELECT U.Nombre, Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven,{nDecUds}) AS Cantidad
         FROM (UBICACIONES AS U
         INNER JOIN STOCKLOTES AS S ON S.Lote = U.Codigo)
@@ -43,7 +43,14 @@
                A.CodBarras = ? OR 
                A.RefProveedor = ?
         ORDER BY U.Orden
-        ", ReferenciaBusqueda, ReferenciaBusqueda, ReferenciaBusqueda))
+        ", ReferenciaBusqueda, ReferenciaBusqueda, ReferenciaBusqueda)
+
+        If table.Rows.Count = 0 Then
+            MessageBox.Show("Artículo no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        Dim form = New frmBusquedaLocalizacion(table)
         form.ShowDialog()
     End Sub
 End Class

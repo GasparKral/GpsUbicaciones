@@ -71,6 +71,10 @@ Public Class frmSeleccionArticulos
         TextEditItem.Clear()
         TextEditLocation.Clear()
         SpinEditCantidadSeleccionada.Value = 0
+        LabelNombreAlmacen.Text = String.Empty
+        LabelNombreUbicacion.Text = String.Empty
+        LabelNombreArticulo.Text = String.Empty
+        LabelStockArticulo.Text = String.Empty
     End Sub
 
 #End Region
@@ -220,7 +224,7 @@ Public Class frmSeleccionArticulos
                 .Unidades = SpinEditCantidadSeleccionada.Value
             }
 
-            Operacion.ExecuteNonQuery("INSERT INTO MOVPDA VALUES(?, 'SE',?,?,?)", Terminal, nuevoArticulo.Articulo, nuevoArticulo.Ubicacion, nuevoArticulo.Unidades)
+            Operacion.ExecuteNonQuery("INSERT INTO MOVPDA VALUES(?,'SE',?,?,?)", Terminal, nuevoArticulo.Articulo, nuevoArticulo.Unidades, nuevoArticulo.Ubicacion)
 
             ArticulosSeleccionados.Add(nuevoArticulo)
             PermitirEdicion(TextEditItem, False)

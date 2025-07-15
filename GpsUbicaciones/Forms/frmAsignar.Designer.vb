@@ -214,7 +214,7 @@ Partial Class frmAsignar
         ButtonConsultarUbicacion.Location = New Point(534, 204)
         ButtonConsultarUbicacion.Name = "ButtonConsultarUbicacion"
         ButtonConsultarUbicacion.Size = New Size(50, 50)
-        ButtonConsultarUbicacion.TabIndex = 1
+        ButtonConsultarUbicacion.TabIndex = 4
         ' 
         ' LabelNombreUbicacion
         ' 
@@ -285,7 +285,7 @@ Partial Class frmAsignar
         ' 
         ' IconWeigth
         ' 
-        IconWeigth.Location = New Point(304, 275)
+        IconWeigth.Location = New Point(304, 267)
         IconWeigth.Name = "IconWeigth"
         IconWeigth.Size = New Size(64, 60)
         IconWeigth.SvgImage = My.Resources.Resources.weightedpies
@@ -395,6 +395,7 @@ Partial Class frmAsignar
         ' 
         ' SpinEditCantidad
         ' 
+        SpinEditCantidad.CausesValidation = False
         SpinEditCantidad.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
         SpinEditCantidad.Enabled = False
         SpinEditCantidad.Location = New Point(112, 283)

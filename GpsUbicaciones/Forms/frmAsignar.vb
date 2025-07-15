@@ -5,6 +5,8 @@ Imports System.IO
 Public Class frmAsignar
     Implements IDisposable
 
+    Property haSidoPermitido = False
+
 #Region "Operaciones de Grid"
     Private Sub ActualizarGridDespuesDeOperacion()
         Dim dt As DataTable = GridControlAsignacionArticulos.DataSource
@@ -50,13 +52,6 @@ Public Class frmAsignar
         dt.Columns.Add("Image")
 
         GridControlAsignacionArticulos.DataSource = dt
-    End Sub
-
-    Private Sub frmAsignar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
-        ' Al pulsar enter salte al siguiente control
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            Me.SelectNextControl(Me.ActiveControl, True, True, True, True)
-        End If
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -153,41 +148,19 @@ Public Class frmAsignar
         End Try
     End Sub
 
-    Private Sub CargarDatosUbicacion(esValidacion As Boolean, Optional e As CancelEventArgs = Nothing)
+    Private Sub CargarDatosUbicacion(ByRef e As CancelEventArgs)
         Try
-            Dim dsDatos = ObtenerFila(Operacion.ExecuteQuery(Querys.Select.ConsultarDatosUbicacionPorCodigo, TextEditLocation.Text, Almacen), 0, 0)
-
-            If esValidacion Then
-                If dsDatos("CodigoAlmacen") <> Configuracion.Almacen Then
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, String.Format(MensajesUbicaciones.AlmacenNoCoincide, Configuracion.Almacen, dsDatos("CodigoAlmacen")))
-                    If e IsNot Nothing Then
-                        e.Cancel = True
-                    End If
-                    Return
-                End If
-                Almacen = dsDatos("CodigoAlmacen")
-            End If
-
-            LabelNombreUbicacion.Text = dsDatos("Nombre")
-
-        Catch ex As InvalidOperationException
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
-            TextEditLocation.SelectAll()
-            TextEditLocation.Focus()
-            If esValidacion Then
-                TextEditLocation.Text = String.Empty
-                If e IsNot Nothing Then
+            Using Ubicacion = RepositorioUbicacion.ObtenerInformacion(TextEditLocation.Text)
+                If Ubicacion Is Nothing Then
                     e.Cancel = True
+                    Exit Sub
                 End If
-            End If
+                LabelNombreUbicacion.Text = Ubicacion.Nombre
+            End Using
+
         Catch ex As Exception
-            Dim mensaje = If(esValidacion, ex.Message, String.Format(MensajesGenerales.SinDatos, TextEditItem.Text))
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, mensaje)
             TextEditLocation.SelectAll()
             TextEditLocation.Focus()
-            If esValidacion AndAlso e IsNot Nothing Then
-                e.Cancel = True
-            End If
         End Try
     End Sub
 
@@ -259,6 +232,7 @@ Public Class frmAsignar
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesGenerales.SinDatos, ex.Message))
         End Try
+        haSidoPermitido = False
     End Sub
 
     Private Sub ButtonConsultarUbicacion_Click(sender As Object, e As EventArgs) Handles ButtonConsultarUbicacion.Click
@@ -282,6 +256,7 @@ Public Class frmAsignar
         SpinEditCantidad.Value = 0
         LabelLocalStock.Text = "0000"
         LabelTotalStock.Text = "0000"
+        haSidoPermitido = False
 
         PermitirEdicion(SpinEditCantidad, False)
         PermitirEdicion(TextEditItem, False)
@@ -320,7 +295,7 @@ Public Class frmAsignar
     ''' Valida el código de ubicación cuando el usuario termina de editarlo
     ''' Se ejecuta al perder el foco o al presionar Tab/Enter
     ''' </summary>
-    Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs)
+    Private Sub TextBoxCodigoUbicacion_Validating(sender As Object, e As CancelEventArgs) Handles TextEditLocation.Validating
         ' Si el campo está vacío, no hacer nada (se permite)
         If String.IsNullOrEmpty(TextEditLocation.Text.Trim) Then
             ' Limpiar datos relacionados
@@ -329,13 +304,13 @@ Public Class frmAsignar
         End If
 
         ' Cargar datos de la ubicación
-        CargarDatosUbicacion(True, e)
+        CargarDatosUbicacion(e)
         ' Si la validación de ubicación fue exitosa y hay un artículo seleccionado,
         ' actualizar el stock
         If e.Cancel <> True Then
             actualizarCampoStock()
-            PermitirEdicion(ButtonConsultarUbicacion, True, False)
             PermitirEdicion(TextEditItem, True)
+            PermitirEdicion(ButtonConsultarUbicacion, True, False)
         End If
     End Sub
 
@@ -352,30 +327,47 @@ Public Class frmAsignar
             Exit Sub
         End If
 
-        Dim stockTotal = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
-        If (SpinEditCantidad.Value + stockTotal.Cantidad) > stockTotal.Articulo.StockTotal Then
-            ' Alert sobre la disconformidad y pedir confirmación
-            Dim confirmacion = MessageBox.Show("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+        ' Almacenar el valor actual ANTES de cualquier operación
+        Dim valorIngresado = SpinEditCantidad.Value
 
-            If confirmacion <> DialogResult.OK Then
-                PermitirEdicion(ButtonResetForm, False)
-                PermitirEdicion(ButtonConfirmacionArticulo, False)
-                e.Cancel = True
-                SpinEditCantidad.Focus()
-                Exit Sub
+        Try
+            Dim stockTotal = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+
+            If Not haSidoPermitido Then
+                If (valorIngresado + stockTotal.Cantidad) > stockTotal.Articulo.StockTotal Then
+                    ' Alert sobre la disconformidad y pedir confirmación
+                    Dim confirmacion = MessageBox.Show("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+
+                    If confirmacion <> DialogResult.OK Then
+                        PermitirEdicion(ButtonResetForm, False)
+                        PermitirEdicion(ButtonConfirmacionArticulo, False)
+                        e.Cancel = True
+                        SpinEditCantidad.Focus()
+                        Exit Sub
+                    Else
+                        ' Usuario confirmó, mantener el valor y marcar como permitido
+                        haSidoPermitido = True
+                        SpinEditCantidad.Value = valorIngresado ' Asegurar que mantiene el valor
+                    End If
+                End If
             End If
 
-        End If
+            ' Activar botones solo si llegamos aquí
+            PermitirEdicion(ButtonResetForm, True, False)
+            PermitirEdicion(ButtonConfirmacionArticulo, True)
 
-        ' Activar botones
-        PermitirEdicion(ButtonResetForm, True, False)
-        PermitirEdicion(ButtonConfirmacionArticulo, True)
-
+        Catch ex As Exception
+            ' Si hay error en el repositorio, cancelar y mantener el valor
+            SpinEditCantidad.Value = valorIngresado
+            e.Cancel = True
+            Exit Sub
+        End Try
     End Sub
 
     Private Sub LabelTotalStock_Click(sender As Object, e As EventArgs) Handles LabelTotalStock.Click
         Dim stockValue As Single
         If Single.TryParse(LabelTotalStock.Text, stockValue) AndAlso stockValue >= 0 Then
+            stockValue = Math.Max(0, stockValue)
             SpinEditCantidad.Value = stockValue
         Else
             Exit Sub

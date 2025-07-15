@@ -74,6 +74,7 @@ Partial Class frmConsulta
         GridViewConsultaArticulos.OptionsBehavior.Editable = False
         GridViewConsultaArticulos.OptionsEditForm.PopupEditFormWidth = 700
         GridViewConsultaArticulos.OptionsView.ShowGroupPanel = False
+        GridViewConsultaArticulos.OptionsView.ShowIndicator = False
         ' 
         ' PanelTitulo
         ' 

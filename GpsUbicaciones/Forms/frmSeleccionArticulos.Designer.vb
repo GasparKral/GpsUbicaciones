@@ -22,7 +22,6 @@ Partial Class frmSeleccionArticulos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSeleccionArticulos))
         Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
         Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
@@ -107,7 +106,7 @@ Partial Class frmSeleccionArticulos
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-        btnSalir.ImageOptions.SvgImage = CType(resources.GetObject("btnSalir.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.Location = New Point(439, 824)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
@@ -150,7 +149,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ButtonReset.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonReset.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonReset.ImageOptions.SvgImage = CType(resources.GetObject("ButtonReset.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonReset.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ButtonReset.ImageOptions.SvgImageSize = New Size(45, 45)
         ButtonReset.Location = New Point(404, 227)
         ButtonReset.Margin = New Padding(4, 3, 4, 3)
@@ -183,7 +182,7 @@ Partial Class frmSeleccionArticulos
         IconWeight.Location = New Point(346, 150)
         IconWeight.Name = "IconWeight"
         IconWeight.Size = New Size(40, 40)
-        IconWeight.SvgImage = CType(resources.GetObject("IconWeight.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        IconWeight.SvgImage = My.Resources.Resources.weightedpies
         IconWeight.TabIndex = 31
         IconWeight.Text = "SvgImageBox1"
         IconWeight.Visible = False
@@ -192,7 +191,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ButtonConfirmacionLectura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonConfirmacionLectura.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionLectura.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionLectura.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionLectura.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionLectura.ImageOptions.SvgImageSize = New Size(45, 45)
         ButtonConfirmacionLectura.Location = New Point(487, 227)
         ButtonConfirmacionLectura.Margin = New Padding(4, 3, 4, 3)
@@ -381,11 +380,13 @@ Partial Class frmSeleccionArticulos
         ' 
         ColumnItemRef.Caption = "Referenia"
         ColumnItemRef.FieldName = "Articulo"
+        ColumnItemRef.MaxWidth = 70
+        ColumnItemRef.MinWidth = 70
         ColumnItemRef.Name = "ColumnItemRef"
         ColumnItemRef.OptionsColumn.AllowEdit = False
         ColumnItemRef.Visible = True
         ColumnItemRef.VisibleIndex = 0
-        ColumnItemRef.Width = 98
+        ColumnItemRef.Width = 70
         ' 
         ' ColumnItemName
         ' 
@@ -395,7 +396,7 @@ Partial Class frmSeleccionArticulos
         ColumnItemName.OptionsColumn.AllowEdit = False
         ColumnItemName.Visible = True
         ColumnItemName.VisibleIndex = 1
-        ColumnItemName.Width = 316
+        ColumnItemName.Width = 308
         ' 
         ' ColumnLocation
         ' 
@@ -405,26 +406,30 @@ Partial Class frmSeleccionArticulos
         ColumnLocation.OptionsColumn.AllowEdit = False
         ColumnLocation.Visible = True
         ColumnLocation.VisibleIndex = 2
-        ColumnLocation.Width = 163
+        ColumnLocation.Width = 206
         ' 
         ' ColumnAmmount
         ' 
         ColumnAmmount.Caption = "Unidades"
         ColumnAmmount.FieldName = "Unidades"
+        ColumnAmmount.MaxWidth = 60
+        ColumnAmmount.MinWidth = 60
         ColumnAmmount.Name = "ColumnAmmount"
         ColumnAmmount.OptionsColumn.AllowEdit = False
         ColumnAmmount.Visible = True
         ColumnAmmount.VisibleIndex = 3
-        ColumnAmmount.Width = 78
+        ColumnAmmount.Width = 60
         ' 
         ' ColumnDelete
         ' 
         ColumnDelete.ColumnEdit = RepositoryCancelButton
+        ColumnDelete.MaxWidth = 100
+        ColumnDelete.MinWidth = 100
         ColumnDelete.Name = "ColumnDelete"
         ColumnDelete.OptionsColumn.AllowSize = False
         ColumnDelete.Visible = True
         ColumnDelete.VisibleIndex = 4
-        ColumnDelete.Width = 89
+        ColumnDelete.Width = 100
         ' 
         ' RepositoryCancelButton
         ' 
@@ -475,7 +480,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ButtonConfirmacionAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         ButtonConfirmacionAccion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
-        ButtonConfirmacionAccion.ImageOptions.SvgImage = CType(resources.GetObject("ButtonConfirmacionAccion.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        ButtonConfirmacionAccion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionAccion.ImageOptions.SvgImageSize = New Size(45, 45)
         ButtonConfirmacionAccion.Location = New Point(488, 237)
         ButtonConfirmacionAccion.Margin = New Padding(4, 3, 4, 3)

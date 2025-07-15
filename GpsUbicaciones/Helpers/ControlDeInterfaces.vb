@@ -3,7 +3,8 @@
 Module ControlDeInterfaces
     Public Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean, Optional mostrarLabel As Control = Nothing)
         Control.Properties.Mask.UseMaskAsDisplayFormat = True
-        Control.Properties.MinValue = 0.00
+        Control.Properties.MinValue = 0
+        Control.Properties.MaxValue = Decimal.MaxValue
         If Valor Then
             Control.Properties.IsFloatValue = True
             Control.Properties.EditMask = $"N{nDecUds}"
