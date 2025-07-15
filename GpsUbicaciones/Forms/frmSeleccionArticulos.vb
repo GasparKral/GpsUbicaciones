@@ -32,11 +32,14 @@ Public Class frmSeleccionArticulos
                         Dim temp As New ArticuloSeleccion With {
                             .Articulo = row("Articulo"),
                             .Ubicacion = row("Lote"),
-                            .Unidades = Single.Parse(row("Cantidad"))
+                            .Unidades = Single.Parse(row("Cantidad")),
+                            .Descripcion = RepositorioArticulo.ObtenerInformacion(row("Articulo")).NombreComercial
                         }
 
                         ArticulosSeleccionados.Add(temp)
                     Next
+
+                    GridControlArticulosSeleccionados.Visible = True
                 End If
             End Using
 
@@ -300,12 +303,8 @@ Public Class frmSeleccionArticulos
             Dim articuloAEliminar As ArticuloSeleccion = ArticulosSeleccionados(RowHandler)
 
             ' Confirmar la eliminación con el usuario
-            Dim resultado = MessageBox.Show(
-            $"¿Está seguro de que desea eliminar el artículo {articuloAEliminar.Articulo} de la ubicación {articuloAEliminar.Ubicacion}?",
-            "Confirmar eliminación",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question
-        )
+            Dim resultado = GestorMensajes.FabricaMensajes.MostrarConfirmacionConCancelar($"¿Está seguro de que desea eliminar el artículo {articuloAEliminar.Articulo} de la ubicación {articuloAEliminar.Ubicacion}?",
+            "Confirmar eliminación")
 
             If resultado = DialogResult.Yes Then
                 ' Eliminar de la tabla MOVPDA si existe un registro

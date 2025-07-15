@@ -4,17 +4,14 @@
         Me.Close()
     End Sub
     Private Sub ResetTable_Click(sender As Object, e As EventArgs) Handles ResetTable.Click
-        Dim result As DialogResult = MessageBox.Show("¿Está seguro que desea eliminar todos los registros de la tabla MovPda?" & vbCrLf & vbCrLf & "Esta acción no se puede deshacer.",
-                                                "Confirmar eliminación",
-                                                MessageBoxButtons.YesNo,
-                                                MessageBoxIcon.Warning)
+        Dim result = GestorMensajes.FabricaMensajes.MostrarConfirmacionConCancelar("¿Está seguro que desea eliminar todos los registros de la tabla MovPda?" & vbCrLf & vbCrLf & "Esta acción no se puede deshacer.")
 
         If result = DialogResult.Yes Then
             Try
                 Operacion.ExecuteNonQuery("DELETE FROM MovPda WHERE Terminal = ?", Terminal)
-                MessageBox.Show("Tabla reiniciada correctamente.", "Operación completada", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                GestorMensajes.FabricaMensajes.MostrarConfirmacion("Tabla reiniciada correctamente.")
             Catch ex As Exception
-                MessageBox.Show("Error al reiniciar la tabla: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al reiniciar la tabla: " & ex.Message)
             End Try
         End If
     End Sub
@@ -28,7 +25,7 @@
 
     Private Sub ButtonLocation_Click(sender As Object, e As EventArgs) Handles ButtonLocation.Click
         ' Abrir popup de busqueda
-        Dim ReferenciaBusqueda As String = InputBox("Por favor, introduzca el código de referencia del artículo que desea buscar.", "Busqueda de ubicaciones")
+        Dim ReferenciaBusqueda As String = GestorMensajes.FabricaMensajes.SolicitarDatos("Por favor, introduzca el código de referencia del artículo que desea buscar.", "Busqueda de ubicaciones")
 
         If String.IsNullOrEmpty(ReferenciaBusqueda) Then
             Exit Sub
@@ -46,7 +43,7 @@
         ", ReferenciaBusqueda, ReferenciaBusqueda, ReferenciaBusqueda)
 
         If table.Rows.Count = 0 Then
-            MessageBox.Show("Artículo no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Artículo no encontrado.")
             Exit Sub
         End If
 

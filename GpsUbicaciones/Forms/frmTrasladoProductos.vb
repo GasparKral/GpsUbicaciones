@@ -61,7 +61,7 @@ Public Class frmTrasladoProductos
     Private Sub ButtonConfirm_Click(sender As Object, e As EventArgs) Handles ButtonConfirm.Click
 
         If Not ValidadarCampos() Then
-            MessageBox.Show("Todos los campos son obligatorios", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Todos los campos son obligatorios")
             Exit Sub
         End If
 
@@ -494,11 +494,7 @@ Public Class frmTrasladoProductos
                                       $"Artículo: {nombreComercial}{vbCrLf}" &
                                       $"Ubicación: {ubicacionOrigen}{vbCrLf}" &
                                       $"Cantidad: {cantidadAMover}"
-
-                    Dim result As DialogResult = MessageBox.Show(mensaje,
-                                                            "Confirmar eliminación",
-                                                            MessageBoxButtons.YesNo,
-                                                            MessageBoxIcon.Question)
+                    Dim result = GestorMensajes.FabricaMensajes.MostrarConfirmacion(mensaje, "Confirmar eliminación")
 
                     If result = DialogResult.Yes Then
                         ' Eliminar de la base de datos (tabla MOVPDA)
@@ -511,19 +507,18 @@ Public Class frmTrasladoProductos
 
                             ' Actualizar contadores si es necesario
                             LabelLoadedAmount.Text = CalcularTotalEnEspera(TextEditItem.Text)
-
-                            MessageBox.Show("Artículo eliminado correctamente del traslado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            GestorMensajes.FabricaMensajes.MostrarConfirmacion("Artículo eliminado correctamente del traslado.")
                         Else
-                            MessageBox.Show("Error al eliminar el artículo de la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo de la base de datos.")
                         End If
                     End If
                 Else
-                    MessageBox.Show("No hay ningún artículo seleccionado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No hay ninguna fila seleccionada.")
                 End If
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error al eliminar el artículo: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo: " & ex.Message)
         End Try
     End Sub
 

@@ -4,19 +4,32 @@
 
     Private Sub frmAsignar_Load(sender As Object, e As EventArgs) Handles Me.Load
 
+        ' Inicializar el DataTable
+        Dim dt As New DataTable()
+        dt.Columns.Add("Ref", GetType(String))
+        dt.Columns.Add("Nombre", GetType(String))
+        dt.Columns.Add("Ubicacion", GetType(String))
+        dt.Columns.Add("Uds", GetType(Single))
+
+        ' Asignar el DataTable al Grid
+        GridControlArticulosSeleccionados.DataSource = dt
+
         Using Table = RepositorioMovPDA.ObtenerVentasPDA
             If Table.Rows.Count > 0 Then
-                GridControlArticulosSeleccionados.DataSource = Table
-            Else
-                ' Inicializar el DataTable
-                Dim dt As New DataTable()
-                dt.Columns.Add("Ref", GetType(String))
-                dt.Columns.Add("Nombre", GetType(String))
-                dt.Columns.Add("Ubicacion", GetType(String))
-                dt.Columns.Add("Uds", GetType(Single))
 
-                ' Asignar el DataTable al Grid
-                GridControlArticulosSeleccionados.DataSource = dt
+                For Each row As DataRow In Table.Rows
+                    Dim newRow = dt.NewRow()
+
+                    newRow("Ref") = row("Articulo")
+                    newRow("Nombre") = RepositorioArticulo.ObtenerInformacion(row("Articulo")).NombreComercial
+                    newRow("Ubicacion") = row("Lote")
+                    newRow("Uds") = row("Cantidad")
+
+                    dt.Rows.Add(newRow)
+                Next
+                GridControlArticulosSeleccionados.Visible = True
+            Else
+
             End If
         End Using
 

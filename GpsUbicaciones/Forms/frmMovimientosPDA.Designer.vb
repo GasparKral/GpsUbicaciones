@@ -62,6 +62,12 @@ Partial Class frmMovimientosPDA
         ' 
         ' GridViewMovimientos
         ' 
+        GridViewMovimientos.Appearance.HorzLine.BackColor = Color.Transparent
+        GridViewMovimientos.Appearance.HorzLine.BorderColor = Color.Transparent
+        GridViewMovimientos.Appearance.HorzLine.ForeColor = Color.Transparent
+        GridViewMovimientos.Appearance.HorzLine.Options.UseBackColor = True
+        GridViewMovimientos.Appearance.HorzLine.Options.UseBorderColor = True
+        GridViewMovimientos.Appearance.HorzLine.Options.UseForeColor = True
         GridViewMovimientos.Appearance.Row.Options.UseBackColor = True
         GridViewMovimientos.Appearance.Row.Options.UseForeColor = True
         GridViewMovimientos.Appearance.VertLine.BackColor = Color.Transparent

@@ -21,11 +21,8 @@
         Application.EnableVisualStyles()
         '  Application.SetCompatibleTextRenderingDefault(False)
 
-
         SplashScreen.Show()
         Application.DoEvents()
-
-
 
         ' Leer el primer parametro de la linea de comandos:
         Dim args() As String = Environment.GetCommandLineArgs()
@@ -50,24 +47,21 @@
             settings.SelectedCompany = EmpresaSeleccionada
         Else
             ' Manejar el caso cuando no hay suficientes argumentos
-            MessageBox.Show("Faltan argumentos requeridos: Unidad, Empresa y Terminal")
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Faltan argumentos requeridos: Unidad, Empresa y Terminal")
         End If
 
-        Dim dt = Operacion.ExecuteTable("SELECT * FROM Pda WHERE Codigo = ?", Terminal)
+        Using dt = Operacion.ExecuteTable("SELECT * FROM Pda WHERE Codigo = ?", Terminal)
+            If dt.Rows.Count = 0 Then
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Terminal no encontrada en la tabla PDA")
+                Me.Close()
+            End If
 
-        If dt.Rows.Count = 0 Then
-            MsgBox("Terminal no definido en la tabla PDA")
-            Me.Close()
-        End If
+            Almacen = dt.Rows(0)("almacen")
+            lblTerminal.Text = dt.Rows(0)("Nombre").ToString
 
-        Almacen = dt.Rows(0)("almacen")
-        lblTerminal.Text = dt.Rows(0)("Nombre").ToString
-        dt.Dispose()
-
-
-        lblEmpresa.Text = "Empresa: " & EmpresaSeleccionada
-        lblAlmacen.Text = "Almacen: " & Almacen
-
+            lblEmpresa.Text = "Empresa: " & EmpresaSeleccionada
+            lblAlmacen.Text = "Almacen: " & Almacen
+        End Using
 
         SplashScreen.Close()
     End Sub
