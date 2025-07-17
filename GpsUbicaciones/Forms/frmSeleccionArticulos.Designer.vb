@@ -83,7 +83,7 @@ Partial Class frmSeleccionArticulos
         DatePicker = New DevExpress.XtraEditors.DateEdit()
         LabelControl3 = New DevExpress.XtraEditors.LabelControl()
         GridPedidos = New DevExpress.XtraGrid.GridControl()
-        GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        GridViewPedidos = New DevExpress.XtraGrid.Views.Grid.GridView()
         ColumnRef = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnItem = New DevExpress.XtraGrid.Columns.GridColumn()
         ColumnPlacement = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -109,7 +109,7 @@ Partial Class frmSeleccionArticulos
         CType(DatePicker.Properties, ComponentModel.ISupportInitialize).BeginInit()
         CType(DatePicker.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).BeginInit()
         CType(GridPedidos, ComponentModel.ISupportInitialize).BeginInit()
-        CType(GridView2, ComponentModel.ISupportInitialize).BeginInit()
+        CType(GridViewPedidos, ComponentModel.ISupportInitialize).BeginInit()
         CType(XtraTabControl1, ComponentModel.ISupportInitialize).BeginInit()
         XtraTabControl1.SuspendLayout()
         XtraTabPage1.SuspendLayout()
@@ -164,7 +164,7 @@ Partial Class frmSeleccionArticulos
         ' btnSalir
         ' 
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold)
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
@@ -180,7 +180,7 @@ Partial Class frmSeleccionArticulos
         ' 
         GroupControlUbicacion.Appearance.BackColor = Color.Transparent
         GroupControlUbicacion.Appearance.Options.UseBackColor = True
-        GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        GroupControlUbicacion.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold)
         GroupControlUbicacion.AppearanceCaption.Options.UseBackColor = True
         GroupControlUbicacion.AppearanceCaption.Options.UseFont = True
         GroupControlUbicacion.Controls.Add(ButtonReset)
@@ -210,6 +210,7 @@ Partial Class frmSeleccionArticulos
         ' ButtonReset
         ' 
         ButtonReset.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonReset.CausesValidation = False
         ButtonReset.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         ButtonReset.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ButtonReset.ImageOptions.SvgImageSize = New Size(45, 45)
@@ -370,7 +371,7 @@ Partial Class frmSeleccionArticulos
         ' 
         LabelNombreUbicacion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         LabelNombreUbicacion.Appearance.BackColor = Color.RoyalBlue
-        LabelNombreUbicacion.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelNombreUbicacion.Appearance.Font = New Font("Tahoma", 15.75F)
         LabelNombreUbicacion.Appearance.ForeColor = Color.White
         LabelNombreUbicacion.Appearance.Options.UseBackColor = True
         LabelNombreUbicacion.Appearance.Options.UseFont = True
@@ -637,9 +638,9 @@ Partial Class frmSeleccionArticulos
         DatePicker.EditValue = Nothing
         DatePicker.Location = New Point(88, 54)
         DatePicker.Name = "DatePicker"
-        DatePicker.Properties.Appearance.Font = New Font("Tahoma", 20.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DatePicker.Properties.Appearance.Font = New Font("Tahoma", 20.25F)
         DatePicker.Properties.Appearance.Options.UseFont = True
-        DatePicker.Properties.AppearanceCalendar.DayCell.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DatePicker.Properties.AppearanceCalendar.DayCell.Font = New Font("Tahoma", 12F)
         DatePicker.Properties.AppearanceCalendar.DayCell.Options.UseFont = True
         DatePicker.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         DatePicker.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
@@ -652,7 +653,7 @@ Partial Class frmSeleccionArticulos
         ' LabelControl3
         ' 
         LabelControl3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        LabelControl3.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelControl3.Appearance.Font = New Font("Tahoma", 15.75F)
         LabelControl3.Appearance.Options.UseFont = True
         LabelControl3.Location = New Point(13, 63)
         LabelControl3.Margin = New Padding(3, 2, 3, 2)
@@ -669,29 +670,29 @@ Partial Class frmSeleccionArticulos
         GridPedidos.Location = New Point(13, 99)
         GridPedidos.LookAndFeel.SkinName = "WXI"
         GridPedidos.LookAndFeel.UseDefaultLookAndFeel = False
-        GridPedidos.MainView = GridView2
+        GridPedidos.MainView = GridViewPedidos
         GridPedidos.Margin = New Padding(3, 2, 3, 2)
         GridPedidos.Name = "GridPedidos"
         GridPedidos.Size = New Size(577, 363)
         GridPedidos.TabIndex = 12
-        GridPedidos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridView2})
+        GridPedidos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewPedidos})
         ' 
-        ' GridView2
+        ' GridViewPedidos
         ' 
-        GridView2.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnRef, ColumnItem, ColumnPlacement, ColumnUnits, ColumnStock, ColumnState})
-        GridView2.DetailHeight = 262
-        GridView2.GridControl = GridPedidos
-        GridView2.Name = "GridView2"
-        GridView2.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
-        GridView2.OptionsBehavior.Editable = False
-        GridView2.OptionsCustomization.AllowFilter = False
-        GridView2.OptionsCustomization.AllowSort = False
-        GridView2.OptionsEditForm.PopupEditFormWidth = 700
-        GridView2.OptionsMenu.EnableColumnMenu = False
-        GridView2.OptionsMenu.EnableFooterMenu = False
-        GridView2.OptionsMenu.EnableGroupPanelMenu = False
-        GridView2.OptionsView.ShowGroupPanel = False
-        GridView2.OptionsView.ShowIndicator = False
+        GridViewPedidos.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {ColumnRef, ColumnItem, ColumnPlacement, ColumnUnits, ColumnStock, ColumnState})
+        GridViewPedidos.DetailHeight = 262
+        GridViewPedidos.GridControl = GridPedidos
+        GridViewPedidos.Name = "GridViewPedidos"
+        GridViewPedidos.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False
+        GridViewPedidos.OptionsBehavior.Editable = False
+        GridViewPedidos.OptionsCustomization.AllowFilter = False
+        GridViewPedidos.OptionsCustomization.AllowSort = False
+        GridViewPedidos.OptionsEditForm.PopupEditFormWidth = 700
+        GridViewPedidos.OptionsMenu.EnableColumnMenu = False
+        GridViewPedidos.OptionsMenu.EnableFooterMenu = False
+        GridViewPedidos.OptionsMenu.EnableGroupPanelMenu = False
+        GridViewPedidos.OptionsView.ShowGroupPanel = False
+        GridViewPedidos.OptionsView.ShowIndicator = False
         ' 
         ' ColumnRef
         ' 
@@ -770,7 +771,7 @@ Partial Class frmSeleccionArticulos
         ' 
         ' XtraTabPage1
         ' 
-        XtraTabPage1.Appearance.Header.Font = New Font("Tahoma", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        XtraTabPage1.Appearance.Header.Font = New Font("Tahoma", 14.25F, FontStyle.Bold)
         XtraTabPage1.Appearance.Header.Options.UseFont = True
         XtraTabPage1.Controls.Add(GroupControlUbicacion)
         XtraTabPage1.Name = "XtraTabPage1"
@@ -834,7 +835,7 @@ Partial Class frmSeleccionArticulos
         CType(DatePicker.Properties.CalendarTimeProperties, ComponentModel.ISupportInitialize).EndInit()
         CType(DatePicker.Properties, ComponentModel.ISupportInitialize).EndInit()
         CType(GridPedidos, ComponentModel.ISupportInitialize).EndInit()
-        CType(GridView2, ComponentModel.ISupportInitialize).EndInit()
+        CType(GridViewPedidos, ComponentModel.ISupportInitialize).EndInit()
         CType(XtraTabControl1, ComponentModel.ISupportInitialize).EndInit()
         XtraTabControl1.ResumeLayout(False)
         XtraTabPage1.ResumeLayout(False)
@@ -859,7 +860,7 @@ Partial Class frmSeleccionArticulos
     Friend WithEvents RadioButtonOpcionTraspasoAlamacen As RadioButton
     Friend WithEvents RadioButtonOpcionAlbaran As RadioButton
     Friend WithEvents GridPedidos As DevExpress.XtraGrid.GridControl
-    Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridViewPedidos As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents SpinEditCantidadSeleccionada As DevExpress.XtraEditors.SpinEdit
     Friend WithEvents lblUbicacion As Label
     Friend WithEvents lblArticulo As Label

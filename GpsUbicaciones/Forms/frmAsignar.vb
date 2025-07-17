@@ -1,6 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.Globalization
-Imports System.IO
 
 Public Class frmAsignar
     Implements IDisposable
@@ -19,18 +17,6 @@ Public Class frmAsignar
         row("TotalStock") = info.Articulo.StockTotal
         row("LocalStock") = info.Cantidad
         row("Asign") = SpinEditCantidad.Value
-
-        ' Cargar la imagen como objeto Image
-        Try
-            If Not String.IsNullOrEmpty(info.Articulo.Foto) AndAlso File.Exists(info.Articulo.Foto) Then
-                Dim imagen As Image = Image.FromFile(info.Articulo.Foto)
-                row("Image") = imagen
-            Else
-                row("Image") = My.Resources.Resources.NoImage ' Tu imagen por defecto
-            End If
-        Catch ex As Exception
-            row("Image") = My.Resources.Resources.NoImage
-        End Try
 
         dt.Rows.Add(row)
         GridControlAsignacionArticulos.Visible = True
@@ -58,40 +44,6 @@ Public Class frmAsignar
     End Sub
 #End Region
 
-#Region "Validación de Campos"
-    Private Function ValidarDatosArticulo() As Boolean
-        If String.IsNullOrEmpty(TextEditItem.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesArticulos.CodigoFaltante)
-            TextEditItem.Focus()
-            Return False
-        End If
-
-        Dim stock As Single
-        If Not Single.TryParse(SpinEditCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, stock) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesGenerales.ValorNumericoRequerido)
-            SpinEditCantidad.Focus()
-            Return False
-        End If
-
-        If stock = 0 Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesStock.CantidadInvalida)
-            SpinEditCantidad.Focus()
-            Return False
-        End If
-
-        Return True
-    End Function
-
-    Private Function ValidarUbicacion() As Boolean
-        If String.IsNullOrEmpty(TextEditLocation.Text) Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesUbicaciones.CodigoFaltante)
-            TextEditLocation.Focus()
-            Return False
-        End If
-        Return True
-    End Function
-#End Region
-
 #Region "Control de UI"
 
 
@@ -101,6 +53,7 @@ Public Class frmAsignar
         SpinEditCantidad.Clear()
         IconWeigth.Visible = False
         LabelTotalStock.Text = String.Empty
+        LabelLocalStock.Text = String.Empty
         If ActivarFoco Then
             PermitirEdicion(TextEditItem, True)
             TextEditItem.Select()
@@ -119,32 +72,46 @@ Public Class frmAsignar
 #End Region
 
 #Region "Carga de Datos"
-    Private Sub CargarStockLote(e As CancelEventArgs)
+    Private Sub CargarStockLote(ByRef e As CancelEventArgs)
+        Cursor.Current = Cursors.WaitCursor
         Try
-            Dim stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+            If Not RepositorioStockLote.HayExistencias(TextEditItem.Text, TextEditLocation.Text) Then
+                Try
+                    Using Articulo = RepositorioArticulo.ObtenerInformacion(TextEditItem.Text)
+                        LabelNombreArticulo.Text = Articulo.NombreComercial
+                        LabelTotalStock.Text = Articulo.StockTotal
+                        LabelLocalStock.Text = 0
+                        AceptarDecimales(SpinEditCantidad, Articulo.PorPeso, IconWeigth)
+                    End Using
+                Catch ex As InvalidOperationException
+                    Cursor.Current = Cursors.Default
+                    FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Código de articulo no valido")
+                    TextEditItem.SelectAll()
+                    TextEditItem.Focus()
+                    e.Cancel = True
+                End Try
+            Else
+                Try
+                    Using stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+                        LabelNombreArticulo.Text = stockLote.Articulo.NombreComercial
+                        LabelTotalStock.Text = stockLote.Articulo.StockTotal
+                        LabelLocalStock.Text = stockLote.Cantidad
 
-            If stockLote Is Nothing Then
-                e.Cancel = True
-                Exit Sub
+                        AceptarDecimales(SpinEditCantidad, stockLote.Articulo.PorPeso, IconWeigth)
+                    End Using
+                Catch ex As InvalidOperationException
+                    Cursor.Current = Cursors.Default
+                    FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Código de Ubicación no valido")
+                    TextEditItem.SelectAll()
+                    TextEditItem.Focus()
+                    e.Cancel = True
+                End Try
             End If
-
-            LabelNombreArticulo.Text = stockLote.Articulo.NombreComercial
-            LabelTotalStock.Text = stockLote.Articulo.StockTotal
-            LabelLocalStock.Text = stockLote.Cantidad
-
-            AceptarDecimales(SpinEditCantidad, stockLote.Articulo.PorPeso, IconWeigth)
-
-        Catch ex As InvalidOperationException
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, ex.Message)
-            TextEditItem.SelectAll()
-            TextEditItem.Focus()
-
         Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesArticulos.CodigoInvalido, TextEditItem.Text))
-            TextEditItem.SelectAll()
-            TextEditItem.Focus()
-
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al cargar el articulo: {ex.Message}")
+            e.Cancel = True
         End Try
+        Cursor.Current = Cursors.Default
     End Sub
 
     Private Sub CargarDatosUbicacion(ByRef e As CancelEventArgs)
@@ -176,14 +143,14 @@ Public Class frmAsignar
                 Return
             End If
 
-            Dim stock As Integer
-            If Integer.TryParse(dsFila("Stock").ToString(), stock) Then
-                SpinEditCantidad.Text = stock.ToString()
+            Dim stock As Single
+            If Single.TryParse(dsFila("Stock").ToString(), stock) Then
+                SpinEditCantidad.Value = 0 = stock
             Else
-                SpinEditCantidad.Text = "0"
+                SpinEditCantidad.Value = 0
             End If
         Catch ex As Exception
-            SpinEditCantidad.Text = "0"
+            SpinEditCantidad.Value = 0
         End Try
     End Sub
 #End Region
@@ -192,9 +159,39 @@ Public Class frmAsignar
 
     Private Sub ButtonConfirmacionArticulo_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionArticulo.Click
         ' Validaciones iniciales
-        If Not ValidarDatosArticulo() Then
+        TextEditItem.DoValidate()
+        TextEditLocation.DoValidate()
+
+        If SpinEditCantidad.Value <= 0 Then
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "La cantidad debe ser mayor a 0")
+            SpinEditCantidad.Focus()
             Exit Sub
         End If
+
+        Try
+            Dim stockTotal = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+
+            If Not haSidoPermitido Then
+                If (SpinEditCantidad.Value + stockTotal.Cantidad) > stockTotal.Articulo.StockTotal Then
+                    ' Alert sobre la disconformidad y pedir confirmación
+                    Dim confirmacion = GestorMensajes.FabricaMensajes.MostrarConfirmacion("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación")
+
+                    If confirmacion <> True Then
+                        PermitirEdicion(ButtonResetForm, False)
+                        PermitirEdicion(ButtonConfirmacionArticulo, False)
+                        SpinEditCantidad.Focus()
+                        Exit Sub
+                    Else
+                        ' Usuario confirmó, mantener el valor y marcar como permitido
+                        haSidoPermitido = True
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al validar el articulo: " & ex.Message)
+            Exit Sub
+        End Try
 
         ' Usar la transacción condicional
         Try
@@ -244,6 +241,7 @@ Public Class frmAsignar
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, String.Format(MensajesArticulos.ErrorConsulta, ex.Message))
         End Try
+        BuscarUltimoFoco(ButtonConfirmacionArticulo, TextEditLocation, TextEditItem, SpinEditCantidad)
     End Sub
 
     Private Sub btnNuevaUbicacion_Click() Handles ButtonResetForm.Click
@@ -253,16 +251,14 @@ Public Class frmAsignar
         LabelNombreArticulo.Text = String.Empty
         IconWeigth.Visible = False
         SpinEditCantidad.Value = 0
-        LabelLocalStock.Text = "0000"
-        LabelTotalStock.Text = "0000"
+        LabelLocalStock.Text = "0"
+        LabelTotalStock.Text = "0"
         haSidoPermitido = False
 
         PermitirEdicion(SpinEditCantidad, False)
         PermitirEdicion(TextEditItem, False)
         PermitirEdicion(TextEditLocation, True)
-        PermitirEdicion(ButtonConfirmacionArticulo, False)
         PermitirEdicion(ButtonConsultarUbicacion, False)
-        PermitirEdicion(ButtonResetForm, False)
     End Sub
 
     ''' <summary>
@@ -285,7 +281,6 @@ Public Class frmAsignar
 
         ' Solo actualizar stock si la validación del artículo fue exitosa
         If e.Cancel <> True Then
-            actualizarCampoStock()
             PermitirEdicion(SpinEditCantidad, True)
         End If
     End Sub
@@ -307,7 +302,6 @@ Public Class frmAsignar
         ' Si la validación de ubicación fue exitosa y hay un artículo seleccionado,
         ' actualizar el stock
         If e.Cancel <> True Then
-            actualizarCampoStock()
             PermitirEdicion(TextEditItem, True)
             PermitirEdicion(ButtonConsultarUbicacion, True, False)
         End If
@@ -316,51 +310,6 @@ Public Class frmAsignar
     Private Sub LabelStockTotal_Click(sender As Object, e As EventArgs) Handles LabelTotalStock.Click
         If LabelTotalStock.Text = "" Then Exit Sub
         SpinEditCantidad.Value = CType(LabelTotalStock.Text, Single)
-    End Sub
-
-    Private Sub SpinEditCantidad_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidad.Validating
-        If SpinEditCantidad.Value = 0 Then
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "La cantidad debe ser mayor a 0")
-            e.Cancel = True
-            SpinEditCantidad.Focus()
-            Exit Sub
-        End If
-
-        ' Almacenar el valor actual ANTES de cualquier operación
-        Dim valorIngresado = SpinEditCantidad.Value
-
-        Try
-            Dim stockTotal = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
-
-            If Not haSidoPermitido Then
-                If (valorIngresado + stockTotal.Cantidad) > stockTotal.Articulo.StockTotal Then
-                    ' Alert sobre la disconformidad y pedir confirmación
-                    Dim confirmacion = MessageBox.Show("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
-
-                    If confirmacion <> DialogResult.OK Then
-                        PermitirEdicion(ButtonResetForm, False)
-                        PermitirEdicion(ButtonConfirmacionArticulo, False)
-                        e.Cancel = True
-                        SpinEditCantidad.Focus()
-                        Exit Sub
-                    Else
-                        ' Usuario confirmó, mantener el valor y marcar como permitido
-                        haSidoPermitido = True
-                        SpinEditCantidad.Value = valorIngresado ' Asegurar que mantiene el valor
-                    End If
-                End If
-            End If
-
-            ' Activar botones solo si llegamos aquí
-            PermitirEdicion(ButtonResetForm, True, False)
-            PermitirEdicion(ButtonConfirmacionArticulo, True)
-
-        Catch ex As Exception
-            ' Si hay error en el repositorio, cancelar y mantener el valor
-            SpinEditCantidad.Value = valorIngresado
-            e.Cancel = True
-            Exit Sub
-        End Try
     End Sub
 
     Private Sub LabelTotalStock_Click(sender As Object, e As EventArgs) Handles LabelTotalStock.Click

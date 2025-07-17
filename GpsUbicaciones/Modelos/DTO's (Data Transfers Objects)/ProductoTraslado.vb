@@ -11,4 +11,9 @@
         End Get
     End Property
 
+    Public ReadOnly Property Codigo As String
+        Get
+            Return Articulo.Codigo
+        End Get
+    End Property
 End Class

@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports DevExpress.XtraGrid.Views.Grid
 
 ''' <summary>
 ''' Formulario para la selección de artículos.
@@ -17,54 +16,40 @@ Public Class frmSeleccionArticulos
 
 #Region "Control UI"
 
-    ''' <summary>
-    ''' Inicializa el formulario y sus controles
-    ''' </summary>
     Private Sub frmSeleccionArticulos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             DatePicker.DateTime = Now
             DatePicker.Focus()
 
-            ' Leer estado temporal
-            Using Info As DataTable = RepositorioMovPDA.ObtenerSeleccionesPDA
-                If Info.Rows.Count > 0 Then
-                    For Each row As DataRow In Info.Rows
-                        Dim temp As New ArticuloSeleccion With {
+            '  Usando el método helper que maneja automáticamente mostrar/cerrar el mensaje
+            FabricaMensajes.EjecutarConMensajeEspera(Sub()
+                                                         ' Leer estado temporal
+                                                         Using Info As DataTable = RepositorioMovPDA.ObtenerSeleccionesPDA
+                                                             If Info.Rows.Count > 0 Then
+                                                                 For Each row As DataRow In Info.Rows
+                                                                     Dim temp As New ArticuloSeleccion With {
                             .Articulo = row("Articulo"),
                             .Ubicacion = row("Lote"),
                             .Unidades = Single.Parse(row("Cantidad")),
                             .Descripcion = RepositorioArticulo.ObtenerInformacion(row("Articulo")).NombreComercial
                         }
+                                                                     ArticulosSeleccionados.Add(temp)
+                                                                 Next
+                                                                 GridControlArticulosSeleccionados.Visible = True
+                                                             End If
+                                                         End Using
+                                                     End Sub,
+        Me, ' Formulario padre
+        "Cargando datos...", ' Caption del mensaje
+        "Leyendo selecciones anteriores...", ' Descripción del mensaje
+        Integer.MaxValue) ' Sin timeout
 
-                        ArticulosSeleccionados.Add(temp)
-                    Next
-
-                    GridControlArticulosSeleccionados.Visible = True
-                End If
-            End Using
-
+            ' Configurar DataSource después de cargar los datos
             GridControlArticulosSeleccionados.DataSource = ArticulosSeleccionados
-        Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario:  {ex.Message}")
-        End Try
-    End Sub
 
-    ''' <summary>
-    ''' Crea una columna para un GridView
-    ''' </summary>
-    ''' <param name="GridView">GridView al que se añadirá la columna</param>
-    ''' <param name="NombreColumna">Nombre de la columna</param>
-    ''' <param name="AnchoColumna">Ancho de la columna</param>
-    ''' <param name="Visible">Indica si la columna es visible</param>
-    Private Sub CrearColumna(ByRef GridView As GridView, NombreColumna As String, AnchoColumna As Integer, Visible As Boolean)
-        Dim Columna As New DevExpress.XtraGrid.Columns.GridColumn() With {
-            .FieldName = NombreColumna,
-            .Visible = Visible,
-            .VisibleIndex = GridView.Columns.Count,
-            .Width = AnchoColumna
-        }
-        Columna.AppearanceCell.Font = New Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GridView.Columns.Add(Columna)
+        Catch ex As Exception
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al inicializar el formulario: {ex.Message}")
+        End Try
     End Sub
 
     Private Sub LimpiarCampos()
@@ -138,11 +123,12 @@ Public Class frmSeleccionArticulos
                 Return
             End If
 
-            ' Verificar que haya una ubicación válida primero
-            If String.IsNullOrWhiteSpace(TextEditLocation.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreUbicacion.Text) Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Debe especificar una ubicación válida antes de seleccionar un artículo.")
-                e.Cancel = True
-                Return
+            ' Buscar en el grid de PEDIDOS que exista pedidos que tengan el articulo seleccionado
+            If GridViewPedidos.LocateByValue("Referencia", TextEditItem.Text) < 0 Then
+                ' Articulo no encontrado en los pedidos
+                e.Cancel = True ' Cancelar el cambio de foco para que el usuario corrija
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, $"No hay ningun pedido que contenga el articulo {TextEditItem.Text}")
+                Exit Sub
             End If
 
             ' Buscar el artículo en el lote especificado
@@ -157,7 +143,6 @@ Public Class frmSeleccionArticulos
                 LabelStockArticulo.Text = StockLote.Cantidad.ToString()
                 LabelNombreArticulo.Text = StockLote.Articulo.NombreComercial
                 AceptarDecimales(SpinEditCantidadSeleccionada, StockLote.Articulo.PorPeso, IconWeight)
-                SpinEditCantidadSeleccionada.Properties.MaxValue = StockLote.Cantidad
                 PermitirEdicion(SpinEditCantidadSeleccionada, True)
             End Using
 
@@ -167,41 +152,6 @@ Public Class frmSeleccionArticulos
         End Try
     End Sub
 
-    ''' <summary>
-    ''' Valida la cantidad seleccionada cuando pierde el foco
-    ''' </summary>
-    Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
-
-        Try
-            ' Si no hay artículo seleccionado, no validar
-            If String.IsNullOrWhiteSpace(TextEditItem.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
-                Return
-            End If
-
-            ' Validar que la cantidad sea mayor que cero
-            If SpinEditCantidadSeleccionada.Value <= 0 Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
-                e.Cancel = True
-                Return
-            End If
-
-            ' Validar que no exceda el stock disponible
-            Dim stockDisponible As Decimal
-            If Decimal.TryParse(LabelStockArticulo.Text, stockDisponible) Then
-                If SpinEditCantidadSeleccionada.Value > stockDisponible Then
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad seleccionada excede el stock disponible.")
-                    e.Cancel = True
-                    Return
-                End If
-            End If
-
-            ButtonConfirmacionAccion.Focus()
-
-        Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al validar la cantidad: {ex.Message}")
-            e.Cancel = True
-        End Try
-    End Sub
 
 #End Region
 
@@ -218,8 +168,34 @@ Public Class frmSeleccionArticulos
     ''' Maneja el evento Click del botón de confirmación de lectura
     ''' </summary>
     Private Sub ButtonConfirmacionLectura_Click(sender As Object, e As EventArgs) Handles ButtonConfirmacionLectura.Click
-        Try
 
+        ' Si no hay artículo seleccionado, no validar
+        If String.IsNullOrWhiteSpace(TextEditItem.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
+            Exit Sub
+        End If
+
+        ' Validar que la cantidad sea mayor que cero
+        If SpinEditCantidadSeleccionada.Value <= 0 Then
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
+            SpinEditCantidadSeleccionada.Focus()
+            Exit Sub
+        End If
+
+        Using stockLote = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+
+            Dim RowHandle = GridViewPedidos.LocateByValue("Referencia", stockLote.Articulo.Codigo)
+            Dim cantidadActual = Single.Parse(GridViewPedidos.GetRowCellValue(RowHandle, "Cantidad"))
+            Dim stockMaximoUsable = Math.Min(stockLote.Cantidad, cantidadActual)
+
+            If SpinEditCantidadSeleccionada.Value > stockMaximoUsable Then
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Cantidad Indicada supera el stock actual de la ubicación indicada o la cantidad marcada en el pedido")
+                SpinEditCantidadSeleccionada.Focus()
+                Exit Sub
+            End If
+
+        End Using
+
+        Try
             Dim nuevoArticulo As New ArticuloSeleccion With {
                 .Articulo = TextEditItem.Text,
                 .Ubicacion = TextEditLocation.Text,
@@ -228,14 +204,21 @@ Public Class frmSeleccionArticulos
             }
             RepositorioMovPDA.InsertarOperacionPDA(RepositorioMovPDA.TypeOperacion.SELECCION, nuevoArticulo.Articulo, nuevoArticulo.Unidades, nuevoArticulo.Ubicacion)
 
+            ' Reducir cantidad del articulo de los pedidos del grid
+            Dim RowHandle = GridViewPedidos.LocateByValue("Referencia", nuevoArticulo.Articulo)
+            Dim cantidadActual = Single.Parse(GridViewPedidos.GetRowCellValue(RowHandle, "Cantidad"))
+            If (cantidadActual - nuevoArticulo.Unidades) = 0 Then
+                GridViewPedidos.DeleteRow(RowHandle)
+            Else
+                GridViewPedidos.SetRowCellValue(RowHandle, "Cantidad", cantidadActual - nuevoArticulo.Unidades)
+            End If
+
             ArticulosSeleccionados.Add(nuevoArticulo)
-            PermitirEdicion(TextEditItem, False)
-            PermitirEdicion(SpinEditCantidadSeleccionada, False)
-            GridControlArticulosSeleccionados.Visible = True
-            LimpiarCampos()
         Catch ex As Exception
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al confirmar la lectura: {ex.Message}")
         End Try
+
+        ButtonReset.PerformClick()
     End Sub
 
     ''' <summary>
@@ -247,6 +230,7 @@ Public Class frmSeleccionArticulos
         PermitirEdicion(TextEditItem, False)
         PermitirEdicion(SpinEditCantidadSeleccionada, False)
         LimpiarCampos()
+        PermitirEdicion(TextEditLocation, True)
     End Sub
 
     ''' <summary>
@@ -346,7 +330,11 @@ Public Class frmSeleccionArticulos
 
         RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.SELECCION, ItemRef, Ammount, Location)
 
+        ' Borrar fila
+        TileView1.DeleteRow(RowHandler)
     End Sub
+
+
 
 #End Region
 

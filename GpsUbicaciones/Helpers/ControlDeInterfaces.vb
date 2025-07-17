@@ -28,4 +28,15 @@ Module ControlDeInterfaces
             If permitir AndAlso ActivarFoco Then control.Focus()
         End If
     End Sub
+
+    Public Sub BuscarUltimoFoco(ByRef LastFocus As Control, ParamArray controls As Control())
+        For Each control As Control In controls
+            If control.Text = String.Empty OrElse control.Text = "" Then
+                control.Focus()
+                Exit Sub
+            End If
+        Next
+
+        LastFocus.Focus()
+    End Sub
 End Module

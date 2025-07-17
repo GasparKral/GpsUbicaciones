@@ -49,6 +49,7 @@ Partial Class frmBusquedaLocalizacion
         ' 
         ' GridControl1
         ' 
+        GridControl1.Font = New Font("Roboto Medium", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GridControl1.Location = New Point(12, 12)
         GridControl1.MainView = GridView1
         GridControl1.Name = "GridControl1"
@@ -66,6 +67,10 @@ Partial Class frmBusquedaLocalizacion
         ' 
         ' GridColumn1
         ' 
+        GridColumn1.AppearanceCell.Font = New Font("Roboto Medium", 14F)
+        GridColumn1.AppearanceCell.Options.UseFont = True
+        GridColumn1.AppearanceHeader.Font = New Font("Roboto Medium", 14F)
+        GridColumn1.AppearanceHeader.Options.UseFont = True
         GridColumn1.Caption = "Ubicación"
         GridColumn1.FieldName = "Nombre"
         GridColumn1.Name = "GridColumn1"
@@ -75,6 +80,10 @@ Partial Class frmBusquedaLocalizacion
         ' 
         ' GridColumn2
         ' 
+        GridColumn2.AppearanceCell.Font = New Font("Roboto Medium", 14F)
+        GridColumn2.AppearanceCell.Options.UseFont = True
+        GridColumn2.AppearanceHeader.Font = New Font("Roboto Medium", 14F)
+        GridColumn2.AppearanceHeader.Options.UseFont = True
         GridColumn2.Caption = "Cantidad"
         GridColumn2.FieldName = "Cantidad"
         GridColumn2.Name = "GridColumn2"

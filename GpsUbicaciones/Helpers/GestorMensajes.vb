@@ -1,4 +1,7 @@
-﻿Imports DevExpress.XtraEditors
+﻿Imports System.Threading
+Imports DevExpress.XtraEditors
+Imports DevExpress.XtraSplashScreen
+Imports DevExpress.XtraWaitForm
 
 ''' <summary>
 ''' Módulo que gestiona los mensajes del sistema, incluyendo mensajes de error, advertencia e información.
@@ -37,10 +40,19 @@ Module GestorMensajes
     Private Const FUENTE_NOMBRE As String = "Roboto"
     Private Const FUENTE_TAMAÑO As Integer = 12
 
+    ' Constantes para mensajes de espera
+    Private Const TIMEOUT_ESPERA_DEFECTO As Integer = 5000 ' 5 segundos
+    Private Const MENSAJE_ESPERA_DEFECTO As String = "Procesando, por favor espere..."
+
     ''' <summary>
     ''' Clase factory para mostrar mensajes al usuario
     ''' </summary>
     Public Class FabricaMensajes
+        ' Variables estáticas para controlar mensajes de espera
+        Private Shared _timerEspera As Timer = Nothing
+        Private Shared _lockObject As New Object()
+        Private Shared _waitFormVisible As Boolean = False
+
         ''' <summary>
         ''' Muestra un mensaje al usuario con el tipo especificado
         ''' </summary>
@@ -122,6 +134,367 @@ Module GestorMensajes
             AddHandler args.Showing, AddressOf ConfigurarAparienciaMensaje
 
             Return XtraMessageBox.Show(args)
+        End Function
+
+        ''' <summary>
+        ''' Muestra un mensaje de espera con WaitForm usando SplashScreenManager estático
+        ''' </summary>
+        ''' <param name="parentForm">Formulario padre (opcional)</param>
+        ''' <param name="mensaje">Mensaje a mostrar (opcional)</param>
+        ''' <param name="descripcion">Descripción del mensaje (opcional)</param>
+        ''' <param name="maxTimeout">Tiempo máximo de espera en milisegundos (opcional, por defecto 5000)</param>
+        ''' <param name="waitFormType">Tipo de WaitForm personalizado (opcional)</param>
+        Public Shared Sub MostrarMensajeEspera(Optional parentForm As Form = Nothing,
+                                             Optional mensaje As String = Nothing,
+                                             Optional descripcion As String = MENSAJE_ESPERA_DEFECTO,
+                                             Optional maxTimeout As Integer = TIMEOUT_ESPERA_DEFECTO,
+                                             Optional waitFormType As Type = Nothing)
+            SyncLock _lockObject
+                Try
+                    ' Cerrar mensaje anterior si existe
+                    CerrarMensajeEspera()
+
+                    ' Determinar el tipo de WaitForm a usar
+                    Dim formType As Type = If(waitFormType, GetType(WaitForm))
+
+
+                    SplashScreenManager.ShowForm(parentForm, formType, True, True, False)
+
+                    ' Configurar caption y descripción si se proporcionan
+                    If Not String.IsNullOrEmpty(mensaje) Then
+                        SplashScreenManager.Default?.SetWaitFormCaption(mensaje)
+                    End If
+
+                    If Not String.IsNullOrEmpty(descripcion) Then
+                        SplashScreenManager.Default?.SetWaitFormDescription(descripcion)
+                    End If
+
+                    _waitFormVisible = True
+
+                    ' Configurar timer para timeout automático
+                    If maxTimeout > 0 Then
+                        _timerEspera = New Timer(AddressOf TimeoutCallback, Nothing, maxTimeout, Timeout.Infinite)
+                    End If
+
+                Catch ex As Exception
+                    ' En caso de error, registrar y continuar
+                    System.Diagnostics.Debug.WriteLine($"Error al mostrar mensaje de espera: {ex.Message}")
+                    _waitFormVisible = False
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Muestra un mensaje de espera usando un SplashScreenManager específico
+        ''' </summary>
+        ''' <param name="splashManager">SplashScreenManager específico a usar</param>
+        ''' <param name="mensaje">Mensaje a mostrar (opcional)</param>
+        ''' <param name="descripcion">Descripción del mensaje (opcional)</param>
+        ''' <param name="maxTimeout">Tiempo máximo de espera en milisegundos (opcional, por defecto 5000)</param>
+        Public Shared Sub MostrarMensajeEspera(splashManager As SplashScreenManager,
+                                             Optional mensaje As String = Nothing,
+                                             Optional descripcion As String = MENSAJE_ESPERA_DEFECTO,
+                                             Optional maxTimeout As Integer = TIMEOUT_ESPERA_DEFECTO)
+            SyncLock _lockObject
+                Try
+                    ' Cerrar mensaje anterior si existe
+                    CerrarMensajeEspera()
+
+                    ' Mostrar WaitForm usando el SplashScreenManager específico
+                    splashManager.ShowWaitForm()
+
+                    ' Configurar caption y descripción si se proporcionan
+                    If Not String.IsNullOrEmpty(mensaje) Then
+                        splashManager.SetWaitFormCaption(mensaje)
+                    End If
+
+                    If Not String.IsNullOrEmpty(descripcion) Then
+                        splashManager.SetWaitFormDescription(descripcion)
+                    End If
+
+                    _waitFormVisible = True
+
+                    ' Configurar timer para timeout automático
+                    If maxTimeout > 0 Then
+                        _timerEspera = New Timer(AddressOf TimeoutCallback, Nothing, maxTimeout, Timeout.Infinite)
+                    End If
+
+                Catch ex As Exception
+                    ' En caso de error, registrar y continuar
+                    System.Diagnostics.Debug.WriteLine($"Error al mostrar mensaje de espera: {ex.Message}")
+                    _waitFormVisible = False
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Actualiza el caption del mensaje de espera actual
+        ''' </summary>
+        ''' <param name="nuevoCaption">Nuevo caption del mensaje</param>
+        Public Shared Sub ActualizarCaptionMensajeEspera(nuevoCaption As String)
+            SyncLock _lockObject
+                Try
+                    If _waitFormVisible AndAlso SplashScreenManager.Default IsNot Nothing Then
+                        SplashScreenManager.Default.SetWaitFormCaption(nuevoCaption)
+                    End If
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al actualizar caption del mensaje de espera: {ex.Message}")
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Actualiza la descripción del mensaje de espera actual
+        ''' </summary>
+        ''' <param name="nuevaDescripcion">Nueva descripción del mensaje</param>
+        Public Shared Sub ActualizarDescripcionMensajeEspera(nuevaDescripcion As String)
+            SyncLock _lockObject
+                Try
+                    If _waitFormVisible AndAlso SplashScreenManager.Default IsNot Nothing Then
+                        SplashScreenManager.Default.SetWaitFormDescription(nuevaDescripcion)
+                    End If
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al actualizar descripción del mensaje de espera: {ex.Message}")
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Actualiza tanto el caption como la descripción del mensaje de espera actual
+        ''' </summary>
+        ''' <param name="nuevoCaption">Nuevo caption del mensaje</param>
+        ''' <param name="nuevaDescripcion">Nueva descripción del mensaje</param>
+        Public Shared Sub ActualizarMensajeEspera(nuevoCaption As String, nuevaDescripcion As String)
+            SyncLock _lockObject
+                Try
+                    If _waitFormVisible AndAlso SplashScreenManager.Default IsNot Nothing Then
+                        SplashScreenManager.Default.SetWaitFormCaption(nuevoCaption)
+                        SplashScreenManager.Default.SetWaitFormDescription(nuevaDescripcion)
+                    End If
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al actualizar mensaje de espera: {ex.Message}")
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Envía un comando personalizado al WaitForm actual
+        ''' </summary>
+        ''' <param name="command">Comando a enviar</param>
+        ''' <param name="parameter">Parámetro del comando (opcional)</param>
+        Public Shared Sub EnviarComandoMensajeEspera(command As [Enum], Optional parameter As Object = Nothing)
+            SyncLock _lockObject
+                Try
+                    If _waitFormVisible AndAlso SplashScreenManager.Default IsNot Nothing Then
+                        SplashScreenManager.Default.SendCommand(command, parameter)
+                    End If
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al enviar comando al mensaje de espera: {ex.Message}")
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Cierra el mensaje de espera actual
+        ''' </summary>
+        Public Shared Sub CerrarMensajeEspera()
+            SyncLock _lockObject
+                Try
+                    ' Detener timer si existe
+                    If _timerEspera IsNot Nothing Then
+                        _timerEspera.Dispose()
+                        _timerEspera = Nothing
+                    End If
+
+                    ' Cerrar mensaje de espera si existe
+                    If _waitFormVisible Then
+                        SplashScreenManager.CloseForm(False)
+                        _waitFormVisible = False
+                    End If
+
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al cerrar mensaje de espera: {ex.Message}")
+                    ' Forzar limpieza en caso de error
+                    _waitFormVisible = False
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Cierra el mensaje de espera usando un SplashScreenManager específico
+        ''' </summary>
+        ''' <param name="splashManager">SplashScreenManager específico a usar</param>
+        Public Shared Sub CerrarMensajeEspera(splashManager As SplashScreenManager)
+            SyncLock _lockObject
+                Try
+                    ' Detener timer si existe
+                    If _timerEspera IsNot Nothing Then
+                        _timerEspera.Dispose()
+                        _timerEspera = Nothing
+                    End If
+
+                    ' Cerrar mensaje de espera si existe
+                    If _waitFormVisible Then
+                        splashManager.CloseWaitForm()
+                        _waitFormVisible = False
+                    End If
+
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al cerrar mensaje de espera: {ex.Message}")
+                    ' Forzar limpieza en caso de error
+                    _waitFormVisible = False
+                End Try
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Verifica si hay un mensaje de espera visible
+        ''' </summary>
+        ''' <returns>True si hay un mensaje de espera visible</returns>
+        Public Shared ReadOnly Property EsMensajeEsperaVisible As Boolean
+            Get
+                SyncLock _lockObject
+                    Try
+                        Return _waitFormVisible AndAlso SplashScreenManager.Default?.IsSplashFormVisible = True
+                    Catch
+                        Return _waitFormVisible
+                    End Try
+                End SyncLock
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Callback para el timeout del timer
+        ''' </summary>
+        ''' <param name="state">Estado del timer</param>
+        Private Shared Sub TimeoutCallback(state As Object)
+            Try
+                CerrarMensajeEspera()
+                ' Opcional: mostrar mensaje de timeout
+                System.Diagnostics.Debug.WriteLine("Timeout: Mensaje de espera cerrado automáticamente")
+            Catch ex As Exception
+                System.Diagnostics.Debug.WriteLine($"Error en timeout callback: {ex.Message}")
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' Ejecuta una acción con mensaje de espera
+        ''' </summary>
+        ''' <param name="accion">Acción a ejecutar</param>
+        ''' <param name="parentForm">Formulario padre (opcional)</param>
+        ''' <param name="mensaje">Mensaje de espera (opcional)</param>
+        ''' <param name="descripcion">Descripción de espera (opcional)</param>
+        ''' <param name="maxTimeout">Timeout máximo (opcional)</param>
+        Public Shared Sub EjecutarConMensajeEspera(accion As Action,
+                                                 Optional parentForm As Form = Nothing,
+                                                 Optional mensaje As String = Nothing,
+                                                 Optional descripcion As String = MENSAJE_ESPERA_DEFECTO,
+                                                 Optional maxTimeout As Integer = TIMEOUT_ESPERA_DEFECTO)
+            Try
+                ' Mostrar mensaje de espera
+                MostrarMensajeEspera(parentForm, mensaje, descripcion, maxTimeout)
+
+                ' Ejecutar la acción
+                accion.Invoke()
+
+            Catch ex As Exception
+                ' Re-lanzar la excepción para que la maneje el código llamador
+                Throw
+            Finally
+                ' Siempre cerrar el mensaje de espera
+                CerrarMensajeEspera()
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' Ejecuta una acción con mensaje de espera usando un SplashScreenManager específico
+        ''' </summary>
+        ''' <param name="accion">Acción a ejecutar</param>
+        ''' <param name="splashManager">SplashScreenManager específico a usar</param>
+        ''' <param name="mensaje">Mensaje de espera (opcional)</param>
+        ''' <param name="descripcion">Descripción de espera (opcional)</param>
+        ''' <param name="maxTimeout">Timeout máximo (opcional)</param>
+        Public Shared Sub EjecutarConMensajeEspera(accion As Action,
+                                                 splashManager As SplashScreenManager,
+                                                 Optional mensaje As String = Nothing,
+                                                 Optional descripcion As String = MENSAJE_ESPERA_DEFECTO,
+                                                 Optional maxTimeout As Integer = TIMEOUT_ESPERA_DEFECTO)
+            Try
+                ' Mostrar mensaje de espera
+                MostrarMensajeEspera(splashManager, mensaje, descripcion, maxTimeout)
+
+                ' Ejecutar la acción
+                accion.Invoke()
+
+            Catch ex As Exception
+                ' Re-lanzar la excepción para que la maneje el código llamador
+                Throw
+            Finally
+                ' Siempre cerrar el mensaje de espera
+                CerrarMensajeEspera(splashManager)
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' Ejecuta una función con mensaje de espera y devuelve el resultado
+        ''' </summary>
+        ''' <typeparam name="T">Tipo de retorno</typeparam>
+        ''' <param name="funcion">Función a ejecutar</param>
+        ''' <param name="parentForm">Formulario padre (opcional)</param>
+        ''' <param name="mensaje">Mensaje de espera (opcional)</param>
+        ''' <param name="descripcion">Descripción de espera (opcional)</param>
+        ''' <param name="maxTimeout">Timeout máximo (opcional)</param>
+        ''' <returns>Resultado de la función</returns>
+        Public Shared Function EjecutarConMensajeEspera(Of T)(funcion As Func(Of T),
+                                                             Optional parentForm As Form = Nothing,
+                                                             Optional mensaje As String = Nothing,
+                                                             Optional descripcion As String = MENSAJE_ESPERA_DEFECTO,
+                                                             Optional maxTimeout As Integer = TIMEOUT_ESPERA_DEFECTO) As T
+            Try
+                ' Mostrar mensaje de espera
+                MostrarMensajeEspera(parentForm, mensaje, descripcion, maxTimeout)
+
+                ' Ejecutar la función y devolver el resultado
+                Return funcion.Invoke()
+
+            Catch ex As Exception
+                ' Re-lanzar la excepción para que la maneje el código llamador
+                Throw
+            Finally
+                ' Siempre cerrar el mensaje de espera
+                CerrarMensajeEspera()
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Ejecuta una función con mensaje de espera usando un SplashScreenManager específico y devuelve el resultado
+        ''' </summary>
+        ''' <typeparam name="T">Tipo de retorno</typeparam>
+        ''' <param name="funcion">Función a ejecutar</param>
+        ''' <param name="splashManager">SplashScreenManager específico a usar</param>
+        ''' <param name="mensaje">Mensaje de espera (opcional)</param>
+        ''' <param name="descripcion">Descripción de espera (opcional)</param>
+        ''' <param name="maxTimeout">Timeout máximo (opcional)</param>
+        ''' <returns>Resultado de la función</returns>
+        Public Shared Function EjecutarConMensajeEspera(Of T)(funcion As Func(Of T),
+                                                             splashManager As SplashScreenManager,
+                                                             Optional mensaje As String = Nothing,
+                                                             Optional descripcion As String = MENSAJE_ESPERA_DEFECTO,
+                                                             Optional maxTimeout As Integer = TIMEOUT_ESPERA_DEFECTO) As T
+            Try
+                ' Mostrar mensaje de espera
+                MostrarMensajeEspera(splashManager, mensaje, descripcion, maxTimeout)
+
+                ' Ejecutar la función y devolver el resultado
+                Return funcion.Invoke()
+
+            Catch ex As Exception
+                ' Re-lanzar la excepción para que la maneje el código llamador
+                Throw
+            Finally
+                ' Siempre cerrar el mensaje de espera
+                CerrarMensajeEspera(splashManager)
+            End Try
         End Function
 
         ''' <summary>
@@ -240,5 +613,18 @@ Module GestorMensajes
                     Throw New ArgumentException("Tipo de mensaje no válido")
             End Select
         End Function
+
+        ''' <summary>
+        ''' Limpia todos los recursos utilizados por los mensajes de espera
+        ''' </summary>
+        Public Shared Sub LimpiarRecursos()
+            SyncLock _lockObject
+                Try
+                    CerrarMensajeEspera()
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error al limpiar recursos: {ex.Message}")
+                End Try
+            End SyncLock
+        End Sub
     End Class
 End Module

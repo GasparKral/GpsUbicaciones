@@ -252,44 +252,34 @@
         End Try
     End Sub
 
-    ''' <summary>
-    ''' Valida la cantidad seleccionada cuando pierde el foco
-    ''' </summary>
-    Private Sub SpinEditCantidadSeleccionada_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles SpinEditCantidadSeleccionada.Validating
-        Try
-            ' Si no hay artículo seleccionado, no validar
-            If String.IsNullOrWhiteSpace(TextEditCodigoArticulo.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
-                Return
-            End If
-
-            ' Validar que la cantidad sea mayor que cero
-            If SpinEditCantidadSeleccionada.Value <= 0 Then
-                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
-                e.Cancel = True
-                Return
-            End If
-
-            ' Validar que no exceda el stock disponible
-            Dim stockDisponible As Decimal
-            If Decimal.TryParse(LabelStockArticulo.Text, stockDisponible) Then
-                If SpinEditCantidadSeleccionada.Value > stockDisponible Then
-                    FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad seleccionada excede el stock disponible.")
-                    e.Cancel = True
-                    Return
-                End If
-            End If
-
-        Catch ex As Exception
-            FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error al validar la cantidad: {ex.Message}")
-            e.Cancel = True
-        End Try
-    End Sub
-
 #End Region
 
 #Region "Eventos de Formulario"
 
     Private Sub BotonConfirmarArticulo_Click(sender As Object, e As EventArgs) Handles BotonConfirmarArticulo.Click
+
+        ' Si no hay artículo seleccionado, no validar
+        If String.IsNullOrWhiteSpace(TextEditCodigoArticulo.Text) OrElse String.IsNullOrWhiteSpace(LabelNombreArticulo.Text) Then
+            Return
+        End If
+
+        ' Validar que la cantidad sea mayor que cero
+        If SpinEditCantidadSeleccionada.Value <= 0 Then
+            FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad debe ser mayor que cero.")
+            SpinEditCantidadSeleccionada.Focus()
+            Exit Sub
+        End If
+
+        ' Validar que no exceda el stock disponible
+        Dim stockDisponible As Decimal
+        If Decimal.TryParse(LabelStockArticulo.Text, stockDisponible) Then
+            If SpinEditCantidadSeleccionada.Value > stockDisponible Then
+                FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "La cantidad seleccionada excede el stock disponible.")
+                SpinEditCantidadSeleccionada.Focus()
+                Exit Sub
+            End If
+        End If
+
         Try
             ' Validar todos los campos antes de confirmar
             If Not ValidarUbicacion() OrElse Not ValidarArticulo() OrElse Not ValidarCantidad() Then
@@ -297,7 +287,7 @@
             End If
 
             ' Grabar la asignación
-            Operacion.ExecuteNonQuery("INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES(?,'VE',?,?,?)", Terminal, RepositorioArticulo.ObtenerInformacion(TextEditCodigoArticulo.Text).Codigo, TextEditCodigoUbicacion.Text, SpinEditCantidadSeleccionada.Value)
+            RepositorioMovPDA.InsertarOperacionPDA(RepositorioMovPDA.TypeOperacion.VENTA, RepositorioArticulo.ObtenerInformacion(TextEditCodigoArticulo.Text).Codigo, SpinEditCantidadSeleccionada.Value, TextEditCodigoUbicacion.Text)
 
             ' Añade una fila al grid
             Dim dt As DataTable = GridControlArticulosSeleccionados.DataSource
@@ -343,7 +333,22 @@
         End Try
     End Sub
 
-    Private Sub ButtonCancelar_Click(sender As Object, e As EventArgs) Handles ButtonCancelar.Click
+
+
+    Private Sub TileView1_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileView1.ContextButtonClick
+
+        Dim RowHandler = TileView1.FocusedRowHandle
+
+        Dim ItemRef = TileView1.GetRowCellValue(RowHandler, "Ref")
+        Dim Ammount = TileView1.GetRowCellValue(RowHandler, "Uds")
+        Dim Location = TileView1.GetRowCellValue(RowHandler, "Ubicacion")
+
+        RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.VENTA, ItemRef, Ammount, Location)
+
+        TileView1.DeleteRow(RowHandler)
+    End Sub
+
+    Private Sub ButtonCancelar_Click_1(sender As Object, e As EventArgs) Handles ButtonCancelar.Click
         LimpiarUbicacion()
         LimpiarArticulo(False)
 
@@ -359,17 +364,6 @@
 
         ' Establecer el foco en el campo de ubicación
         TextEditCodigoUbicacion.Focus()
-    End Sub
-
-    Private Sub TileView1_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileView1.ContextButtonClick
-
-        Dim RowHandler = TileView1.FocusedRowHandle
-
-        Dim ItemRef = TileView1.GetRowCellValue(RowHandler, "Ref")
-        Dim Ammount = TileView1.GetRowCellValue(RowHandler, "Uds")
-        Dim Location = TileView1.GetRowCellValue(RowHandler, "Ubicacion")
-
-        RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.VENTA, ItemRef, Ammount, Location)
     End Sub
 
 #End Region

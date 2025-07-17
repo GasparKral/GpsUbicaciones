@@ -8,9 +8,7 @@ Public Class frmTrasladoProductos
 #Region "Configuracion Iniciales"
 
     Private Sub frmTransladoProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         Try
-
             For Each transaction As DataRow In RepositorioMovPDA.ObtenerTraspasosPDA.Rows
                 ArticulosEnEspera.Add(New ProductoTraslado With {
                     .Articulo = RepositorioArticulo.ObtenerInformacion(transaction("Articulo")),
@@ -31,7 +29,7 @@ Public Class frmTrasladoProductos
             ' Fuente en Roboto Regular 12pto
             GroupControl.CustomHeaderButtons("Cargar/Descargar").Properties.Appearance.Font = New Font("Roboto", 12, FontStyle.Regular)
         Catch ex As Exception
-            ManejarError(ex, "Error al cargar el formulario")
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al cargar el formulario: " & ex.Message)
         End Try
     End Sub
 
@@ -49,11 +47,6 @@ Public Class frmTrasladoProductos
         IconWeight.Visible = False
     End Sub
 
-    Private Sub ManejarError(ex As Exception, mensaje As String)
-        ' Mostrar mensaje al usuario
-        FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"{mensaje}: {ex.Message}")
-    End Sub
-
 #End Region
 
 #Region "Eventos del Formulario"
@@ -61,10 +54,11 @@ Public Class frmTrasladoProductos
     Private Sub ButtonConfirm_Click(sender As Object, e As EventArgs) Handles ButtonConfirm.Click
 
         If Not ValidadarCampos() Then
-            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Todos los campos son obligatorios")
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Todos los campos son obligatorios y la cantidad de artículo seleccionado debe ser mayor a 0")
             Exit Sub
         End If
 
+        Cursor.Current = Cursors.WaitCursor
         If PatronDeTrabajo Then
             ' Agregar a MOVPDA OPERACION:TR[Transeferencia]
             RepositorioMovPDA.InsertarOperacionPDA(RepositorioMovPDA.TypeOperacion.TRASPASO, TextEditItem.Text, SpinEditCantidadSeleccionada.Value, TextEditLocation.Text)
@@ -84,14 +78,26 @@ Public Class frmTrasladoProductos
 
             GridControlArticulosParaTraslado.Visible = True
         Else
+            Dim articulos = BuscarArticulosParaDescuento(TextEditItem.Text, TextEditLocation.Text)
+            If articulos.Count = 0 Then
+                Cursor.Current = Cursors.Default
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No se tiene cargado el articulo, o está usando la misma ubicación de la cual lo quiere transferir")
+                Exit Sub
+            End If
+
+            SpinEditCantidadSeleccionada.Properties.MaxValue = CalcularTotalEnEspera(TextEditItem.Text)
+
             'Obtener Articulos en la lista para cubrir la transferencia y realizar el desconteo/transferencia
             Try
-                DescontarDeArticulosEnEspera(SpinEditCantidadSeleccionada.Value, BuscarArticulosParaDescuento(TextEditItem.Text, TextEditLocation.Text))
+                DescontarDeArticulosEnEspera(SpinEditCantidadSeleccionada.Value, articulos)
             Catch ex As Exception
-                ManejarError(ex, "Error al confirmar traslado")
+                Cursor.Current = Cursors.Default
+                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al realizar la transferencia: " & ex.Message)
             End Try
 
+            ButtonClearForm.PerformClick()
         End If
+        Cursor.Current = Cursors.Default
     End Sub
 
     Private Sub ButtonClearForm_Click(sender As Object, e As EventArgs) Handles ButtonClearForm.Click
@@ -99,6 +105,7 @@ Public Class frmTrasladoProductos
         PermitirEdicion(SpinEditCantidadSeleccionada, False)
         PermitirEdicion(TextEditItem, False)
         PermitirEdicion(TextEditLocation, True)
+        LabelLoadedAmount.Text = String.Empty
     End Sub
     Private Sub GroupControl_CustomButtonClick(sender As Object, e As DevExpress.XtraBars.Docking2010.BaseButtonEventArgs) Handles GroupControl.CustomButtonClick
         PatronDeTrabajo = Not PatronDeTrabajo
@@ -111,6 +118,60 @@ Public Class frmTrasladoProductos
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         Me.Close()
     End Sub
+
+    Private Sub TileViewArticulosParaTraslado_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileViewArticulosParaTraslado.ContextButtonClick
+        Try
+            ' Verificar que es el botón de eliminar
+            If e.Item.Name = "ButtonItemElimination" Then
+                ' Obtener el TileView
+                Dim tileView As DevExpress.XtraGrid.Views.Tile.TileView = CType(sender, DevExpress.XtraGrid.Views.Tile.TileView)
+
+                ' Verificar si hay una fila seleccionada
+                If tileView.FocusedRowHandle >= 0 Then
+                    ' Obtener el índice de la fila enfocada
+                    Dim rowHandle As Integer = tileView.FocusedRowHandle
+
+                    ' Obtener los valores necesarios para identificar el registro
+                    Dim nombreComercial As String = tileView.GetRowCellValue(rowHandle, "NombreComercial")?.ToString()
+                    Dim codigoArticulo As String = tileView.GetRowCellValue(rowHandle, "Codigo")?.ToString()
+                    Dim ubicacionOrigen As String = tileView.GetRowCellValue(rowHandle, "CodigoUbicacionOrigen")?.ToString()
+                    Dim cantidadAMover As Single = tileView.GetRowCellValue(rowHandle, "CantidadAMover")
+
+                    ' Mostrar confirmación antes de eliminar
+                    Dim mensaje As String = $"¿Está seguro que desea eliminar este artículo del traslado?{vbCrLf}{vbCrLf}" &
+                                      $"Artículo: {nombreComercial}{vbCrLf}" &
+                                      $"Ubicación: {ubicacionOrigen}{vbCrLf}" &
+                                      $"Cantidad: {cantidadAMover}"
+                    Dim result = GestorMensajes.FabricaMensajes.MostrarConfirmacion(mensaje, "Confirmar eliminación")
+
+                    If result = True Then
+                        ' Eliminar de la base de datos (tabla MOVPDA)
+                        If EliminarDeBaseDatos(codigoArticulo, ubicacionOrigen, cantidadAMover) Then
+                            ' Eliminar la fila del TileView
+                            tileView.DeleteRow(rowHandle)
+
+                            ' Actualizar la vista
+                            tileView.RefreshData()
+
+                            ' Actualizar contadores si es necesario
+                            LabelLoadedAmount.Text = CalcularTotalEnEspera(TextEditItem.Text)
+                            GestorMensajes.FabricaMensajes.MostrarConfirmacion("Artículo eliminado correctamente del traslado.")
+                        Else
+                            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo de la base de datos.")
+                        End If
+                    End If
+                Else
+                    GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No hay ninguna fila seleccionada.")
+                End If
+            End If
+
+        Catch ex As Exception
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo: " & ex.Message)
+        End Try
+
+        BuscarUltimoFoco(ButtonConfirm, TextEditLocation, TextEditItem, SpinEditCantidadSeleccionada)
+    End Sub
+
 #End Region
 
 #Region "Funciones Auxiliares"
@@ -297,6 +358,12 @@ Public Class frmTrasladoProductos
         LabelLoadedAmount.Text = CalcularTotalEnEspera(TextEditItem.Text)
     End Sub
 
+    ''' <summary>
+    ''' Calcula la cantidad total en espera de un articulo
+    ''' Si no hay articulos en espera, devuelve 0
+    ''' </summary>
+    ''' <param name="textEdit"></param>
+    ''' <returns></returns>
     Private Function CalcularTotalEnEspera(textEdit As String) As String
         Return ArticulosEnEspera.Where(Function(item) _
                                                                              item.Articulo.Codigo.Equals(textEdit) OrElse
@@ -305,16 +372,10 @@ Public Class frmTrasladoProductos
                         ).Sum(Function(item) item.CantidadAMover).ToString()
     End Function
 
-    Private Function EliminarDeBaseDatos(nombreArticulo As String, ubicacionOrigen As String, cantidadAMover As Single) As Boolean
+    Private Function EliminarDeBaseDatos(codigoArticulo As String, ubicacionOrigen As String, cantidadAMover As Single) As Boolean
+
         Try
-            Operacion.ExecuteNonQuery("DELETE MOVPDA.* FROM MOVPDA INNER JOIN ARTICULOS ON ARTICULOS.CODIGO = MOVPDA.ARTICULO WHERE
-                Operacion = 'TR' AND
-                Terminal = ? AND
-                Articulo = ARTICULOS.Codigo AND
-                MOVPDA.Lote = ? AND
-                Cantidad = ? AND
-                ARTICULOS.NombreComercial = ?",
-                Terminal, ubicacionOrigen, cantidadAMover, nombreArticulo)
+            RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.TRASPASO, codigoArticulo, cantidadAMover, ubicacionOrigen)
             Return True
         Catch ex As Exception
             ' Log del error si es necesario
@@ -380,11 +441,14 @@ Public Class frmTrasladoProductos
 
             LabelLocation.Text = ubicacion.Nombre
             PermitirEdicion(TextEditItem, True)
-
+        Catch ex As InvalidOperationException
+            e.Cancel = True
+            TextEditLocation.Clear()
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Código de ubicación invalido")
         Catch ex As Exception
             e.Cancel = True
             TextEditLocation.Clear()
-            ManejarError(ex, "Error al validar ubicación origen")
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al validar la ubicación: " & ex.Message)
         End Try
     End Sub
 
@@ -401,29 +465,55 @@ Public Class frmTrasladoProductos
             Dim stockLote As StockLote
 
             If PatronDeTrabajo Then
-                If BuscarArticuloEnEspera(TextEditItem.Text, TextEditLocation.Text) Then
-                    ManejarError(Nothing, "No se usar la misma ubicación dos veces")
+                Try
+
+                    If BuscarArticuloEnEspera(TextEditItem.Text, TextEditLocation.Text) Then
+                        GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "No se puede usar dos veces la misma ubicación")
+                        e.Cancel = True
+                        Exit Sub
+                    End If
+
+                    stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit, TextEditLocation.Text)
+
+                    If stockLote Is Nothing Then
+                        e.Cancel = True
+                        TextEditItem.Focus()
+                        TextEditItem.SelectAll()
+                        Return
+                    End If
+                Catch ex As InvalidOperationException
+                    Try
+                        Using result = RepositorioArticulo.ObtenerInformacion(TextEditItem.Text)
+                            If result IsNot Nothing Then
+                                TextEditLocation.Focus()
+                                TextEditLocation.SelectAll()
+                                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Codigo de ubicación invalido")
+                            End If
+                        End Using
+                    Catch faltante As InvalidOperationException
+                        TextEditItem.Focus()
+                        TextEditItem.SelectAll()
+                        GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Codigo de articulo invalido")
+                    End Try
                     e.Cancel = True
                     Exit Sub
-                End If
-
-                stockLote = RepositorioStockLote.ObtenerArticuloEnLote(textEdit, TextEditLocation.Text)
-
-                If stockLote Is Nothing Then
+                End Try
+            Else
+                Dim cantidad = CalcularTotalEnEspera(textEdit)
+                If cantidad = 0 Then
                     e.Cancel = True
+                    GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "Artículo seleccionado no cargado")
                     TextEditItem.Focus()
                     TextEditItem.SelectAll()
-                    Return
+                    Exit Sub
                 End If
-
-            Else
                 stockLote = New StockLote With {
                     .Articulo = RepositorioArticulo.ObtenerInformacion(textEdit),
                     .Lote = RepositorioUbicacion.ObtenerInformacion(TextEditLocation.Text),
-                    .UnidadesTransferidas = CalcularTotalEnEspera(textEdit)
+                    .UnidadesTransferidas = cantidad
                 }
 
-                LabelLoadedAmount.Text = CalcularTotalEnEspera(textEdit)
+                LabelLoadedAmount.Text = cantidad
             End If
 
             LabelItemName.Text = stockLote.Articulo.NombreComercial
@@ -431,14 +521,13 @@ Public Class frmTrasladoProductos
             LabelLocation.Text = stockLote.Lote.Nombre
             LabelStockArticulo.Text = stockLote.Cantidad.ToString()
             SpinEditCantidadSeleccionada.Properties.MaxValue = stockLote.Cantidad
-            SpinEditCantidadSeleccionada.Properties.MinValue = 0.0
             PermitirEdicion(SpinEditCantidadSeleccionada, True)
 
         Catch ex As Exception
             Logger.Instance.Error(ex:=ex, message:=ex.Message)
             e.Cancel = True
             TextEditItem.Clear()
-            ManejarError(ex, "Error al validar artículo origen")
+            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al validar el articulo: " & ex.Message)
         End Try
     End Sub
 
@@ -472,55 +561,6 @@ Public Class frmTrasladoProductos
         ControlEntradaAlfanumerica(sender, e)
     End Sub
 
-    Private Sub TileViewArticulosParaTraslado_ContextButtonClick(sender As Object, e As DevExpress.Utils.ContextItemClickEventArgs) Handles TileViewArticulosParaTraslado.ContextButtonClick
-        Try
-            ' Verificar que es el botón de eliminar
-            If e.Item.Name = "ButtonItemElimination" Then
-                ' Obtener el TileView
-                Dim tileView As DevExpress.XtraGrid.Views.Tile.TileView = CType(sender, DevExpress.XtraGrid.Views.Tile.TileView)
-
-                ' Verificar si hay una fila seleccionada
-                If tileView.FocusedRowHandle >= 0 Then
-                    ' Obtener el índice de la fila enfocada
-                    Dim rowHandle As Integer = tileView.FocusedRowHandle
-
-                    ' Obtener los valores necesarios para identificar el registro
-                    Dim nombreComercial As String = tileView.GetRowCellValue(rowHandle, "NombreComercial")?.ToString()
-                    Dim ubicacionOrigen As String = tileView.GetRowCellValue(rowHandle, "CodigoUbicacionOrigen")?.ToString()
-                    Dim cantidadAMover As Single = tileView.GetRowCellValue(rowHandle, "CantidadAMover")
-
-                    ' Mostrar confirmación antes de eliminar
-                    Dim mensaje As String = $"¿Está seguro que desea eliminar este artículo del traslado?{vbCrLf}{vbCrLf}" &
-                                      $"Artículo: {nombreComercial}{vbCrLf}" &
-                                      $"Ubicación: {ubicacionOrigen}{vbCrLf}" &
-                                      $"Cantidad: {cantidadAMover}"
-                    Dim result = GestorMensajes.FabricaMensajes.MostrarConfirmacion(mensaje, "Confirmar eliminación")
-
-                    If result = DialogResult.Yes Then
-                        ' Eliminar de la base de datos (tabla MOVPDA)
-                        If EliminarDeBaseDatos(nombreComercial, ubicacionOrigen, cantidadAMover) Then
-                            ' Eliminar la fila del TileView
-                            tileView.DeleteRow(rowHandle)
-
-                            ' Actualizar la vista
-                            tileView.RefreshData()
-
-                            ' Actualizar contadores si es necesario
-                            LabelLoadedAmount.Text = CalcularTotalEnEspera(TextEditItem.Text)
-                            GestorMensajes.FabricaMensajes.MostrarConfirmacion("Artículo eliminado correctamente del traslado.")
-                        Else
-                            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo de la base de datos.")
-                        End If
-                    End If
-                Else
-                    GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No hay ninguna fila seleccionada.")
-                End If
-            End If
-
-        Catch ex As Exception
-            GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo: " & ex.Message)
-        End Try
-    End Sub
 
 #End Region
 

@@ -1,6 +1,21 @@
 ﻿Imports System.ComponentModel
 
 Public Class RepositorioStockLote
+    ''' <summary>
+    ''' Verifica si hay existencias de un'articleo en una ubicación
+    ''' </summary>
+    ''' <param name="CodigoArticulo"></param>
+    ''' <param name="CodigoUbicacion"></param>
+    ''' <returns>True si hay existencias, False en caso contrario</returns>
+    Public Shared Function HayExistencias(CodigoArticulo As String, CodigoUbicacion As String) As Boolean
+        Using existencias = Operacion.ExecuteQuery(Querys.Select.VerificarExistenciaLoteDeArticulo, RepositorioArticulo.ObtenerInformacion(CodigoArticulo).Codigo, CodigoUbicacion).Tables(0)
+            Dim conteo As Integer = Convert.ToInt32(existencias.Rows(0)(0))
+            Return conteo > 0
+        End Using
+
+        Return False
+    End Function
+
     Public Shared Function ObtenerArticulosEnLote(CodigoLote As String) As BindingList(Of StockLote)
         Dim stockLotes As New BindingList(Of StockLote)
         Using dsDatos = Operacion.ExecuteQuery(Querys.Select.ConsultarArticulosEnUbicacion, CodigoLote, Almacen).Tables(0)
@@ -60,7 +75,7 @@ Public Class RepositorioStockLote
                 .UnidadesTransferidas = Convert.ToSingle(row("UnidadesTransferidas"))
             }
             Else
-                GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, MensajesUbicaciones.CodigoInvalido)
+                Throw New InvalidOperationException("Datos no encontrados")
                 Return Nothing
             End If
         End Using

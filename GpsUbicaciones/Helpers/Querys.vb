@@ -62,7 +62,7 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve un valor booleano (TRUE/FALSE) indicando si existe el lote del artículo.</returns>
         Public Shared Function VerificarExistenciaLoteDeArticulo() As String
-            Return "SELECT COUNT(*) > 0 FROM StockLotes WHERE Articulo = ? AND Lote = ?"
+            Return "SELECT COUNT(*) FROM StockLotes WHERE Articulo = ? AND Lote = ?"
         End Function
 
         Public Shared Function ConsultarArticulosEnUbicacion() As String
@@ -149,9 +149,9 @@ Module Querys
                         Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven, {nDecUds} ) as StockTotal
                     FROM 
                        ARTICULOS AS A
-                       INNER JOIN STOCK AS S ON S.Articulo = A.Codigo
+                       LEFT JOIN STOCK AS S ON S.Articulo = A.Codigo
                     WHERE 
-                        A.Codigo = ? OR A.CodBarras = ? OR A.RefProveedor = ? AND
+                        (A.Codigo = ? OR A.CodBarras = ? OR A.RefProveedor = ?) AND
                         S.Almacen = ?
                     "
         End Function
@@ -247,21 +247,7 @@ Module Querys
             Return "INSERT INTO StockLotes (Articulo, Almacen, Lote, Uds_Ini, Uds_Com, Uds_Ven, Uds_Tra) VALUES (?, ?, ?, 0, 0, 0, ?)"
         End Function
 
-        ''' <summary>
-        ''' Obtiene una consulta SQL para insertar un movimiento de venta en PDA.
-        ''' </summary>
-        ''' <param name="Parámetros SQL">
-        ''' 1. Terminal - Código del terminal
-        ''' 2. Articulo - Código del artículo
-        ''' 3. Lote - Código del lote
-        ''' 4. Cantidad - Cantidad vendida
-        ''' </param>
-        ''' <returns>Consulta SQL de inserción que no devuelve resultados. Inserta un registro en la tabla MovPda con operación 'VE'.</returns>
-        Public Shared Function InsertarMovimientoVentaEnPDA() As String
-            Return "INSERT INTO MovPda (Terminal,Operacion,Articulo,Lote,Cantidad) VALUES (?,'VE',?,?,?)"
-        End Function
     End Class
-
     ''' <summary>
     ''' Clase que contiene consultas SQL de actualización.
     ''' </summary>
@@ -274,13 +260,5 @@ Module Querys
             Return "UPDATE StockLotes SET Uds_Tra = Uds_Tra + ? WHERE Articulo = ? AND Lote = ?"
         End Function
     End Class
-
-    ''' <summary>
-    ''' Clase que contiene consultas SQL de eliminación.
-    ''' </summary>
-    Class Delete
-
-    End Class
-
 End Module
 

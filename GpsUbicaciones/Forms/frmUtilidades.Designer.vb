@@ -51,7 +51,7 @@ Partial Class frmUtilidades
         ResetTable.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ResetTable.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ResetTable.ImageOptions.SvgImageSize = New Size(60, 60)
-        ResetTable.Location = New Point(12, 387)
+        ResetTable.Location = New Point(12, 414)
         ResetTable.Name = "ResetTable"
         ResetTable.Size = New Size(576, 120)
         ResetTable.TabIndex = 5

@@ -56,8 +56,9 @@ Partial Class frmVenta
         TextEditCodigoUbicacion = New TextBox()
         LabelNombreUbicacion = New DevExpress.XtraEditors.LabelControl()
         GroupControlArticulos = New DevExpress.XtraEditors.GroupControl()
-        IconWeight = New DevExpress.XtraEditors.SvgImageBox()
         ButtonCancelar = New DevExpress.XtraEditors.SimpleButton()
+        Label2 = New Label()
+        IconWeight = New DevExpress.XtraEditors.SvgImageBox()
         SpinEditCantidadSeleccionada = New DevExpress.XtraEditors.SpinEdit()
         LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         LabelStockArticulo = New DevExpress.XtraEditors.LabelControl()
@@ -170,10 +171,10 @@ Partial Class frmVenta
         BotonConfirmarUbicacion.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         BotonConfirmarUbicacion.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarUbicacion.ImageOptions.SvgImageSize = New Size(45, 45)
-        BotonConfirmarUbicacion.Location = New Point(513, 41)
+        BotonConfirmarUbicacion.Location = New Point(513, 27)
         BotonConfirmarUbicacion.Margin = New Padding(4, 3, 4, 3)
         BotonConfirmarUbicacion.Name = "BotonConfirmarUbicacion"
-        BotonConfirmarUbicacion.Size = New Size(50, 50)
+        BotonConfirmarUbicacion.Size = New Size(59, 72)
         BotonConfirmarUbicacion.TabIndex = 1
         ' 
         ' TextEditCodigoUbicacion
@@ -207,8 +208,9 @@ Partial Class frmVenta
         GroupControlArticulos.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         GroupControlArticulos.AppearanceCaption.Font = New Font("Tahoma", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         GroupControlArticulos.AppearanceCaption.Options.UseFont = True
-        GroupControlArticulos.Controls.Add(IconWeight)
         GroupControlArticulos.Controls.Add(ButtonCancelar)
+        GroupControlArticulos.Controls.Add(Label2)
+        GroupControlArticulos.Controls.Add(IconWeight)
         GroupControlArticulos.Controls.Add(SpinEditCantidadSeleccionada)
         GroupControlArticulos.Controls.Add(LabelControl1)
         GroupControlArticulos.Controls.Add(LabelStockArticulo)
@@ -218,38 +220,50 @@ Partial Class frmVenta
         GroupControlArticulos.Location = New Point(10, 169)
         GroupControlArticulos.Margin = New Padding(4, 3, 4, 3)
         GroupControlArticulos.Name = "GroupControlArticulos"
-        GroupControlArticulos.Size = New Size(578, 130)
+        GroupControlArticulos.Padding = New Padding(0, 0, 0, 10)
+        GroupControlArticulos.Size = New Size(578, 154)
         GroupControlArticulos.TabIndex = 1
         GroupControlArticulos.Text = "Leer Artículos"
         GroupControlArticulos.Visible = False
         ' 
+        ' ButtonCancelar
+        ' 
+        ButtonCancelar.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        ButtonCancelar.CausesValidation = False
+        ButtonCancelar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
+        ButtonCancelar.ImageOptions.SvgImage = My.Resources.Resources.resetview
+        ButtonCancelar.ImageOptions.SvgImageSize = New Size(70, 70)
+        ButtonCancelar.Location = New Point(401, 69)
+        ButtonCancelar.Margin = New Padding(8, 4, 8, 4)
+        ButtonCancelar.Name = "ButtonCancelar"
+        ButtonCancelar.Size = New Size(75, 75)
+        ButtonCancelar.TabIndex = 28
+        ButtonCancelar.ToolTipIconType = DevExpress.Utils.ToolTipIconType.Information
+        ButtonCancelar.ToolTipTitle = "Confirma Ubicación"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Tahoma", 15.75F)
+        Label2.Location = New Point(16, 69)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(120, 25)
+        Label2.TabIndex = 11
+        Label2.Text = "Existencias:"
+        ' 
         ' IconWeight
         ' 
-        IconWeight.Location = New Point(335, 68)
+        IconWeight.Location = New Point(334, 93)
         IconWeight.Name = "IconWeight"
-        IconWeight.Size = New Size(40, 40)
+        IconWeight.Size = New Size(56, 51)
         IconWeight.SvgImage = My.Resources.Resources.weightedpies
         IconWeight.TabIndex = 10
         IconWeight.Text = "SvgImageBox1"
         ' 
-        ' ButtonCancelar
-        ' 
-        ButtonCancelar.Appearance.Font = New Font("Roboto Medium", 8F)
-        ButtonCancelar.Appearance.Options.UseFont = True
-        ButtonCancelar.CausesValidation = False
-        ButtonCancelar.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter
-        ButtonCancelar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleLeft
-        ButtonCancelar.ImageOptions.SvgImage = My.Resources.Resources.neworder
-        ButtonCancelar.Location = New Point(381, 72)
-        ButtonCancelar.Name = "ButtonCancelar"
-        ButtonCancelar.Size = New Size(125, 50)
-        ButtonCancelar.TabIndex = 3
-        ButtonCancelar.Text = "Nueva Ubicación"
-        ' 
         ' SpinEditCantidadSeleccionada
         ' 
         SpinEditCantidadSeleccionada.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
-        SpinEditCantidadSeleccionada.Location = New Point(110, 68)
+        SpinEditCantidadSeleccionada.Location = New Point(112, 104)
         SpinEditCantidadSeleccionada.Name = "SpinEditCantidadSeleccionada"
         SpinEditCantidadSeleccionada.Properties.Appearance.Font = New Font("Tahoma", 15.75F)
         SpinEditCantidadSeleccionada.Properties.Appearance.Options.UseFont = True
@@ -261,7 +275,7 @@ Partial Class frmVenta
         SpinEditCantidadSeleccionada.Properties.MaskSettings.Set("mask", "N00")
         SpinEditCantidadSeleccionada.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
         SpinEditCantidadSeleccionada.Properties.ValidateOnEnterKey = True
-        SpinEditCantidadSeleccionada.Size = New Size(139, 40)
+        SpinEditCantidadSeleccionada.Size = New Size(216, 40)
         SpinEditCantidadSeleccionada.TabIndex = 1
         ' 
         ' LabelControl1
@@ -269,7 +283,7 @@ Partial Class frmVenta
         LabelControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         LabelControl1.Appearance.Font = New Font("Tahoma", 15.75F)
         LabelControl1.Appearance.Options.UseFont = True
-        LabelControl1.Location = New Point(21, 75)
+        LabelControl1.Location = New Point(16, 113)
         LabelControl1.Margin = New Padding(3, 2, 3, 2)
         LabelControl1.Name = "LabelControl1"
         LabelControl1.Size = New Size(90, 25)
@@ -288,10 +302,10 @@ Partial Class frmVenta
         LabelStockArticulo.Appearance.Options.UseTextOptions = True
         LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticulo.Location = New Point(256, 73)
+        LabelStockArticulo.Location = New Point(143, 65)
         LabelStockArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelStockArticulo.Name = "LabelStockArticulo"
-        LabelStockArticulo.Size = New Size(72, 33)
+        LabelStockArticulo.Size = New Size(185, 33)
         LabelStockArticulo.TabIndex = 8
         ' 
         ' BotonConfirmarArticulo
@@ -300,17 +314,17 @@ Partial Class frmVenta
         BotonConfirmarArticulo.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
         BotonConfirmarArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         BotonConfirmarArticulo.ImageOptions.SvgImageSize = New Size(45, 45)
-        BotonConfirmarArticulo.Location = New Point(513, 72)
-        BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 3)
+        BotonConfirmarArticulo.Location = New Point(488, 69)
+        BotonConfirmarArticulo.Margin = New Padding(4, 3, 4, 10)
         BotonConfirmarArticulo.Name = "BotonConfirmarArticulo"
-        BotonConfirmarArticulo.Size = New Size(50, 50)
+        BotonConfirmarArticulo.Size = New Size(75, 75)
         BotonConfirmarArticulo.TabIndex = 2
         ' 
         ' TextEditCodigoArticulo
         ' 
         TextEditCodigoArticulo.Enabled = False
         TextEditCodigoArticulo.Font = New Font("Tahoma", 15.75F)
-        TextEditCodigoArticulo.Location = New Point(19, 29)
+        TextEditCodigoArticulo.Location = New Point(16, 26)
         TextEditCodigoArticulo.Margin = New Padding(4, 3, 4, 3)
         TextEditCodigoArticulo.MaxLength = 15
         TextEditCodigoArticulo.Name = "TextEditCodigoArticulo"
@@ -327,7 +341,7 @@ Partial Class frmVenta
         LabelNombreArticulo.Appearance.Options.UseFont = True
         LabelNombreArticulo.Appearance.Options.UseForeColor = True
         LabelNombreArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelNombreArticulo.Location = New Point(209, 29)
+        LabelNombreArticulo.Location = New Point(209, 26)
         LabelNombreArticulo.Margin = New Padding(4, 3, 4, 3)
         LabelNombreArticulo.Name = "LabelNombreArticulo"
         LabelNombreArticulo.Size = New Size(354, 33)
@@ -338,13 +352,13 @@ Partial Class frmVenta
         GridControlArticulosSeleccionados.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         GridControlArticulosSeleccionados.EmbeddedNavigator.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Font = New Font("Tahoma", 15.75F)
-        GridControlArticulosSeleccionados.Location = New Point(10, 304)
+        GridControlArticulosSeleccionados.Location = New Point(10, 328)
         GridControlArticulosSeleccionados.LookAndFeel.SkinName = "WXI"
         GridControlArticulosSeleccionados.LookAndFeel.UseDefaultLookAndFeel = False
         GridControlArticulosSeleccionados.MainView = TileView1
         GridControlArticulosSeleccionados.Margin = New Padding(3, 2, 3, 2)
         GridControlArticulosSeleccionados.Name = "GridControlArticulosSeleccionados"
-        GridControlArticulosSeleccionados.Size = New Size(579, 512)
+        GridControlArticulosSeleccionados.Size = New Size(579, 488)
         GridControlArticulosSeleccionados.TabIndex = 2
         GridControlArticulosSeleccionados.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {TileView1})
         GridControlArticulosSeleccionados.Visible = False
@@ -386,7 +400,7 @@ Partial Class frmVenta
         TileView1.TileSpans.Add(TableSpan1)
         TileView1.TileSpans.Add(TableSpan2)
         TileView1.TileSpans.Add(TableSpan3)
-        TileViewItemElement1.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement1.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold)
         TileViewItemElement1.Appearance.Normal.Options.UseFont = True
         TileViewItemElement1.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement1.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
@@ -395,6 +409,8 @@ Partial Class frmVenta
         TileViewItemElement1.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
         TileViewItemElement2.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement2.AnchorElementIndex = 0
+        TileViewItemElement2.Appearance.Normal.Font = New Font("Segoe UI", 12F)
+        TileViewItemElement2.Appearance.Normal.Options.UseFont = True
         TileViewItemElement2.Column = ColumnItemRef
         TileViewItemElement2.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement2.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
@@ -403,6 +419,8 @@ Partial Class frmVenta
         TileViewItemElement2.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement3.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement3.AnchorElementIndex = 1
+        TileViewItemElement3.Appearance.Normal.Font = New Font("Segoe UI", 12F)
+        TileViewItemElement3.Appearance.Normal.Options.UseFont = True
         TileViewItemElement3.ColumnIndex = 2
         TileViewItemElement3.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement3.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
@@ -411,13 +429,15 @@ Partial Class frmVenta
         TileViewItemElement3.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement4.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement4.AnchorElementIndex = 2
+        TileViewItemElement4.Appearance.Normal.Font = New Font("Segoe UI", 12F)
+        TileViewItemElement4.Appearance.Normal.Options.UseFont = True
         TileViewItemElement4.Column = ColumnItemName
         TileViewItemElement4.ColumnIndex = 2
         TileViewItemElement4.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement4.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
         TileViewItemElement4.Text = "ColumnItemName"
         TileViewItemElement4.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement5.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement5.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         TileViewItemElement5.Appearance.Normal.Options.UseFont = True
         TileViewItemElement5.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement5.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
@@ -425,12 +445,14 @@ Partial Class frmVenta
         TileViewItemElement5.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
         TileViewItemElement6.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement6.AnchorElementIndex = 4
+        TileViewItemElement6.Appearance.Normal.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement6.Appearance.Normal.Options.UseFont = True
         TileViewItemElement6.Column = ColumnLocation
         TileViewItemElement6.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement6.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
         TileViewItemElement6.Text = "ColumnLocation"
         TileViewItemElement6.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
-        TileViewItemElement7.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement7.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold)
         TileViewItemElement7.Appearance.Normal.Options.UseFont = True
         TileViewItemElement7.ColumnIndex = 1
         TileViewItemElement7.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
@@ -440,6 +462,8 @@ Partial Class frmVenta
         TileViewItemElement7.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft
         TileViewItemElement8.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement8.AnchorElementIndex = 6
+        TileViewItemElement8.Appearance.Normal.Font = New Font("Segoe UI", 12F)
+        TileViewItemElement8.Appearance.Normal.Options.UseFont = True
         TileViewItemElement8.Column = ColumnAmmount
         TileViewItemElement8.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
         TileViewItemElement8.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.Squeeze
@@ -532,4 +556,5 @@ Partial Class frmVenta
     Friend WithEvents ColumnItemName As DevExpress.XtraGrid.Columns.TileViewColumn
     Friend WithEvents ColumnLocation As DevExpress.XtraGrid.Columns.TileViewColumn
     Friend WithEvents ColumnAmmount As DevExpress.XtraGrid.Columns.TileViewColumn
+    Friend WithEvents Label2 As Label
 End Class

@@ -262,7 +262,7 @@ Partial Class frmAsignar
         ' 
         IconWeigth.Location = New Point(304, 267)
         IconWeigth.Name = "IconWeigth"
-        IconWeigth.Size = New Size(64, 60)
+        IconWeigth.Size = New Size(80, 68)
         IconWeigth.SvgImage = My.Resources.Resources.weightedpies
         IconWeigth.TabIndex = 41
         IconWeigth.Text = "SvgImageBox1"
@@ -281,17 +281,19 @@ Partial Class frmAsignar
         ' Label8
         ' 
         Label8.AutoSize = True
-        Label8.Font = New Font("Roboto ExtraBold", 15.75F, FontStyle.Bold Or FontStyle.Underline)
+        Label8.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold Or FontStyle.Underline)
         Label8.Location = New Point(12, 247)
         Label8.Margin = New Padding(3, 8, 3, 8)
         Label8.Name = "Label8"
-        Label8.Size = New Size(119, 25)
+        Label8.Size = New Size(128, 25)
         Label8.TabIndex = 39
         Label8.Text = "Asignación"
         ' 
         ' LabelTotalStock
         ' 
-        LabelTotalStock.Appearance.Font = New Font("Roboto SemiBold", 14.25F, FontStyle.Bold)
+        LabelTotalStock.Appearance.BackColor = Color.WhiteSmoke
+        LabelTotalStock.Appearance.Font = New Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold)
+        LabelTotalStock.Appearance.Options.UseBackColor = True
         LabelTotalStock.Appearance.Options.UseFont = True
         LabelTotalStock.Appearance.Options.UseTextOptions = True
         LabelTotalStock.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
@@ -301,22 +303,24 @@ Partial Class frmAsignar
         LabelTotalStock.Name = "LabelTotalStock"
         LabelTotalStock.Size = New Size(94, 19)
         LabelTotalStock.TabIndex = 38
-        LabelTotalStock.Text = "0000"
+        LabelTotalStock.Text = "0"
         LabelTotalStock.ToolTip = "Haz Click para asignar como cantidad"
         ' 
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Font = New Font("Roboto SemiBold", 14.25F, FontStyle.Bold)
+        Label7.Font = New Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold)
         Label7.Location = New Point(261, 217)
         Label7.Name = "Label7"
-        Label7.Size = New Size(57, 23)
+        Label7.Size = New Size(62, 24)
         Label7.TabIndex = 37
         Label7.Text = "Total:"
         ' 
         ' LabelLocalStock
         ' 
-        LabelLocalStock.Appearance.Font = New Font("Roboto SemiBold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LabelLocalStock.Appearance.BackColor = Color.WhiteSmoke
+        LabelLocalStock.Appearance.Font = New Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LabelLocalStock.Appearance.Options.UseBackColor = True
         LabelLocalStock.Appearance.Options.UseFont = True
         LabelLocalStock.Appearance.Options.UseTextOptions = True
         LabelLocalStock.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
@@ -325,46 +329,46 @@ Partial Class frmAsignar
         LabelLocalStock.Name = "LabelLocalStock"
         LabelLocalStock.Size = New Size(94, 19)
         LabelLocalStock.TabIndex = 36
-        LabelLocalStock.Text = "0000"
+        LabelLocalStock.Text = "0"
         ' 
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label6.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label6.Location = New Point(12, 217)
         Label6.Name = "Label6"
-        Label6.Size = New Size(52, 19)
+        Label6.Size = New Size(57, 20)
         Label6.TabIndex = 35
         Label6.Text = "Local:"
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Font = New Font("Roboto ExtraBold", 15.75F, FontStyle.Bold Or FontStyle.Underline, GraphicsUnit.Point, CByte(0))
+        Label5.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold Or FontStyle.Underline, GraphicsUnit.Point, CByte(0))
         Label5.Location = New Point(10, 184)
         Label5.Margin = New Padding(3, 8, 3, 8)
         Label5.Name = "Label5"
-        Label5.Size = New Size(121, 25)
+        Label5.Size = New Size(133, 25)
         Label5.TabIndex = 34
         Label5.Text = "Existencias"
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label4.Location = New Point(13, 114)
         Label4.Name = "Label4"
-        Label4.Size = New Size(69, 19)
+        Label4.Size = New Size(75, 20)
         Label4.TabIndex = 33
         Label4.Text = "Artículo:"
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.Location = New Point(10, 37)
         Label3.Name = "Label3"
-        Label3.Size = New Size(84, 19)
+        Label3.Size = New Size(93, 20)
         Label3.TabIndex = 32
         Label3.Text = "Ubicación:"
         ' 
@@ -377,7 +381,7 @@ Partial Class frmAsignar
         SpinEditCantidad.Margin = New Padding(4, 3, 4, 3)
         SpinEditCantidad.Name = "SpinEditCantidad"
         SpinEditCantidad.Properties.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True
-        SpinEditCantidad.Properties.Appearance.Font = New Font("Roboto SemiBold", 14.25F, FontStyle.Bold)
+        SpinEditCantidad.Properties.Appearance.Font = New Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         SpinEditCantidad.Properties.Appearance.Options.UseFont = True
         SpinEditCantidad.Properties.AutoHeight = False
         EditorButtonImageOptions1.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False
@@ -394,8 +398,7 @@ Partial Class frmAsignar
         SpinEditCantidad.Properties.LookAndFeel.UseDefaultLookAndFeel = False
         SpinEditCantidad.Properties.MaskSettings.Set("mask", "N00")
         SpinEditCantidad.Properties.SpinStyle = DevExpress.XtraEditors.Controls.SpinStyles.Horizontal
-        SpinEditCantidad.Properties.ValidateOnEnterKey = True
-        SpinEditCantidad.Size = New Size(185, 33)
+        SpinEditCantidad.Size = New Size(185, 38)
         SpinEditCantidad.TabIndex = 2
         ' 
         ' ButtonResetForm
@@ -404,7 +407,6 @@ Partial Class frmAsignar
         ButtonResetForm.Appearance.Font = New Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         ButtonResetForm.Appearance.Options.UseFont = True
         ButtonResetForm.CausesValidation = False
-        ButtonResetForm.Enabled = False
         ButtonResetForm.ImageOptions.Location = ImageLocation.MiddleLeft
         ButtonResetForm.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ButtonResetForm.ImageOptions.SvgImageSize = New Size(70, 70)
@@ -417,7 +419,6 @@ Partial Class frmAsignar
         ' ButtonConfirmacionArticulo
         ' 
         ButtonConfirmacionArticulo.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        ButtonConfirmacionArticulo.Enabled = False
         ButtonConfirmacionArticulo.ImageOptions.Location = ImageLocation.MiddleCenter
         ButtonConfirmacionArticulo.ImageOptions.SvgImage = My.Resources.Resources.actions_check
         ButtonConfirmacionArticulo.ImageOptions.SvgImageSize = New Size(50, 50)
@@ -496,27 +497,27 @@ Partial Class frmAsignar
         TileView1.TileSpans.Add(TableSpan2)
         TileView1.TileSpans.Add(TableSpan3)
         TileView1.TileSpans.Add(TableSpan4)
-        TileViewItemElement1.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement1.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold)
         TileViewItemElement1.Appearance.Normal.Options.UseFont = True
         TileViewItemElement1.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement1.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
         TileViewItemElement1.RowIndex = 1
         TileViewItemElement1.Text = "Referencia:"
         TileViewItemElement1.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement2.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement2.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         TileViewItemElement2.Appearance.Normal.Options.UseFont = True
         TileViewItemElement2.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement2.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
         TileViewItemElement2.Text = "Ubicación:"
         TileViewItemElement2.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement3.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement3.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold)
         TileViewItemElement3.Appearance.Normal.Options.UseFont = True
         TileViewItemElement3.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement3.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
         TileViewItemElement3.RowIndex = 2
         TileViewItemElement3.Text = "Local:"
         TileViewItemElement3.TextAlignment = TileItemContentAlignment.MiddleLeft
-        TileViewItemElement4.Appearance.Normal.Font = New Font("Roboto SemiBold", 12F, FontStyle.Bold)
+        TileViewItemElement4.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold)
         TileViewItemElement4.Appearance.Normal.Options.UseFont = True
         TileViewItemElement4.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement4.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
@@ -525,7 +526,7 @@ Partial Class frmAsignar
         TileViewItemElement4.TextAlignment = TileItemContentAlignment.MiddleLeft
         TileViewItemElement5.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement5.AnchorElementIndex = 1
-        TileViewItemElement5.Appearance.Normal.Font = New Font("Roboto", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        TileViewItemElement5.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         TileViewItemElement5.Appearance.Normal.Options.UseFont = True
         TileViewItemElement5.Column = ColumnLocation
         TileViewItemElement5.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
@@ -534,7 +535,7 @@ Partial Class frmAsignar
         TileViewItemElement5.TextAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement6.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement6.AnchorElementIndex = 0
-        TileViewItemElement6.Appearance.Normal.Font = New Font("Roboto", 12F)
+        TileViewItemElement6.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F)
         TileViewItemElement6.Appearance.Normal.Options.UseFont = True
         TileViewItemElement6.Column = ColumnReference
         TileViewItemElement6.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
@@ -543,7 +544,7 @@ Partial Class frmAsignar
         TileViewItemElement6.TextAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement7.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement7.AnchorElementIndex = 5
-        TileViewItemElement7.Appearance.Normal.Font = New Font("Roboto", 12F)
+        TileViewItemElement7.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F)
         TileViewItemElement7.Appearance.Normal.Options.UseFont = True
         TileViewItemElement7.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement7.ImageOptions.ImageScaleMode = TileItemImageScaleMode.Squeeze
@@ -551,7 +552,7 @@ Partial Class frmAsignar
         TileViewItemElement7.TextAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement8.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement8.AnchorElementIndex = 6
-        TileViewItemElement8.Appearance.Normal.Font = New Font("Roboto", 12F)
+        TileViewItemElement8.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F)
         TileViewItemElement8.Appearance.Normal.Options.UseFont = True
         TileViewItemElement8.Column = ColumnItem
         TileViewItemElement8.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
@@ -560,7 +561,7 @@ Partial Class frmAsignar
         TileViewItemElement8.TextAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement9.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement9.AnchorElementIndex = 2
-        TileViewItemElement9.Appearance.Normal.Font = New Font("Roboto", 12F)
+        TileViewItemElement9.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F)
         TileViewItemElement9.Appearance.Normal.Options.UseFont = True
         TileViewItemElement9.Column = ColumnLocal
         TileViewItemElement9.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
@@ -569,7 +570,7 @@ Partial Class frmAsignar
         TileViewItemElement9.TextAlignment = TileItemContentAlignment.MiddleCenter
         TileViewItemElement10.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Right
         TileViewItemElement10.AnchorElementIndex = 3
-        TileViewItemElement10.Appearance.Normal.Font = New Font("Roboto", 12F)
+        TileViewItemElement10.Appearance.Normal.Font = New Font("Microsoft Sans Serif", 12F)
         TileViewItemElement10.Appearance.Normal.Options.UseFont = True
         TileViewItemElement10.Column = ColumnStock
         TileViewItemElement10.ImageOptions.ImageAlignment = TileItemContentAlignment.MiddleCenter
@@ -632,7 +633,7 @@ Partial Class frmAsignar
         KeyPreview = True
         Location = New Point(0, 80)
         Margin = New Padding(3, 2, 3, 2)
-        MinimumSize = New Size(600, 900)
+        MinimumSize = New Size(625, 950)
         Name = "frmAsignar"
         StartPosition = FormStartPosition.Manual
         CType(RepositoryItemPictureEdit1, ComponentModel.ISupportInitialize).EndInit()

@@ -65,6 +65,8 @@ Partial Class frmConsulta
         ' 
         ' GridViewConsultaArticulos
         ' 
+        GridViewConsultaArticulos.Appearance.ColumnFilterButton.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        GridViewConsultaArticulos.Appearance.ColumnFilterButton.Options.UseFont = True
         GridViewConsultaArticulos.Appearance.Row.Font = New Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         GridViewConsultaArticulos.Appearance.Row.Options.UseFont = True
         GridViewConsultaArticulos.DetailHeight = 262

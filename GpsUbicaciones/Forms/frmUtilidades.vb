@@ -16,8 +16,6 @@
         End If
     End Sub
 
-
-
     Private Sub ButtonVisualizeTable_Click(sender As Object, e As EventArgs) Handles ButtonVisualizeTable.Click
         Dim form = New frmMovimientosPDA(RepositorioMovPDA.ObtenerMovimientosPDA)
         form.ShowDialog()

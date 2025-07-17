@@ -54,7 +54,7 @@ Partial Class frmMainClean
         ' PictureBox1
         ' 
         PictureBox1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        PictureBox1.Image = My.Resources.Resources.LOGOGPS
+        PictureBox1.Image = My.Resources.Resources.LOGO_3D
         PictureBox1.ImeMode = ImeMode.NoControl
         PictureBox1.Location = New Point(488, 828)
         PictureBox1.Name = "PictureBox1"
@@ -66,7 +66,7 @@ Partial Class frmMainClean
         ' lblAlmacen
         ' 
         lblAlmacen.BackColor = Color.Transparent
-        lblAlmacen.Font = New Font("Segoe UI", 15.75F, FontStyle.Italic)
+        lblAlmacen.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold Or FontStyle.Italic)
         lblAlmacen.ForeColor = Color.Blue
         lblAlmacen.ImeMode = ImeMode.NoControl
         lblAlmacen.Location = New Point(368, 800)
@@ -78,7 +78,7 @@ Partial Class frmMainClean
         ' lblEmpresa
         ' 
         lblEmpresa.BackColor = Color.Transparent
-        lblEmpresa.Font = New Font("Segoe UI", 15.75F, FontStyle.Italic)
+        lblEmpresa.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold Or FontStyle.Italic)
         lblEmpresa.ForeColor = Color.Blue
         lblEmpresa.ImeMode = ImeMode.NoControl
         lblEmpresa.Location = New Point(183, 800)
@@ -90,7 +90,7 @@ Partial Class frmMainClean
         ' lblTerminal
         ' 
         lblTerminal.BackColor = Color.Transparent
-        lblTerminal.Font = New Font("Segoe UI", 15.75F, FontStyle.Italic)
+        lblTerminal.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold Or FontStyle.Italic)
         lblTerminal.ForeColor = Color.Blue
         lblTerminal.ImeMode = ImeMode.NoControl
         lblTerminal.Location = New Point(178, 850)
