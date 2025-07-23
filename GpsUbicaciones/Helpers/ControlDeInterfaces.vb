@@ -1,25 +1,40 @@
 ﻿Imports DevExpress.XtraEditors
 
 Module ControlDeInterfaces
+    ''' <summary>
+    ''' Configura un SpinEdit para aceptar decimales sin modificar su valor actual
+    ''' </summary>
+    ''' <param name="Control">El control SpinEdit a configurar</param>
+    ''' <param name="Valor">True si debe aceptar decimales, False para solo enteros</param>
+    ''' <param name="mostrarLabel">Control opcional para mostrar icono de peso</param>
     Public Sub AceptarDecimales(Control As SpinEdit, Valor As Boolean, Optional mostrarLabel As Control = Nothing)
-        Control.Properties.Mask.UseMaskAsDisplayFormat = True
-        Control.Properties.MinValue = 0
-        Control.Properties.MaxValue = Decimal.MaxValue
-        If Valor Then
-            Control.Properties.IsFloatValue = True
-            Control.Properties.EditMask = $"N{nDecUds}"
-            Control.Properties.Increment = 0.1
-            If mostrarLabel IsNot Nothing Then
-                mostrarLabel.Visible = True
+        ' Preservar el valor actual antes de cualquier cambio
+        Dim valorActual = Control.Value
+
+        With Control.Properties
+            .Mask.UseMaskAsDisplayFormat = True
+            .MinValue = 0
+            .MaxValue = Decimal.MaxValue
+
+            If Valor Then
+                .IsFloatValue = True
+                .EditMask = $"N{nDecUds}"
+                .Increment = 0.1
+                If mostrarLabel IsNot Nothing Then
+                    mostrarLabel.Visible = True
+                End If
+            Else
+                .IsFloatValue = False
+                .EditMask = "d"
+                .Increment = 1
+                If mostrarLabel IsNot Nothing Then
+                    mostrarLabel.Visible = False
+                End If
             End If
-        Else
-            Control.Properties.IsFloatValue = False
-            Control.Properties.EditMask = "d"
-            Control.Properties.Increment = 1
-            If mostrarLabel IsNot Nothing Then
-                mostrarLabel.Visible = False
-            End If
-        End If
+        End With
+
+        ' Restaurar el valor preservado
+        Control.Value = valorActual
     End Sub
 
     Public Sub PermitirEdicion(control As Control, permitir As Boolean, Optional ActivarFoco As Boolean = True)

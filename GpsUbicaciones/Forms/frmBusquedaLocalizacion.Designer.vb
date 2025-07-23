@@ -40,7 +40,7 @@ Partial Class frmBusquedaLocalizacion
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
-        btnSalir.Location = New Point(437, 822)
+        btnSalir.Location = New Point(437, 872)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(151, 67)
@@ -95,7 +95,7 @@ Partial Class frmBusquedaLocalizacion
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(600, 900)
+        ClientSize = New Size(625, 950)
         Controls.Add(GridControl1)
         Controls.Add(btnSalir)
         FormBorderStyle = FormBorderStyle.None
