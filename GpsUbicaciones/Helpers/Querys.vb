@@ -62,7 +62,7 @@ Module Querys
         ''' </param>
         ''' <returns>Consulta SQL que devuelve un valor booleano (TRUE/FALSE) indicando si existe el lote del artículo.</returns>
         Public Shared Function VerificarExistenciaLoteDeArticulo() As String
-            Return "SELECT COUNT(*) FROM StockLotes WHERE Articulo = ? AND Lote = ?"
+            Return "SELECT COUNT(*) > 0 FROM StockLotes WHERE Articulo = ? AND Lote = ?"
         End Function
 
         Public Shared Function ConsultarArticulosEnUbicacion() As String

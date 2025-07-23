@@ -8,12 +8,7 @@ Public Class RepositorioStockLote
     ''' <param name="CodigoUbicacion"></param>
     ''' <returns>True si hay existencias, False en caso contrario</returns>
     Public Shared Function HayExistencias(CodigoArticulo As String, CodigoUbicacion As String) As Boolean
-        Using existencias = Operacion.ExecuteQuery(Querys.Select.VerificarExistenciaLoteDeArticulo, RepositorioArticulo.ObtenerInformacion(CodigoArticulo).Codigo, CodigoUbicacion).Tables(0)
-            Dim conteo As Integer = Convert.ToInt32(existencias.Rows(0)(0))
-            Return conteo > 0
-        End Using
-
-        Return False
+        Return Convert.ToBoolean(Operacion.ExecuteScalar(Querys.Select.VerificarExistenciaLoteDeArticulo, CodigoArticulo, CodigoUbicacion))
     End Function
 
     Public Shared Function ObtenerArticulosEnLote(CodigoLote As String) As BindingList(Of StockLote)

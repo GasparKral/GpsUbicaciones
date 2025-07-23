@@ -169,21 +169,39 @@ Public Class frmAsignar
         End If
 
         Try
-            Dim stockTotal = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+            If RepositorioStockLote.HayExistencias(TextEditItem.Text, TextEditLocation.Text) Then
+                Dim stocktotal = RepositorioStockLote.ObtenerArticuloEnLote(TextEditItem.Text, TextEditLocation.Text)
+                If Not haSidoPermitido Then
+                    If (SpinEditCantidad.Value + stocktotal.Cantidad) > stocktotal.Articulo.StockTotal Then
+                        ' Alert sobre la disconformidad y pedir confirmación
+                        Dim confirmacion = GestorMensajes.FabricaMensajes.MostrarConfirmacion("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación")
 
-            If Not haSidoPermitido Then
-                If (SpinEditCantidad.Value + stockTotal.Cantidad) > stockTotal.Articulo.StockTotal Then
-                    ' Alert sobre la disconformidad y pedir confirmación
-                    Dim confirmacion = GestorMensajes.FabricaMensajes.MostrarConfirmacion("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación")
+                        If confirmacion <> True Then
+                            PermitirEdicion(ButtonResetForm, False)
+                            PermitirEdicion(ButtonConfirmacionArticulo, False)
+                            SpinEditCantidad.Focus()
+                            Exit Sub
+                        Else
+                            ' Usuario confirmó, mantener el valor y marcar como permitido
+                            haSidoPermitido = True
+                        End If
+                    End If
+                End If
+            Else
+                If Not haSidoPermitido Then
+                    If (SpinEditCantidad.Value + 0) > RepositorioArticulo.ObtenerInformacion(TextEditItem.Text).StockTotal Then
+                        ' Alert sobre la disconformidad y pedir confirmación
+                        Dim confirmacion = GestorMensajes.FabricaMensajes.MostrarConfirmacion("La cantidad total de lotes excede el stock disponible. ¿Desea continuar de todos modos?", "Confirmación")
 
-                    If confirmacion <> True Then
-                        PermitirEdicion(ButtonResetForm, False)
-                        PermitirEdicion(ButtonConfirmacionArticulo, False)
-                        SpinEditCantidad.Focus()
-                        Exit Sub
-                    Else
-                        ' Usuario confirmó, mantener el valor y marcar como permitido
-                        haSidoPermitido = True
+                        If confirmacion <> True Then
+                            PermitirEdicion(ButtonResetForm, False)
+                            PermitirEdicion(ButtonConfirmacionArticulo, False)
+                            SpinEditCantidad.Focus()
+                            Exit Sub
+                        Else
+                            ' Usuario confirmó, mantener el valor y marcar como permitido
+                            haSidoPermitido = True
+                        End If
                     End If
                 End If
             End If
