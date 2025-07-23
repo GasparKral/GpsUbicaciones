@@ -23,16 +23,6 @@
         .SelectedCompany = EmpresaSeleccionada
     }
 
-    Public Sub RevaluateSettings()
-        settings = New DatabaseSettings() With {
-            .DatabaseType = DataBaseAplicationType,
-            .Provider = "Microsoft.ACE.OLEDB.12.0",
-            .Password = ContraseñaBBDDComun,
-            .DataPath = RutaDatos,
-            .SelectedCompany = EmpresaSeleccionada
-        }
-    End Sub
-
     Public Operacion As DatabaseOperation = DatabaseOperationFactory.Create(settings)
 
 End Module

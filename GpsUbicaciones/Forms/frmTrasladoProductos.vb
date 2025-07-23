@@ -17,8 +17,9 @@ Public Class frmTrasladoProductos
 
 #Region "Propiedades y Variables"
 
-    Private ReadOnly ArticulosEnEspera As New BindingList(Of ProductoTraslado)
     Private _estadoActual As EstadoTraslado = EstadoTraslado.CargarEnCarrito
+
+    Private ReadOnly ArticulosEnEspera As New BindingList(Of ProductoTraslado)
     Private ReadOnly _gestorUI As GestorUITraslado
     Private ReadOnly _validador As ValidadorTraslado
     Private ReadOnly _servicioTransferencia As ServicioTransferencia
@@ -246,10 +247,14 @@ Public Class frmTrasladoProductos
             _gestorUI.MostrarInformacionArticulo(resultadoValidacion.StockLote, EstadoActual)
             PermitirEdicion(SpinEditCantidadSeleccionada, True)
 
+
             ' Mostrar cantidad cargada si estamos en modo descarga
             If EstadoActual = EstadoTraslado.DescargarDelCarrito Then
                 Dim cantidadCargada = _servicioTransferencia.CalcularTotalEnEspera(TextEditItem.Text)
                 _gestorUI.MostrarCantidadCargada(cantidadCargada)
+                SpinEditCantidadSeleccionada.Properties.MaxValue = cantidadCargada
+            Else
+                SpinEditCantidadSeleccionada.Properties.MaxValue = resultadoValidacion.StockLote.Cantidad
             End If
 
         Catch ex As Exception
@@ -606,22 +611,177 @@ Public Class ServicioTransferencia
         ).Sum(Function(item) item.CantidadAMover).ToString()
     End Function
 
-    Public Function EjecutarTransferencia(cantidadAsignar As Single, articulos As List(Of Integer), codigoUbicacionDestino As String, terminal As String, codigoArticulo As String) As Boolean
+    ''' <summary>
+    ''' Actualiza los artículos en espera después de las transferencias exitosas
+    ''' VERSIÓN OPTIMIZADA - Agrupa operaciones por artículo+ubicación y usa transacciones
+    ''' </summary>
+    Private Sub ActualizarArticulosEnEspera(articulosParaActualizar As List(Of (Articulo As ProductoTraslado, CantidadTransferida As Single)), terminal As String)
+        If articulosParaActualizar.Count = 0 Then Return
+
+        Try
+            ' PASO 1: Agrupar transferencias por Artículo+Ubicación para consolidar operaciones
+            Dim transferenciasConsolidadas = articulosParaActualizar _
+            .GroupBy(Function(t) New With {t.Articulo.Articulo.Codigo, t.Articulo.CodigoUbicacionOrigen}) _
+            .Select(Function(g) New With {
+                .CodigoArticulo = g.Key.Codigo,
+                .CodigoUbicacion = g.Key.CodigoUbicacionOrigen,
+                .TotalTransferido = g.Sum(Function(t) t.CantidadTransferida),
+                .ArticulosAfectados = g.Select(Function(t) t.Articulo).ToList()
+            }).ToList()
+
+            ' PASO 2: Procesar cada grupo consolidado
+            Dim articulosParaEliminar As New List(Of ProductoTraslado)()
+            Dim operacionesDB As New List(Of (Tipo As String, Codigo As String, Ubicacion As String, CantidadAnterior As Single, CantidadNueva As Single))()
+
+            For Each grupo In transferenciasConsolidadas
+                ' Encontrar el artículo representativo en la memoria (puede haber varios del mismo tipo)
+                Dim articuloEnMemoria = _articulosEnEspera.FirstOrDefault(Function(a) a.Articulo.Codigo = grupo.CodigoArticulo AndAlso a.CodigoUbicacionOrigen = grupo.CodigoUbicacion)
+
+                If articuloEnMemoria IsNot Nothing Then
+                    Dim cantidadAnterior = articuloEnMemoria.CantidadAMover
+                    Dim nuevaCantidad = cantidadAnterior - grupo.TotalTransferido
+
+                    If nuevaCantidad <= 0 Then
+                        ' Se agotó completamente - marcar para eliminación
+                        articulosParaEliminar.Add(articuloEnMemoria)
+                        operacionesDB.Add(("ELIMINAR", grupo.CodigoArticulo, grupo.CodigoUbicacion, cantidadAnterior, 0))
+                    Else
+                        ' Actualizar cantidad restante
+                        articuloEnMemoria.CantidadAMover = nuevaCantidad
+                        operacionesDB.Add(("ACTUALIZAR", grupo.CodigoArticulo, grupo.CodigoUbicacion, cantidadAnterior, nuevaCantidad))
+                    End If
+
+                    Logger.Instance.Debug($"Procesando {grupo.CodigoArticulo} en {grupo.CodigoUbicacion}: {cantidadAnterior} -> {If(nuevaCantidad <= 0, "ELIMINAR", nuevaCantidad.ToString())}")
+                End If
+            Next
+
+            ' PASO 3: Ejecutar operaciones de BD usando RepositorioMovPDA en una sola transacción
+            If operacionesDB.Count > 0 Then
+                Using connection = Operacion.CreateConnection()
+                    connection.Open()
+                    Using transaction = connection.BeginTransaction()
+                        Try
+                            ' Convertir operaciones a formato del repositorio
+                            Dim operacionesPDA As New List(Of OperacionPDAInfo)()
+
+                            For Each _Operacion In operacionesDB
+                                Select Case _Operacion.Tipo
+                                    Case "ELIMINAR"
+                                        operacionesPDA.Add(New OperacionPDAInfo With {
+                                        .TipoAccion = "ELIMINAR_TODOS",
+                                        .TipoOperacion = RepositorioMovPDA.TypeOperacion.TRASPASO,
+                                        .CodigoArticulo = _Operacion.Codigo,
+                                        .CodigoUbicacion = _Operacion.Ubicacion,
+                                        .CantidadAnterior = _Operacion.CantidadAnterior
+                                    })
+
+                                    Case "ACTUALIZAR"
+                                        operacionesPDA.Add(New OperacionPDAInfo With {
+                                        .TipoAccion = "ACTUALIZAR",
+                                        .TipoOperacion = RepositorioMovPDA.TypeOperacion.TRASPASO,
+                                        .CodigoArticulo = _Operacion.Codigo,
+                                        .CodigoUbicacion = _Operacion.Ubicacion,
+                                        .Cantidad = _Operacion.CantidadNueva,
+                                        .CantidadAnterior = _Operacion.CantidadAnterior
+                                    })
+                                End Select
+                            Next
+
+                            ' Ejecutar todas las operaciones usando el repositorio
+                            Dim totalOperaciones = RepositorioMovPDA.ExecutarOperacionesMultiplesPDA(
+                            connection, transaction, terminal, operacionesPDA)
+
+                            transaction.Commit()
+                            Logger.Instance.Info($"Transacción de actualización completada exitosamente. {totalOperaciones} operaciones ejecutadas.")
+
+                        Catch ex As Exception
+                            transaction.Rollback()
+                            Logger.Instance.Error($"Error en transacción de actualización, rollback ejecutado: {ex.Message}")
+                            Throw ' Re-lanzar para manejo externo
+                        End Try
+                    End Using
+                End Using
+            End If
+
+            ' PASO 4: Remover artículos de la colección en memoria (después del commit exitoso)
+            ' Usar While para evitar problemas de índices al remover durante iteración
+            Dim i As Integer = 0
+            While i < _articulosEnEspera.Count
+                Dim articulo = _articulosEnEspera(i)
+                Dim debeEliminar = articulosParaEliminar.Any(Function(a) a.Articulo.Codigo = articulo.Articulo.Codigo AndAlso a.CodigoUbicacionOrigen = articulo.CodigoUbicacionOrigen)
+
+                If debeEliminar Then
+                    _articulosEnEspera.RemoveAt(i)
+                    Logger.Instance.Debug($"Eliminado de memoria: {articulo.Articulo.Codigo} en {articulo.CodigoUbicacionOrigen}")
+                Else
+                    i += 1
+                End If
+            End While
+
+            Logger.Instance.Info($"Actualización completada. Artículos restantes en memoria: {_articulosEnEspera.Count}")
+
+        Catch ex As Exception
+            Logger.Instance.Error($"Error crítico en ActualizarArticulosEnEspera: {ex.Message}", ex)
+
+            ' En caso de error crítico, intentar sincronizar desde BD
+            Try
+                SincronizarDesdeBaseDatos(terminal)
+            Catch syncEx As Exception
+                Logger.Instance.Error($"Error en sincronización de emergencia: {syncEx.Message}", syncEx)
+            End Try
+
+            Throw ' Re-lanzar el error original
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Sincroniza la memoria con el estado actual de la base de datos (método de emergencia)
+    ''' </summary>
+    Private Sub SincronizarDesdeBaseDatos(terminal As String)
+        Logger.Instance.Warning("Ejecutando sincronización de emergencia desde base de datos...")
+
+        _articulosEnEspera.Clear()
+
+        ' Usar el repositorio para obtener los datos
+        Using dt = RepositorioMovPDA.ObtenerTraspasosPDA()
+            For Each row As DataRow In dt.Rows
+                Try
+                    Dim articulo = RepositorioArticulo.ObtenerInformacion(row("Articulo").ToString())
+                    _articulosEnEspera.Add(New ProductoTraslado With {
+                    .Articulo = articulo,
+                    .CantidadAMover = Convert.ToSingle(row("Cantidad")),
+                    .CodigoUbicacionOrigen = row("Lote").ToString()
+                })
+                Catch ex As Exception
+                    Logger.Instance.Warning($"Error al sincronizar artículo {row("Articulo")}: {ex.Message}")
+                End Try
+            Next
+        End Using
+
+        Logger.Instance.Info($"Sincronización completada. {_articulosEnEspera.Count} artículos cargados desde BD.")
+    End Sub
+
+    ''' <summary>
+    ''' Método mejorado de EjecutarTransferencia con mejor manejo de transacciones
+    ''' </summary>
+    Public Function EjecutarTransferencia(cantidadAsignar As Single,
+                                     articulos As List(Of Integer),
+                                     codigoUbicacionDestino As String,
+                                     codigoArticulo As String,
+                                     terminal As String) As Boolean
         If articulos Is Nothing OrElse articulos.Count = 0 Then
             FabricaMensajes.MostrarMensaje(TipoMensaje.Advertencia, "No hay artículos para procesar")
             Return False
         End If
 
         Try
-            ' Usar la operación extendida que soporta transacciones
-            Dim operacionExtendida As New AccessDatabaseOperationExtended(Configuracion.settings)
-
-            Using transactionBlock As New TransactionBlockExecutor(operacionExtendida)
+            ' Usar TransactionBlockExecutor para mejor control de transacciones
+            Using transactionBlock As New TransactionBlockExecutor(New AccessDatabaseOperationExtended(Configuracion.settings))
                 Dim cantidadRestante As Single = cantidadAsignar
                 Dim transferenciasRealizadas As New List(Of TransferenciaInfo)()
                 Dim articulosParaActualizar As New List(Of (Articulo As ProductoTraslado, CantidadTransferida As Single))()
 
-                ' Bloque de transacción que procesa todas las transferencias
+                ' Ejecutar todas las transferencias en una sola transacción
                 Dim procesoTransferencias As Action(Of IDbConnection, IDbTransaction) =
                 Sub(conn, trans)
                     For i As Integer = 0 To articulos.Count - 1
@@ -639,7 +799,7 @@ Public Class ServicioTransferencia
                             codigoUbicacionDestino)
 
                         If operacionesRealizadas > 0 Then
-                            ' Registrar la transferencia exitosa
+                            ' Registrar transferencia exitosa
                             transferenciasRealizadas.Add(New TransferenciaInfo With {
                                 .Cantidad = cantidadATransferir,
                                 .CodigoArticulo = articulo.Articulo.Codigo,
@@ -648,31 +808,29 @@ Public Class ServicioTransferencia
                                 .Descripcion = $"Transferencia de {cantidadATransferir} unidades"
                             })
 
-                            ' Registrar para actualización posterior
                             articulosParaActualizar.Add((articulo, cantidadATransferir))
                             cantidadRestante -= cantidadATransferir
 
-                            ' Agregar al historico de transferencias
+                            ' Registrar en histórico LINTRASPLOTES
+                            Dim operacionExtendida = TryCast(Operacion, AccessDatabaseOperationExtended)
                             If operacionExtendida IsNot Nothing Then
                                 Dim filasHistorico = operacionExtendida.ExecuteNonQuery(conn, trans,
                                     "INSERT INTO LINTRASPLOTES VALUES (?,?,?,?,?)",
-                                    Date.Now,                         ' Fecha actual
-                                    articulo.Articulo.Codigo,         ' Código del artículo
-                                    cantidadATransferir,              ' Unidades transferidas
-                                    articulo.CodigoUbicacionOrigen,   ' Ubicación origen
-                                    codigoUbicacionDestino)           ' Ubicación destino
+                                    Date.Now,
+                                    articulo.Articulo.Codigo,
+                                    cantidadATransferir,
+                                    articulo.CodigoUbicacionOrigen,
+                                    codigoUbicacionDestino)
 
                                 If filasHistorico <= 0 Then
                                     Throw New Exception($"Error al registrar en histórico la transferencia de {cantidadATransferir} unidades del artículo {articulo.Articulo.Codigo}")
                                 End If
                             End If
-
                         Else
                             Throw New Exception($"No se pudo transferir {cantidadATransferir} unidades del artículo {articulo.Articulo.Codigo}")
                         End If
                     Next
 
-                    ' Verificar que se procesó toda la cantidad
                     If cantidadRestante > 0 Then
                         Throw New Exception($"No se pudo procesar toda la cantidad. Restante: {cantidadRestante}")
                     End If
@@ -682,13 +840,11 @@ Public Class ServicioTransferencia
                 Dim exito As Boolean = transactionBlock.ExecuteTransactionBlock(procesoTransferencias)
 
                 If exito Then
-                    ' Confirmar la transacción
                     transactionBlock.Commit()
 
-                    ' Actualizar los artículos en memoria solo después del commit exitoso
+                    ' Actualizar memoria después del commit exitoso
                     ActualizarArticulosEnEspera(articulosParaActualizar, terminal)
 
-                    ' Mostrar mensaje de éxito
                     FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion,
                     $"Se realizaron {transferenciasRealizadas.Count} transferencias correctamente. " &
                     $"Cantidad total procesada: {cantidadAsignar - cantidadRestante}")
@@ -701,37 +857,11 @@ Public Class ServicioTransferencia
             End Using
 
         Catch ex As Exception
+            Logger.Instance.Error($"Error en proceso de transferencia: {ex.Message}", ex)
             FabricaMensajes.MostrarMensaje(TipoMensaje.Error, $"Error en el proceso: {ex.Message}")
             Return False
         End Try
     End Function
-
-    ''' <summary>
-    ''' Actualiza los artículos en espera después de las transferencias exitosas
-    ''' </summary>
-    Private Sub ActualizarArticulosEnEspera(articulosParaActualizar As List(Of (Articulo As ProductoTraslado, CantidadTransferida As Single)), terminal As String)
-        Dim articulosParaRemover As New List(Of ProductoTraslado)()
-
-        For Each item In articulosParaActualizar
-            If item.CantidadTransferida >= item.Articulo.CantidadAMover Then
-                ' El artículo se agotó completamente
-                articulosParaRemover.Add(item.Articulo)
-            Else
-                ' Reducir la cantidad restante
-                item.Articulo.CantidadAMover -= item.CantidadTransferida
-                Operacion.ExecuteNonQuery("UPDATE MOVPDA SET CANTIDAD = ? WHERE TERMINAL = ? AND OPERACION = 'TR' AND ARTICULO = ? AND LOTE = ?",
-                    item.Articulo.CantidadAMover, terminal, item.Articulo.Articulo.Codigo, item.Articulo.CodigoUbicacionOrigen)
-            End If
-        Next
-
-        ' Remover los artículos que se agotaron
-        For Each articuloParaRemover In articulosParaRemover
-            _articulosEnEspera.Remove(articuloParaRemover)
-            RepositorioMovPDA.EliminarOperacionPDA(RepositorioMovPDA.TypeOperacion.TRASPASO,
-                articuloParaRemover.Articulo.Codigo, articuloParaRemover.CantidadAMover, articuloParaRemover.CodigoUbicacionOrigen)
-        Next
-    End Sub
-
     Public Sub EliminarArticuloDelCarrito(tileView As DevExpress.XtraGrid.Views.Tile.TileView, formulario As frmTrasladoProductos)
         Try
             If tileView.FocusedRowHandle >= 0 Then
@@ -752,7 +882,7 @@ Public Class ServicioTransferencia
                         tileView.DeleteRow(rowHandle)
                         tileView.RefreshData()
                         formulario.LabelLoadedAmount.Text = CalcularTotalEnEspera(formulario.TextEditItem.Text)
-                        GestorMensajes.FabricaMensajes.MostrarConfirmacion("Artículo eliminado correctamente del traslado.")
+                        GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Informacion, "Artículo eliminado correctamente del traslado.")
                     Else
                         GestorMensajes.FabricaMensajes.MostrarMensaje(TipoMensaje.Error, "Error al eliminar el artículo de la base de datos.")
                     End If
