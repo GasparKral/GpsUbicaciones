@@ -81,6 +81,10 @@ Public Class RepositorioStockLote
         Return Convert.ToSingle(Operacion.ExecuteScalar(Querys.Select.ConsultarTotalArticuloEnLotes, CodigoArticulo, Almacen))
     End Function
 
+    Public Shared Function LimpiarStockLotes() As Integer
+        Return Operacion.ExecuteNonQuery("DELETE FROM StockLotes WHERE Uds_ini = 0 AND Uds_com = 0 AND Uds_ven = 0 AND Uds_tra = 0")
+    End Function
+
     Public Shared Function InsertarArticulo(Connection As IDbConnection, Stock As Single, CodigoArticulo As String, CodigoUbicacion As String) As Integer
 
         Dim Articulo = RepositorioArticulo.ObtenerInformacion(CodigoArticulo)

@@ -372,11 +372,11 @@ Partial Class frmTrasladoProductos
         LabelLoadedAmount.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelLoadedAmount.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelLoadedAmount.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelLoadedAmount.Location = New Point(254, 265)
+        LabelLoadedAmount.Location = New Point(284, 265)
         LabelLoadedAmount.Margin = New Padding(8, 5, 8, 5)
         LabelLoadedAmount.Name = "LabelLoadedAmount"
         LabelLoadedAmount.Padding = New Padding(9, 0, 9, 0)
-        LabelLoadedAmount.Size = New Size(92, 28)
+        LabelLoadedAmount.Size = New Size(94, 28)
         LabelLoadedAmount.TabIndex = 33
         LabelLoadedAmount.Visible = False
         ' 
@@ -384,7 +384,7 @@ Partial Class frmTrasladoProductos
         ' 
         LabelLoaded.AutoSize = True
         LabelLoaded.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold)
-        LabelLoaded.Location = New Point(164, 269)
+        LabelLoaded.Location = New Point(185, 269)
         LabelLoaded.Margin = New Padding(6, 0, 0, 9)
         LabelLoaded.Name = "LabelLoaded"
         LabelLoaded.Size = New Size(91, 20)
@@ -496,11 +496,11 @@ Partial Class frmTrasladoProductos
         LabelStockArticulo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         LabelStockArticulo.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
         LabelStockArticulo.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None
-        LabelStockArticulo.Location = New Point(70, 265)
+        LabelStockArticulo.Location = New Point(76, 265)
         LabelStockArticulo.Margin = New Padding(8, 5, 8, 5)
         LabelStockArticulo.Name = "LabelStockArticulo"
         LabelStockArticulo.Padding = New Padding(9, 0, 9, 0)
-        LabelStockArticulo.Size = New Size(92, 28)
+        LabelStockArticulo.Size = New Size(95, 28)
         LabelStockArticulo.TabIndex = 23
         ' 
         ' Label3

@@ -177,6 +177,7 @@ Public Class frmTrasladoProductos
             Terminal)
 
         If exitosa Then
+            RepositorioStockLote.LimpiarStockLotes()
             ' Actualizar vista después de la transferencia
             GridControlArticulosParaTraslado.RefreshDataSource()
 
