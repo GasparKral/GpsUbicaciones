@@ -31,13 +31,13 @@ Partial Class frmUtilidades
         ' btnSalir
         ' 
         btnSalir.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-        btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnSalir.Appearance.Font = New Font("Tahoma", 15.75F, FontStyle.Bold)
         btnSalir.Appearance.Options.UseFont = True
         btnSalir.CausesValidation = False
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
-        btnSalir.Location = New Point(437, 822)
+        btnSalir.Location = New Point(462, 872)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(151, 67)
@@ -46,40 +46,43 @@ Partial Class frmUtilidades
         ' 
         ' ResetTable
         ' 
-        ResetTable.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        ResetTable.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Bold)
         ResetTable.Appearance.Options.UseFont = True
         ResetTable.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ResetTable.ImageOptions.SvgImage = My.Resources.Resources.resetview
         ResetTable.ImageOptions.SvgImageSize = New Size(60, 60)
-        ResetTable.Location = New Point(12, 414)
+        ResetTable.Location = New Point(12, 466)
+        ResetTable.Margin = New Padding(3, 3, 3, 24)
         ResetTable.Name = "ResetTable"
-        ResetTable.Size = New Size(576, 120)
+        ResetTable.Size = New Size(601, 120)
         ResetTable.TabIndex = 5
-        ResetTable.Text = "Reiniciar Tabla MovPDA"
+        ResetTable.Text = "Reiniciar Movimientos PDA"
         ' 
         ' ButtonVisualizeTable
         ' 
-        ButtonVisualizeTable.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        ButtonVisualizeTable.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Bold)
         ButtonVisualizeTable.Appearance.Options.UseFont = True
         ButtonVisualizeTable.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ButtonVisualizeTable.ImageOptions.SvgImage = My.Resources.Resources.about
         ButtonVisualizeTable.ImageOptions.SvgImageSize = New Size(60, 60)
-        ButtonVisualizeTable.Location = New Point(12, 261)
+        ButtonVisualizeTable.Location = New Point(12, 319)
+        ButtonVisualizeTable.Margin = New Padding(3, 3, 3, 24)
         ButtonVisualizeTable.Name = "ButtonVisualizeTable"
-        ButtonVisualizeTable.Size = New Size(576, 120)
+        ButtonVisualizeTable.Size = New Size(601, 120)
         ButtonVisualizeTable.TabIndex = 6
-        ButtonVisualizeTable.Text = "Visualizar Tabla MovPDA"
+        ButtonVisualizeTable.Text = "Visualizar Movimientos PDA"
         ' 
         ' ButtonLocation
         ' 
-        ButtonLocation.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        ButtonLocation.Appearance.Font = New Font("Tahoma", 18F, FontStyle.Bold)
         ButtonLocation.Appearance.Options.UseFont = True
         ButtonLocation.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         ButtonLocation.ImageOptions.SvgImage = My.Resources.Resources.customerquicklocations
         ButtonLocation.ImageOptions.SvgImageSize = New Size(60, 60)
         ButtonLocation.Location = New Point(12, 25)
+        ButtonLocation.Margin = New Padding(3, 3, 3, 24)
         ButtonLocation.Name = "ButtonLocation"
-        ButtonLocation.Size = New Size(576, 120)
+        ButtonLocation.Size = New Size(601, 120)
         ButtonLocation.TabIndex = 7
         ButtonLocation.Text = "Visualizar Posición "
         ' 
@@ -87,7 +90,7 @@ Partial Class frmUtilidades
         ' 
         AutoScaleDimensions = New SizeF(96F, 96F)
         AutoScaleMode = AutoScaleMode.Dpi
-        ClientSize = New Size(600, 900)
+        ClientSize = New Size(625, 950)
         Controls.Add(ButtonLocation)
         Controls.Add(ButtonVisualizeTable)
         Controls.Add(ResetTable)

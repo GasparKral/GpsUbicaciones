@@ -184,4 +184,7 @@
   <data name="LOGO_3D" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LOGO_3D.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="actions_question" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actions_question.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
 </root>

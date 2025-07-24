@@ -146,10 +146,13 @@ Module Querys
                         A.CodBarras,
                         A.RefProveedor,
                         A.RutaFoto,
-                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven, {nDecUds} ) as StockTotal
+                        Round(S.Uds_Ini+S.Uds_Com+S.Uds_Tra-S.Uds_Ven, {nDecUds} ) as StockTotal,
+                        C.Descripcion as Categoria,
+                        S.Pvp1 as PVP
                     FROM 
-                       ARTICULOS AS A
-                       LEFT JOIN STOCK AS S ON S.Articulo = A.Codigo
+                       (ARTICULOS AS A
+                        INNER JOIN CATEG AS C ON C.Codigo = A.Codigo)
+                        LEFT JOIN STOCK AS S ON S.Articulo = A.Codigo
                     WHERE 
                         (A.Codigo = ? OR A.CodBarras = ? OR A.RefProveedor = ?) AND
                         S.Almacen = ?

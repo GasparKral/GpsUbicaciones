@@ -329,6 +329,8 @@ Public Class RepositorioStockLote
 
         Return totalOperaciones
     End Function
+
+
 End Class
 
 

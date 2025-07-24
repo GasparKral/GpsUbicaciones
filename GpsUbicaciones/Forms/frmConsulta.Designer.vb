@@ -43,7 +43,7 @@ Partial Class frmConsulta
         btnSalir.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
         btnSalir.ImageOptions.SvgImage = My.Resources.Resources.arrowleft
         btnSalir.ImageOptions.SvgImageSize = New Size(40, 40)
-        btnSalir.Location = New Point(438, 875)
+        btnSalir.Location = New Point(463, 875)
         btnSalir.Margin = New Padding(3, 2, 3, 2)
         btnSalir.Name = "btnSalir"
         btnSalir.Size = New Size(151, 67)
@@ -59,7 +59,7 @@ Partial Class frmConsulta
         GridControlConsultaArticulos.MainView = GridViewConsultaArticulos
         GridControlConsultaArticulos.Margin = New Padding(3, 2, 3, 2)
         GridControlConsultaArticulos.Name = "GridControlConsultaArticulos"
-        GridControlConsultaArticulos.Size = New Size(579, 778)
+        GridControlConsultaArticulos.Size = New Size(604, 778)
         GridControlConsultaArticulos.TabIndex = 7
         GridControlConsultaArticulos.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {GridViewConsultaArticulos})
         ' 
@@ -86,7 +86,7 @@ Partial Class frmConsulta
         PanelTitulo.Dock = DockStyle.Top
         PanelTitulo.Location = New Point(0, 0)
         PanelTitulo.Name = "PanelTitulo"
-        PanelTitulo.Size = New Size(600, 48)
+        PanelTitulo.Size = New Size(625, 48)
         PanelTitulo.TabIndex = 8
         ' 
         ' LabelControl2
@@ -125,7 +125,7 @@ Partial Class frmConsulta
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.LightBlue
-        ClientSize = New Size(600, 950)
+        ClientSize = New Size(625, 950)
         ControlBox = False
         Controls.Add(LabelUbicaciónConsultada)
         Controls.Add(PanelTitulo)
@@ -135,7 +135,7 @@ Partial Class frmConsulta
         KeyPreview = True
         Location = New Point(0, 80)
         Margin = New Padding(3, 2, 3, 2)
-        MinimumSize = New Size(600, 900)
+        MinimumSize = New Size(625, 950)
         Name = "frmConsulta"
         StartPosition = FormStartPosition.Manual
         CType(GridControlConsultaArticulos, ComponentModel.ISupportInitialize).EndInit()

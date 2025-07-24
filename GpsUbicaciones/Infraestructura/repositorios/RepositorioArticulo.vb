@@ -10,7 +10,9 @@
                 .CodigoBarras = dsArticulo("CodBarras"),
                 .ReferenciaProvedor = dsArticulo("RefProveedor"),
                 .StockTotal = dsArticulo("StockTotal"),
-                .Foto = dsArticulo("RutaFoto")
+                .Foto = dsArticulo("RutaFoto"),
+                .Categoria = dsArticulo("Categoria"),
+                .PVP = Convert.ToSingle(dsArticulo("PVP"))
             }
         End Using
         Return Nothing

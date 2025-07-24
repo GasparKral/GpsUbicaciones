@@ -356,6 +356,10 @@ Public Class AsignarFormStateManager
     End Sub
 
     Public Sub SetLocationData(form As frmAsignar, locationData As LocationValidationData)
+        If locationData Is Nothing Then
+            ClearLocationData(form)
+            Return
+        End If
         With form
             .LabelNombreUbicacion.Text = locationData.Name
             ' Solo habilitar artículo cuando ubicación es válida
@@ -469,7 +473,7 @@ Public Class AsignarValidationService
     Implements IDisposable
 
     Public Function ValidateLocation(locationCode As String) As ValidationResult(Of LocationValidationData)
-        If String.IsNullOrWhiteSpace(locationCode) Then
+        If String.IsNullOrWhiteSpace(locationCode) OrElse locationCode = "" Then
             Return ValidationResult(Of LocationValidationData).Success(Nothing)
         End If
 
